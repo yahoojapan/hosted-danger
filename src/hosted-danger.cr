@@ -2,9 +2,10 @@ require "./hosted-danger/*"
 
 module HostedDanger
   def self.set_envs
-    ENV["JENKINS_URL"] = "I'm jenkins! :)"
+    token_path = File.expand_path("../../token", __FILE__)
 
-    raise "Please set DANGER_GITHUB_API_TOKEN" unless ENV["DANGER_GITHUB_API_TOKEN"]?
+    ENV["JENKINS_URL"] = "I'm jenkins! :)"
+    ENV["DANGER_GITHUB_API_TOKEN"] = File.read(token_path).chomp
   end
 
   def self.run

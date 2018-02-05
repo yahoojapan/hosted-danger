@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+rm -rf token
+
+if [[ -z "${ACCESS_TOKEN}" ]]; then
+    echo "Please set \$ACCESS_TOKEN for the building"
+    exit -1
+fi
+
+echo $ACCESS_TOKEN > token
