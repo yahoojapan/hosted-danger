@@ -1,0 +1,17 @@
+name: hosted-danger
+version: 0.1.0
+
+authors:
+  - taicsuzu <taicsuzu@yahoo-corp.jp>
+
+targets:
+  hosted-danger:
+    main: src/main.cr
+
+crystal: 0.24.1
+
+license: MIT
+
+dependencies:
+  router:
+    github: tbrand/router.cr
