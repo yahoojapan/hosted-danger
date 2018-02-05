@@ -33,7 +33,14 @@ module HostedDanger
           L.info "#{repo}: " + `git remote add origin #{html_url}`
           L.info "#{repo}: " + `git fetch origin pull/#{pr_number}/head --depth 50`
           L.info "#{repo}: " + `git reset --hard #{sha}`
-          L.info "#{repo}: " + `danger`
+
+          # todo check the Gemfile includes the danger
+          if File.exists?("#{directory}/Gemfile")
+            L.info "#{repo}: " + `bundle install --path #{directory}/vendor/bundle`
+            L.info "#{repo}: " + `bundle exec danger`
+          else
+            L.info "#{repo}: " + `danger`
+          end
         end
       ensure
         FileUtils.rm_rf(directory)
