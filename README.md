@@ -18,10 +18,21 @@ shards build
 
 ### Commands
 ```bash
-make build   # build
-make run     # run the server
-make run-i   # run the server and keep it interactive
-make stop    # rm & stop the container
-make rerun   # build -> stop -> run
-make rerun-i # build -> stop -> run-i
+# build
+> ACCESS_TOKEN=hoge make build
+
+# rm & stop the container
+> make stop
+
+# run the server
+> make run
+
+# run the server and keep it interactive
+> make run-i
+
+# build -> stop -> run
+> ACCESS_TOKEN=hoge make rerun
+
+# build -> stop -> run-i
+> ACCESS_TOKEN=hoge make rerun-i
 ```
