@@ -39,7 +39,7 @@ module HostedDanger
       body = {
         token: MYM_TOKEN,
         message: msg,
-      }
+      }.to_json
 
       spawn do
         HTTP::Client.post("https://mym.corp.yahoo.co.jp/api/post", headers, body.to_json)

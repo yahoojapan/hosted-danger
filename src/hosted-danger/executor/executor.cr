@@ -27,6 +27,7 @@ module HostedDanger
       begin
         FileUtils.mkdir(directory)
 
+        # todo get return code
         Dir.cd(directory) do
           L.info "#{repo}: " + `git init`
           L.info "#{repo}: " + `git remote add origin #{html_url}`
