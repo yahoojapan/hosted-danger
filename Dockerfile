@@ -8,16 +8,17 @@ RUN shards --version
 # anyenv
 RUN apt-get install ruby -y
 RUN ruby --version
-RUN gem install danger --no-ri --no-rdoc
+RUN gem install bundler danger --no-ri --no-rdoc
 
-# app
-RUN mkdir -p /tmp/app
+# hd
+RUN mkdir -p /tmp/hd
 
-COPY src /tmp/app/src
-COPY shard.yml shard.lock /tmp/app/
+COPY src /tmp/hd/src
+COPY shard.yml shard.lock /tmp/hd/
 
-RUN cd /tmp/app && shards build
+RUN cd /tmp/hd && shards build
 
 EXPOSE 80
 
-CMD /tmp/app/bin/hosted-danger
+ADD token /tmp/hd/token
+CMD /tmp/hd/bin/hosted-danger

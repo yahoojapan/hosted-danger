@@ -1,4 +1,5 @@
 build:
+	tools/setenv
 	sudo docker build . -t hd-image
 
 run:
