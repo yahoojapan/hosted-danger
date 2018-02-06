@@ -9,6 +9,8 @@ module HostedDanger
         return L.info "Skip, since it's coming from ap-approduce"
       end
 
+      L.info pr_payload.to_s
+
       sha = pr_payload["pull_request"]["head"]["sha"].as_s
       html_url = pr_payload["pull_request"]["head"]["repo"]["html_url"].as_s
       pr_number = pr_payload["number"].as_i
