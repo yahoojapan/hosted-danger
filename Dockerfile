@@ -25,5 +25,5 @@ RUN cd /tmp/hd && shards build
 
 EXPOSE 80
 
-ADD token /tmp/hd/token
+ADD token.json /tmp/hd/token.json
 CMD /tmp/hd/bin/hosted-danger
