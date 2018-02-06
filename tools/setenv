@@ -1,10 +1,20 @@
 #!/usr/bin/env bash
 
-rm -rf token
+rm -rf token.json
 
 if [[ -z "${ACCESS_TOKEN}" ]]; then
     echo "Please set \$ACCESS_TOKEN for the building"
     exit -1
 fi
 
-echo $ACCESS_TOKEN > token
+if [[ -z "${DRAGON_ACCESS_KEY}" ]]; then
+    echo "Please set \$DRAGON_ACCESS_KEY for the building"
+    exit -1
+fi
+
+if [[ -z "${DRAGON_SECRET_ACCESS_KEY}" ]]; then
+    echo "Please set \$DRAGON_SECRET_ACCESS_KEY for the building"
+    exit -1
+fi
+
+echo "{\"access_token\": \"$ACCESS_TOKEN\", \"dragon_access_key\": \"${DRAGON_ACCESS_KEY}\", \"dragon_secret_access_key\": \"${DRAGON_SECRET_ACCESS_KEY}\"}" > token.json

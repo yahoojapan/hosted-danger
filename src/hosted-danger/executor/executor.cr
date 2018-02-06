@@ -35,7 +35,7 @@ module HostedDanger
         exec_cmd(repo, "git reset --hard #{sha}", directory)
 
         if File.exists?("#{directory}/Gemfile")
-          exec_cmd(repo, "bundle install --path #{directory}/vendor/bundle", directory)
+          exec_cmd(repo, "bundle_cache install #{dragon_params}", directory, false)
           exec_cmd(repo, "bundle exec danger", directory)
         else
           exec_cmd(repo, "danger", directory)
@@ -45,8 +45,8 @@ module HostedDanger
       end
     end
 
-    def exec_cmd(repo : String, cmd : String, dir : String? = nil)
-      L.info "#{repo} #{cmd}"
+    def exec_cmd(repo : String, cmd : String, dir : String? = nil, hide_command : Bool = false)
+      L.info "#{repo} #{hide_command ? "**HIDDEN**" : cmd}"
 
       res = exec_cmd_internal(cmd, dir)
 
@@ -69,6 +69,16 @@ module HostedDanger
         stderr: stderr.to_s,
         status: process.exit_status,
       }
+    end
+
+    private def dragon_params : String
+      [
+        "--region kks",
+        "--endpoint https://kks.dragon.storage-yahoo.jp",
+        "--bucket approduce-bundler-cache",
+        "--access_key #{ENV["DRAGON_ACCESS_KEY"]}",
+        "--secret_access_key #{ENV["DRAGON_SECRET_ACCESS_KEY"]}",
+      ].join(" ")
     end
   end
 end

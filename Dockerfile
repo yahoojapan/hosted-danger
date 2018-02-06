@@ -5,10 +5,15 @@ RUN apt-get update -y
 RUN crystal --version
 RUN shards --version
 
-# anyenv
+# ruby
 RUN apt-get install ruby -y
 RUN ruby --version
-RUN gem install bundler danger --no-ri --no-rdoc
+RUN gem install bundler --no-ri --no-rdoc
+
+# gems
+RUN mkdir /tmp/gem
+COPY Gemfile /tmp/gem
+RUN cd /tmp/gem && /bin/bash -l -c "bundle install --system"
 
 # hd
 RUN mkdir -p /tmp/hd
@@ -20,5 +25,5 @@ RUN cd /tmp/hd && shards build
 
 EXPOSE 80
 
-ADD token /tmp/hd/token
+ADD token.json /tmp/hd/token.json
 CMD /tmp/hd/bin/hosted-danger

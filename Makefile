@@ -1,5 +1,7 @@
-build:
-	tools/setenv
+setenv:
+	./tools/setenv
+
+build: setenv
 	sudo docker build . -t hd-image
 
 run:
