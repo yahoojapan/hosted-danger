@@ -1,17 +1,20 @@
-#!/usr/bin/env ruby
+#!/usr/bin/env bash
 
-require "json"
+rm -rf token.json
 
-raise "Please set $ACCESS_TOKEN for the building" unless ENV["ACCESS_TOKEN"]
-raise "Please set $DRAGON_ACCESS_KEY for the building" unless ENV["DRAGON_ACCESS_KEY"]
-raise "Please set $DRAGON_SECRET_ACCESS_KEY for the building" unless ENV["DRAGON_SECRET_ACCESS_KEY"]
+if [[ -z "${ACCESS_TOKEN}" ]]; then
+    echo "Please set \$ACCESS_TOKEN for the building"
+    exit -1
+fi
 
-token_file_path = File.expand_path("../../token.json", __FILE__)
+if [[ -z "${DRAGON_ACCESS_KEY}" ]]; then
+    echo "Please set \$DRAGON_ACCESS_KEY for the building"
+    exit -1
+fi
 
-File.write(token_file_path, JSON.dump(
-             {
-               access_token: ENV["ACCESS_TOKEN"],
-               dragon_access_key: ENV["DRAGON_ACCESS_KEY"],
-               dragon_secret_access_key: ENV["DRAGON_SECRET_ACCESS_KEY"],
-             }
-           ))
+if [[ -z "${DRAGON_SECRET_ACCESS_KEY}" ]]; then
+    echo "Please set \$DRAGON_SECRET_ACCESS_KEY for the building"
+    exit -1
+fi
+
+echo "{\"access_token\": \"$ACCESS_TOKEN\", \"dragon_access_key\": \"${DRAGON_ACCESS_KEY}\", \"dragon_secret_access_key\": \"${DRAGON_SECRET_ACCESS_KEY}\"}" > token.json
