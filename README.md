@@ -19,7 +19,7 @@ shards build
 ### Commands
 ```bash
 # build
-> ACCESS_TOKEN=hoge make build
+> ACCESS_TOKEN=hoge DRAGON_ACCESS_KEY=fuga DRAGON_SECRET_ACCESS_KEY=hoga make build
 
 # rm & stop the container
 > make stop
@@ -31,8 +31,10 @@ shards build
 > make run-i
 
 # build -> stop -> run
-> ACCESS_TOKEN=hoge make rerun
+> ACCESS_TOKEN=hoge DRAGON_ACCESS_KEY=fuga DRAGON_SECRET_ACCESS_KEY=hoga make rerun
 
 # build -> stop -> run-i
-> ACCESS_TOKEN=hoge make rerun-i
+> ACCESS_TOKEN=hoge DRAGON_ACCESS_KEY=fuga DRAGON_SECRET_ACCESS_KEY=hoga make rerun-i
 ```
+
+* Dragon関係の環境変数は[BundlerCache](https://ghe.corp.yahoo.co.jp/approduce/BundlerCache)に利用します
