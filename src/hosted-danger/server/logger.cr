@@ -6,7 +6,7 @@ module HostedDanger
   alias L = Logger
 
   class Logger
-    MYM_TOKEN = "0c3781e6201d9680fd64ae02580346a727014c1ef42126d9f541a891943a1bdf"
+    MYM_TOKEN = "feb6396e272a344c8aa6d43e42c59b7ce9f4e9f466a9b4bc973da97196d22c9c"
 
     def self.info(msg : String, mym = false)
       log_out("Info".colorize.fore(:green).to_s, msg)
