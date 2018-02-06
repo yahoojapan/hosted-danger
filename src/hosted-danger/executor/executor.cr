@@ -27,16 +27,16 @@ module HostedDanger
       begin
         FileUtils.mkdir(directory)
 
-        exec_cmd("git init", directory)
-        exec_cmd("git remote add origin #{html_url}", directory)
-        exec_cmd("git fetch origin pull/#{pr_number}/head --depth 50", directory)
-        exec_cmd("git reset --hard #{sha}", directory)
+        exec_cmd(repo, "git init", directory)
+        exec_cmd(repo, "git remote add origin #{html_url}", directory)
+        exec_cmd(repo, "git fetch origin pull/#{pr_number}/head --depth 50", directory)
+        exec_cmd(repo, "git reset --hard #{sha}", directory)
 
         if File.exists?("#{directory}/Gemfile")
-          exec_cmd("bundle install --path #{directory}/vendor/bundle", directory)
-          exec_cmd("bundle exec danger", directory)
+          exec_cmd(repo, "bundle install --path #{directory}/vendor/bundle", directory)
+          exec_cmd(repo, "bundle exec danger", directory)
         else
-          exec_cmd("danger", directory)
+          exec_cmd(repo, "danger", directory)
         end
       ensure
         FileUtils.rm_rf(directory)
