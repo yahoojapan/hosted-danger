@@ -12,7 +12,7 @@ module HostedDanger
       sha = pr_payload["pull_request"]["head"]["sha"].as_s
       html_url = pr_payload["pull_request"]["head"]["repo"]["html_url"].as_s
       pr_number = pr_payload["number"].as_i
-      repo = "#{html_url}##{sha}(#{pr_number})"
+      repo = "#{html_url} sha: **##{sha}** pr: **#{pr_number}**"
 
       L.info "Execute for #{repo}"
 
@@ -27,16 +27,16 @@ module HostedDanger
       begin
         FileUtils.mkdir(directory)
 
-        exec_cmd("git init", directory)
-        exec_cmd("git remote add origin #{html_url}", directory)
-        exec_cmd("git fetch origin pull/#{pr_number}/head --depth 50", directory)
-        exec_cmd("git reset --hard #{sha}", directory)
+        exec_cmd(repo, "git init", directory)
+        exec_cmd(repo, "git remote add origin #{html_url}", directory)
+        exec_cmd(repo, "git fetch origin pull/#{pr_number}/head --depth 50", directory)
+        exec_cmd(repo, "git reset --hard #{sha}", directory)
 
         if File.exists?("#{directory}/Gemfile")
-          exec_cmd("bundle install --path #{directory}/vendor/bundle", directory)
-          exec_cmd("bundle exec danger", directory)
+          exec_cmd(repo, "bundle install --path #{directory}/vendor/bundle", directory)
+          exec_cmd(repo, "bundle exec danger", directory)
         else
-          exec_cmd("danger", directory)
+          exec_cmd(repo, "danger", directory)
         end
       ensure
         FileUtils.rm_rf(directory)
@@ -44,16 +44,13 @@ module HostedDanger
     end
 
     def exec_cmd(repo : String, cmd : String, dir : String? = nil)
-      L.info "#{repo}: #{cmd}"
+      L.info "#{repo} #{cmd}"
 
       res = exec_cmd_internal(cmd, dir)
 
-      unless res[:status] == 0
-        L.error("#{repo}: \n```\n#{res[:stderr]}\n```")
-        raise res[:stderr]
-      end
+      raise "#{repo}\n```\n#{res[:stderr]}\n```" unless res[:status] == 0
 
-      L.info "#{repo}: #{res[:stdout]}"
+      L.info "#{repo} #{res[:stdout]}"
     end
 
     private def exec_cmd_internal(cmd : String, dir : String? = nil)

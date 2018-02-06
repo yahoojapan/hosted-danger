@@ -29,7 +29,7 @@ module HostedDanger
       context.response.print "OK"
       context
     rescue e : Exception
-      L.error e.message.not_nil! + "\n```\n" + e.backtrace.not_nil!.join("\n") + "\n```"
+      L.error e.message.not_nil!
 
       context.response.status_code = 400
       context.response.print "Bad Request"
