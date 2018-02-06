@@ -35,7 +35,7 @@ module HostedDanger
         exec_cmd(repo, "git reset --hard #{sha}", directory)
 
         if File.exists?("#{directory}/Gemfile")
-          exec_cmd(repo, "bundle install --path #{directory}/vendor/bundle", directory, true)
+          exec_cmd(repo, "bundle_cache install #{dragon_params}", directory, false) # todo
           exec_cmd(repo, "bundle exec danger", directory)
         else
           exec_cmd(repo, "danger", directory)
@@ -76,8 +76,8 @@ module HostedDanger
         "--region=kks",
         "--endpoint=https://kks.dragon.storage-yahoo.jp",
         "--bucket=approduce-bundler-cache",
-        "--access_key=AKI6F90XAR11AI84BZL",
-        "--secret_access_key=eR0qqtSbXzVEiDnfLRtqDZDvttE7rp35",
+        "--access_key=#{ENV["DRAGON_ACCESS_KEY"]}",
+        "--secret_access_key=#{ENV["DRAGON_SECRET_ACCESS_KEY"]}",
       ].join(" ")
     end
   end
