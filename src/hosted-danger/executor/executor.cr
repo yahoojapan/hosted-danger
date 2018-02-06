@@ -12,7 +12,7 @@ module HostedDanger
       sha = pr_payload["pull_request"]["head"]["sha"].as_s
       html_url = pr_payload["pull_request"]["head"]["repo"]["html_url"].as_s
       pr_number = pr_payload["number"].as_i
-      repo = "#{html_url}##{sha}(#{pr_number})"
+      repo = "#{html_url} ##{sha} #{pr_number}"
 
       L.info "Execute for #{repo}"
 
@@ -48,10 +48,7 @@ module HostedDanger
 
       res = exec_cmd_internal(cmd, dir)
 
-      unless res[:status] == 0
-        L.error("#{repo}: \n```\n#{res[:stderr]}\n```")
-        raise res[:stderr]
-      end
+      raise "#{repo}: \n```\n#{res[:stderr]}\n```" unless res[:status] == 0
 
       L.info "#{repo}: #{res[:stdout]}"
     end
