@@ -35,7 +35,7 @@ module HostedDanger
         exec_cmd(repo, "git reset --hard #{sha}", directory)
 
         if File.exists?("#{directory}/Gemfile")
-          exec_cmd(repo, "bundle_cache install #{dragon_params}", directory, true)
+          exec_cmd(repo, "bundle_cache install #{dragon_params}", directory, false)
           exec_cmd(repo, "bundle exec danger", directory)
         else
           exec_cmd(repo, "danger", directory)
