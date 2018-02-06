@@ -27,24 +27,65 @@ module HostedDanger
       begin
         FileUtils.mkdir(directory)
 
-        # todo get return code
-        Dir.cd(directory) do
-          L.info "#{repo}: " + `git init`
-          L.info "#{repo}: " + `git remote add origin #{html_url}`
-          L.info "#{repo}: " + `git fetch origin pull/#{pr_number}/head --depth 50`
-          L.info "#{repo}: " + `git reset --hard #{sha}`
+        exec_cmd("git init", directory)
+        exec_cmd("git remote add origin #{html_url}", directory)
+        exec_cmd("git fetch origin pull/#{pr_number}/head --depth 50", directory)
+        exec_cmd("git reset --hard #{sha}", directory)
 
-          # todo check the Gemfile includes the danger
-          if File.exists?("#{directory}/Gemfile")
-            L.info "#{repo}: " + `bundle install --path #{directory}/vendor/bundle`
-            L.info "#{repo}: " + `bundle exec danger`
-          else
-            L.info "#{repo}: " + `danger`
-          end
+        if File.exists?("#{directory}/Gemfile")
+          exec_cmd("bundle install --path #{directory}/vendor/bundle", directory)
+          exec_cmd("bundle exec danger", directory)
+        else
+          exec_cmd("danger", directory)
         end
+
+        # # todo get return code
+        # Dir.cd(directory) do
+        #   L.info "#{repo}: " + `git init`
+        #   L.info "#{repo}: " + `git remote add origin #{html_url}`
+        #   L.info "#{repo}: " + `git fetch origin pull/#{pr_number}/head --depth 50`
+        #   L.info "#{repo}: " + `git reset --hard #{sha}`
+        #  
+        #   # todo check the Gemfile includes the danger
+        #   if File.exists?("#{directory}/Gemfile")
+        #     L.info "#{repo}: " + `bundle install --path #{directory}/vendor/bundle`
+        #     L.info "#{repo}: " + `bundle exec danger`
+        #   else
+        #     L.info "#{repo}: " + `danger`
+        #   end
+        # end
       ensure
         FileUtils.rm_rf(directory)
       end
+    end
+
+    def exec_cmd(repo : String, cmd : String, dir : String? = nil)
+      L.info "#{repo}: #{cmd}"
+
+      res = exec_cmd_internal(cmd, dir)
+
+      unless res[:status] == 0
+        L.error("#{repo}: \n```\n#{res[:stderr]}\n```")
+        raise res[:stderr]
+      end
+
+      L.info "#{repo}: #{res[:stdout]}"
+    end
+
+    private def exec_cmd_internal(cmd : String, dir : String? = nil)
+      stdout = IO::Memory.new
+      stderr = IO::Memory.new
+
+      process = Process.run(cmd, shell: true, output: stdout, error: stderr, chdir: dir)
+
+      stdout.close
+      stderr.close
+
+      {
+        stdout: stdout.to_s,
+        stderr: stderr.to_s,
+        status: process.exit_status,
+      }
     end
   end
 end
