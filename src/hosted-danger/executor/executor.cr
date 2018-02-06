@@ -38,22 +38,6 @@ module HostedDanger
         else
           exec_cmd("danger", directory)
         end
-
-        # # todo get return code
-        # Dir.cd(directory) do
-        #   L.info "#{repo}: " + `git init`
-        #   L.info "#{repo}: " + `git remote add origin #{html_url}`
-        #   L.info "#{repo}: " + `git fetch origin pull/#{pr_number}/head --depth 50`
-        #   L.info "#{repo}: " + `git reset --hard #{sha}`
-        #  
-        #   # todo check the Gemfile includes the danger
-        #   if File.exists?("#{directory}/Gemfile")
-        #     L.info "#{repo}: " + `bundle install --path #{directory}/vendor/bundle`
-        #     L.info "#{repo}: " + `bundle exec danger`
-        #   else
-        #     L.info "#{repo}: " + `danger`
-        #   end
-        # end
       ensure
         FileUtils.rm_rf(directory)
       end

@@ -41,9 +41,7 @@ module HostedDanger
         message: msg,
       }.to_json
 
-      spawn do
-        HTTP::Client.post("https://mym.corp.yahoo.co.jp/api/post", headers, body.to_json)
-      end
+      HTTP::Client.post("https://mym.corp.yahoo.co.jp/api/post", headers, body)
     end
   end
 end
