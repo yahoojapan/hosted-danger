@@ -36,6 +36,3 @@ shards build
 # build -> stop -> run-i
 > ACCESS_TOKEN=hoge make rerun-i
 ```
-
-
-hoge
