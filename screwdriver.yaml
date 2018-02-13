@@ -1,11 +1,5 @@
 shared:
   image: cd.docker-registry.corp.yahoo.co.jp:4443/approduce/hosted-danger-sd-image:latest
-  environment:
-    PCF_DEV01_API: https://api.system.dev01.ssk.cfm.yahoo.co.jp
-    PCF_DEV01_ORG: approduce
-    PCF_DEV01_USER: dev01_approduce_dev-approduce
-    PCF_DEV01_SPACE: dev-approduce
-    PCF_DEV01_DOMAIN: approduce.dev01.ssk.cfm.yahoo.co.jp
 
 jobs:
 
@@ -40,14 +34,5 @@ jobs:
     steps:
       - build: |
           shards build
-      - cf-login: |
-          cf login --skip-ssl-validation \
-          -a "$PCF_DEV01_API" \
-          -o "$PCF_DEV01_ORG" \
-          -s "$PCF_DEV01_SPACE" \
-          -u "$PCF_DEV01_USER" \
-          -p "$PCF_DEV01_PW"
-      - cf-push: |
-          cf push
-    secrets:
-      - PCF_DEV01_PW
+      - deploy: |
+          echo "do something here"
