@@ -1,0 +1,14 @@
+shared:
+  image: approduce/hosted-danger-sd-image:latest
+
+jobs:
+  test:
+    requires: [~pr, ~commit]
+    steps:
+      - format: |
+          crystal tool format --check &> /dev/null
+
+          if [ 0 -ne $ret_code ]; then
+              exit $ret_code
+          fi
+      - test: crystal spec

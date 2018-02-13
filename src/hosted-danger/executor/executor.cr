@@ -3,7 +3,6 @@ require "file_utils"
 
 module HostedDanger
   module Executor
-
     DANGERFILE_DEFAULT = File.expand_path("../../../../Dangerfile.default", __FILE__)
 
     def exec_danger(pr_payload)
