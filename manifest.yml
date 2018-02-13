@@ -1,0 +1,6 @@
+---
+applications:
+ - name: hosted-danger-dev
+   buildpack: binary_buildpack
+   command: |
+     bin/hosted-danger
