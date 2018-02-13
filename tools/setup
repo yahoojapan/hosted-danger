@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+
+set -eux
+
+# docker
+curl -fsSL get.docker.com -o get-docker.sh
+sudo sh get-docker.sh
+
+# docker-clean
+curl -s https://raw.githubusercontent.com/ZZROTDesign/docker-clean/v2.0.4/docker-clean | \
+    sudo tee /usr/local/bin/docker-clean > /dev/null && \
+    sudo chmod +x /usr/local/bin/docker-clean
+
+# hosted-danger
+sudo yum install git -y
+sudo git clone https://ghe.corp.yahoo.co.jp/approduce/hosted-danger.git /usr/local/hosted-danger

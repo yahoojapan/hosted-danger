@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env bash
 
 crystal tool format --check &> /dev/null
 ret_code=$?
