@@ -1,0 +1,8 @@
+shared:
+  image: approduce/hosted-danger-sd-image:latest
+
+jobs:
+  test:
+    requires: [~pr]
+    steps:
+      - test: crystal spec
