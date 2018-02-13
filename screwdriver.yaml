@@ -12,5 +12,10 @@ jobs:
           if [ 0 -ne $ret_code ]; then
               echo 'Please formatting the codes. ('$ret_code')'
               exit $ret_code
+          else
+              echo 'Success!'
           fi
-      - test: crystal spec
+      - build: |
+          shards build
+      - test: |
+          crystal spec
