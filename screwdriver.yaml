@@ -7,6 +7,7 @@ jobs:
     steps:
       - format: |
           crystal tool format --check &> /dev/null
+          ret_code=$?
 
           if [ 0 -ne $ret_code ]; then
               exit $ret_code
