@@ -4,7 +4,7 @@ require "file_utils"
 module HostedDanger
   module Executor
 
-    def exec(pr_payload)
+    def exec_danger(pr_payload)
       if pr_payload["sender"]["login"].to_s == "ap-approduce"
         return L.info "Skip, since it's coming from ap-approduce"
       end
@@ -14,45 +14,54 @@ module HostedDanger
       sha = pr_payload["pull_request"]["head"]["sha"].as_s
       html_url = pr_payload["pull_request"]["head"]["repo"]["html_url"].as_s
       pr_number = pr_payload["number"].as_i
-      repo = "#{html_url} sha: **##{sha}** pr: **#{pr_number}**"
 
-      L.info "Execute for #{repo}"
+      git_host = if html_url =~ /https:\/\/(.*?)\/.*/
+                   $1
+                 else
+                   "ghe.corp.yahoo.co.jp"
+                 end
+
+      repo_tag = "#{html_url} sha: **##{sha}** pr: **#{pr_number}**"
+
+      L.info "Execute for #{repo_tag}"
 
       directory = "/tmp/#{Random::Secure.hex}"
 
       ENV["GIT_URL"] = html_url
       ENV["DANGER_ID"] = "#{html_url}@#{pr_number}"
-      ENV["DANGER_GITHUB_HOST"] = "ghe.corp.yahoo.co.jp"
-      ENV["DANGER_GITHUB_API_BASE_URL"] = "https://ghe.corp.yahoo.co.jp/api/v3"
+      ENV["DANGER_GITHUB_HOST"] = git_host
+      ENV["DANGER_GITHUB_API_BASE_URL"] = "https://#{git_host}/api/v3"
       ENV["ghprbPullId"] = "#{pr_number}"
 
       begin
         FileUtils.mkdir(directory)
 
-        exec_cmd(repo, "git init", directory)
-        exec_cmd(repo, "git remote add origin #{html_url}", directory)
-        exec_cmd(repo, "git fetch origin pull/#{pr_number}/head --depth 50", directory)
-        exec_cmd(repo, "git reset --hard #{sha}", directory)
+        exec_cmd(repo_tag, "git init", directory)
+        exec_cmd(repo_tag, "git remote add origin #{html_url}", directory)
+        exec_cmd(repo_tag, "git fetch origin pull/#{pr_number}/head --depth 50", directory)
+        exec_cmd(repo_tag, "git reset --hard #{sha}", directory)
+
+        return L.warn "#{repo_tag} Dangerfile not found" unless File.exists?("#{directory}/Dangerfile")
 
         if File.exists?("#{directory}/Gemfile")
-          exec_cmd(repo, "bundle_cache install #{dragon_params}", directory, false)
-          exec_cmd(repo, "bundle exec danger", directory)
+          exec_cmd(repo_tag, "bundle_cache install #{dragon_params}", directory, false)
+          exec_cmd(repo_tag, "bundle exec danger", directory)
         else
-          exec_cmd(repo, "danger", directory)
+          exec_cmd(repo_tag, "danger", directory)
         end
       ensure
         FileUtils.rm_rf(directory)
       end
     end
 
-    def exec_cmd(repo : String, cmd : String, dir : String? = nil, hide_command : Bool = false)
-      L.info "#{repo} #{hide_command ? "**HIDDEN**" : cmd}"
+    def exec_cmd(repo_tag : String, cmd : String, dir : String? = nil, hide_command : Bool = false)
+      L.info "#{repo_tag} #{hide_command ? "**HIDDEN**" : cmd}"
 
       res = exec_cmd_internal(cmd, dir)
 
-      raise "#{repo}\n```\n#{res[:stderr]}\n```" unless res[:status] == 0
+      raise "#{repo_tag}\n```\n#{res[:stderr]}\n```" unless res[:status] == 0
 
-      L.info "#{repo} #{res[:stdout]}"
+      L.info "#{repo_tag} #{res[:stdout]}"
     end
 
     private def exec_cmd_internal(cmd : String, dir : String? = nil)
