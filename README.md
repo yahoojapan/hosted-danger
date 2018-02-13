@@ -59,6 +59,9 @@ crystal spec
 ### デフォルトのDangerfileの内容を変更する
 Dangerfile.defaultを編集
 
+### デフォルトで導入されているプラグインを追加したい
+GemfileとGemfile.lockの編集
+
 ### リリース手順
 WIP
 
