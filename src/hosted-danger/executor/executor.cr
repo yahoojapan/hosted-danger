@@ -44,7 +44,7 @@ module HostedDanger
         exec_cmd(repo_tag, "git reset --hard #{sha}", directory)
 
         unless File.exists?("#{directory}/Dangerfile")
-          L.warn "#{repo_tag} Dangerfile not found, use the deafult one"
+          L.warn "#{repo_tag} Dangerfile not found, use the default one"
           exec_cmd(repo_tag, "cp #{DANGERFILE_DEFAULT} #{directory}/Dangerfile")
         end
 

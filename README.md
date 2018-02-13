@@ -1,40 +1,55 @@
 # Hosted Danger
 
-## Building
+Dangerの実行をホスティングするプラットフォーム
+
+## ビルド
 ```bash
 shards build
 ```
 
-## Testing
+## テスト
 ```bash
 crystal spec
 ```
 
-## Run with docker (recommended)
+## Dockerを使用した実行
 
-### Requirements
+### 必要な環境
 - docker
 - [docker-clean](https://github.com/ZZROTDesign/docker-clean)
 
-### Commands
+### コマンド
 ```bash
-# build
+# ビルド
 > ACCESS_TOKEN=hoge DRAGON_ACCESS_KEY=fuga DRAGON_SECRET_ACCESS_KEY=hoga make build
 
-# rm & stop the container
+# コンテナの停止 & 削除
 > make stop
 
-# run the server as daemon
+# デーモンとしてコンテナを起動
 > make run
 
-# run the server and keep it interactive
+# インタラクティブにコンテナを起動(デバッグ用途)
 > make run-i
 
-# build -> stop -> run
+# デーモンとしてコンテナをリスタート (ビルド -> 停止 -> 削除 -> スタート)
 > ACCESS_TOKEN=hoge DRAGON_ACCESS_KEY=fuga DRAGON_SECRET_ACCESS_KEY=hoga make rerun
 
-# build -> stop -> run-i
+# インタラクティブにコンテナをリスタート (ビルド -> 停止 -> 削除 -> スタート)
 > ACCESS_TOKEN=hoge DRAGON_ACCESS_KEY=fuga DRAGON_SECRET_ACCESS_KEY=hoga make rerun-i
 ```
 
-*) Env vars related to dragon is used for [BundlerCache](https://ghe.corp.yahoo.co.jp/approduce/BundlerCache).
+*) Dragon関係の環境変数は [BundlerCache](https://ghe.corp.yahoo.co.jp/approduce/BundlerCache) に使用しています、BundlerCacheは使用できませんがなくても動きます.
+
+## 仕様・開発・運用
+
+### Bundlerの使用について
+- Gemfileが存在し、dangerが定義されている場合はbundlerを使用する
+- Gemfileが存在し、dangerが定義されていない場合はbundlerを使用しない
+- Gemfileが存在しない場合は、bundlerを使用しない
+
+### デフォルトのDangerfileの内容を変更する
+Dangerfile.defaultを編集
+
+### リリース手順
+WIP
