@@ -1,0 +1,2 @@
+# todo: 汎用性の高いものに
+warn "Work In Progress" if github.pr_title.downcase.include?("wip")

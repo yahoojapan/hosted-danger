@@ -1,9 +1,14 @@
 require "./spec_helper"
 
-describe Hosted::Danger do
-  # TODO: Write tests
+describe HostedDanger do
 
-  it "works" do
-    false.should eq(true)
+  it "successfully build" do
+    proj_root = File.expand_path("../..", __FILE__)
+
+    Dir.cd(proj_root) do
+      system("shards build").should eq(true)
+    end
   end
 end
+
+require "./units/*"

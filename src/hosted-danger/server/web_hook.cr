@@ -23,7 +23,7 @@ module HostedDanger
 
       L.info "This is a Pull Request"
 
-      exec(payload_json)
+      exec_danger(payload_json)
 
       context.response.status_code = 200
       context.response.print "OK"
