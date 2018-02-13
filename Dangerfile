@@ -1,4 +1,4 @@
-warn "Work In Progress" if github.pr_title.downcase == "wip"
+warn "Work In Progress" if github.pr_title.downcase.include?("wip")
 warn "Do not merge!", sticky: false  unless github.pr_json["mergeable"]
 
 message "Large PR!" if git.lines_of_code > 600
