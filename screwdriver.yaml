@@ -3,7 +3,7 @@ shared:
 
 jobs:
   test:
-    requires: [~pr]
+    requires: [~pr, ~commit]
     steps:
       - format: |
           crystal tool format --check &> /dev/null
