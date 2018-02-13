@@ -6,11 +6,9 @@ jobs:
     requires: [~pr]
     steps:
       - format: |
-          formatted=`crystal tool format | wc -l | awk '{print $1}'`
+          crystal tool format --check &> /dev/null
 
-          if [ $formatted = '0' ]; then
-              echo 'ok'
-          else
-              exit -1
+          if [ 0 -ne $ret_code ]; then
+              exit $ret_code
           fi
       - test: crystal spec
