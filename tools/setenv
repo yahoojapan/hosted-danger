@@ -17,4 +17,4 @@ if [[ -z "${DRAGON_SECRET_ACCESS_KEY}" ]]; then
     exit -1
 fi
 
-sudo echo "{\"access_token\": \"$ACCESS_TOKEN\", \"dragon_access_key\": \"${DRAGON_ACCESS_KEY}\", \"dragon_secret_access_key\": \"${DRAGON_SECRET_ACCESS_KEY}\"}" > token.json
+echo "{\"access_token\": \"$ACCESS_TOKEN\", \"dragon_access_key\": \"${DRAGON_ACCESS_KEY}\", \"dragon_secret_access_key\": \"${DRAGON_SECRET_ACCESS_KEY}\"}" > token.json

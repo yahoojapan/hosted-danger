@@ -29,22 +29,22 @@ crystal spec
 ### コマンド
 ```bash
 # ビルド
-> ACCESS_TOKEN=hoge DRAGON_ACCESS_KEY=fuga DRAGON_SECRET_ACCESS_KEY=hoga make build
+> sudo ACCESS_TOKEN=hoge DRAGON_ACCESS_KEY=fuga DRAGON_SECRET_ACCESS_KEY=hoga make build
 
 # コンテナの停止 & 削除
-> make stop
+> sudo make stop
 
 # デーモンとしてコンテナを起動
-> make run
+> sudo make run
 
 # インタラクティブにコンテナを起動(デバッグ用途)
-> make run-i
+> sudo make run-i
 
 # デーモンとしてコンテナをリスタート (ビルド -> 停止 -> 削除 -> スタート)
-> ACCESS_TOKEN=hoge DRAGON_ACCESS_KEY=fuga DRAGON_SECRET_ACCESS_KEY=hoga make rerun
+> sudo ACCESS_TOKEN=hoge DRAGON_ACCESS_KEY=fuga DRAGON_SECRET_ACCESS_KEY=hoga make rerun
 
 # インタラクティブにコンテナをリスタート (ビルド -> 停止 -> 削除 -> スタート)
-> ACCESS_TOKEN=hoge DRAGON_ACCESS_KEY=fuga DRAGON_SECRET_ACCESS_KEY=hoga make rerun-i
+> sudo ACCESS_TOKEN=hoge DRAGON_ACCESS_KEY=fuga DRAGON_SECRET_ACCESS_KEY=hoga make rerun-i
 ```
 
 *) Dragon関係の環境変数は [BundlerCache](https://ghe.corp.yahoo.co.jp/approduce/BundlerCache) に使用しています、BundlerCacheは使用できませんがなくても動きます.
