@@ -10,6 +10,7 @@ jobs:
           ret_code=$?
 
           if [ 0 -ne $ret_code ]; then
+              echo 'Please formatting the codes. ('$ret_code')'
               exit $ret_code
           fi
       - test: crystal spec
