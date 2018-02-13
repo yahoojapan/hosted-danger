@@ -26,6 +26,11 @@ crystal spec
 - docker
 - [docker-clean](https://github.com/ZZROTDesign/docker-clean)
 
+ynw (YJLinux 7系) の場合、以下のコマンドでインストールする
+```bash
+curl -sf https://raw.ghe.corp.yahoo.co.jp/approduce/hosted-danger/master/tools/setup | sudo bash -s
+```
+
 ### コマンド
 ```bash
 # ビルド
