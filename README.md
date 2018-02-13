@@ -1,20 +1,20 @@
 # Hosted Danger
 
-## Build on local
-
-### Requirements
-- crystal
-
-### Commands
+## Building
 ```bash
 shards build
 ```
 
-## Run with docker
+## Testing
+```bash
+crystal spec
+```
+
+## Run with docker (recommended)
 
 ### Requirements
 - docker
-- https://github.com/ZZROTDesign/docker-clean
+- [docker-clean](https://github.com/ZZROTDesign/docker-clean)
 
 ### Commands
 ```bash
@@ -24,7 +24,7 @@ shards build
 # rm & stop the container
 > make stop
 
-# run the server
+# run the server as daemon
 > make run
 
 # run the server and keep it interactive
@@ -37,4 +37,4 @@ shards build
 > ACCESS_TOKEN=hoge DRAGON_ACCESS_KEY=fuga DRAGON_SECRET_ACCESS_KEY=hoga make rerun-i
 ```
 
-* Dragon関係の環境変数は[BundlerCache](https://ghe.corp.yahoo.co.jp/approduce/BundlerCache)に利用します
+*) Env vars related to dragon is used for [BundlerCache](https://ghe.corp.yahoo.co.jp/approduce/BundlerCache).
