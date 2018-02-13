@@ -7,10 +7,10 @@ module HostedDanger
 
     def hook(context, params)
       payload : String = if body = context.request.body
-                           body.gets_to_end
-                         else
-                           raise "Empty body"
-                         end
+        body.gets_to_end
+      else
+        raise "Empty body"
+      end
 
       payload_json = JSON.parse(payload)
 

@@ -5,4 +5,12 @@ jobs:
   test:
     requires: [~pr]
     steps:
+      - format: |
+          formatted=`crystal tool format | wc -l | awk '{print $1}'`
+
+          if [ $formatted = '0' ]; then
+              echo 'ok'
+          else
+              exit -1
+          fi
       - test: crystal spec

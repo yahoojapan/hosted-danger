@@ -2,6 +2,14 @@
 
 Dangerの実行をホスティングするプラットフォーム
 
+## 必要な環境
+- crystal
+
+以下の設定を.gitに導入(format用)
+```bash
+cp tools/pre-commit .git/hooks/.
+```
+
 ## ビルド
 ```bash
 shards build

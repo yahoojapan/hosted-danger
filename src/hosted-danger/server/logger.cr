@@ -37,7 +37,7 @@ module HostedDanger
       headers["Content-type"] = "application/json"
 
       body = {
-        token: MYM_TOKEN,
+        token:   MYM_TOKEN,
         message: msg,
       }.to_json
 

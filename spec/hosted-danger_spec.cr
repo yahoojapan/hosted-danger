@@ -1,7 +1,6 @@
 require "./spec_helper"
 
 describe HostedDanger do
-
   it "successfully build" do
     proj_root = File.expand_path("../..", __FILE__)
 
