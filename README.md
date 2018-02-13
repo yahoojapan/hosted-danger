@@ -61,3 +61,6 @@ Dangerfile.defaultを編集
 
 ### リリース手順
 WIP
+
+### Screwdriver.cdで使用しているイメージ
+- [hosted-danger-sd-image](https://ghe.corp.yahoo.co.jp/approduce/hosted-danger-sd-image)
