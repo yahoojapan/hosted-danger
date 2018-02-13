@@ -20,7 +20,7 @@ RUN mkdir -p /tmp/hd
 
 COPY src /tmp/hd/src
 COPY shard.yml shard.lock /tmp/hd/
-COPY Dangerfile /tmp/hd/Dangerfile.default
+COPY Dangerfile.default /tmp/hd/Dangerfile.default
 
 RUN cd /tmp/hd && shards build
 
