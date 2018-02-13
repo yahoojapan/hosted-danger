@@ -4,6 +4,8 @@ require "file_utils"
 module HostedDanger
   module Executor
 
+    DANGERFILE_DEFAULT = File.expand_path("../../../../Dangerfile.default", __FILE__)
+
     def exec_danger(pr_payload)
       if pr_payload["sender"]["login"].to_s == "ap-approduce"
         return L.info "Skip, since it's coming from ap-approduce"
@@ -41,10 +43,13 @@ module HostedDanger
         exec_cmd(repo_tag, "git fetch origin pull/#{pr_number}/head --depth 50", directory)
         exec_cmd(repo_tag, "git reset --hard #{sha}", directory)
 
-        return L.warn "#{repo_tag} Dangerfile not found" unless File.exists?("#{directory}/Dangerfile")
+        unless File.exists?("#{directory}/Dangerfile")
+          L.warn "#{repo_tag} Dangerfile not found, use the deafult one"
+          exec_cmd(repo_tag, "cp #{DANGERFILE_DEFAULT} #{directory}/Dangerfile")
+        end
 
-        if File.exists?("#{directory}/Gemfile")
-          exec_cmd(repo_tag, "bundle_cache install #{dragon_params}", directory, false)
+        if use_bundler?(directory)
+          exec_cmd(repo_tag, "bundle_cache install #{dragon_params}", directory, true)
           exec_cmd(repo_tag, "bundle exec danger", directory)
         else
           exec_cmd(repo_tag, "danger", directory)
@@ -52,6 +57,14 @@ module HostedDanger
       ensure
         FileUtils.rm_rf(directory)
       end
+    end
+
+    def use_bundler?(directory) : Bool
+      gemfile_exists? = File.exists?("#{directory}/Gemfile")
+      return false unless gemfile_exists?
+      return true if File.read("#{directory}/Gemfile") =~ /(gem\s*?'danger')/
+
+      false
     end
 
     def exec_cmd(repo_tag : String, cmd : String, dir : String? = nil, hide_command : Bool = false)

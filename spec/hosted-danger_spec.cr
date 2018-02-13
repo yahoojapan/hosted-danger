@@ -10,3 +10,5 @@ describe HostedDanger do
     end
   end
 end
+
+require "./units/*"
