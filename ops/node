@@ -21,9 +21,9 @@ echo "Your hostname is recognized as "$HOSTNAME
 mkdir node.conf
 
 # todo master branch
-wget https://raw.ghe.corp.yahoo.co.jp/approduce/hosted-danger/ops/ops/node.conf/kubernetes/config node.conf/.
-wget https://raw.ghe.corp.yahoo.co.jp/approduce/hosted-danger/ops/ops/node.conf/kubernetes/kubelet node.conf/.
-wget https://raw.ghe.corp.yahoo.co.jp/approduce/hosted-danger/ops/ops/node.conf/flanneld node.conf/.
+wget https://raw.ghe.corp.yahoo.co.jp/approduce/hosted-danger/ops/ops/node.conf/kubernetes/config -P node.conf
+wget https://raw.ghe.corp.yahoo.co.jp/approduce/hosted-danger/ops/ops/node.conf/kubernetes/kubelet -P node.conf
+wget https://raw.ghe.corp.yahoo.co.jp/approduce/hosted-danger/ops/ops/node.conf/flanneld -P node.conf
 
 printf "cat <<++EOS\n`cat node.conf/kubernetes/config`\n++EOS\n" | sh > node.conf/kubernetes/config.setup
 printf "cat <<++EOS\n`cat node.conf/kubernetes/kubelet`\n++EOS\n" | sh > node.conf/kubernetes/kubelet.setup

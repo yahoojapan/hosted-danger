@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+
+set -eux
+
+# install stuff
+sudo yum install git -y
+
+# install docker
+curl -fsSL get.docker.com -o get-docker.sh
+sudo sh get-docker.sh
+
+# install docker-clean
+curl -s https://raw.githubusercontent.com/ZZROTDesign/docker-clean/v2.0.4/docker-clean | \
+    sudo tee /usr/local/bin/docker-clean > /dev/null && \
+    sudo chmod +x /usr/local/bin/docker-clean
+
+# start docker
+sudo service docker start
