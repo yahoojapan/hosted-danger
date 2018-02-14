@@ -69,17 +69,17 @@ kubectl get service kubernetes-dashboard -n kube-system
 
 次にサービスアカウントを作成
 ```bash
-kubectl apply -f [TODO]
-kubectl apply -f [TODO]
+kubectl apply -f https://raw.ghe.corp.yahoo.co.jp/approduce/hosted-danger/master/ops/kube/admin-user.yaml
+kubectl apply -f https://raw.ghe.corp.yahoo.co.jp/approduce/hosted-danger/master/ops/kube/admin-user-role.yaml
 ```
 
 Tokenの取得
 ```bash
-[TODO]
+kubectl -n kube-system describe secret $(kubectl -n kube-system get secret | grep admin-user | awk '{print $1}')
 ```
 
 あとはDashboardにアクセスし、取得したTokenでログインする
 
 参考1: [Dashboardの作成](https://github.com/kubernetes/dashboard/wiki/Installation)
 参考2: [Dashboardの外部接続](https://github.com/kubernetes/dashboard/wiki/Accessing-Dashboard---1.7.X-and-above#nodeport)
-参考3: [Service Accountの作成](https://kubernetes.io/docs/admin/authentication/#service-account-tokens)
+参考3: [Service Accountの作成](https://github.com/kubernetes/dashboard/wiki/Creating-sample-user)
