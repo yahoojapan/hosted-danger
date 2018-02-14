@@ -1,6 +1,15 @@
 # 運用
 
-デプロイ・実行・更新にはKubernetesを利用
+デプロイ・実行・更新には**Kubernetes**を利用
+
+## master・node一覧
+
+master (apiserver・etcdも同居)
+- hd-master-dev-001.ssk.ynwm.yahoo.co.jp (172.21.143.224)
+
+node
+- hd-dev-001.ssk.ynwm.yahoo.co.jp (172.21.149.10)
+- hd-dev-002.ssk.ynwm.yahoo.co.jp (172.21.116.39)
 
 ## nodeの追加手順
 

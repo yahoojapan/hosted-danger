@@ -34,6 +34,12 @@ module HostedDanger
       ENV["DANGER_GITHUB_API_BASE_URL"] = "https://#{git_host}/api/v3"
       ENV["ghprbPullId"] = "#{pr_number}"
 
+      if git_host == "ghe.corp.yahoo.co.jp"
+        ENV["DANGER_GITHUB_API_TOKEN"] = ENV["DANGER_GITHUB_API_TOKEN_GHE"]
+      else
+        ENV["DANGER_GITHUB_API_TOKEN"] = ENV["DANGER_GITHUB_API_TOKEN_PARTNER"]
+      end
+
       begin
         FileUtils.mkdir(directory)
 

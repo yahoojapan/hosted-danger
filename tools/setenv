@@ -2,8 +2,13 @@
 
 rm -rf token.json
 
-if [[ -z "${ACCESS_TOKEN}" ]]; then
-    echo "Please set \$ACCESS_TOKEN for the building"
+if [[ -z "${ACCESS_TOKEN_GHE}" ]]; then
+    echo "Please set \$ACCESS_TOKEN_GHE for the building"
+    exit -1
+fi
+
+if [[ -z "${ACCESS_TOKEN_PARTNER}" ]]; then
+    echo "Please set \$ACCESS_TOKEN_PARTNER for the building"
     exit -1
 fi
 
@@ -17,4 +22,4 @@ if [[ -z "${DRAGON_SECRET_ACCESS_KEY}" ]]; then
     exit -1
 fi
 
-echo "{\"access_token\": \"$ACCESS_TOKEN\", \"dragon_access_key\": \"${DRAGON_ACCESS_KEY}\", \"dragon_secret_access_key\": \"${DRAGON_SECRET_ACCESS_KEY}\"}" > token.json
+echo "{\"access_token_ghe\": \"$ACCESS_TOKEN_GHE\", \"access_token_partner\": \"$ACCESS_TOKEN_PARTNER\", \"dragon_access_key\": \"${DRAGON_ACCESS_KEY}\", \"dragon_secret_access_key\": \"${DRAGON_SECRET_ACCESS_KEY}\"}" > token.json

@@ -30,9 +30,13 @@ jobs:
           crystal spec
 
   release:
+    template: docker/publish@stable
+    environment:
+      REPO_NAME: approduce
+      IMAGE_NAME: hosted-danger-image
     requires: [commit]
-    steps:
-      - build: |
-          shards build
-      - deploy: |
-          echo "do something here"
+    secrets:
+      - ACCESS_TOKEN_GHE
+      - ACCESS_TOKEN_PARTNER
+      - DRAGON_ACCESS_KEY
+      - DRAGON_SECRET_ACCESS_KEY
