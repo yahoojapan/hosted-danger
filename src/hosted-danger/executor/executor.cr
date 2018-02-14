@@ -55,9 +55,9 @@ module HostedDanger
 
         if use_bundler?(directory)
           exec_cmd(repo_tag, "bundle_cache install #{dragon_params}", directory, true)
-          exec_cmd(repo_tag, "bundle exec danger", directory)
+          exec_cmd(repo_tag, "bundle exec danger #{danger_params}", directory)
         else
-          exec_cmd(repo_tag, "danger", directory)
+          exec_cmd(repo_tag, "danger #{danger_params}", directory)
         end
       ensure
         FileUtils.rm_rf(directory)
@@ -105,6 +105,12 @@ module HostedDanger
         "--bucket approduce-bundler-cache",
         "--access_key #{ENV["DRAGON_ACCESS_KEY"]}",
         "--secret_access_key #{ENV["DRAGON_SECRET_ACCESS_KEY"]}",
+      ].join(" ")
+    end
+
+    private def danger_params : String
+      [
+        "--remove-previous-comments",
       ].join(" ")
     end
   end
