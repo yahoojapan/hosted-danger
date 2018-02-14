@@ -52,11 +52,13 @@ curl -sf https://raw.ghe.corp.yahoo.co.jp/approduce/hosted-danger/master/tools/s
 > sudo ACCESS_TOKEN=hoge DRAGON_ACCESS_KEY=fuga DRAGON_SECRET_ACCESS_KEY=hoga make rerun-i
 ```
 
-*) Dragon関係の環境変数は [BundlerCache](https://ghe.corp.yahoo.co.jp/approduce/BundlerCache) に使用しています、BundlerCacheは使用できませんがなくても動きます.
+＊) Dragon関係の環境変数は [BundlerCache](https://ghe.corp.yahoo.co.jp/approduce/BundlerCache) に使用しています、BundlerCacheは使用できませんがなくても動きます.
 
 ## 仕様・開発・運用
 
-### Bundlerの使用について
+＊) Kubernetesを利用したデプロイなどの手順は[ops](https://ghe.corp.yahoo.co.jp/approduce/hosted-danger/tree/master/ops)に書いてあります。
+
+### 内部実行でのBundlerの使用について
 - Gemfileが存在し、dangerが定義されている場合はbundlerを使用する
 - Gemfileが存在し、dangerが定義されていない場合はbundlerを使用しない
 - Gemfileが存在しない場合は、bundlerを使用しない
@@ -70,5 +72,8 @@ GemfileとGemfile.lockの編集
 ### リリース手順
 WIP
 
+### デプロイに使用しているイメージ
+- [hosted-danger-image](http://cd.docker-registry.corp.yahoo.co.jp/repository/approduce/hosted-danger-image)
+
 ### Screwdriver.cdで使用しているイメージ
-- [hosted-danger-sd-image](https://ghe.corp.yahoo.co.jp/approduce/hosted-danger-sd-image)
+- [hosted-danger-sd-image](http://cd.docker-registry.corp.yahoo.co.jp/repository/approduce/hosted-danger-sd-image)
