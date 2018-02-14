@@ -7,7 +7,7 @@ spec:
     app: hd-app
   ports:
   - protocol: TCP
-    port: 3080
-    targetPort: 3080
+    port: 80
+    targetPort: 80
     nodePort: 30080
   type: NodePort
