@@ -1,0 +1,19 @@
+apiVersion: apps/v1beta2
+kind: Deployment
+metadata:
+  name: hd-deployment
+spec:
+  selector:
+    matchLabels:
+      app: hd-app
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: hd-app
+    spec:
+      containers:
+      - name: hd-app
+        image: cd.docker-registry.corp.yahoo.co.jp:4443/approduce/hosted-danger-image:latest
+        ports:
+        - containerPort: 80
