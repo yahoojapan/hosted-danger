@@ -20,7 +20,7 @@ shards build
 crystal spec
 ```
 
-## Dockerを使用した手元での実行
+## Dockerを使用した手元での実行 (webhookの動作検証が含まれるのでynwm推奨)
 
 ### 必要な環境
 - docker
@@ -54,14 +54,7 @@ curl -sf https://raw.ghe.corp.yahoo.co.jp/approduce/hosted-danger/master/tools/s
 
 ＊) Dragon関係の環境変数は [BundlerCache](https://ghe.corp.yahoo.co.jp/approduce/BundlerCache) に使用しています。
 
-## 仕様・開発・運用
-
-＊) Kubernetesを利用したリリース・デプロイなどの手順は[ops](https://ghe.corp.yahoo.co.jp/approduce/hosted-danger/tree/master/ops)に書いてあります。
-
-### 内部実行でのBundlerの使用について
-- Gemfileが存在し、dangerが定義されている場合はbundlerを使用する
-- Gemfileが存在し、dangerが定義されていない場合はbundlerを使用しない
-- Gemfileが存在しない場合は、bundlerを使用しない
+## 仕様・開発
 
 ### デフォルトのDangerfileの内容を変更したい
 Dangerfile.defaultを編集
@@ -69,8 +62,12 @@ Dangerfile.defaultを編集
 ### デフォルトで導入されているプラグインを追加したい
 GemfileとGemfile.lockの編集
 
-### デプロイに使用しているイメージ
-- [hosted-danger-image](http://cd.docker-registry.corp.yahoo.co.jp/repository/approduce/hosted-danger-image)
+### 内部実行でのBundlerの使用について
+- Gemfileが存在し、dangerが定義されている場合はbundlerを使用する
+- Gemfileが存在し、dangerが定義されていない場合はbundlerを使用しない
+- Gemfileが存在しない場合は、bundlerを使用しない
 
-### Screwdriver.cdで使用しているイメージ
-- [hosted-danger-sd-image](http://cd.docker-registry.corp.yahoo.co.jp/repository/approduce/hosted-danger-sd-image)
+## 運用
+- Kubernetesのセットアップ及びリリース・デプロイなどの手順については[ops](https://ghe.corp.yahoo.co.jp/approduce/hosted-danger/tree/master/ops)
+- [Screwdriver.cdで使用しているイメージ(hosted-danger-sd-image)](http://cd.docker-registry.corp.yahoo.co.jp/repository/approduce/hosted-danger-sd-image)
+- [KubernetesのPodで使用しているイメージ(hosted-danger-image)](http://cd.docker-registry.corp.yahoo.co.jp/repository/approduce/hosted-danger-image)

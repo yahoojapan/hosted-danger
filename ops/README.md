@@ -65,6 +65,10 @@ masterにマージされた時点で、[cd.docker-registry](http://cd.docker-reg
 kubectl apply -f https://raw.ghe.corp.yahoo.co.jp/approduce/hosted-danger/master/ops/kube/deployment.yaml
 ```
 
+`deployment "hd-deployment" configured`というメッセージが出たら成功、`unchanged`だとイメージタグが変更されていない
+
+`kubectl get pods`などを実行し、Podが一定数`Running`の状態かつ`ContainerCreating`のものがあれば正常にリリースされている
+
 ## Tips
 
 ### Dashboardの作成
