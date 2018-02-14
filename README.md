@@ -20,7 +20,7 @@ shards build
 crystal spec
 ```
 
-## Dockerを使用した実行
+## Dockerを使用した手元での実行
 
 ### 必要な環境
 - docker
