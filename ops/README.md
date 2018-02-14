@@ -10,8 +10,9 @@
 WIP
 
 ## masterの追加手順
+対象のインスタンスをYNW(YJLinux 7系)で作成後、sshして以下のコマンドを実行
 ```bash
-curl -sf https://raw.ghe.corp.yahoo.co.jp/approduce/hosted-danger/master/ops/node
+curl -sf https://raw.ghe.corp.yahoo.co.jp/approduce/hosted-danger/master/ops/node | sudo bash -s
 ```
 
 **最後に出力される以下のコマンドは必ず控える**
@@ -20,8 +21,9 @@ kubeadm join --token...
 ```
 
 ## nodeの追加手順
+対象のインスタンスをYNW(YJLinux 7系)で作成後、sshして以下のコマンドを実行
 ```bash
-curl -sf https://raw.ghe.corp.yahoo.co.jp/approduce/hosted-danger/master/ops/node
+curl -sf https://raw.ghe.corp.yahoo.co.jp/approduce/hosted-danger/master/ops/node | sudo bash -s
 ```
 
 **実行後にmasterで出力されたコマンドを実行する**
