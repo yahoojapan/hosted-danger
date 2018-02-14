@@ -23,4 +23,9 @@ yum install -y kubelet kubeadm kubectl
 systemctl enable kubelet
 systemctl start kubelet
 
+echo ""
+echo ""
 echo "kubeadm join --token...から始まるコマンドを実行してmasterに参加してください!"
+echo "ただし、sudoで実行してください!"
+echo ""
+echo ""

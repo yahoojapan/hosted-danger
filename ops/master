@@ -25,4 +25,10 @@ systemctl start kubelet
 
 kubeadm init --pod-network-cidr=192.168.0.0/16
 
+echo ""
+echo ""
 echo "注意) kubeadm join --token...のコマンドはバックアップをとってください！"
+echo ""
+echo ""
+
+kubectl apply -f https://docs.projectcalico.org/v3.0/getting-started/kubernetes/installation/hosted/kubeadm/1.7/calico.yaml
