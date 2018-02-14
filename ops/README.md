@@ -8,7 +8,7 @@
 ## master・node一覧
 WIP
 
-## masterの追加手順
+## masterの構築手順
 対象のインスタンスをYNW(YJLinux 7系)で作成後、sshして以下のコマンドを実行
 ```bash
 curl -sf https://raw.ghe.corp.yahoo.co.jp/approduce/hosted-danger/master/ops/node | sudo bash -s
@@ -17,6 +17,18 @@ curl -sf https://raw.ghe.corp.yahoo.co.jp/approduce/hosted-danger/master/ops/nod
 **最後に出力される以下のコマンドは必ず控える**
 ```bash
 kubeadm join --token...
+```
+
+root以外で実行できるようにコピーしておく
+```bash
+sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+sudo chown $(id -u):$(id -g) $HOME/.kube/config
+```
+
+podのデプロイとserviceを使用した外部公開
+```bash
+kubectl apply -f https://raw.ghe.corp.yahoo.co.jp/approduce/hosted-danger/master/ops/kube/deployment.yaml
+kubectl apply -f https://raw.ghe.corp.yahoo.co.jp/approduce/hosted-danger/master/ops/kube/service.yaml
 ```
 
 ## nodeの追加手順
@@ -73,7 +85,7 @@ kubectl apply -f https://raw.ghe.corp.yahoo.co.jp/approduce/hosted-danger/master
 kubectl apply -f https://raw.ghe.corp.yahoo.co.jp/approduce/hosted-danger/master/ops/kube/admin-user-role.yaml
 ```
 
-Tokenの取得
+ログインに必要なTokenの取得
 ```bash
 kubectl -n kube-system describe secret $(kubectl -n kube-system get secret | grep admin-user | awk '{print $1}')
 ```
