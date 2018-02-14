@@ -25,4 +25,6 @@ yum install -y kubelet kubeadm kubectl
 systemctl enable kubelet
 systemctl start kubelet
 
-echo "kubeadm join --token...から始まるコマンドを実行してmasterに参加してください!"
+kubeadm init --pod-network-cidr=192.168.0.0/16
+
+echo "注意) kubeadm join --token...のコマンドはバックアップをとってください！"
