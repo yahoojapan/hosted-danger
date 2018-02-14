@@ -34,6 +34,8 @@ jobs:
       REPO_NAME: approduce
       IMAGE_NAME: hosted-danger-image
     requires: [commit]
+    steps:
+      - prebuild_image: tools/setenv
     secrets:
       - ACCESS_TOKEN_GHE
       - ACCESS_TOKEN_PARTNER
