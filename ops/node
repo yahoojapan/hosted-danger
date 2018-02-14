@@ -1,0 +1,44 @@
+#!/usr/bin/env bash
+
+if [[ -z "${MASTER_IP}" ]]; then
+    echo "Please set \$MASTER_IP for the setup"
+    exit -1
+fi
+
+if [[ -z "${NODE_IP}" ]]; then
+    echo "Please set \$NODE_IP (Your IP address) for the setup"
+    exit -1
+fi
+
+set -eux
+
+sudo yum -y install kubernetes docker flannel
+
+HOSTNAME=`hostname`
+
+echo "Your hostname is recognized as "$HOSTNAME
+
+mkdir node.conf
+
+wget https://raw.ghe.corp.yahoo.co.jp/approduce/hosted-danger/master/ops/node.conf/kubernetes/config node.conf/.
+wget https://raw.ghe.corp.yahoo.co.jp/approduce/hosted-danger/master/ops/node.conf/kubernetes/kubelet node.conf/.
+wget https://raw.ghe.corp.yahoo.co.jp/approduce/hosted-danger/master/ops/node.conf/flanneld node.conf/.
+
+printf "cat <<++EOS\n`cat node.conf/kubernetes/config`\n++EOS\n" | sh > node.conf/kubernetes/config.setup
+printf "cat <<++EOS\n`cat node.conf/kubernetes/kubelet`\n++EOS\n" | sh > node.conf/kubernetes/kubelet.setup
+printf "cat <<++EOS\n`cat node.conf/kubernetes/flanneld`\n++EOS\n" | sh > node.conf/flanneld.setup
+
+sudo cp -f node.conf/kubernetes/config.setup /etc/kubernetes/config
+sudo cp -f node.conf/kubernetes/kubelet.setup /etc/kubernetes/kubelet
+sudo cp -f node.conf/flanneld.setup /etc/sysconfig/flanneld
+
+sudo systemctl start kubelet
+sudo systemctl start flanneld
+sudo systemctl start docker
+sudo systemctl start kube-scheduler
+sudo systemctl start kube-proxy
+
+sudo systemctl enable kubelet
+sudo systemctl enable flanneld
+sudo systemctl enable kube-scheduler
+sudo systemctl enable kube-proxy
