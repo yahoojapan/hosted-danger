@@ -2,6 +2,7 @@ FROM crystallang/crystal
 
 # crystal
 RUN apt-get update -y
+RUN apt-get install curl wget dnsutils -y
 RUN crystal --version
 RUN shards --version
 
