@@ -1,5 +1,4 @@
 # 運用
-
 デプロイ・実行・更新には**Kubernetes**を利用
 
 ## リリース手順
@@ -43,3 +42,44 @@ kubectl label node [nodeのホスト名] node-role.kubernetes.io/node=
 # 例
 kubectl label node hd-node-002.ssk.ynwm.yahoo.co.jp node-role.kubernetes.io/node=
 ```
+
+## Tips
+
+### Dashboardの作成
+
+全ての操作はmasterで行う
+
+Dashboardの作成
+```bash
+https://github.com/kubernetes/dashboard/wiki/Installation
+```
+
+外部接続できるように設定を変更
+```bash
+kubectl edit service kubernetes-dashboard -n kube-system 
+```
+＊) vimが開くので、`ClusterIP`を`NodePort`に変更
+
+以下を実行し、実行portを確認(3xxxx番台くらいのもの)
+```bash
+kubectl get service kubernetes-dashboard -n kube-system
+```
+
+この時点で http**s**://[masterのホスト]:[上のport]/ にログインできることを確認する
+
+次にサービスアカウントを作成
+```bash
+kubectl apply -f [TODO]
+kubectl apply -f [TODO]
+```
+
+Tokenの取得
+```bash
+[TODO]
+```
+
+あとはDashboardにアクセスし、取得したTokenでログインする
+
+参考1: [Dashboardの作成](https://github.com/kubernetes/dashboard/wiki/Installation)
+参考2: [Dashboardの外部接続](https://github.com/kubernetes/dashboard/wiki/Accessing-Dashboard---1.7.X-and-above#nodeport)
+参考3: [Service Accountの作成](https://kubernetes.io/docs/admin/authentication/#service-account-tokens)
