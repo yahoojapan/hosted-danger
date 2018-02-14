@@ -55,6 +55,16 @@ kubectl label node [nodeのホスト名] node-role.kubernetes.io/node=
 kubectl label node hd-node-002.ssk.ynwm.yahoo.co.jp node-role.kubernetes.io/node=
 ```
 
+## リリース・デプロイ手順
+masterにマージされた時点で、[cd.docker-registry](http://cd.docker-registry.corp.yahoo.co.jp/repository/approduce/hosted-danger-image)にイメージがアップロードされる (この時点では未リリース)
+
+その後、[ops/kube/deployment.yaml](https://ghe.corp.yahoo.co.jp/approduce/hosted-danger/blob/master/ops/kube/deployment.yaml#L17)のイメージのタグを[cd.docker-registry](http://cd.docker-registry.corp.yahoo.co.jp/repository/approduce/hosted-danger-image)を参考に最新のものに書き換え、masterにマージする
+
+リリースする場合はmasterにsshして以下を実行する
+```bash
+kubectl apply -f https://raw.ghe.corp.yahoo.co.jp/approduce/hosted-danger/master/ops/kube/deployment.yaml
+```
+
 ## Tips
 
 ### Dashboardの作成
@@ -95,3 +105,10 @@ kubectl -n kube-system describe secret $(kubectl -n kube-system get secret | gre
 参考1: [Dashboardの作成](https://github.com/kubernetes/dashboard/wiki/Installation)
 参考2: [Dashboardの外部接続](https://github.com/kubernetes/dashboard/wiki/Accessing-Dashboard---1.7.X-and-above#nodeport)
 参考3: [Service Accountの作成](https://github.com/kubernetes/dashboard/wiki/Creating-sample-user)
+
+### PodからDNSの名前解決ができない
+kubeletとdockerをリスタートしたら直った
+```bash
+sudo service kubelet restart
+sudo service docker restart
+```
