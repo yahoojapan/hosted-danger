@@ -1,0 +1,12 @@
+apiVersion: kubeadm.k8s.io/v1alpha1
+kind: MasterConfiguration
+etcd:
+  endpoints:
+  - "http://172.21.232.27:2379"
+  - "http://172.21.206.233:2379"
+apiServerCertSANs:
+- "172.21.206.27"
+- "172.21.206.233"
+- "127.0.0.1"
+token: "ce0aba.a02e59719e2586b2"
+tokenTTL: "0"

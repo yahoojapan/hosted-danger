@@ -15,9 +15,35 @@ curl -sf https://raw.ghe.corp.yahoo.co.jp/approduce/hosted-danger/master/ops/set
 ```
 
 ## masterの構築手順
+masterの冗長化のために、Externalなetcdをセットアップする
+```bash
+sudo yum install etcd -y
+```
+
+その後、`/etc/etcd/etcd.conf`の`ETCD_LISTEN_CLIENT_URLS`と`ETCD_ADVERTISE_CLIENT_URLS`をlocalhostから0.0.0.0に変更
+
+etcdを起動
+```bash
+sudo service etcd start
+```
+
+[ops/kube/master.yaml](https://ghe.corp.yahoo.co.jp/approduce/hosted-danger/blob/master/ops/kube/master.yaml)の`endpoints`と`apiServerCertSANs`に対象masterのipアドレスを追加しておく
+
+他のmasterから`/etc/kubernetes/pki`をscpなどを使いコピーしてくる
+やり方はなんでも良いが、例としては以下のような手順 (172.21.232.27はmaster 1のIP)
+```
+[master 1] sudo cp -r /etc/kubernetes/pki ~/.
+[master 1] sudo chown -R taicsuzu:users pki
+[master 2] scp -r 172.21.232.27:/home/taicsuzu/pki .
+[master 2] sudo mv pki /etc/kubernetes/.
+[master 2] sudo chown -R root:root /etc/kubernetes/pki
+```
+
 kubeadmの初期化
 ```bash
-sudo kubeadm init --pod-network-cidr=192.168.0.0/16
+sudo kubeadm init --config 
+# 旧
+# sudo kubeadm init --pod-network-cidr=192.168.0.0/16
 ```
 
 設定ファイルを手元にコピー(**master構築者以外の人も操作するには実行が必要**)
