@@ -149,3 +149,6 @@ sudo service docker restart
 The connection to the server localhost:8080 was refused - did you specify the right host or port?
 ```
 master構築手順の"設定ファイルを手元にコピー"の手順が抜けている可能性大
+
+### `kubectl get nodes`のSTATUSのNotReadyから変わらない
+ネットワーク設定がデプロイされるまで時間がかかるため、基本待機

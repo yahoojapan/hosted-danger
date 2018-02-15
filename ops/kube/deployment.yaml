@@ -14,6 +14,6 @@ spec:
     spec:
       containers:
       - name: hd-app
-        image: cd.docker-registry.corp.yahoo.co.jp:4443/approduce/hosted-danger-image:20180214-110156
+        image: cd.docker-registry.corp.yahoo.co.jp:4443/approduce/hosted-danger-image:20180215-043826
         ports:
         - containerPort: 80
