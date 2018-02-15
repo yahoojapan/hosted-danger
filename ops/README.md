@@ -27,10 +27,10 @@ etcdを起動
 sudo service etcd start
 ```
 
-[ops/kube/master.yaml](https://ghe.corp.yahoo.co.jp/approduce/hosted-danger/blob/master/ops/kube/master.yaml)の`endpoints`と`apiServerCertSANs`に対象masterのipアドレスを追加しておく
+[ops/kube/master.yaml](https://ghe.corp.yahoo.co.jp/approduce/hosted-danger/blob/master/ops/kube/master.yaml)の`endpoints`と`apiServerCertSANs`に対象masterのipアドレスを追加してmaster(ブランチ)にpushする
 
 他のmasterから`/etc/kubernetes/pki`をscpなどを使いコピーしてくる
-やり方はなんでも良いが、例としては以下のような手順 (172.21.232.27はmaster 1のIP)
+やり方はなんでも良いが、例としては以下のような手順 ([master 1]から[master 2]にpkiをコピー) (172.21.232.27は[master 1]のIP)
 ```
 [master 1] sudo cp -r /etc/kubernetes/pki ~/.
 [master 1] sudo chown -R taicsuzu:users pki
@@ -55,6 +55,20 @@ sudo chown $(id -u):$(id -g) $HOME/.kube/config
 ネットワークのセットアップ
 ```bash
 kubectl apply -f https://docs.projectcalico.org/v3.0/getting-started/kubernetes/installation/hosted/kubeadm/1.7/calico.yaml
+```
+
+Serviceを80番ポートで立ち上げるため、`/etc/kubernetes/manifests/kube-apiserver.yaml`のspec.containers.commandに以下のオプションを追加
+```bash
+--service-node-port-range=80-32767
+```
+
+kubeletをリスタート
+```bash
+sudo service kubelet restart
+```
+
+Serviceの立ち上げ
+```bash
 kubectl apply -f https://raw.ghe.corp.yahoo.co.jp/approduce/hosted-danger/master/ops/kube/service.yaml
 ```
 
@@ -132,17 +146,24 @@ kubectl -n kube-system describe secret $(kubectl -n kube-system get secret | gre
 ## トラブルシューティング
 
 ### PodからDNSの名前解決ができない
-kubeletとdockerをリスタートしたら直った
+-> kubeletとdockerをリスタートしたら直った
 ```bash
 sudo service kubelet restart
 sudo service docker restart
 ```
 
-### 以下のようなエラーが出て実行できない
+### `kubectl get nodes`のSTATUSのNotReadyから変わらない
+-> ネットワーク設定がデプロイされるまで時間がかかるため、基本待機
+
+### 以下のようなエラーが出て`kubectl get nodes`などが実行できない
 ```
 The connection to the server localhost:8080 was refused - did you specify the right host or port?
 ```
-master構築手順の"設定ファイルを手元にコピー"の手順が抜けている可能性大
+-> master構築手順の"設定ファイルを手元にコピー"の手順が抜けている可能性大
 
-### `kubectl get nodes`のSTATUSのNotReadyから変わらない
-ネットワーク設定がデプロイされるまで時間がかかるため、基本待機
+### 以下のようなエラーが出てservice.yamlの適応に失敗
+```
+The Service "hd-service" is invalid: spec.ports[0].nodePort: Invalid value: 80: provided port is not in the valid range. The range of valid ports is 30000-32767
+```
+
+-> `/etc/kubernetes/manifests/kube-apiserver.yaml`の変更漏れ
