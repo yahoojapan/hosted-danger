@@ -152,7 +152,7 @@ sudo service kubelet restart
 sudo service docker restart
 ```
 
-### `kubectl get nodes`のSTATUSのNotReadyから変わらない
+### `kubectl get nodes`のSTATUSがNotReadyから変わらない
 -> ネットワーク設定がデプロイされるまで時間がかかるため、基本待機
 
 ### 以下のようなエラーが出て`kubectl get nodes`などが実行できない
