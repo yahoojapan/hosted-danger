@@ -41,7 +41,12 @@ sudo service etcd start
 
 kubeadmの初期化
 ```bash
-sudo kubeadm init --config 
+wget https://raw.ghe.corp.yahoo.co.jp/approduce/hosted-danger/master/ops/kube/master.yaml && \
+  sudo kubeadm init --config master.yaml
+```
+
+(todo 消す)
+```bash
 # 旧
 # sudo kubeadm init --pod-network-cidr=192.168.0.0/16
 ```
