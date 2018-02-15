@@ -11,8 +11,9 @@ module HostedDanger
     end
 
     def draw_routes
-      # Health Check
+      # For Health Checking
       get "/" { |context, params| @health_check.check(context, params) }
+      get "/status.html" { |context, params| @health_check.check(context, params) }
 
       # WebHook
       post "/hook" { |context, params| @web_hook.hook(context, params) }

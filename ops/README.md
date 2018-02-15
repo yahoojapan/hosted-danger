@@ -5,9 +5,6 @@
 - masterコミット時にScrewdriver.cdからcd.docker-registryに最新イメージをアップロードする
 - イメージがアップロードされたら、Kubernetesのmasterにsshしてデプロイを実行
 
-## master・node一覧
-WIP
-
 ## master・node構築手順(共通)
 対象のインスタンスをYNW(YJLinux 7系)で作成後、sshして以下のコマンドを実行
 ```bash
@@ -48,7 +45,7 @@ kubectl apply -f https://raw.ghe.corp.yahoo.co.jp/approduce/hosted-danger/master
 ```
 
 ## nodeの追加手順
-どこかのmasterで以下のコマンドを実行し、結果を控える
+masterで以下のコマンドを実行し、結果を控える
 ```bash
 sudo kubeadm token create --print-join-command
 ```
@@ -78,7 +75,7 @@ masterにマージされた時点で、[cd.docker-registry](http://cd.docker-reg
 kubectl apply -f https://raw.ghe.corp.yahoo.co.jp/approduce/hosted-danger/master/ops/kube/deployment.yaml
 ```
 
-`deployment "hd-deployment" configured`というメッセージが出たら成功、`unchanged`だとイメージタグが変更されていない
+`deployment "hd-deployment" configured`というメッセージが出たら成功、`unchanged`だとイメージタグが変更されていない (直前に同じcurlをしているとキャッシュが残っている可能性がある)
 
 `kubectl get pods`などを実行し、Podが一定数`Running`の状態かつ`ContainerCreating`のものがあれば正常にリリースが進行中
 
