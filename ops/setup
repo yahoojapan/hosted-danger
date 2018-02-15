@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 yum update -y
+yum install etcd -y
 
 # docker
 yum install -y docker
