@@ -14,32 +14,16 @@ WIP
 curl -sf https://raw.ghe.corp.yahoo.co.jp/approduce/hosted-danger/master/ops/node | sudo bash -s
 ```
 
-kubectlをroot以外で実行できるようにコピーしておく(オプショナル、やらない場合はsudo付きで実行)
-```bash
-mkdir -p $HOME/.kube
-sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
-sudo chown $(id -u):$(id -g) $HOME/.kube/config
-```
-
-kubeadmをセットアップ
-```bash
-sudo kubeadm init --pod-network-cidr=192.168.0.0/16
-```
-
-[Calico](https://docs.projectcalico.org/v2.0/getting-started/kubernetes/)を使用しLBをセットアップ
-```
-kubectl apply -f https://docs.projectcalico.org/v3.0/getting-started/kubernetes/installation/hosted/kubeadm/1.7/calico.yaml
-```
-
-podのデプロイとserviceを使用した外部公開
-```bash
-kubectl apply -f https://raw.ghe.corp.yahoo.co.jp/approduce/hosted-danger/master/ops/kube/deployment.yaml
-kubectl apply -f https://raw.ghe.corp.yahoo.co.jp/approduce/hosted-danger/master/ops/kube/service.yaml
-```
-
 以下のコマンドを実行し、控えておく(nodeがmasterに参加する際に必要)
 ```bash
 sudo kubeadm token create --print-join-command
+```
+
+**masterの構築した人以外の人が実行kubecrlを実行する場合は、ssh後に以下を実行する**
+```bash
+mkdir -p $HOME/.kube
+cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+chown $(id -u):$(id -g) $HOME/.kube/config
 ```
 
 ## nodeの追加手順

@@ -22,19 +22,12 @@ setenforce 0
 
 yum install -y kubelet kubeadm kubectl
 
-echo $?
-
 systemctl enable kubelet
-echo $?
 systemctl start kubelet
-echo $?
 
 mkdir -p $HOME/.kube
-echo $?
-cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
-echo $?
+cp -f -i /etc/kubernetes/admin.conf $HOME/.kube/config
 chown $(id -u):$(id -g) $HOME/.kube/config
-echo $?
 
 kubeadm init --pod-network-cidr=192.168.0.0/16
 
