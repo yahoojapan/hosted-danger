@@ -42,7 +42,8 @@ sudo service etcd start
 kubeadmの初期化
 ```bash
 wget https://raw.ghe.corp.yahoo.co.jp/approduce/hosted-danger/master/ops/kube/master.yaml && \
-  sudo kubeadm init --config master.yaml
+  sudo kubeadm init --config master.yaml && \
+  rm master.yaml
 ```
 
 設定ファイルを手元にコピー(**master構築者以外の人も操作するには実行が必要**)
