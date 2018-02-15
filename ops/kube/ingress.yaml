@@ -1,0 +1,8 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: hd-ingress
+spec:
+  backend:
+    serviceName: hd-service
+    servicePort: 80
