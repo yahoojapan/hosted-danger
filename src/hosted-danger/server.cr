@@ -21,6 +21,7 @@ module HostedDanger
 
     def run
       server = HTTP::Server.new("0.0.0.0", port, [
+        LogHandler.new,
         HTTP::ErrorHandler.new,
         route_handler,
       ])
