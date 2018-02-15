@@ -25,12 +25,4 @@ yum install -y kubelet kubeadm kubectl
 systemctl enable kubelet
 systemctl start kubelet
 
-mkdir -p $HOME/.kube
-cp -f -i /etc/kubernetes/admin.conf $HOME/.kube/config
-chown $(id -u):$(id -g) $HOME/.kube/config
-
 kubeadm init --pod-network-cidr=192.168.0.0/16
-
-kubectl apply -f https://docs.projectcalico.org/v3.0/getting-started/kubernetes/installation/hosted/kubeadm/1.7/calico.yaml
-kubectl apply -f https://raw.ghe.corp.yahoo.co.jp/approduce/hosted-danger/master/ops/kube/deployment.yaml
-kubectl apply -f https://raw.ghe.corp.yahoo.co.jp/approduce/hosted-danger/master/ops/kube/service.yaml

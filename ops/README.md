@@ -14,16 +14,23 @@ WIP
 curl -sf https://raw.ghe.corp.yahoo.co.jp/approduce/hosted-danger/master/ops/node | sudo bash -s
 ```
 
+設定ファイルを手元にコピー(**master構築者以外の人も操作するには実行が必要**)
+```bash
+mkdir -p $HOME/.kube
+sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+sudo chown $(id -u):$(id -g) $HOME/.kube/config
+```
+
+セットアップ
+```bash
+kubectl apply -f https://docs.projectcalico.org/v3.0/getting-started/kubernetes/installation/hosted/kubeadm/1.7/calico.yaml
+kubectl apply -f https://raw.ghe.corp.yahoo.co.jp/approduce/hosted-danger/master/ops/kube/deployment.yaml
+kubectl apply -f https://raw.ghe.corp.yahoo.co.jp/approduce/hosted-danger/master/ops/kube/service.yaml
+```
+
 以下のコマンドを実行し、控えておく(nodeがmasterに参加する際に必要)
 ```bash
 sudo kubeadm token create --print-join-command
-```
-
-**masterの構築した人以外の人が実行kubecrlを実行する場合は、ssh後に以下を実行する**
-```bash
-mkdir -p $HOME/.kube
-cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
-chown $(id -u):$(id -g) $HOME/.kube/config
 ```
 
 ## nodeの追加手順
@@ -32,7 +39,7 @@ chown $(id -u):$(id -g) $HOME/.kube/config
 curl -sf https://raw.ghe.corp.yahoo.co.jp/approduce/hosted-danger/master/ops/node | sudo bash -s
 ```
 
-**実行後にmasterで出力されたコマンドを実行する(sudoで実行する)**
+**実行後にmasterで出力されたコマンドを実行する(sudoでしか実行できない)**
 ```bash
 sudo kubeadm join --token...
 ```
@@ -105,9 +112,17 @@ kubectl -n kube-system describe secret $(kubectl -n kube-system get secret | gre
 参考2: [Dashboardの外部接続](https://github.com/kubernetes/dashboard/wiki/Accessing-Dashboard---1.7.X-and-above#nodeport)
 参考3: [Service Accountの作成](https://github.com/kubernetes/dashboard/wiki/Creating-sample-user)
 
+## トラブルシューティング
+
 ### PodからDNSの名前解決ができない
 kubeletとdockerをリスタートしたら直った
 ```bash
 sudo service kubelet restart
 sudo service docker restart
 ```
+
+### 以下のようなエラーが出て実行できない
+```
+The connection to the server localhost:8080 was refused - did you specify the right host or port?
+```
+master構築手順の"設定ファイルを手元にコピー"の手順が抜けている可能性大
