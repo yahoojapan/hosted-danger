@@ -3,6 +3,9 @@
 yum update -y
 yum install etcd -y
 
+systemctl enable etcd
+systemctl start etcd
+
 # docker
 yum install -y docker
 systemctl enable docker

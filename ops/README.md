@@ -17,7 +17,7 @@ curl -sf https://raw.ghe.corp.yahoo.co.jp/approduce/hosted-danger/master/ops/set
 ## masterの構築手順
 kubeadmの初期化
 ```bash
-kubeadm init
+sudo kubeadm init
 ```
 
 設定ファイルを手元にコピー(**master構築者以外の人も操作するには実行が必要**)
