@@ -21,7 +21,7 @@ module HostedDanger
         return context
       end
     
-      unless payload_json["issue"]? && payload_json["issue"]["state"] == "open"
+      unless payload_json["issue"]["state"]? == "open"
         L.info "Pull Request is not open"
 
         context.response.status_code = 200
