@@ -1,8 +1,14 @@
 FROM crystallang/crystal
 
-# crystal
+# base
 RUN apt-get update -y
-RUN apt-get install curl wget dnsutils -y
+RUN apt-get install curl wget dnsutils locales locales-all -y
+
+ENV LANG ja_JP.UTF-8
+ENV LANGUAGE ja_JP.UTF-8
+ENV LC_ALL ja_JP.UTF-8
+
+# crystal
 RUN crystal --version
 RUN shards --version
 
