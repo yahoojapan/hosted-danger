@@ -45,12 +45,6 @@ wget https://raw.ghe.corp.yahoo.co.jp/approduce/hosted-danger/master/ops/kube/ma
   sudo kubeadm init --config master.yaml
 ```
 
-(todo 消す)
-```bash
-# 旧
-# sudo kubeadm init --pod-network-cidr=192.168.0.0/16
-```
-
 設定ファイルを手元にコピー(**master構築者以外の人も操作するには実行が必要**)
 ```bash
 mkdir -p $HOME/.kube
@@ -64,13 +58,13 @@ kubectl apply -f https://docs.projectcalico.org/v3.0/getting-started/kubernetes/
 kubectl apply -f https://raw.ghe.corp.yahoo.co.jp/approduce/hosted-danger/master/ops/kube/service.yaml
 ```
 
-以下のコマンドを実行し、控えておく(nodeがmasterに参加する際に必要)
+## nodeの追加手順
+どこかのmasterで以下のコマンドを実行し、結果を控える
 ```bash
 sudo kubeadm token create --print-join-command
 ```
 
-## nodeの追加手順
-master構築手順で表示されたコマンドをsudo付きで実行
+対象のnodeにsshし、上のコマンドをsudo付きで実行
 ```bash
 sudo kubeadm join --token ...
 ```
