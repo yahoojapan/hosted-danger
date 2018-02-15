@@ -8,10 +8,16 @@
 ## master・node一覧
 WIP
 
-## masterの構築手順
+## master・node構築手順(共通)
 対象のインスタンスをYNW(YJLinux 7系)で作成後、sshして以下のコマンドを実行
 ```bash
-curl -sf https://raw.ghe.corp.yahoo.co.jp/approduce/hosted-danger/master/ops/node | sudo bash -s
+curl -sf https://raw.ghe.corp.yahoo.co.jp/approduce/hosted-danger/master/ops/setup | sudo bash -s
+```
+
+## masterの構築手順
+kubeadmの初期化
+```bash
+sudo kubeadm init --pod-network-cidr=192.168.0.0/16
 ```
 
 設定ファイルを手元にコピー(**master構築者以外の人も操作するには実行が必要**)
@@ -21,10 +27,9 @@ sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
 sudo chown $(id -u):$(id -g) $HOME/.kube/config
 ```
 
-セットアップ
+ネットワークのセットアップ
 ```bash
 kubectl apply -f https://docs.projectcalico.org/v3.0/getting-started/kubernetes/installation/hosted/kubeadm/1.7/calico.yaml
-kubectl apply -f https://raw.ghe.corp.yahoo.co.jp/approduce/hosted-danger/master/ops/kube/deployment.yaml
 kubectl apply -f https://raw.ghe.corp.yahoo.co.jp/approduce/hosted-danger/master/ops/kube/service.yaml
 ```
 
@@ -34,14 +39,9 @@ sudo kubeadm token create --print-join-command
 ```
 
 ## nodeの追加手順
-対象のインスタンスをYNW(YJLinux 7系)で作成後、sshして以下のコマンドを実行
+master構築手順で表示されたコマンドをsudo付きで実行
 ```bash
-curl -sf https://raw.ghe.corp.yahoo.co.jp/approduce/hosted-danger/master/ops/node | sudo bash -s
-```
-
-**実行後にmasterで出力されたコマンドを実行する(sudoでしか実行できない)**
-```bash
-sudo kubeadm join --token...
+sudo kubeadm join --token ...
 ```
 
 masterにsshして以下のコマンドを実行し、認識されていれば成功
@@ -51,10 +51,7 @@ kubectl get nodes
 
 nodeというラベルを付与する(masterで実行)
 ```bash
-kubectl label node [nodeのホスト名] node-role.kubernetes.io/node=
-
-# 例
-kubectl label node hd-node-002.ssk.ynwm.yahoo.co.jp node-role.kubernetes.io/node=
+kubectl label node [対象nodeのホスト名] node-role.kubernetes.io/node=
 ```
 
 ## リリース・デプロイ手順
@@ -69,18 +66,13 @@ kubectl apply -f https://raw.ghe.corp.yahoo.co.jp/approduce/hosted-danger/master
 
 `deployment "hd-deployment" configured`というメッセージが出たら成功、`unchanged`だとイメージタグが変更されていない
 
-`kubectl get pods`などを実行し、Podが一定数`Running`の状態かつ`ContainerCreating`のものがあれば正常にリリースされている
+`kubectl get pods`などを実行し、Podが一定数`Running`の状態かつ`ContainerCreating`のものがあれば正常にリリースが進行中
 
 ## Tips
 
 ### Dashboardの作成
 
 全ての操作はmasterで行う
-
-Dashboardの作成
-```bash
-https://github.com/kubernetes/dashboard/wiki/Installation
-```
 
 外部接続できるように設定を変更
 ```bash

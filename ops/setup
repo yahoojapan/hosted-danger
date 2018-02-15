@@ -24,5 +24,3 @@ yum install -y kubelet kubeadm kubectl
 
 systemctl enable kubelet
 systemctl start kubelet
-
-kubeadm init --pod-network-cidr=192.168.0.0/16
