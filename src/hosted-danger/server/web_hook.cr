@@ -16,7 +16,7 @@ module HostedDanger
 
       payload_json = JSON.parse(payload)
 
-      if event != "pull_request" && event != "issue_comment"
+      if event != "pull_request"
         L.info "The event #{event} is not triggerd"
 
         context.response.status_code = 200
