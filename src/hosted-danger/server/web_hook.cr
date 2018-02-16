@@ -16,6 +16,9 @@ module HostedDanger
 
       payload_json = JSON.parse(payload)
 
+      L.info event
+      L.info payload
+
       if event != "pull_request"
         L.info "The event #{event} is not triggerd"
 
