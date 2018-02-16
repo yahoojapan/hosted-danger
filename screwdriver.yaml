@@ -60,8 +60,9 @@ jobs:
           kubectl config view
           kubectl config view --kubeconfig config
           kubectl get pods --kubeconfig config
+          kubectl get pods --kubeconfig config --namespace=default
           echo "-- 3 --"
-          kubectl apply -f ops/kube/deployment.yaml --kubeconfig config
+          kubectl apply -f ops/kube/deployment.yaml --kubeconfig config --namespace=default
           echo "-- 4 --"
     secrets:
       - WGET_TOKEN
