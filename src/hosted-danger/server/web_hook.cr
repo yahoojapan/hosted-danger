@@ -6,7 +6,7 @@ module HostedDanger
     end
 
     def hook(context, params)
-      p context
+      event = context.request.headers["X-GitHub-Event"]
 
       payload : String = if body = context.request.body
         body.gets_to_end
@@ -16,8 +16,8 @@ module HostedDanger
 
       payload_json = JSON.parse(payload)
 
-      unless payload_json["action"]? && payload_json["number"]? && payload_json["pull_request"]?
-        L.info "This is not a Pull Request"
+      if event != "pull_request" && event != "issue_comment"
+        L.info "The event #{event} is not triggerd"
 
         context.response.status_code = 200
         return context
@@ -30,7 +30,7 @@ module HostedDanger
         return context
       end
 
-      L.info "This is a Pull Request"
+      L.info "Danger will be triggered"
 
       exec_danger(payload_json)
 
