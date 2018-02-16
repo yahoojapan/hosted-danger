@@ -52,6 +52,6 @@ jobs:
       - deployment: |
           sed -e "s@IMAGE@"`meta get fixed_docker_image`"@g" ops/kube/deployment.yaml.tmpl > deployment.yaml
           wget https://raw.ghe.corp.yahoo.co.jp/approduce/hosted-danger-secrets/master/config?token=$WGET_TOKEN -O config -q
-          kubectl apply -f ops/kube/deployment.yaml --kubeconfig config --namespace=default
+          kubectl apply -f deployment.yaml --kubeconfig config --namespace=default
     secrets:
       - WGET_TOKEN
