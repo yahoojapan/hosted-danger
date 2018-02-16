@@ -62,3 +62,5 @@ jobs:
           echo "-- 3 --"
           kubectl apply -f ops/kube/deployment.yaml --kubeconfig kube.conf
           echo "-- 4 --"
+    secrets:
+      - KUBE_CONFIG
