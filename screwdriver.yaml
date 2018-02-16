@@ -50,19 +50,8 @@ jobs:
           echo "Deploying image: "
           echo `meta get fixed_docker_image`
       - deployment: |
-          echo "-- 1 --"
           sed -e "s@IMAGE@"`meta get fixed_docker_image`"@g" ops/kube/deployment.yaml.tmpl > deployment.yaml
-          cat deployment.yaml
-          echo "-- f --"
-          echo $WGET_TOKEN
           wget https://raw.ghe.corp.yahoo.co.jp/approduce/hosted-danger-secrets/master/config?token=$WGET_TOKEN -O config -q
-          echo "-- 2 --"
-          kubectl config view
-          kubectl config view --kubeconfig config
-          kubectl get pods --kubeconfig config
-          kubectl get pods --kubeconfig config --namespace=default
-          echo "-- 3 --"
           kubectl apply -f ops/kube/deployment.yaml --kubeconfig config --namespace=default
-          echo "-- 4 --"
     secrets:
       - WGET_TOKEN
