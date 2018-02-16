@@ -5,4 +5,4 @@ metadata:
 spec:
   backend:
     serviceName: hd-service
-    servicePort: 80
+    servicePort: 30080
