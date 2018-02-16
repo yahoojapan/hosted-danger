@@ -1,6 +1,8 @@
 require "json"
 
 module HostedDanger
+  alias Executable = NamedTuple(event: String, html_url: String, pr_number: Int32)
+
   class WebHook
     def initialize
     end
@@ -14,23 +16,11 @@ module HostedDanger
 
       payload_json = JSON.parse(payload)
 
-      unless payload_json["action"]? && payload_json["number"]? && payload_json["pull_request"]?
-        L.info "This is not a Pull Request"
+      executable? = create_executable(context, payload_json)
 
-        context.response.status_code = 200
-        return context
+      if executable = executable?
+        exec_danger(executable)
       end
-
-      unless payload_json["issue"]["state"]? == "open"
-        L.info "Pull Request is not open"
-
-        context.response.status_code = 200
-        return context
-      end
-
-      L.info "This is a Pull Request"
-
-      exec_danger(payload_json)
 
       context.response.status_code = 200
       context.response.print "OK"
@@ -41,6 +31,41 @@ module HostedDanger
       context.response.status_code = 400
       context.response.print "Bad Request"
       context
+    end
+
+    def create_executable(context, payload_json) : Executable?
+      event = context.request.headers["X-GitHub-Event"]
+
+      return e_pull_request(payload_json) if event == "pull_request"
+      return e_issue_comment(payload_json) if event == "issue_comment"
+
+      L.info "danger will not be triggered (#{event})"
+    end
+
+    def e_pull_request(payload_json) : Executable?
+      return L.info "skip: sender is ap-approduce" if payload_json["sender"]["login"] == "ap-approduce"
+      return L.info "skip: closed" if payload_json["action"] == "closed"
+
+      {
+        event:     "pull_request",
+        html_url:  payload_json["pull_request"]["head"]["repo"]["html_url"].as_s,
+        pr_number: payload_json["number"].as_i,
+      }
+    end
+
+    def e_issue_comment(payload_json) : Executable?
+      return L.info "skip: sender is ap-approduce" if payload_json["sender"]["login"] == "ap-approduce"
+      return L.info "skip: deleted" if payload_json["action"] == "deleted"
+
+      if payload_json["issue"]["html_url"].as_s =~ /(.*)\/pull\/(.*)/
+        return {
+          event:     "issue_comment",
+          html_url:  $1.to_s,
+          pr_number: $2.to_i,
+        }
+      end
+
+      nil
     end
 
     include Executor

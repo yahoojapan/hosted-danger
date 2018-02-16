@@ -8,19 +8,22 @@ module HostedDanger
   class Logger
     MYM_TOKEN = "feb6396e272a344c8aa6d43e42c59b7ce9f4e9f466a9b4bc973da97196d22c9c"
 
-    def self.info(msg : String, mym = false)
+    def self.info(msg : String, mym = false) : Nil
       log_out("Info".colorize.fore(:green).to_s, msg)
       post_mym(msg) if mym
+      nil
     end
 
-    def self.error(msg : String, mym = true)
+    def self.error(msg : String, mym = true) : Nil
       log_out("Error".colorize.fore(:red).to_s, msg)
       post_mym(msg) if mym
+      nil
     end
 
-    def self.warn(msg : String, mym = false)
+    def self.warn(msg : String, mym = false) : Nil
       log_out("Warn".colorize.fore(:yellow).to_s, msg)
       post_mym(msg) if mym
+      nil
     end
 
     def self.log_out(tag, msg)
