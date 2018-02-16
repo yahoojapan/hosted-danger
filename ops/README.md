@@ -70,16 +70,16 @@ masterにsshして以下のコマンドを実行し、認識されていれば�
 kubectl get nodes
 ```
 
-nodeというラベルを付与する(masterで実行)
-```bash
-kubectl label node [対象nodeのホスト名] node-role.kubernetes.io/node=
-```
-
 ## Tips
 
 ### Dashboardの作成
 
 全ての操作はmasterで行う
+
+下記を実行
+```bash
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/master/src/deploy/recommended/kubernetes-dashboard.yaml
+```
 
 外部接続できるように設定を変更
 ```bash
@@ -107,9 +107,9 @@ kubectl -n kube-system describe secret $(kubectl -n kube-system get secret | gre
 
 あとはDashboardにアクセスし、取得したTokenでログインする
 
-参考1: [Dashboardの作成](https://github.com/kubernetes/dashboard/wiki/Installation)
-参考2: [Dashboardの外部接続](https://github.com/kubernetes/dashboard/wiki/Accessing-Dashboard---1.7.X-and-above#nodeport)
-参考3: [Service Accountの作成](https://github.com/kubernetes/dashboard/wiki/Creating-sample-user)
+- 参考1: [Dashboardの作成](https://github.com/kubernetes/dashboard/wiki/Installation)
+- 参考2: [Dashboardの外部接続](https://github.com/kubernetes/dashboard/wiki/Accessing-Dashboard---1.7.X-and-above#nodeport)
+- 参考3: [Service Accountの作成](https://github.com/kubernetes/dashboard/wiki/Creating-sample-user)
 
 ## トラブルシューティング
 
@@ -133,5 +133,4 @@ The connection to the server localhost:8080 was refused - did you specify the ri
 ```
 The Service "hd-service" is invalid: spec.ports[0].nodePort: Invalid value: 80: provided port is not in the valid range. The range of valid ports is 30000-32767
 ```
-
 -> `/etc/kubernetes/manifests/kube-apiserver.yaml`の変更漏れ

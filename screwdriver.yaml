@@ -28,7 +28,7 @@ jobs:
       - test: |
           crystal spec
 
-  release:
+  publish-image:
     template: docker/publish@stable
     environment:
       REPO_NAME: approduce
@@ -41,3 +41,10 @@ jobs:
       - ACCESS_TOKEN_PARTNER
       - DRAGON_ACCESS_KEY
       - DRAGON_SECRET_ACCESS_KEY
+
+  deploy:
+    image: cd.docker-registry.corp.yahoo.co.jp:4443/approduce/hosted-danger-sd-image:latest
+    requires: [publish-image]
+    steps:
+      echo "Deploying image: "
+      echo `meta get fixed_docker_image`

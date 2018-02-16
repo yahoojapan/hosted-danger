@@ -34,7 +34,7 @@ curl -sf https://raw.ghe.corp.yahoo.co.jp/approduce/hosted-danger/master/tools/s
 ### コマンド
 ```bash
 # ビルド
-> sudo ACCESS_TOKEN=hoge DRAGON_ACCESS_KEY=fuga DRAGON_SECRET_ACCESS_KEY=hoga make build
+> sudo ACCESS_TOKEN_GHE=hoge ACCESS_TOKEN_PARTNER=hoga DRAGON_ACCESS_KEY=fuga DRAGON_SECRET_ACCESS_KEY=hoga make build
 
 # コンテナの停止 & 削除
 > sudo make stop
@@ -46,12 +46,13 @@ curl -sf https://raw.ghe.corp.yahoo.co.jp/approduce/hosted-danger/master/tools/s
 > sudo make run-i
 
 # デーモンとしてコンテナをリスタート (ビルド -> 停止 -> 削除 -> スタート)
-> sudo ACCESS_TOKEN=hoge DRAGON_ACCESS_KEY=fuga DRAGON_SECRET_ACCESS_KEY=hoga make rerun
+> sudo ACCESS_TOKEN_GHE=hoge ACCESS_TOKEN_PARTNER=hoga DRAGON_ACCESS_KEY=fuga DRAGON_SECRET_ACCESS_KEY=hoga make rerun
 
 # インタラクティブにコンテナをリスタート (ビルド -> 停止 -> 削除 -> スタート)
-> sudo ACCESS_TOKEN=hoge DRAGON_ACCESS_KEY=fuga DRAGON_SECRET_ACCESS_KEY=hoga make rerun-i
+> sudo ACCESS_TOKEN_GHE=hoge ACCESS_TOKEN_PARTNER=hoga DRAGON_ACCESS_KEY=fuga DRAGON_SECRET_ACCESS_KEY=hoga make rerun-i
 ```
 
+＊) `ACCESS_TOKEN_GHE`と`ACCESS_TOKEN_PARTNER`はそれぞれghe.corpとpartner.git.corpのAccess Token(要repoスコープ)
 ＊) Dragon関係の環境変数は [BundlerCache](https://ghe.corp.yahoo.co.jp/approduce/BundlerCache) に使用しています。
 
 ## 仕様・開発
