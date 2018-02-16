@@ -51,7 +51,6 @@ jobs:
           echo `meta get fixed_docker_image`
       - deployment: |
           echo "-- 0 --"
-          cat $KUBE_CONFIG
           echo $KUBE_CONFIG > kube.conf
           cat kube.conf
           echo "-- 1 --"
