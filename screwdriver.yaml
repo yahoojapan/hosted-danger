@@ -43,7 +43,7 @@ jobs:
       - DRAGON_SECRET_ACCESS_KEY
 
   deployment:
-    image: wernight/kubectl:latest
+    image: cd.docker-registry.corp.yahoo.co.jp:4443/approduce/hosted-danger-sd-image:latest
     requires: [publish-image]
     steps:
       - confirmation: |
