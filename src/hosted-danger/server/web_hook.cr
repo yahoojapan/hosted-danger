@@ -26,8 +26,9 @@ module HostedDanger
         return context
       end
 
-      unless payload_json["issue"]["state"]? == "open"
-        L.info "Pull Request is not open"
+      if payload_json["action"] == "closed" ||
+         payload_json["action"] == "deleted"
+        L.info "The event #{event} is not triggerd. (action: #{payload_json["action"]})"
 
         context.response.status_code = 200
         return context
