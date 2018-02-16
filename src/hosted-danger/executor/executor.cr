@@ -6,18 +6,18 @@ module HostedDanger
     DANGERFILE_DEFAULT = File.expand_path("../../../../Dangerfile.default", __FILE__)
 
     def exec_danger(executable : Executable)
+      event = executable[:event]
       html_url = executable[:html_url]
       pr_number = executable[:pr_number]
+      repo_tag = "#{html_url} (event: #{event}) (pr: #{pr_number})"
+
+      L.info "execute: #{event} #{html_url} #{pr_number}"
 
       git_host = if html_url =~ /https:\/\/(.*?)\/.*/
                    $1
                  else
                    "ghe.corp.yahoo.co.jp"
                  end
-
-      repo_tag = "#{html_url} pr: **#{pr_number}**"
-
-      L.info "execute for #{repo_tag}"
 
       directory = "/tmp/#{Random::Secure.hex}"
 

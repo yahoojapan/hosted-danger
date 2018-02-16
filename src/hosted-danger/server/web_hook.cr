@@ -1,7 +1,7 @@
 require "json"
 
 module HostedDanger
-  alias Executable = NamedTuple(html_url: String, pr_number: Int32)
+  alias Executable = NamedTuple(event: String, html_url: String, pr_number: Int32)
 
   class WebHook
     def initialize
@@ -47,6 +47,7 @@ module HostedDanger
       return L.info "skip: closed" if payload_json["action"] == "closed"
 
       {
+        event:     "pull_request",
         html_url:  payload_json["pull_request"]["head"]["repo"]["html_url"].as_s,
         pr_number: payload_json["number"].as_i,
       }
@@ -58,6 +59,7 @@ module HostedDanger
 
       if payload_json["issue"]["html_url"].as_s =~ /(.*)\/pull\/(.*)/
         return {
+          event:     "issue_comment",
           html_url:  $1.to_s,
           pr_number: $2.to_i,
         }
