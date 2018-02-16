@@ -6,6 +6,8 @@ module HostedDanger
     end
 
     def hook(context, params)
+      p context
+
       payload : String = if body = context.request.body
         body.gets_to_end
       else
