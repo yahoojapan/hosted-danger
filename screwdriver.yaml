@@ -55,8 +55,10 @@ jobs:
           cat deployment.yaml
           echo "-- f --"
           echo $WGET_TOKEN
-          wget https://raw.ghe.corp.yahoo.co.jp/approduce/hosted-danger-secrets/master/config?token=$WGET_TOKEN -O config
+          wget https://raw.ghe.corp.yahoo.co.jp/approduce/hosted-danger-secrets/master/config?token=$WGET_TOKEN -O config -q
           echo "-- 2 --"
+          kubectl config view
+          kubectl config view --kubeconfig config
           kubectl get pods --kubeconfig config
           echo "-- 3 --"
           kubectl apply -f ops/kube/deployment.yaml --kubeconfig config
