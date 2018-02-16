@@ -16,4 +16,7 @@ spec:
       - name: nginx-app
         image: nginx:1.12.2
         ports:
-        - containerPort: 80
+        - name: http
+          containerPort: 80
+        - name: https
+          containerPort: 443
