@@ -42,10 +42,13 @@ jobs:
       - DRAGON_ACCESS_KEY
       - DRAGON_SECRET_ACCESS_KEY
 
-  deploy:
-    image: cd.docker-registry.corp.yahoo.co.jp:4443/approduce/hosted-danger-sd-image:latest
+  deployment:
+    image: wernight/kubectl:latest
     requires: [publish-image]
     steps:
       - confirmation: |
           echo "Deploying image: "
           echo `meta get fixed_docker_image`
+      - deployment: |
+          echo $KUBE_CONFIG > config.kube
+          kubectl get pods --kubeconfig config.kube
