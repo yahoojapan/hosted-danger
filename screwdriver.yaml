@@ -54,7 +54,7 @@ jobs:
           echo $KUBE_CONFIG > kube.conf
           cat kube.conf
           echo "-- 1 --"
-          sed -e "s/IMAGE/"`meta get fixed_docker_image`"/g" ops/kube/deployment.yaml.tmpl > deployment.yaml
+          sed -e "s@IMAGE@"`meta get fixed_docker_image`"@g" ops/kube/deployment.yaml.tmpl > deployment.yaml
           cat deployment.yaml
           echo "-- 2 --"
           kubectl get pods --kubeconfig kube.conf
