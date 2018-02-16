@@ -5,14 +5,9 @@ module HostedDanger
   module Executor
     DANGERFILE_DEFAULT = File.expand_path("../../../../Dangerfile.default", __FILE__)
 
-    def exec_danger(payload_json)
-      if payload_json["sender"]["login"].to_s == "ap-approduce"
-        return L.info "Skip, since it's coming from ap-approduce"
-      end
-
-      sha = payload_json["pull_request"]["head"]["sha"].as_s
-      html_url = payload_json["pull_request"]["head"]["repo"]["html_url"].as_s
-      pr_number = payload_json["number"].as_i
+    def exec_danger(executable : Executable)
+      html_url = executable[:html_url]
+      pr_number = executable[:pr_number]
 
       git_host = if html_url =~ /https:\/\/(.*?)\/.*/
                    $1
@@ -20,9 +15,9 @@ module HostedDanger
                    "ghe.corp.yahoo.co.jp"
                  end
 
-      repo_tag = "#{html_url} sha: **##{sha}** pr: **#{pr_number}**"
+      repo_tag = "#{html_url} pr: **#{pr_number}**"
 
-      L.info "Execute for #{repo_tag}"
+      L.info "execute for #{repo_tag}"
 
       directory = "/tmp/#{Random::Secure.hex}"
 
@@ -44,7 +39,7 @@ module HostedDanger
         exec_cmd(repo_tag, "git init", directory)
         exec_cmd(repo_tag, "git remote add origin #{html_url}", directory)
         exec_cmd(repo_tag, "git fetch origin pull/#{pr_number}/head --depth 50", directory)
-        exec_cmd(repo_tag, "git reset --hard #{sha}", directory)
+        exec_cmd(repo_tag, "git reset --hard FETCH_HEAD", directory)
 
         unless File.exists?("#{directory}/Dangerfile")
           L.warn "#{repo_tag} Dangerfile not found, use the default one"
