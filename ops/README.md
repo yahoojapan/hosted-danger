@@ -24,7 +24,7 @@ curl -sf https://raw.ghe.corp.yahoo.co.jp/approduce/hosted-danger/master/ops/set
 ## masterの構築手順
 kubeadmの初期化
 ```bash
-sudo kubeadm init
+sudo kubeadm init --pod-network-cidr=192.168.0.0/16
 ```
 
 設定ファイルを手元にコピー(**master構築者以外の人も操作するには実行が必要**)
