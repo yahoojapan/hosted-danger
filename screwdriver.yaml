@@ -50,13 +50,13 @@ jobs:
           echo "Deploying image: "
           echo `meta get fixed_docker_image`
       - deployment: |
-          echo $KUBE_CONFIG > config.kube
+          echo $KUBE_CONFIG > kube.conf
           echo "-- 0 --"
-          kubectl get pods --kubeconfig config.kube
+          kubectl get pods --kubeconfig kube.conf
           echo "-- 1 --"
           sed -e "s/IMAGE/"`meta get fixed_docker_image`"/g" ops/kube/deployment.yaml.tmpl > deployment.yaml
           echo "-- 2 --"
-          cat ops/kube/deployment.yaml
+          cat deployment.yaml
           echo "-- 3 --"
-          kubectl apply -f ops/kube/deployment.yaml
+          kubectl apply -f ops/kube/deployment.yaml --kubeconfig kube.conf
           echo "-- 4 --"
