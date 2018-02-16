@@ -5,16 +5,14 @@ module HostedDanger
   module Executor
     DANGERFILE_DEFAULT = File.expand_path("../../../../Dangerfile.default", __FILE__)
 
-    def exec_danger(pr_payload)
-      if pr_payload["sender"]["login"].to_s == "ap-approduce"
+    def exec_danger(payload_json)
+      if payload_json["sender"]["login"].to_s == "ap-approduce"
         return L.info "Skip, since it's coming from ap-approduce"
       end
 
-      L.info pr_payload.to_s
-
-      sha = pr_payload["pull_request"]["head"]["sha"].as_s
-      html_url = pr_payload["pull_request"]["head"]["repo"]["html_url"].as_s
-      pr_number = pr_payload["number"].as_i
+      sha = payload_json["pull_request"]["head"]["sha"].as_s
+      html_url = payload_json["pull_request"]["head"]["repo"]["html_url"].as_s
+      pr_number = payload_json["number"].as_i
 
       git_host = if html_url =~ /https:\/\/(.*?)\/.*/
                    $1

@@ -19,7 +19,7 @@ module HostedDanger
       L.info event
       L.info payload
 
-      if event != "pull_request"
+      if event != "pull_request" && event != "issue_comment"
         L.info "The event #{event} is not triggerd"
 
         context.response.status_code = 200
