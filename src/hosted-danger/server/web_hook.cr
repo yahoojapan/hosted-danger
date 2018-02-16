@@ -20,14 +20,13 @@ module HostedDanger
         context.response.status_code = 200
         return context
       end
-    
+
       unless payload_json["issue"]["state"]? == "open"
         L.info "Pull Request is not open"
 
         context.response.status_code = 200
-        return context    
+        return context
       end
-
 
       L.info "This is a Pull Request"
 
