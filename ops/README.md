@@ -1,9 +1,19 @@
 # 運用
 デプロイ・実行・更新には**Kubernetes**を利用
 
-## リリース手順
-- masterコミット時にScrewdriver.cdからcd.docker-registryに最新イメージをアップロードする
-- イメージがアップロードされたら、Kubernetesのmasterにsshしてデプロイを実行
+## リリース・デプロイ手順
+masterにマージされた時点で、[cd.docker-registry](http://cd.docker-registry.corp.yahoo.co.jp/repository/approduce/hosted-danger-image)にイメージがアップロードされる (この時点では未リリース)
+
+その後、[ops/kube/deployment.yaml](https://ghe.corp.yahoo.co.jp/approduce/hosted-danger/blob/master/ops/kube/deployment.yaml#L17)のイメージのタグを[cd.docker-registry](http://cd.docker-registry.corp.yahoo.co.jp/repository/approduce/hosted-danger-image)を参考に最新のものに書き換え、masterにマージする
+
+リリースする場合はmasterにsshして以下を実行する
+```bash
+kubectl apply -f https://raw.ghe.corp.yahoo.co.jp/approduce/hosted-danger/master/ops/kube/deployment.yaml
+```
+
+`deployment "hd-deployment" configured`というメッセージが出たら成功、`unchanged`だとイメージタグが変更されていない (直前に同じcurlをしているとキャッシュが残っている可能性がある)
+
+`kubectl get pods`などを実行し、Podが一定数`Running`の状態かつ`ContainerCreating`のものがあれば正常にリリースが進行中
 
 ## master・node構築手順(共通)
 対象のインスタンスをYNW(YJLinux 7系)で作成後、sshして以下のコマンドを実行
@@ -64,20 +74,6 @@ nodeというラベルを付与する(masterで実行)
 ```bash
 kubectl label node [対象nodeのホスト名] node-role.kubernetes.io/node=
 ```
-
-## リリース・デプロイ手順
-masterにマージされた時点で、[cd.docker-registry](http://cd.docker-registry.corp.yahoo.co.jp/repository/approduce/hosted-danger-image)にイメージがアップロードされる (この時点では未リリース)
-
-その後、[ops/kube/deployment.yaml](https://ghe.corp.yahoo.co.jp/approduce/hosted-danger/blob/master/ops/kube/deployment.yaml#L17)のイメージのタグを[cd.docker-registry](http://cd.docker-registry.corp.yahoo.co.jp/repository/approduce/hosted-danger-image)を参考に最新のものに書き換え、masterにマージする
-
-リリースする場合はmasterにsshして以下を実行する
-```bash
-kubectl apply -f https://raw.ghe.corp.yahoo.co.jp/approduce/hosted-danger/master/ops/kube/deployment.yaml
-```
-
-`deployment "hd-deployment" configured`というメッセージが出たら成功、`unchanged`だとイメージタグが変更されていない (直前に同じcurlをしているとキャッシュが残っている可能性がある)
-
-`kubectl get pods`などを実行し、Podが一定数`Running`の状態かつ`ContainerCreating`のものがあれば正常にリリースが進行中
 
 ## Tips
 
