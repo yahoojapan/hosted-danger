@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: hd-service
+spec:
+  selector:
+    app: hd-app
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 80
