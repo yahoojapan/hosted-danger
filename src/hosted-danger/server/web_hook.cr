@@ -8,6 +8,7 @@ module HostedDanger
     git_host: String,
     pr_number: Int32,
     access_token: String,
+    raw_payload: String,
   )
 
   class WebHook
@@ -68,6 +69,7 @@ module HostedDanger
         git_host:     git_host,
         pr_number:    pr_number,
         access_token: access_token,
+        raw_payload:  payload_json.to_s,
       }]
     end
 
@@ -92,6 +94,7 @@ module HostedDanger
           git_host:     git_host,
           pr_number:    pr_number,
           access_token: access_token,
+          raw_payload:  payload_json.to_s,
         }]
       end
 
@@ -122,6 +125,7 @@ module HostedDanger
           git_host:     git_host,
           pr_number:    pull_json["number"].as_i,
           access_token: access_token,
+          raw_payload:  payload_json.to_s,
         } if pull_json["head"]["sha"].as_s == commit_sha
       end
 

@@ -12,6 +12,7 @@ module HostedDanger
       html_url = executable[:html_url]
       pr_number = executable[:pr_number]
       access_token = executable[:access_token]
+      raw_payload = executable[:raw_payload]
 
       repo_tag = "#{html_url} (event: #{event}) (pr: #{pr_number})"
 
@@ -22,6 +23,7 @@ module HostedDanger
       ENV["GIT_URL"] = html_url
       ENV["DANGER_ACTION"] = action
       ENV["DANGER_EVENT"] = event
+      ENV["DANGER_PAYLOAD"] = raw_payload
       ENV["DANGER_ID"] = "#{html_url}@#{pr_number}"
       ENV["DANGER_GITHUB_HOST"] = git_host
       ENV["DANGER_GITHUB_API_BASE_URL"] = "https://#{git_host}/api/v3"
