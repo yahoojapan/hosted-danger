@@ -95,23 +95,34 @@ module HostedDanger
 
     def e_status(payload_json) : Executable?
       L.info " ------  STATUS COMINIG!!!!  -------- " # for debug
-      return L.info "skip: sender is ap-approduc" if payload_json["sender"]["login"] == "ap-approduce"
+      return L.info "skip: sender is ap-approduce" if payload_json["sender"]["login"] == "ap-approduce"
 
-      commit_sha = payload_json["sha"].as_s
-      L.info "sha: #{commit_sha}"
+      event = "status"
       html_url = payload_json["repository"]["html_url"].as_s
-      L.info "html_url: #{html_url}"
       git_host = git_host_from_html_url(html_url)
-      L.info "git_host: #{git_host}"
-
-      org, repo = org_repo_from_html_url(html_url)
-      L.info "org: #{org}, repo: #{repo}"
-
       access_token = access_token_from_git_host(git_host)
 
-      pulls = open_pulls_from_sha(git_host, org, repo, access_token, commit_sha)
+      commit_sha = payload_json["sha"].as_s
+      org, repo = org_repo_from_html_url(html_url)
+
+      pulls_json = open_pulls_from_sha(git_host, org, repo, access_token, commit_sha)
+
       L.info "pulls!!!!!!!!"
-      L.info pulls.to_s
+      L.info pulls_json.to_s
+
+      executables = [] of Executable
+
+      pulls_json.each do |pull_json|
+        executables << {
+          event:        event,
+          html_url:     html_url,
+          git_host:     git_host,
+          pr_number:    pull_json["number"].as_i,
+          access_token: access_token,
+        } if pull_json["head"]["sha"].as_a == commit_sha
+      end
+
+      L.info executables.to_s
 
       nil
     end
@@ -143,14 +154,15 @@ module HostedDanger
       raise "failed to parse the html url: #{html_url} @org_repo_from_html_url"
     end
 
-    def open_pulls_from_sha(git_host : String, org : String, repo : String, access_token : String, sha : String) : String
+    def open_pulls_from_sha(git_host : String, org : String, repo : String, access_token : String, sha : String) : JSON::Any
       url = "https://#{git_host}/api/v3/repos/#{org}/#{repo}/pulls?state=open"
 
       headers = HTTP::Headers.new
       headers["Authorization"] = "token #{access_token}"
 
       res = HTTP::Client.get(url, headers)
-      res.body
+
+      JSON.parse(res.body)
     end
 
     include Executor
