@@ -7,17 +7,14 @@ module HostedDanger
 
     def exec_danger(executable : Executable)
       event = executable[:event]
+      git_host = executable[:git_host]
       html_url = executable[:html_url]
       pr_number = executable[:pr_number]
+      access_token = executable[:access_token]
+
       repo_tag = "#{html_url} (event: #{event}) (pr: #{pr_number})"
 
       L.info "execute: #{event} #{html_url} #{pr_number}"
-
-      git_host = if html_url =~ /https:\/\/(.*?)\/.*/
-                   $1
-                 else
-                   "ghe.corp.yahoo.co.jp"
-                 end
 
       directory = "/tmp/#{Random::Secure.hex}"
 
