@@ -7,4 +7,7 @@ message "Large PR!" if git.lines_of_code > 600
   message "`#{path}` has changed" if git.modified_files.include? path
 end
 
+message ENV["DANGER_ACTION"]
+message ENV["DANGER_EVENT"]
+
 lgtm.check_lgtm https_image_only: true
