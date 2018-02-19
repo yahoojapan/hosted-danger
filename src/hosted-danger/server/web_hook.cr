@@ -22,10 +22,10 @@ module HostedDanger
 
       payload_json = JSON.parse(payload)
 
-      executable? = create_executable(context, payload_json)
+      executables? = create_executable(context, payload_json)
 
-      if executable = executable?
-        exec_danger(executable)
+      if executables = executables?
+        executables.each { |executable| exec_danger(executable) }
       end
 
       context.response.status_code = 200
@@ -39,7 +39,7 @@ module HostedDanger
       context
     end
 
-    def create_executable(context, payload_json) : Executable?
+    def create_executable(context, payload_json) : Array(Executable)?
       event = context.request.headers["X-GitHub-Event"]
 
       return e_pull_request(payload_json) if event == "pull_request"
@@ -49,7 +49,7 @@ module HostedDanger
       L.info "danger will not be triggered (#{event})"
     end
 
-    def e_pull_request(payload_json) : Executable?
+    def e_pull_request(payload_json) : Array(Executable)?
       return L.info "skip: sender is ap-approduce" if payload_json["sender"]["login"] == "ap-approduce"
       return L.info "skip: closed" if payload_json["action"] == "closed"
 
@@ -59,16 +59,16 @@ module HostedDanger
       pr_number = payload_json["number"].as_i
       access_token = access_token_from_git_host(git_host)
 
-      {
+      [{
         event:        event,
         html_url:     html_url,
         git_host:     git_host,
         pr_number:    pr_number,
         access_token: access_token,
-      }
+      }]
     end
 
-    def e_issue_comment(payload_json) : Executable?
+    def e_issue_comment(payload_json) : Array(Executable)?
       return L.info "skip: sender is ap-approduce" if payload_json["sender"]["login"] == "ap-approduce"
       return L.info "skip: deleted" if payload_json["action"] == "deleted"
 
@@ -81,19 +81,19 @@ module HostedDanger
         pr_number = $2.to_i
         access_token = access_token_from_git_host(git_host)
 
-        return {
+        return [{
           event:        event,
           html_url:     html_url,
           git_host:     git_host,
           pr_number:    pr_number,
           access_token: access_token,
-        }
+        }]
       end
 
       nil
     end
 
-    def e_status(payload_json) : Executable?
+    def e_status(payload_json) : Array(Executable)?
       L.info " ------  STATUS COMINIG!!!!  -------- " # for debug
       return L.info "skip: sender is ap-approduce" if payload_json["sender"]["login"] == "ap-approduce"
 
@@ -124,7 +124,7 @@ module HostedDanger
 
       L.info executables.to_s
 
-      nil
+      executables
     end
 
     def git_host_from_html_url(html_url) : String
