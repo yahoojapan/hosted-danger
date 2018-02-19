@@ -94,7 +94,6 @@ module HostedDanger
     end
 
     def e_status(payload_json) : Array(Executable)?
-      L.info " ------  STATUS COMINIG!!!!  -------- " # for debug
       return L.info "skip: sender is ap-approduce" if payload_json["sender"]["login"] == "ap-approduce"
 
       event = "status"
@@ -107,9 +106,6 @@ module HostedDanger
 
       pulls_json = open_pulls_from_sha(git_host, org, repo, access_token, commit_sha)
 
-      L.info "pulls!!!!!!!!"
-      L.info pulls_json.to_s
-
       executables = [] of Executable
 
       pulls_json.each do |pull_json|
@@ -121,8 +117,6 @@ module HostedDanger
           access_token: access_token,
         } if pull_json["head"]["sha"].as_s == commit_sha
       end
-
-      L.info executables.to_s
 
       executables
     end
