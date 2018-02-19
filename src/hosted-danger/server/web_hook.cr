@@ -99,7 +99,7 @@ module HostedDanger
 
       commit_sha = payload_json["sha"].as_s
       L.info "sha: #{commit_sha}"
-      html_url = payload_json["repository"].as_s
+      html_url = payload_json["repository"]["html_url"].as_s
       L.info "html_url: #{html_url}"
       git_host = git_host_from_html_url(html_url)
       L.info "git_host: #{git_host}"
