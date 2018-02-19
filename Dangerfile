@@ -7,8 +7,4 @@ message "Large PR!" if git.lines_of_code > 600
   message "`#{path}` has changed" if git.modified_files.include? path
 end
 
-if comment = ENV["PR_COMMENT"]
-  message "new comment! #{comment}"
-end
-
 lgtm.check_lgtm https_image_only: true
