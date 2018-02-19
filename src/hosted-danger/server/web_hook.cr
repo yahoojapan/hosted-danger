@@ -36,6 +36,8 @@ module HostedDanger
     def create_executable(context, payload_json) : Executable?
       event = context.request.headers["X-GitHub-Event"]
 
+      L.info "new event #{event}"
+
       return e_pull_request(payload_json) if event == "pull_request"
       return e_issue_comment(payload_json) if event == "issue_comment"
 
