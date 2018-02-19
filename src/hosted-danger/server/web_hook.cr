@@ -61,6 +61,7 @@ module HostedDanger
 
       if payload_json["issue"]["html_url"].as_s =~ /(.*)\/pull\/(.*)/
         ENV["PR_COMMENT"] = payload_json["comment"]["body"].as_s
+        L.info "comment body: #{ENV["PR_COMMENT"]}"
 
         return {
           event:     "issue_comment",
