@@ -74,3 +74,4 @@ GemfileとGemfile.lockの編集
 - [KubernetesのPodで使用しているイメージ(hosted-danger-image)](http://cd.docker-registry.corp.yahoo.co.jp/repository/approduce/hosted-danger-image)
 
 hoge
+hoge
