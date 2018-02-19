@@ -119,7 +119,7 @@ module HostedDanger
           git_host:     git_host,
           pr_number:    pull_json["number"].as_i,
           access_token: access_token,
-        } if pull_json["head"]["sha"].as_a == commit_sha
+        } if pull_json["head"]["sha"].as_s == commit_sha
       end
 
       L.info executables.to_s
