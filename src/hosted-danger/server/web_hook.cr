@@ -44,7 +44,7 @@ module HostedDanger
 
       return e_pull_request(payload_json) if event == "pull_request"
       return e_issue_comment(payload_json) if event == "issue_comment"
-      return e_state(payload_json) if event == "state"
+      return e_status(payload_json) if event == "status"
 
       L.info "danger will not be triggered (#{event})"
     end
@@ -93,8 +93,8 @@ module HostedDanger
       nil
     end
 
-    def e_state(payload_json) : Executable?
-      L.info " ------  STATE COMINIG!!!!  -------- " # for debug
+    def e_status(payload_json) : Executable?
+      L.info " ------  STATUS COMINIG!!!!  -------- " # for debug
       return L.info "skip: sender is ap-approduc" if payload_json["sender"]["login"] == "ap-approduce"
 
       commit_sha = payload_json["sha"].as_s
