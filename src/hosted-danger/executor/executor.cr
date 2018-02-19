@@ -6,6 +6,7 @@ module HostedDanger
     DANGERFILE_DEFAULT = File.expand_path("../../../../Dangerfile.default", __FILE__)
 
     def exec_danger(executable : Executable)
+      action = executable[:action]
       event = executable[:event]
       git_host = executable[:git_host]
       html_url = executable[:html_url]
@@ -19,6 +20,8 @@ module HostedDanger
       directory = "/tmp/#{Random::Secure.hex}"
 
       ENV["GIT_URL"] = html_url
+      ENV["DANGER_ACTION"] = action
+      ENV["DANGER_EVENT"] = event
       ENV["DANGER_ID"] = "#{html_url}@#{pr_number}"
       ENV["DANGER_GITHUB_HOST"] = git_host
       ENV["DANGER_GITHUB_API_BASE_URL"] = "https://#{git_host}/api/v3"

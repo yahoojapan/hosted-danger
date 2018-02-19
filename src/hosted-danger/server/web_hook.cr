@@ -2,6 +2,7 @@ require "json"
 
 module HostedDanger
   alias Executable = NamedTuple(
+    action: String,
     event: String,
     html_url: String,
     git_host: String,
@@ -53,6 +54,7 @@ module HostedDanger
       return L.info "skip: sender is ap-approduce" if payload_json["sender"]["login"] == "ap-approduce"
       return L.info "skip: closed" if payload_json["action"] == "closed"
 
+      action = payload_json["action"].as_s
       event = "pull_request"
       html_url = payload_json["pull_request"]["head"]["repo"]["html_url"].as_s
       git_host = git_host_from_html_url(html_url)
@@ -60,6 +62,7 @@ module HostedDanger
       access_token = access_token_from_git_host(git_host)
 
       [{
+        action:       action,
         event:        event,
         html_url:     html_url,
         git_host:     git_host,
@@ -75,6 +78,7 @@ module HostedDanger
       if payload_json["issue"]["html_url"].as_s =~ /(.*)\/pull\/(.*)/
         ENV["DANGER_PR_COMMENT"] = payload_json["comment"]["body"].as_s
 
+        action = payload_json["action"].as_s
         event = "issue_comment"
         html_url = $1.to_s
         git_host = git_host_from_html_url(html_url)
@@ -82,6 +86,7 @@ module HostedDanger
         access_token = access_token_from_git_host(git_host)
 
         return [{
+          action:       action,
           event:        event,
           html_url:     html_url,
           git_host:     git_host,
@@ -96,6 +101,7 @@ module HostedDanger
     def e_status(payload_json) : Array(Executable)?
       return L.info "skip: sender is ap-approduce" if payload_json["sender"]["login"] == "ap-approduce"
 
+      action = payload_json["state"].as_s
       event = "status"
       html_url = payload_json["repository"]["html_url"].as_s
       git_host = git_host_from_html_url(html_url)
@@ -110,6 +116,7 @@ module HostedDanger
 
       pulls_json.each do |pull_json|
         executables << {
+          action:       action,
           event:        event,
           html_url:     html_url,
           git_host:     git_host,
