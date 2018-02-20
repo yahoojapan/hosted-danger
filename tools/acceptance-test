@@ -2,6 +2,9 @@
 
 echo "Start pushing onto "\"$1\"
 
+git config --global user.email "approduce-pj-dev@ml.yahoo-corp.jp"
+git config --global user.name "ap-approduce"
+
 git reset --hard origin/$1
 rm -f update && echo `date` > update
 
