@@ -63,7 +63,7 @@ module HostedDanger
             exec_cmd(repo_tag, "npm_cache install", directory)
             exec_cmd(repo_tag, "npm run danger ci #{danger_params_js}")
           else
-            exec_cmd(repo_tag, "danger_js ci #{danger_params_js}", directory)
+            exec_cmd(repo_tag, "danger ci #{danger_params_js}", directory)
           end
         end
       ensure
