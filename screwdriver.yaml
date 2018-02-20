@@ -55,3 +55,38 @@ jobs:
           kubectl apply -f deployment.yaml --kubeconfig config --namespace=default
     secrets:
       - WGET_TOKEN
+  acceptance-test:
+    image: cd.docker-registry.corp.yahoo.co.jp:4443/approduce/hosted-danger-sd-image:latest
+    requires: [deployment]
+    steps:
+      - wait_deployment: |
+          echo "Wait the deployment, sleeping 60 sec..."
+          sleep 60
+      - setup-test: |
+          mkdir wd && cd wd && git clone https://ghe.corp.yahoo.co.jp/approduce/hosted-danger-acceptance-tests.git
+          pwd
+          ls -la
+      - default: |
+          git reset --hard origin/default
+          rm -f update && echo `date` > update && git add update
+          git push origin default
+      - ruby-default: |
+          git reset --hard origin/ruby-default
+          rm -f update && echo `date` > update && git add update
+          git push origin ruby-default
+      - ruby-bundler: |
+          git reset --hard origin/ruby-bundler
+          rm -f update && echo `date` > update && git add update
+          git push origin ruby-bundler
+      - js-system: |
+          git reset --hard origin/js-system
+          rm -f update && echo `date` > update && git add update
+          git push origin js-system
+      - js-npm: |
+          git reset --hard origin/js-npm
+          rm -f update && echo `date` > update && git add update
+          git push origin js-npm
+      - js-yarn: |
+          git reset --hard origin/js-yarn
+          rm -f update && echo `date` > update && git add update
+          git push origin js-yarn
