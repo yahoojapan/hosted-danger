@@ -1,3 +1,5 @@
 require "http/client"
-require "./executor/parser"
-require "./executor/executor"
+require "random"
+require "file_utils"
+
+require "./executor/*"

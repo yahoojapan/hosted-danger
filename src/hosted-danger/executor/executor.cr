@@ -1,6 +1,3 @@
-require "random"
-require "file_utils"
-
 module HostedDanger
   module Executor
     DANGERFILE_DEFAULT = File.expand_path("../../../../Dangerfile.default", __FILE__)
@@ -46,64 +43,37 @@ module HostedDanger
         exec_cmd(repo_tag, "git fetch origin pull/#{pr_number}/head --depth 50", directory)
         exec_cmd(repo_tag, "git reset --hard FETCH_HEAD", directory)
 
-        if use_ruby?(directory)
+        config_wrapper = ConfigWrapper.new(directory)
+
+        case config_wrapper.get_lang
+        when "ruby"
           unless File.exists?("#{directory}/Dangerfile")
-            L.warn "#{repo_tag} Dangerfile not found, use the default one"
+            L.info "#{repo_tag} Dangerfile not found, use the default one"
             exec_cmd(repo_tag, "cp #{DANGERFILE_DEFAULT} #{directory}/Dangerfile", directory)
           end
 
-          if use_bundler?(directory)
+          if config_wrapper.use_bundler?
             exec_cmd(repo_tag, "bundle_cache install #{dragon_params}", directory, true)
             exec_cmd(repo_tag, "bundle exec danger #{danger_params_ruby}", directory)
           else
             exec_cmd(repo_tag, "danger_ruby #{danger_params_ruby}", directory)
           end
-        else
-          if use_yarn?(directory)
+        when "js"
+          if config_wrapper.use_yarn?
             exec_cmd(repo_tag, "yarn install", directory)
             exec_cmd(repo_tag, "yarn danger ci #{danger_params_js}", directory)
-          elsif use_npm?(directory)
+          elsif config_wrapper.use_npm?
             exec_cmd(repo_tag, "npm_cache install #{dragon_params}", directory, true)
             exec_cmd(repo_tag, "npm run danger ci #{danger_params_js}", directory)
           else
             exec_cmd(repo_tag, "danger ci #{danger_params_js}", directory)
           end
+        else
+          raise "unknown lang: #{config_wrapper.get_lang}"
         end
       ensure
         FileUtils.rm_rf(directory)
       end
-    end
-
-    def use_ruby?(directory) : Bool
-      ruby_dangerfile_exists? = File.exists?("#{directory}/Dangerfile")
-      return true if ruby_dangerfile_exists?
-      js_dangerfile_exists? = File.exists?("#{directory}/dangerfile.js") || File.exists?("#{directory}/dangerfile.ts")
-      return false if js_dangerfile_exists?
-
-      # use ruby by default
-      true
-    end
-
-    def use_bundler?(directory) : Bool
-      gemfile_exists? = File.exists?("#{directory}/Gemfile")
-      return false unless gemfile_exists?
-      return true if File.read("#{directory}/Gemfile") =~ /(gem\s*?'danger')/
-
-      false
-    end
-
-    def use_yarn?(directory) : Bool
-      yarn_lock_exists? = File.exists?("#{directory}/yarn.lock")
-      return false unless yarn_lock_exists?
-      return true if File.read("#{directory}/yarn.lock") =~ /danger@\^.*:/
-      false
-    end
-
-    def use_npm?(directory) : Bool
-      package_lock_exists? = File.exists?("#{directory}/package-lock.json")
-      return false unless package_lock_exists?
-      return true if File.read("#{directory}/package-lock.json") =~ /"danger":\s{/
-      false
     end
 
     def exec_cmd(repo_tag : String, cmd : String, dir : String, hide_command : Bool = false)

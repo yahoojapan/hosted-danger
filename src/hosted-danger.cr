@@ -30,4 +30,5 @@ module HostedDanger
   end
 end
 
+require "./hosted-danger/modules"
 require "./hosted-danger/*"
