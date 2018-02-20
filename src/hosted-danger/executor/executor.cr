@@ -43,20 +43,42 @@ module HostedDanger
         exec_cmd(repo_tag, "git fetch origin pull/#{pr_number}/head --depth 50", directory)
         exec_cmd(repo_tag, "git reset --hard FETCH_HEAD", directory)
 
-        unless File.exists?("#{directory}/Dangerfile")
-          L.warn "#{repo_tag} Dangerfile not found, use the default one"
-          exec_cmd(repo_tag, "cp #{DANGERFILE_DEFAULT} #{directory}/Dangerfile")
-        end
+        if use_ruby?(directory)
+          unless File.exists?("#{directory}/Dangerfile")
+            L.warn "#{repo_tag} Dangerfile not found, use the default one"
+            exec_cmd(repo_tag, "cp #{DANGERFILE_DEFAULT} #{directory}/Dangerfile")
+          end
 
-        if use_bundler?(directory)
-          exec_cmd(repo_tag, "bundle_cache install #{dragon_params}", directory, true)
-          exec_cmd(repo_tag, "bundle exec danger #{danger_params}", directory)
+          if use_bundler?(directory)
+            exec_cmd(repo_tag, "bundle_cache install #{dragon_params}", directory, true)
+            exec_cmd(repo_tag, "bundle exec danger #{danger_params_ruby}", directory)
+          else
+            exec_cmd(repo_tag, "danger_ruby #{danger_params_ruby}", directory)
+          end
         else
-          exec_cmd(repo_tag, "danger_ruby #{danger_params}", directory)
+          if use_yarn?(directory)
+            exec_cmd(repo_tag, "yarn install", directory)
+            exec_cmd(repo_tag, "yarn danger ci #{danger_params_js}")
+          elsif use_npm?(directory)
+            exec_cmd(repo_tag, "npm_cache install", directory)
+            exec_cmd(repo_tag, "npm run danger ci #{danger_params_js}")
+          else
+            exec_cmd(repo_tag, "danger_js ci #{danger_params_js}", directory)
+          end
         end
       ensure
         FileUtils.rm_rf(directory)
       end
+    end
+
+    def use_ruby?(directory) : Bool
+      ruby_dangerfile_exists? = File.exists?("#{directory}/Dangerfile")
+      return true if ruby_dangerfile_exists?
+      js_dangerfile_exists? = File.exists?("#{directory}/dangerfile.js") || File.exists?("#{directory}/dangerfile.ts")
+      return false if js_dangerfile_exists?
+
+      # use ruby by default
+      true
     end
 
     def use_bundler?(directory) : Bool
@@ -64,6 +86,20 @@ module HostedDanger
       return false unless gemfile_exists?
       return true if File.read("#{directory}/Gemfile") =~ /(gem\s*?'danger')/
 
+      false
+    end
+
+    def use_yarn?(directory) : Bool
+      yarn_lock_exists? = File.exists?("#{directory}/yarn.lock")
+      return false unless yarn_lock_exists?
+      return true if File.read("#{directory}/yarn.lock") =~ /danger@\^.*:/
+      false
+    end
+
+    def use_npm?(directory) : Bool
+      package_lock_exists? = File.exists?("#{directory}/package-lock.json")
+      return false unless package_lock_exists?
+      return true if File.read("#{directory}/package-lock.json") =~ /"danger":\s{/
       false
     end
 
@@ -103,9 +139,15 @@ module HostedDanger
       ].join(" ")
     end
 
-    private def danger_params : String
+    private def danger_params_ruby : String
       [
         "--remove-previous-comments",
+      ].join(" ")
+    end
+
+    private def danger_params_js : String
+      [
+        "",
       ].join(" ")
     end
   end
