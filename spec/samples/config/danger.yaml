@@ -1,0 +1,13 @@
+lang:
+  ruby
+
+dangerfile:
+  Dangerfile.hosted
+
+events:
+  - pull_request
+  - issue_comment
+
+bundler: true
+npm: true
+yarn: true

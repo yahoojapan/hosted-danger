@@ -1,7 +1,3 @@
-require "http/client"
-require "colorize"
-require "json"
-
 module HostedDanger
   alias L = Logger
 
