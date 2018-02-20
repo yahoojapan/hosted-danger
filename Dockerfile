@@ -21,6 +21,23 @@ RUN gem install bundler --no-ri --no-rdoc
 RUN mkdir /tmp/gem
 COPY Gemfile /tmp/gem
 RUN cd /tmp/gem && /bin/bash -l -c "bundle install --system"
+RUN mv /usr/local/bin/danger /usr/local/bin/danger_ruby
+RUN ls -la /usr/local/bin
+
+# js
+RUN apt-get install -y nodejs npm
+RUN npm cache clean && npm install n -g
+RUN n --latest && n --stable
+RUN n stable
+RUN apt-get purge -y nodejs npm
+RUN npm install -g yarn
+RUN node -v && npm -v && yarn -v
+RUN yarn global add danger
+RUN ln -s /usr/local/bin/danger /usr/local/bin/danger_js
+
+RUN ls -la /usr/local/bin
+RUN danger_ruby --version
+RUN danger_js --version
 
 # hd
 RUN mkdir -p /tmp/hd

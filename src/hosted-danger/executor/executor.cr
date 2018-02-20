@@ -52,7 +52,7 @@ module HostedDanger
           exec_cmd(repo_tag, "bundle_cache install #{dragon_params}", directory, true)
           exec_cmd(repo_tag, "bundle exec danger #{danger_params}", directory)
         else
-          exec_cmd(repo_tag, "danger #{danger_params}", directory)
+          exec_cmd(repo_tag, "danger_ruby #{danger_params}", directory)
         end
       ensure
         FileUtils.rm_rf(directory)
