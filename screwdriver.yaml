@@ -64,7 +64,7 @@ jobs:
           sleep 60
       - setup-test: |
           mkdir wd && cd wd
-          git clone https://ghe.corp.yahoo.co.jp/approduce/hosted-danger-acceptance-tests.git
+          git clone https://$SCM_USERNAME:$SCM_ACCESS_TOKEN@ghe.corp.yahoo.co.jp/approduce/hosted-danger-acceptance-tests.git
           cd hosted-danger-acceptance-tests
           cp ../../tools/acceptance-test .
       - default: |
@@ -79,3 +79,6 @@ jobs:
           ./acceptance-test js-npm
       - js-yarn: |
           ./acceptance-test js-yarn
+    secrets:
+      - SCM_USERNAME
+      - SCM_ACCESS_TOKEN
