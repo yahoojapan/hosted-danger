@@ -46,7 +46,7 @@ module HostedDanger
         if use_ruby?(directory)
           unless File.exists?("#{directory}/Dangerfile")
             L.warn "#{repo_tag} Dangerfile not found, use the default one"
-            exec_cmd(repo_tag, "cp #{DANGERFILE_DEFAULT} #{directory}/Dangerfile")
+            exec_cmd(repo_tag, "cp #{DANGERFILE_DEFAULT} #{directory}/Dangerfile", directory)
           end
 
           if use_bundler?(directory)
@@ -58,10 +58,10 @@ module HostedDanger
         else
           if use_yarn?(directory)
             exec_cmd(repo_tag, "yarn install", directory)
-            exec_cmd(repo_tag, "yarn danger ci #{danger_params_js}")
+            exec_cmd(repo_tag, "yarn danger ci #{danger_params_js}", directory)
           elsif use_npm?(directory)
-            exec_cmd(repo_tag, "npm_cache install", directory)
-            exec_cmd(repo_tag, "npm run danger ci #{danger_params_js}")
+            exec_cmd(repo_tag, "npm_cache install", directory, true)
+            exec_cmd(repo_tag, "npm run danger ci #{danger_params_js}", directory)
           else
             exec_cmd(repo_tag, "danger ci #{danger_params_js}", directory)
           end
@@ -103,7 +103,7 @@ module HostedDanger
       false
     end
 
-    def exec_cmd(repo_tag : String, cmd : String, dir : String? = nil, hide_command : Bool = false)
+    def exec_cmd(repo_tag : String, cmd : String, dir : String, hide_command : Bool = false)
       L.info "#{repo_tag} #{hide_command ? "**HIDDEN**" : cmd}"
 
       res = exec_cmd_internal(cmd, dir)
@@ -113,7 +113,7 @@ module HostedDanger
       L.info "#{repo_tag} #{res[:stdout]}"
     end
 
-    private def exec_cmd_internal(cmd : String, dir : String? = nil)
+    private def exec_cmd_internal(cmd : String, dir : String)
       stdout = IO::Memory.new
       stderr = IO::Memory.new
 
