@@ -64,8 +64,7 @@ jobs:
           sleep 60
       - setup-test: |
           mkdir wd && cd wd && git clone https://ghe.corp.yahoo.co.jp/approduce/hosted-danger-acceptance-tests.git
-          pwd
-          ls -la
+          cd hosted-danger-acceptance-tests
       - default: |
           git reset --hard origin/default
           rm -f update && echo `date` > update && git add update
