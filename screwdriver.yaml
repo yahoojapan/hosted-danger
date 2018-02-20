@@ -66,26 +66,40 @@ jobs:
           mkdir wd && cd wd && git clone https://ghe.corp.yahoo.co.jp/approduce/hosted-danger-acceptance-tests.git
           cd hosted-danger-acceptance-tests
       - default: |
+          pwd
+          ls -la
           git reset --hard origin/default
-          rm -f update && echo `date` > update && git add update
+          rm -f update && echo `date` > update
+          git add update
+          git commit -m "[skip ci] `date`"
           git push origin default
       - ruby-default: |
           git reset --hard origin/ruby-default
-          rm -f update && echo `date` > update && git add update
+          rm -f update && echo `date` > update
+          git add update
+          git commit -m "[skip ci] `date`"
           git push origin ruby-default
       - ruby-bundler: |
           git reset --hard origin/ruby-bundler
-          rm -f update && echo `date` > update && git add update
+          rm -f update && echo `date` > update
+          git add update
+          git commit -m "[skip ci] `date`"
           git push origin ruby-bundler
       - js-system: |
           git reset --hard origin/js-system
-          rm -f update && echo `date` > update && git add update
+          rm -f update && echo `date` > update
+          git add update
+          git commit -m "[skip ci] `date`"
           git push origin js-system
       - js-npm: |
           git reset --hard origin/js-npm
-          rm -f update && echo `date` > update && git add update
+          rm -f update && echo `date` > update
+          git add update
+          git commit -m "[skip ci] `date`"
           git push origin js-npm
       - js-yarn: |
           git reset --hard origin/js-yarn
-          rm -f update && echo `date` > update && git add update
+          rm -f update && echo `date` > update
+          git add update
+          git commit -m "[skip ci] `date`"
           git push origin js-yarn
