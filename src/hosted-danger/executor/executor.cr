@@ -60,7 +60,8 @@ module HostedDanger
             exec_cmd(repo_tag, "yarn install", directory)
             exec_cmd(repo_tag, "yarn danger ci #{danger_params_js}", directory)
           elsif use_npm?(directory)
-            exec_cmd(repo_tag, "npm_cache install", directory, true)
+            # todo npm_cache
+            exec_cmd(repo_tag, "npm install", directory, true)
             exec_cmd(repo_tag, "npm run danger ci #{danger_params_js}", directory)
           else
             exec_cmd(repo_tag, "danger ci #{danger_params_js}", directory)
