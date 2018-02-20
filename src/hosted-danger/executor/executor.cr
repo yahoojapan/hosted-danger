@@ -8,11 +8,13 @@ module HostedDanger
     def exec_danger(executable : Executable)
       action = executable[:action]
       event = executable[:event]
-      git_host = executable[:git_host]
       html_url = executable[:html_url]
       pr_number = executable[:pr_number]
-      access_token = executable[:access_token]
       raw_payload = executable[:raw_payload]
+
+      git_host = git_host_from_html_url(html_url)
+      org, repo = org_repo_from_html_url(html_url)
+      access_token = access_token_from_git_host(git_host)
 
       repo_tag = "#{html_url} (event: #{event}) (pr: #{pr_number})"
 
@@ -28,6 +30,7 @@ module HostedDanger
       ENV["DANGER_GITHUB_HOST"] = git_host
       ENV["DANGER_GITHUB_API_BASE_URL"] = "https://#{git_host}/api/v3"
       ENV["ghprbPullId"] = "#{pr_number}"
+      ENV["ghprbGhRepository"] = "#{org}/#{repo}"
 
       if git_host == "ghe.corp.yahoo.co.jp"
         ENV["DANGER_GITHUB_API_TOKEN"] = ENV["DANGER_GITHUB_API_TOKEN_GHE"]
@@ -151,5 +154,7 @@ module HostedDanger
         "",
       ].join(" ")
     end
+
+    include Parser
   end
 end

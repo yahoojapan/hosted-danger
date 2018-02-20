@@ -1,7 +1,14 @@
-require "./hosted-danger/*"
 require "json"
 
 module HostedDanger
+  alias Executable = NamedTuple(
+    action: String,
+    event: String,
+    html_url: String,
+    pr_number: Int32,
+    raw_payload: String,
+  )
+
   def self.set_envs
     ENV["JENKINS_URL"] = "I'm jenkins! :)"
 
@@ -22,3 +29,5 @@ module HostedDanger
     server.run
   end
 end
+
+require "./hosted-danger/*"
