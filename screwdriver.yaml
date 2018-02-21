@@ -60,8 +60,8 @@ jobs:
     requires: [deployment]
     steps:
       - wait_deployment: |
-          echo "Wait the deployment, sleeping 60 sec..."
-          sleep 60
+          echo "Wait the deployment, sleeping 600 sec..."
+          sleep 600
       - setup-test: |
           mkdir wd && cd wd
           git clone git@ghe.corp.yahoo.co.jp:approduce/hosted-danger-acceptance-tests
