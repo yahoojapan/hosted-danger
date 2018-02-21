@@ -70,5 +70,5 @@ GemfileとGemfile.lockの編集
 
 ## 運用
 - Kubernetesのセットアップ及びリリース・デプロイなどの手順については[ops](https://ghe.corp.yahoo.co.jp/hosted-danger/hosted-danger/tree/master/ops)
-- [Screwdriver.cdで使用しているイメージ(hosted-danger-sd-image)](http://cd.docker-registry.corp.yahoo.co.jp/repository/hosted-danger/hosted-danger-sd-image)
+- [Screwdriver.cdで使用しているイメージ(sd-image)](http://cd.docker-registry.corp.yahoo.co.jp/repository/hosted-danger/sd-image)
 - [KubernetesのPodで使用しているイメージ(hosted-danger-image)](http://cd.docker-registry.corp.yahoo.co.jp/repository/hosted-danger/hosted-danger-image)

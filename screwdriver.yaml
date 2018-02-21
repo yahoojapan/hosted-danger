@@ -1,7 +1,7 @@
 jobs:
 
   pr:
-    image: cd.docker-registry.corp.yahoo.co.jp:4443/hosted-danger/hosted-danger-sd-image:latest
+    image: cd.docker-registry.corp.yahoo.co.jp:4443/hosted-danger/sd-image:latest
     requires: [~pr]
     steps:
       - format: |
@@ -20,7 +20,7 @@ jobs:
           crystal spec
 
   commit:
-    image: cd.docker-registry.corp.yahoo.co.jp:4443/hosted-danger/hosted-danger-sd-image:latest
+    image: cd.docker-registry.corp.yahoo.co.jp:4443/hosted-danger/sd-image:latest
     requires: [~commit]
     steps:
       - build: |
@@ -43,7 +43,7 @@ jobs:
       - DRAGON_SECRET_ACCESS_KEY
 
   deployment:
-    image: cd.docker-registry.corp.yahoo.co.jp:4443/hosted-danger/hosted-danger-sd-image:latest
+    image: cd.docker-registry.corp.yahoo.co.jp:4443/hosted-danger/sd-image:latest
     requires: [publish-image]
     steps:
       - confirmation: |
@@ -51,12 +51,12 @@ jobs:
           echo `meta get fixed_docker_image`
       - deployment: |
           sed -e "s@IMAGE@"`meta get fixed_docker_image`"@g" ops/kube/deployment.yaml.tmpl > deployment.yaml
-          wget https://raw.ghe.corp.yahoo.co.jp/hosted-danger/hosted-danger-secrets/master/config?token=$WGET_TOKEN -O config -q
+          wget https://raw.ghe.corp.yahoo.co.jp/hosted-danger/secrets/master/config?token=$WGET_TOKEN -O config -q
           kubectl apply -f deployment.yaml --kubeconfig config --namespace=default
     secrets:
       - WGET_TOKEN
   acceptance-test:
-    image: cd.docker-registry.corp.yahoo.co.jp:4443/hosted-danger/hosted-danger-sd-image:latest
+    image: cd.docker-registry.corp.yahoo.co.jp:4443/hosted-danger/sd-image:latest
     requires: [deployment]
     steps:
       - wait_deployment: |
@@ -64,8 +64,8 @@ jobs:
           sleep 600
       - setup-test: |
           mkdir wd && cd wd
-          git clone git@ghe.corp.yahoo.co.jp:hosted-danger/hosted-danger-acceptance-tests
-          cd hosted-danger-acceptance-tests
+          git clone git@ghe.corp.yahoo.co.jp:hosted-danger/acceptance-tests
+          cd acceptance-tests
           cp ../../tools/acceptance-test .
       - default: |
           ./acceptance-test default
@@ -73,9 +73,13 @@ jobs:
           ./acceptance-test ruby-default
       - ruby-bundler: |
           ./acceptance-test ruby-bundler
+      - ruby-dangerfile: |
+          ./acceptance-test ruby-dangerfile
       - js-system: |
           ./acceptance-test js-system
       - js-npm: |
           ./acceptance-test js-npm
       - js-yarn: |
           ./acceptance-test js-yarn
+      - js-dangerfile: |
+          ./acceptance-test js-dangerfile
