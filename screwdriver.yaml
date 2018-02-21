@@ -1,3 +1,14 @@
+shared:
+  settings:
+    mym:
+      rooms:
+        - HostedDanger通知
+      statuses:
+        - SUCCESS
+        - FAILURE
+        - RUNNING
+      emoji: true
+
 jobs:
 
   pr:
