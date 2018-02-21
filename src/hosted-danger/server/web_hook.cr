@@ -35,6 +35,7 @@ module HostedDanger
       event = context.request.headers["X-GitHub-Event"]
 
       return e_pull_request(payload_json) if event == "pull_request"
+      return e_pull_request_review(payload_json) if event == "pull_request_review"
       return e_issue_comment(payload_json) if event == "issue_comment"
       return e_status(payload_json) if event == "status"
 
@@ -47,8 +48,26 @@ module HostedDanger
 
       action = payload_json["action"].as_s
       event = "pull_request"
-      html_url = payload_json["pull_request"]["head"]["repo"]["html_url"].as_s
+      html_url = payload_json["repository"]["html_url"].as_s
       pr_number = payload_json["number"].as_i
+
+      [{
+        action:      action,
+        event:       event,
+        html_url:    html_url,
+        pr_number:   pr_number,
+        raw_payload: payload_json.to_s,
+      }]
+    end
+
+    def e_pull_request_review(payload_json) : Array(Executable)?
+      return L.info "skip: sender is ap-approduce" if payload_json["sender"]["login"] == "ap-approduce"
+      return L.info "skip: dismissed" if payload_json["action"] == "dismissed"
+
+      action = payload_json["action"].as_s
+      event = "pull_request_review"
+      html_url = payload_json["repository"]["html_url"].as_s
+      pr_number = payload_json["pull_request"]["number"].as_i
 
       [{
         action:      action,

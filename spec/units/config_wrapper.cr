@@ -65,4 +65,15 @@ describe HostedDanger::ConfigWrapper do
     config_wrapper = HostedDanger::ConfigWrapper.new("#{sample_root}/empty")
     config_wrapper.use_npm?.should be_false
   end
+
+  it "get every events if the configuration is not defined" do
+    config_wrapper = HostedDanger::ConfigWrapper.new("#{sample_root}/empty")
+
+    events = config_wrapper.events
+    events.size.should eq(4)
+    events.includes?("pull_request")
+    events.includes?("pull_request_review")
+    events.includes?("issue_comment")
+    events.includes?("status")
+  end
 end
