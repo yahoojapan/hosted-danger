@@ -16,6 +16,7 @@ describe HostedDanger::Config do
   it "return nil except specified dangerfile" do
     config = HostedDanger::Config.parse("#{sample_root}/config/only_dangerfile.yaml").not_nil!
     config.lang.should be_nil
+    config.dangerfile.not_nil!.should eq("dangerfile.js.2")
     config.events.should be_nil
     config.bundler.should be_nil
     config.npm.should be_nil

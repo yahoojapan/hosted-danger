@@ -20,6 +20,18 @@ module HostedDanger
       "ruby" # by default
     end
 
+    def dangerfile : String
+      if config = @config
+        return config.dangerfile.not_nil! if config.dangerfile
+      end
+
+      if get_lang == "js"
+        return "dangerfile.js"
+      end
+
+      "Dangerfile"
+    end
+
     def use_bundler? : Bool
       if config = @config
         return config.bundler.not_nil! if config.bundler

@@ -44,29 +44,30 @@ module HostedDanger
         exec_cmd(repo_tag, "git reset --hard FETCH_HEAD", directory)
 
         config_wrapper = ConfigWrapper.new(directory)
+        dangerfile_path = "#{directory}/#{config_wrapper.dangerfile}"
 
         case config_wrapper.get_lang
         when "ruby"
-          unless File.exists?("#{directory}/Dangerfile")
+          unless File.exists?(dangerfile_path)
             L.info "#{repo_tag} Dangerfile not found, use the default one"
-            exec_cmd(repo_tag, "cp #{DANGERFILE_DEFAULT} #{directory}/Dangerfile", directory)
+            exec_cmd(repo_tag, "cp #{DANGERFILE_DEFAULT} #{dangerfile_path}", directory)
           end
 
           if config_wrapper.use_bundler?
             exec_cmd(repo_tag, "bundle_cache install #{dragon_params}", directory, true)
-            exec_cmd(repo_tag, "bundle exec danger #{danger_params_ruby}", directory)
+            exec_cmd(repo_tag, "bundle exec danger #{danger_params_ruby(dangerfile_path)}", directory)
           else
-            exec_cmd(repo_tag, "danger_ruby #{danger_params_ruby}", directory)
+            exec_cmd(repo_tag, "danger_ruby #{danger_params_ruby(dangerfile_path)}", directory)
           end
         when "js"
           if config_wrapper.use_yarn?
             exec_cmd(repo_tag, "yarn install", directory)
-            exec_cmd(repo_tag, "yarn danger ci #{danger_params_js}", directory)
+            exec_cmd(repo_tag, "yarn danger ci #{danger_params_js(dangerfile_path)}", directory)
           elsif config_wrapper.use_npm?
             exec_cmd(repo_tag, "npm_cache install #{dragon_params}", directory, true)
-            exec_cmd(repo_tag, "npm run danger ci #{danger_params_js}", directory)
+            exec_cmd(repo_tag, "npm run danger ci #{danger_params_js(dangerfile_path)}", directory)
           else
-            exec_cmd(repo_tag, "danger ci #{danger_params_js}", directory)
+            exec_cmd(repo_tag, "danger ci #{danger_params_js(dangerfile_path)}", directory)
           end
         else
           raise "unknown lang: #{config_wrapper.get_lang}"
@@ -112,15 +113,16 @@ module HostedDanger
       ].join(" ")
     end
 
-    private def danger_params_ruby : String
+    private def danger_params_ruby(dangerfile_path : String) : String
       [
+        "--dangerfile #{dangerfile_path}",
         "--remove-previous-comments",
       ].join(" ")
     end
 
-    private def danger_params_js : String
+    private def danger_params_js(dangerfile_path : String) : String
       [
-        "",
+        "--dangerfile #{dangerfile_path}",
       ].join(" ")
     end
 
