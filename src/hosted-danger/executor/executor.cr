@@ -14,9 +14,6 @@ module HostedDanger
       access_token = access_token_from_git_host(git_host)
 
       repo_tag = "#{html_url} (event: #{event}) (pr: #{pr_number})"
-
-      L.info "execute: #{event} #{html_url} #{pr_number}"
-
       directory = "/tmp/#{Random::Secure.hex}"
 
       ENV["GIT_URL"] = html_url
@@ -44,7 +41,14 @@ module HostedDanger
         exec_cmd(repo_tag, "git reset --hard FETCH_HEAD", directory)
 
         config_wrapper = ConfigWrapper.new(directory)
+
         dangerfile_path = "#{directory}/#{config_wrapper.dangerfile}"
+
+        unless config_wrapper.events.includes?(event)
+          return L.info "#{repo_tag} configuration doesn't include #{event} (#{config_wrapper.events})"
+        end
+
+        L.info "#{repo_tag} execute: #{event} #{html_url} #{pr_number}"
 
         case config_wrapper.get_lang
         when "ruby"

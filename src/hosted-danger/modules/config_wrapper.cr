@@ -32,6 +32,19 @@ module HostedDanger
       "Dangerfile"
     end
 
+    def events : Array(String)
+      if config = @config
+        return config.events.not_nil! if config.events
+      end
+
+      [
+        "pull_request",
+        "pull_request_review",
+        "issue_comment",
+        "status",
+      ]
+    end
+
     def use_bundler? : Bool
       if config = @config
         return config.bundler.not_nil! if config.bundler

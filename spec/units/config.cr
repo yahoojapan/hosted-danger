@@ -7,6 +7,7 @@ describe HostedDanger::Config do
     config.dangerfile.not_nil!.should eq("Dangerfile.hosted")
     config.events.not_nil!.includes?("pull_request").should be_true
     config.events.not_nil!.includes?("issue_comment").should be_true
+    config.events.not_nil!.includes?("pull_request_review").should be_false
     config.events.not_nil!.includes?("status").should be_false
     config.bundler.not_nil!.should be_true
     config.npm.not_nil!.should be_true

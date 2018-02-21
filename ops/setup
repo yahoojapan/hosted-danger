@@ -24,7 +24,3 @@ yum install -y kubelet kubeadm kubectl
 
 systemctl enable kubelet
 systemctl start kubelet
-
-rpm -qa dsrtools
-echo 172.27.180.206=23 | tee /etc/dsr.d/vip.conf
-dsrctl start
