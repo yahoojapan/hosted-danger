@@ -4,12 +4,12 @@
 ## リリース・デプロイ手順
 masterにマージされた時点で、本番環境へのリリースが完了する。
 
-詳しくは[screwdriver.yaml](https://ghe.corp.yahoo.co.jp/approduce/hosted-danger/blob/master/screwdriver.yaml)を参照。
+詳しくは[screwdriver.yaml](https://ghe.corp.yahoo.co.jp/hosted-danger/hosted-danger/blob/master/screwdriver.yaml)を参照。
 
 ## master・node構築手順(共通)
 対象のインスタンスをYNW(YJLinux 7系)で作成後、sshして以下のコマンドを実行
 ```bash
-curl -sf https://raw.ghe.corp.yahoo.co.jp/approduce/hosted-danger/master/ops/setup | sudo bash -s
+curl -sf https://raw.ghe.corp.yahoo.co.jp/hosted-danger/hosted-danger/master/ops/setup | sudo bash -s
 ```
 
 ## masterの構築手順
@@ -42,7 +42,7 @@ sudo service kubelet restart
 
 Serviceの立ち上げ
 ```bash
-kubectl apply -f https://raw.ghe.corp.yahoo.co.jp/approduce/hosted-danger/master/ops/kube/service.yaml
+kubectl apply -f https://raw.ghe.corp.yahoo.co.jp/hosted-danger/hosted-danger/master/ops/kube/service.yaml
 ```
 
 ## nodeの追加手順
@@ -87,8 +87,8 @@ kubectl get service kubernetes-dashboard -n kube-system
 
 次にサービスアカウントを作成
 ```bash
-kubectl apply -f https://raw.ghe.corp.yahoo.co.jp/approduce/hosted-danger/master/ops/kube/admin-user.yaml
-kubectl apply -f https://raw.ghe.corp.yahoo.co.jp/approduce/hosted-danger/master/ops/kube/admin-user-role.yaml
+kubectl apply -f https://raw.ghe.corp.yahoo.co.jp/hosted-danger/hosted-danger/master/ops/kube/admin-user.yaml
+kubectl apply -f https://raw.ghe.corp.yahoo.co.jp/hosted-danger/hosted-danger/master/ops/kube/admin-user-role.yamlg
 ```
 
 ログインに必要なTokenの取得

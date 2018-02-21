@@ -111,7 +111,7 @@ module HostedDanger
       [
         "--region kks",
         "--endpoint https://kks.dragon.storage-yahoo.jp",
-        "--bucket approduce-bundler-cache",
+        "--bucket hosted-danger-cache",
         "--access_key #{ENV["DRAGON_ACCESS_KEY"]}",
         "--secret_access_key #{ENV["DRAGON_SECRET_ACCESS_KEY"]}",
       ].join(" ")

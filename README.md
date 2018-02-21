@@ -28,7 +28,7 @@ crystal spec
 
 ynw (YJLinux 7系) の場合、以下のコマンドでdockerとdocker-cleanをインストール可能
 ```bash
-curl -sf https://raw.ghe.corp.yahoo.co.jp/approduce/hosted-danger/master/tools/setup | sudo bash -s
+curl -sf https://raw.ghe.corp.yahoo.co.jp/hosted-danger/hosted-danger/master/tools/setup | sudo bash -s
 ```
 
 ### コマンド
@@ -69,6 +69,6 @@ GemfileとGemfile.lockの編集
 - Gemfileが存在しない場合は、bundlerを使用しない
 
 ## 運用
-- Kubernetesのセットアップ及びリリース・デプロイなどの手順については[ops](https://ghe.corp.yahoo.co.jp/approduce/hosted-danger/tree/master/ops)
-- [Screwdriver.cdで使用しているイメージ(hosted-danger-sd-image)](http://cd.docker-registry.corp.yahoo.co.jp/repository/approduce/hosted-danger-sd-image)
-- [KubernetesのPodで使用しているイメージ(hosted-danger-image)](http://cd.docker-registry.corp.yahoo.co.jp/repository/approduce/hosted-danger-image)
+- Kubernetesのセットアップ及びリリース・デプロイなどの手順については[ops](https://ghe.corp.yahoo.co.jp/hosted-danger/hosted-danger/tree/master/ops)
+- [Screwdriver.cdで使用しているイメージ(hosted-danger-sd-image)](http://cd.docker-registry.corp.yahoo.co.jp/repository/hosted-danger/hosted-danger-sd-image)
+- [KubernetesのPodで使用しているイメージ(hosted-danger-image)](http://cd.docker-registry.corp.yahoo.co.jp/repository/hosted-danger/hosted-danger-image)
