@@ -11,7 +11,7 @@ module HostedDanger
       return nil
     end
 
-    def initialize(@yaml : YAML::Any?)
+    def initialize(@yaml : YAML::Any)
     end
 
     def lang : String?
