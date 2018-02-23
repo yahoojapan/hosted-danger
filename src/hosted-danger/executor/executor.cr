@@ -78,6 +78,7 @@ module HostedDanger
           exec_cmd(repo_tag, "danger_ruby #{danger_params_ruby(dangerfile_path)}", directory)
         end
       when "js"
+        puts "point 0"
         if config_wrapper.use_yarn?
           exec_cmd(repo_tag, "yarn install", directory)
           exec_cmd(repo_tag, "yarn danger ci #{danger_params_js(dangerfile_path)}", directory)
@@ -85,7 +86,9 @@ module HostedDanger
           exec_cmd(repo_tag, "npm_cache install #{dragon_params}", directory, true)
           exec_cmd(repo_tag, "npm run danger ci #{danger_params_js(dangerfile_path)}", directory)
         else
+          puts "point 1"
           exec_cmd(repo_tag, "danger ci #{danger_params_js(dangerfile_path)}", directory)
+          puts "point 2"
         end
       else
         raise "unknown lang: #{config_wrapper.get_lang}"
