@@ -98,23 +98,16 @@ module HostedDanger
         access_token = access_token_from_git_host(git_host)
         org, repo = org_repo_from_html_url(html_url)
 
-        executables = [] of Executable
+        pull_json = open_pull(git_host, org, repo, pr_number, access_token)
 
-        pulls_json = open_pulls(git_host, org, repo, access_token)
-        pulls_json.each do |pull_json|
-          next unless pull_json["number"].as_i != pr_number
-
-          executables << {
-            action:      action,
-            event:       event,
-            html_url:    html_url,
-            pr_number:   pr_number,
-            sha:         pull_json["head"]["sha"].as_s,
-            raw_payload: payload_json.to_s,
-          }
-        end
-
-        return executables
+        return [{
+          action:      action,
+          event:       event,
+          html_url:    html_url,
+          pr_number:   pr_number,
+          sha:         pull_json["head"]["sha"].as_s,
+          raw_payload: payload_json.to_s,
+        }]
       end
 
       nil

@@ -7,6 +7,28 @@ module HostedDanger
       SUCCESS = "success"
     end
 
+    def open_pull(git_host : String, org : String, repo : String, pr_number : Int32, access_token : String) : JSON::Any
+      url = "https://#{git_host}/api/v3/repos/#{org}/#{repo}/pulls/#{pr_number}"
+
+      headers = HTTP::Headers.new
+      headers["Authorization"] = "token #{access_token}"
+
+      res = HTTP::Client.get(url, headers)
+
+      JSON.parse(res.body)
+    end
+
+    def open_pulls(git_host : String, org : String, repo : String, access_token : String) : JSON::Any
+      url = "https://#{git_host}/api/v3/repos/#{org}/#{repo}/pulls?state=open"
+
+      headers = HTTP::Headers.new
+      headers["Authorization"] = "token #{access_token}"
+
+      res = HTTP::Client.get(url, headers)
+
+      JSON.parse(res.body)
+    end
+
     def build_state(
       git_host : String,
       org : String,
