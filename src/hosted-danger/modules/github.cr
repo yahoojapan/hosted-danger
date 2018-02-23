@@ -7,7 +7,12 @@ module HostedDanger
       SUCCESS = "success"
     end
 
-    def open_pull(git_host : String, org : String, repo : String, pr_number : Int32, access_token : String) : JSON::Any
+    def pull_request_open?(git_host : String, org : String, repo : String, pr_number : Int32, access_token : String) : Bool
+      pull_json = pull_request(git_host, org, repo, pr_number, access_token)
+      pull_json["state"].as_s == "open"
+    end
+
+    def pull_request(git_host : String, org : String, repo : String, pr_number : Int32, access_token : String) : JSON::Any
       url = "https://#{git_host}/api/v3/repos/#{org}/#{repo}/pulls/#{pr_number}"
 
       headers = HTTP::Headers.new
@@ -18,7 +23,7 @@ module HostedDanger
       JSON.parse(res.body)
     end
 
-    def open_pulls(git_host : String, org : String, repo : String, access_token : String) : JSON::Any
+    def pull_requests(git_host : String, org : String, repo : String, access_token : String) : JSON::Any
       url = "https://#{git_host}/api/v3/repos/#{org}/#{repo}/pulls?state=open"
 
       headers = HTTP::Headers.new

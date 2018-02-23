@@ -58,6 +58,10 @@ module HostedDanger
         return L.info "#{repo_tag} configuration doesn't include #{event} (#{config_wrapper.events})"
       end
 
+      unless pull_request_open?(git_host, org, repo, pr_number, access_token)
+        return L.info "#{repo_tag} the pull request has been closed."
+      end
+
       L.info "#{repo_tag} execute: #{event} #{html_url} #{pr_number}"
 
       case config_wrapper.get_lang
