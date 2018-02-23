@@ -100,7 +100,7 @@ module HostedDanger
       if git_host && org && repo && sha && access_token
         build_state(
           git_host.not_nil!, org.not_nil!, repo.not_nil!, sha.not_nil!,
-          "crashed during the execution. ERROR LOG ->",
+          "Crashed during the execution. ERROR LOG ->",
           access_token.not_nil!,
           State::ERROR,
           paster_url,
