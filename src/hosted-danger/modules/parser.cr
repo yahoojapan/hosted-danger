@@ -26,16 +26,5 @@ module HostedDanger
 
       raise "failed to parse the html url: #{html_url} @org_repo_from_html_url"
     end
-
-    def open_pulls_from_sha(git_host : String, org : String, repo : String, access_token : String, sha : String) : JSON::Any
-      url = "https://#{git_host}/api/v3/repos/#{org}/#{repo}/pulls?state=open"
-
-      headers = HTTP::Headers.new
-      headers["Authorization"] = "token #{access_token}"
-
-      res = HTTP::Client.get(url, headers)
-
-      JSON.parse(res.body)
-    end
   end
 end
