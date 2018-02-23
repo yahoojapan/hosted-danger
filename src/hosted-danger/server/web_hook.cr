@@ -98,7 +98,7 @@ module HostedDanger
         access_token = access_token_from_git_host(git_host)
         org, repo = org_repo_from_html_url(html_url)
 
-        pull_json = open_pull(git_host, org, repo, pr_number, access_token)
+        pull_json = pull_request(git_host, org, repo, pr_number, access_token)
 
         return [{
           action:      action,
@@ -125,7 +125,7 @@ module HostedDanger
       sha = payload_json["sha"].as_s
       org, repo = org_repo_from_html_url(html_url)
 
-      pulls_json = open_pulls(git_host, org, repo, access_token)
+      pulls_json = pull_requests(git_host, org, repo, access_token)
 
       executables = [] of Executable
 
