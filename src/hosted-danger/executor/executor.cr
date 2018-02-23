@@ -91,12 +91,19 @@ module HostedDanger
         raise "unknown lang: #{config_wrapper.get_lang}"
       end
     rescue e : Exception
+      paster_url : String = if error_message = e.message
+        upload_text(error_message)
+      else
+        "Sorry, failed to create logs..."
+      end
+
       if git_host && org && repo && sha && access_token
         build_state(
           git_host.not_nil!, org.not_nil!, repo.not_nil!, sha.not_nil!,
-          "crashed duraing the execution...",
+          "Crashed during the execution. ERROR LOG ->",
           access_token.not_nil!,
           State::ERROR,
+          paster_url,
         )
       end
 
@@ -154,6 +161,7 @@ module HostedDanger
     end
 
     include Github
+    include Paster
     include Parser
   end
 end

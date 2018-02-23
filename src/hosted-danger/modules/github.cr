@@ -42,6 +42,7 @@ module HostedDanger
       description : String,
       access_token : String,
       state : String,
+      log_url : String? = nil,
       context : String = "danger/danger"
     )
       url = "https://#{git_host}/api/v3/repos/#{org}/#{repo}/statuses/#{sha}"
@@ -49,7 +50,11 @@ module HostedDanger
       headers = HTTP::Headers.new
       headers["Authorization"] = "token #{access_token}"
 
-      target_url = "https://#{git_host}/#{org}/#{repo}/commit/#{sha}"
+      target_url = if _log_url = log_url
+                     _log_url
+                   else
+                     "https://#{git_host}/#{org}/#{repo}/commit/#{sha}"
+                   end
 
       body = {
         state:       state,
