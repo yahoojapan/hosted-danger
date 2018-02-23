@@ -1,2 +1,3 @@
-# todo: 汎用性の高いものに
-warn "Work In Progress" if github.pr_title.downcase.include?("wip")
+danger.import_dangerfile(github: "hosted-danger/dangerfile",
+                         branch: "master",
+                         path: "ruby/Dangerfile.default")
