@@ -144,7 +144,6 @@ module HostedDanger
     private def danger_params_ruby(dangerfile_path : String) : String
       [
         "--dangerfile=#{dangerfile_path}",
-        "--remove-previous-comments",
       ].join(" ")
     end
 
