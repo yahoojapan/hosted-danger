@@ -14,15 +14,19 @@ module HostedDanger
       org, repo = org_repo_from_html_url(html_url)
       access_token = access_token_from_git_host(git_host)
 
-      # build_state(
-      #   git_host,
-      #   org,
-      #   repo,
-      #   sha,
-      #   "I'm running!",
-      #   access_token,
-      #   State::PENDING,
-      # )
+      # 2018/02/23 js版のDangerではstatusが変わらないバグ or こちらの設定ミスがあり
+      # pendingのステータスが残り続けてしまうため、一旦rubyのみで有効にする
+      if config_wrapper.get_lang == "ruby"
+        build_state(
+          git_host,
+          org,
+          repo,
+          sha,
+          "I'm running!",
+          access_token,
+          State::PENDING,
+        )
+      end
 
       repo_tag = "#{html_url} (event: #{event}) (pr: #{pr_number})"
       directory = "/tmp/#{Random::Secure.hex}"
@@ -31,7 +35,7 @@ module HostedDanger
       ENV["DANGER_ACTION"] = action
       ENV["DANGER_EVENT"] = event
       ENV["DANGER_PAYLOAD"] = raw_payload
-      ENV["DANGER_ID"] = "#{html_url}@#{pr_number}"
+      ENV["DANGER_ID"] = "HD:#{html_url}@#{pr_number}"
       ENV["DANGER_GITHUB_HOST"] = git_host
       ENV["DANGER_GITHUB_API_BASE_URL"] = "https://#{git_host}/api/v3"
       ENV["ghprbPullId"] = "#{pr_number}"
@@ -157,8 +161,6 @@ module HostedDanger
     private def danger_params_js(dangerfile_path : String) : String
       [
         "--dangerfile #{dangerfile_path}",
-        "--id #{ENV["DANGER_ID"]}",
-        "--verbose",
       ].join(" ")
     end
 
