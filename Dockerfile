@@ -13,7 +13,7 @@ RUN crystal --version
 RUN shards --version
 
 # ruby
-RUN apt-get install ruby -y
+RUN apt-get install ruby ruby-dev -y
 RUN ruby --version
 RUN gem install bundler --no-ri --no-rdoc
 
