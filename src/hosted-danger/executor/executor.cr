@@ -157,6 +157,8 @@ module HostedDanger
     private def danger_params_js(dangerfile_path : String) : String
       [
         "--dangerfile #{dangerfile_path}",
+        "--id #{ENV["DANGER_ID"]}",
+        "--verbose",
       ].join(" ")
     end
 
