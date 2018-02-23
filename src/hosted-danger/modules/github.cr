@@ -37,12 +37,9 @@ module HostedDanger
       description : String,
       access_token : String,
       state : String,
-      context : String = "default"
+      context : String = "danger/danger"
     )
       url = "https://#{git_host}/api/v3/repos/#{org}/#{repo}/statuses/#{sha}"
-
-      puts "---- url ----"
-      puts url
 
       headers = HTTP::Headers.new
       headers["Authorization"] = "token #{access_token}"
@@ -56,10 +53,7 @@ module HostedDanger
         context:     context,
       }.to_json
 
-      puts "---- res ----"
       res = HTTP::Client.post(url, headers, body)
-
-      puts res
 
       JSON.parse(res.body)
     end

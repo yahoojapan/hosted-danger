@@ -19,7 +19,7 @@ module HostedDanger
         org,
         repo,
         sha,
-        "Danger is running!",
+        "I'm running!",
         access_token,
         State::PENDING,
       )
@@ -90,7 +90,7 @@ module HostedDanger
       if git_host && org && repo && sha && access_token
         build_state(
           git_host.not_nil!, org.not_nil!, repo.not_nil!, sha.not_nil!,
-          "Danger has been crashed duraing the execution.",
+          "crashed duraing the execution...",
           access_token.not_nil!,
           State::ERROR,
         )
