@@ -50,12 +50,14 @@ module HostedDanger
       event = "pull_request"
       html_url = payload_json["repository"]["html_url"].as_s
       pr_number = payload_json["number"].as_i
+      sha = payload_json["pull_request"]["head"]["sha"].as_s
 
       [{
         action:      action,
         event:       event,
         html_url:    html_url,
         pr_number:   pr_number,
+        sha:         sha,
         raw_payload: payload_json.to_s,
       }]
     end
@@ -68,12 +70,14 @@ module HostedDanger
       event = "pull_request_review"
       html_url = payload_json["repository"]["html_url"].as_s
       pr_number = payload_json["pull_request"]["number"].as_i
+      sha = payload_json["pull_request"]["head"]["sha"].as_s
 
       [{
         action:      action,
         event:       event,
         html_url:    html_url,
         pr_number:   pr_number,
+        sha:         sha,
         raw_payload: payload_json.to_s,
       }]
     end
@@ -90,13 +94,27 @@ module HostedDanger
         html_url = $1.to_s
         pr_number = $2.to_i
 
-        return [{
-          action:      action,
-          event:       event,
-          html_url:    html_url,
-          pr_number:   pr_number,
-          raw_payload: payload_json.to_s,
-        }]
+        git_host = git_host_from_html_url(html_url)
+        access_token = access_token_from_git_host(git_host)
+        org, repo = org_repo_from_html_url(html_url)
+
+        executables = [] of Executable
+
+        pulls_json = open_pulls(git_host, org, repo, access_token)
+        pulls_json.each do |pull_json|
+          next unless pull_json["number"].as_i != pr_number
+
+          executables << {
+            action:      action,
+            event:       event,
+            html_url:    html_url,
+            pr_number:   pr_number,
+            sha:         pull_json["head"]["sha"].as_s,
+            raw_payload: payload_json.to_s,
+          }
+        end
+
+        return executables
       end
 
       nil
@@ -111,10 +129,10 @@ module HostedDanger
       git_host = git_host_from_html_url(html_url)
       access_token = access_token_from_git_host(git_host)
 
-      commit_sha = payload_json["sha"].as_s
+      sha = payload_json["sha"].as_s
       org, repo = org_repo_from_html_url(html_url)
 
-      pulls_json = open_pulls_from_sha(git_host, org, repo, access_token, commit_sha)
+      pulls_json = open_pulls(git_host, org, repo, access_token)
 
       executables = [] of Executable
 
@@ -124,8 +142,9 @@ module HostedDanger
           event:       event,
           html_url:    html_url,
           pr_number:   pull_json["number"].as_i,
+          sha:         sha,
           raw_payload: payload_json.to_s,
-        } if pull_json["head"]["sha"].as_s == commit_sha
+        } if pull_json["head"]["sha"].as_s == sha
       end
 
       executables

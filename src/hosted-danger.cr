@@ -6,6 +6,7 @@ module HostedDanger
     event: String,
     html_url: String,
     pr_number: Int32,
+    sha: String,
     raw_payload: String,
   )
 
