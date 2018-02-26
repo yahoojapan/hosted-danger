@@ -40,6 +40,7 @@ module HostedDanger
       [
         "pull_request",
         "pull_request_review",
+        "pull_request_review_comment",
         "issue_comment",
         "status",
       ]
