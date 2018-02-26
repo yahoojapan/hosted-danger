@@ -36,6 +36,7 @@ module HostedDanger
 
       return e_pull_request(payload_json) if event == "pull_request"
       return e_pull_request_review(payload_json) if event == "pull_request_review"
+      return e_pull_request_review_comment(payload_json) if event == "pull_request_review_comment"
       return e_issue_comment(payload_json) if event == "issue_comment"
       return e_status(payload_json) if event == "status"
 
@@ -80,6 +81,26 @@ module HostedDanger
         sha:         sha,
         raw_payload: payload_json.to_json,
       }]
+    end
+
+    def e_pull_request_review_comment(payload_json) : Array(Executable)?
+      return L.info "skip: sender is ap-approduce" if payload_json["sender"]["login"] == "ap-approduce"
+      return L.info "skip: deleted" if payload_json["action"] == "deleted"
+
+      action = payload_json["action"].as_s
+      event = "pull_request_review_comment"
+      html_url = payload_json["repository"]["html_url"].as_s
+      pr_number = payload_json["pull_request"]["number"].as_i
+      sha = payload_json["pull_request"]["head"]["sha"].as_s
+
+      [{
+         action:      action,
+        event:       event,
+        html_url:    html_url,
+        pr_number:   pr_number,
+        sha:         sha,
+        raw_payload: payload_json.to_json,
+       }]
     end
 
     def e_issue_comment(payload_json) : Array(Executable)?
