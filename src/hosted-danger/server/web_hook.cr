@@ -58,7 +58,7 @@ module HostedDanger
         html_url:    html_url,
         pr_number:   pr_number,
         sha:         sha,
-        raw_payload: payload_json.to_s,
+        raw_payload: payload_json.to_json,
       }]
     end
 
@@ -78,7 +78,7 @@ module HostedDanger
         html_url:    html_url,
         pr_number:   pr_number,
         sha:         sha,
-        raw_payload: payload_json.to_s,
+        raw_payload: payload_json.to_json,
       }]
     end
 
@@ -106,7 +106,7 @@ module HostedDanger
           html_url:    html_url,
           pr_number:   pr_number,
           sha:         pull_json["head"]["sha"].as_s,
-          raw_payload: payload_json.to_s,
+          raw_payload: payload_json.to_json,
         }]
       end
 
@@ -136,7 +136,7 @@ module HostedDanger
           html_url:    html_url,
           pr_number:   pull_json["number"].as_i,
           sha:         sha,
-          raw_payload: payload_json.to_s,
+          raw_payload: payload_json.to_json,
         } if pull_json["head"]["sha"].as_s == sha
       end
 
