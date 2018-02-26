@@ -3,6 +3,7 @@ module HostedDanger
     DANGERFILE_DEFAULT = File.expand_path("../../../../Dangerfile.default", __FILE__)
 
     def exec_danger(executable : Executable)
+      env = {} of String => String
       action = executable[:action]
       event = executable[:event]
       html_url = executable[:html_url]
@@ -15,33 +16,34 @@ module HostedDanger
       access_token = access_token_from_git_host(git_host)
 
       repo_tag = "#{html_url} (event: #{event}) (pr: #{pr_number})"
-      directory = "/tmp/#{Random::Secure.hex}"
+      dir = "/tmp/#{Random::Secure.hex}"
 
-      ENV["GIT_URL"] = html_url
-      ENV["DANGER_ACTION"] = action
-      ENV["DANGER_EVENT"] = event
-      ENV["DANGER_PAYLOAD"] = raw_payload
-      ENV["DANGER_GITHUB_HOST"] = git_host
-      ENV["DANGER_GITHUB_API_BASE_URL"] = "https://#{git_host}/api/v3"
-      ENV["ghprbPullId"] = "#{pr_number}"
-      ENV["ghprbGhRepository"] = "#{org}/#{repo}"
+      env["GIT_URL"] = html_url
+      env["DANGER_ACTION"] = action
+      env["DANGER_EVENT"] = event
+      env["DANGER_PAYLOAD"] = raw_payload
+      env["DANGER_GITHUB_HOST"] = git_host
+      env["DANGER_GITHUB_API_BASE_URL"] = "https://#{git_host}/api/v3"
+      env["ghprbPullId"] = "#{pr_number}"
+      env["ghprbGhRepository"] = "#{org}/#{repo}"
+      env.merge!(executable[:env])
 
       if git_host == "ghe.corp.yahoo.co.jp"
-        ENV["DANGER_GITHUB_API_TOKEN"] = ENV["DANGER_GITHUB_API_TOKEN_GHE"]
+        env["DANGER_GITHUB_API_TOKEN"] = ENV["DANGER_GITHUB_API_TOKEN_GHE"]
       else
-        ENV["DANGER_GITHUB_API_TOKEN"] = ENV["DANGER_GITHUB_API_TOKEN_PARTNER"]
+        env["DANGER_GITHUB_API_TOKEN"] = ENV["DANGER_GITHUB_API_TOKEN_PARTNER"]
       end
 
-      FileUtils.mkdir(directory)
+      FileUtils.mkdir(dir)
 
-      exec_cmd(repo_tag, "git init", directory)
-      exec_cmd(repo_tag, "git remote add origin #{html_url}", directory)
-      exec_cmd(repo_tag, "git fetch origin pull/#{pr_number}/head --depth 50", directory)
-      exec_cmd(repo_tag, "git reset --hard FETCH_HEAD", directory)
+      exec_cmd(repo_tag, "git init", dir, env)
+      exec_cmd(repo_tag, "git remote add origin #{html_url}", dir, env)
+      exec_cmd(repo_tag, "git fetch origin pull/#{pr_number}/head --depth 50", dir, env)
+      exec_cmd(repo_tag, "git reset --hard FETCH_HEAD", dir, env)
 
-      config_wrapper = ConfigWrapper.new(directory)
+      config_wrapper = ConfigWrapper.new(dir)
 
-      dangerfile_path = "#{directory}/#{config_wrapper.dangerfile}"
+      dangerfile_path = "#{dir}/#{config_wrapper.dangerfile}"
 
       unless config_wrapper.events.includes?(event)
         return L.info "#{repo_tag} configuration doesn't include #{event} (#{config_wrapper.events})"
@@ -73,24 +75,24 @@ module HostedDanger
       when "ruby"
         unless File.exists?(dangerfile_path)
           L.info "#{repo_tag} Dangerfile not found, use the default one"
-          exec_cmd(repo_tag, "cp #{DANGERFILE_DEFAULT} #{dangerfile_path}", directory)
+          exec_cmd(repo_tag, "cp #{DANGERFILE_DEFAULT} #{dangerfile_path}", dir, env)
         end
 
         if config_wrapper.use_bundler?
-          exec_cmd(repo_tag, "bundle_cache install #{dragon_params}", directory, true)
-          exec_cmd(repo_tag, "bundle exec danger #{danger_params_ruby(dangerfile_path)}", directory)
+          exec_cmd(repo_tag, "bundle_cache install #{dragon_params}", dir, env, true)
+          exec_cmd(repo_tag, "bundle exec danger #{danger_params_ruby(dangerfile_path)}", dir, env)
         else
-          exec_cmd(repo_tag, "danger_ruby #{danger_params_ruby(dangerfile_path)}", directory)
+          exec_cmd(repo_tag, "danger_ruby #{danger_params_ruby(dangerfile_path)}", dir, env)
         end
       when "js"
         if config_wrapper.use_yarn?
-          exec_cmd(repo_tag, "yarn install", directory)
-          exec_cmd(repo_tag, "yarn danger ci #{danger_params_js(dangerfile_path)}", directory)
+          exec_cmd(repo_tag, "yarn install", dir, env)
+          exec_cmd(repo_tag, "yarn danger ci #{danger_params_js(dangerfile_path)}", dir, env)
         elsif config_wrapper.use_npm?
-          exec_cmd(repo_tag, "npm_cache install #{dragon_params}", directory, true)
-          exec_cmd(repo_tag, "npm run danger ci #{danger_params_js(dangerfile_path)}", directory)
+          exec_cmd(repo_tag, "npm_cache install #{dragon_params}", dir, env, true)
+          exec_cmd(repo_tag, "npm run danger ci #{danger_params_js(dangerfile_path)}", dir, env)
         else
-          exec_cmd(repo_tag, "danger ci #{danger_params_js(dangerfile_path)}", directory)
+          exec_cmd(repo_tag, "danger ci #{danger_params_js(dangerfile_path)}", dir, env)
         end
       else
         raise "unknown lang: #{config_wrapper.get_lang}"
@@ -114,24 +116,24 @@ module HostedDanger
 
       raise e
     ensure
-      FileUtils.rm_rf(directory.not_nil!) if directory
+      FileUtils.rm_rf(dir.not_nil!) if dir
     end
 
-    def exec_cmd(repo_tag : String, cmd : String, dir : String, hide_command : Bool = false)
+    def exec_cmd(repo_tag : String, cmd : String, dir : String, env : Hash(String, String), hide_command : Bool = false)
       L.info "#{repo_tag} #{hide_command ? "**HIDDEN**" : cmd}"
 
-      res = exec_cmd_internal(cmd, dir)
+      res = exec_cmd_internal(cmd, dir, env)
 
       L.info "#{repo_tag} #{res[:stdout]}"
 
       raise "#{repo_tag}\n\n**STDOUT**\n```\n#{res[:stdout]}\n```\n\n**STDERR**\n```\n#{res[:stderr]}\n```" unless res[:status] == 0
     end
 
-    private def exec_cmd_internal(cmd : String, dir : String)
+    private def exec_cmd_internal(cmd : String, dir : String, env : Hash(String, String))
       stdout = IO::Memory.new
       stderr = IO::Memory.new
 
-      process = Process.run(cmd, shell: true, output: stdout, error: stderr, chdir: dir)
+      process = Process.run(cmd, env: env, shell: true, output: stdout, error: stderr, chdir: dir)
 
       stdout.close
       stderr.close

@@ -16,6 +16,7 @@ describe HostedDanger::WebHook do
     executable[:pr_number].should eq(1)
     executable[:raw_payload].should eq(payload_json.to_json)
     executable[:sha].should eq("0d1a26e67d8f5eaf1f6ba5c57fc3c7d91ac0fd1c")
+    executable[:env].should eq({} of String => String)
   end
 
   it "e_pull_request_review" do
@@ -33,6 +34,7 @@ describe HostedDanger::WebHook do
     executable[:pr_number].should eq(8)
     executable[:raw_payload].should eq(payload_json.to_json)
     executable[:sha].should eq("b7a1f9c27caa4e03c14a88feb56e2d4f7500aa63")
+    executable[:env].should eq({} of String => String)
   end
 
   it "e_pull_request_review_comment" do
@@ -50,6 +52,7 @@ describe HostedDanger::WebHook do
     executable[:pr_number].should eq(1)
     executable[:raw_payload].should eq(payload_json.to_json)
     executable[:sha].should eq("0d1a26e67d8f5eaf1f6ba5c57fc3c7d91ac0fd1c")
+    executable[:env].should eq({} of String => String)
   end
 
   # 外部依存のためMock化必須

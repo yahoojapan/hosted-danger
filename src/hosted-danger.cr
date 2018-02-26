@@ -10,6 +10,7 @@ module HostedDanger
     pr_number: Int32,
     sha: String,
     raw_payload: String,
+    env: Hash(String, String),
   )
 
   def self.set_envs
