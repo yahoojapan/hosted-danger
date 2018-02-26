@@ -128,7 +128,7 @@ module HostedDanger
 
       L.info "#{repo_tag} #{res[:stdout]}"
 
-      raise "#{repo_tag}\n\n**STDOUT**\n```\n#{res[:stdout]}\n```\n\n**STDERR**\n```\n#{res[:stderr]}\n```" unless res[:status] == 0
+      raise "#{repo_tag}\n\n```\n#{cmd}\n```\n\n**STDOUT**\n```\n#{res[:stdout]}\n```\n\n**STDERR**\n```\n#{res[:stderr]}\n```" unless res[:status] == 0
     end
 
     private def exec_cmd_internal(cmd : String, dir : String, env : Hash(String, String))
