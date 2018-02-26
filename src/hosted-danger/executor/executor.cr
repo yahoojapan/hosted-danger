@@ -21,7 +21,6 @@ module HostedDanger
       ENV["DANGER_ACTION"] = action
       ENV["DANGER_EVENT"] = event
       ENV["DANGER_PAYLOAD"] = raw_payload
-      # ENV["DANGER_ID"] = "HD:#{html_url}@#{pr_number}"
       ENV["DANGER_GITHUB_HOST"] = git_host
       ENV["DANGER_GITHUB_API_BASE_URL"] = "https://#{git_host}/api/v3"
       ENV["ghprbPullId"] = "#{pr_number}"
