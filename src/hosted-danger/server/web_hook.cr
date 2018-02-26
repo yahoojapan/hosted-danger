@@ -24,7 +24,19 @@ module HostedDanger
       context.response.print "OK"
       context
     rescue e : Exception
-      L.error e.message.not_nil!
+      message : String = if message = e.message
+                           message
+                         else
+                           "No message"
+                         end
+
+      paster_url = if _payload = payload
+                     upload_text(_payload)
+                   else
+                     "No payload"
+                   end
+
+      L.error "message:\n\n#{message}\n\nlog\n\n#{paster_url}"
 
       context.response.status_code = 400
       context.response.print "Bad Request"
