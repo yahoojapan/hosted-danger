@@ -37,7 +37,7 @@ module HostedDanger
                      "No payload"
                    end
 
-      L.error "message:\n\n#{message}\n\nlog\n\n#{paster_url}"
+      L.error "<< Message >>:\n#{message}\n\n<< Log >>\n#{paster_url}"
 
       context.response.status_code = 400
       context.response.print "Bad Request"
