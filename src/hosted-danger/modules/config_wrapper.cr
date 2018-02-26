@@ -42,7 +42,8 @@ module HostedDanger
         "pull_request_review",
         "pull_request_review_comment",
         "issue_comment",
-        "status",
+        # https://ghe.corp.yahoo.co.jp/hosted-danger/hosted-danger/issues/99
+        # "status",
       ]
     end
 
