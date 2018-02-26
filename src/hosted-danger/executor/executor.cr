@@ -138,7 +138,7 @@ module HostedDanger
 
       L.info "#{repo_tag} #{res[:stdout]}"
 
-      _msg_command = "**COMMAND**```\n#{hide_command ? "HIDDEN" : cmd}\n```"
+      _msg_command = "**COMMAND**\n```\n#{hide_command ? "HIDDEN" : cmd}\n```"
       _msg_stdout = "**STDOUT**\n```\n#{res[:stdout]}\n```"
       _msg_stderr = "**STDERR**\n```\n#{res[:stderr]}\n```"
 
