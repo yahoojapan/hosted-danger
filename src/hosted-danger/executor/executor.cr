@@ -112,28 +112,15 @@ module HostedDanger
 
       raise e
     ensure
-      puts "come here"
-      puts config_wrapper.nil?
-      puts config_wrapper.not_nil!.get_lang
-      puts git_host.nil?
-      puts org.nil?
-      puts repo.nil?
-      puts sha.nil?
-      puts access_token.nil?
-
       # jsではstatusがsuccessにならない問題がある(danger側の問題かこちら側の問題かは不明)
       # そこで、pendingのstatusを最後にsuccessにする必要がある
       if config_wrapper && config_wrapper.not_nil!.get_lang == "js" && git_host && org && repo && sha && access_token
-        puts "come here"
         status = build_state_of(git_host.not_nil!, org.not_nil!, repo.not_nil!, sha.not_nil!, access_token.not_nil!)
-        puts status
-
         status.each do |state|
-          puts state
           if state["creator"]["login"].as_s == "ap-danger" && state["state"].as_s == "pending"
             build_state(
               git_host.not_nil!, org.not_nil!, repo.not_nil!, sha.not_nil!,
-              "Success! :tada:",
+              "Success! yay!",
               access_token.not_nil!,
               State::SUCCESS,
             )
