@@ -34,6 +34,23 @@ module HostedDanger
       JSON.parse(res.body)
     end
 
+    def build_state_of(
+          git_host : String,
+          org : String,
+          repo : String,
+          sha : String,
+          access_token : String,
+        )
+      url = "https://#{git_host}/api/v3/repos/#{org}/#{repo}/commits/#{sha}/statuses"
+
+      headers = HTTP::Headers.new
+      headers["Authorization"] = "token #{access_token}"
+
+      res = HTTP::Client.get(url, headers)
+
+      JSON.parse(res.body)
+    end
+
     def build_state(
       git_host : String,
       org : String,

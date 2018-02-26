@@ -57,21 +57,15 @@ module HostedDanger
 
       L.info "#{repo_tag} execute: #{event} #{html_url} #{pr_number}"
 
-      # 2018/02/23
-      # js版のDangerではstatusが変わらないバグ or こちらの設定ミスがあり
-      # pendingのステータスが残り続けてしまうため、一旦rubyのみで有効にする
-      # 解決したら config_wrapper.get_lang == "ruby" を外して良い
-      if config_wrapper.get_lang == "ruby"
-        build_state(
-          git_host,
-          org,
-          repo,
-          sha,
-          "I'm running!",
-          access_token,
-          State::PENDING,
-        )
-      end
+      build_state(
+        git_host,
+        org,
+        repo,
+        sha,
+        "I'm running!",
+        access_token,
+        State::PENDING,
+      )
 
       case config_wrapper.get_lang
       when "ruby"
@@ -119,6 +113,26 @@ module HostedDanger
       raise e
     ensure
       FileUtils.rm_rf(dir.not_nil!) if dir
+
+      # jsではstatusがsuccessにならない問題がある(danger側の問題かこちら側の問題かは不明)
+      # そこで、pendingのstatusを最後にsuccessにする必要がある
+      if config_wrapper && config_wrapper.not_nil!.get_lang == "js" && git_host && org && repo && sha && access_token
+        puts "come here"
+        status = build_state_of(git_host.not_nil!, org.not_nil!, repo.not_nil!, sha.not_nil!,access_token.not_nil!)
+        puts status
+
+        status.each do |state|
+          puts state
+          if state["creator"]["login"].as_s == "ap-danger" && state["state"].as_s == "pending"
+            build_state(
+              git_host.not_nil!, org.not_nil!, repo.not_nil!, sha.not_nil!,
+              "Success! :tada:",
+              access_token.not_nil!,
+              State::SUCCESS,
+            )
+          end
+        end
+      end
     end
 
     def exec_cmd(repo_tag : String, cmd : String, dir : String, env : Hash(String, String), hide_command : Bool = false)
@@ -129,8 +143,8 @@ module HostedDanger
       L.info "#{repo_tag} #{res[:stdout]}"
 
       _msg_command = "**COMMAND**```\n#{hide_command ? "HIDDEN" : cmd}\n```"
-      _msg_stdout  = "**STDOUT**\n```\n#{res[:stdout]}\n```"
-      _msg_stderr  = "**STDERR**\n```\n#{res[:stderr]}\n```"
+      _msg_stdout = "**STDOUT**\n```\n#{res[:stdout]}\n```"
+      _msg_stderr = "**STDERR**\n```\n#{res[:stderr]}\n```"
 
       raise "#{repo_tag}\n\n#{_msg_command}\n\n#{_msg_stdout}\n\n#{_msg_stderr}" unless res[:status] == 0
     end
