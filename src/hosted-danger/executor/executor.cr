@@ -76,7 +76,7 @@ module HostedDanger
       case config_wrapper.get_lang
       when "ruby"
         unless File.exists?(dangerfile_path)
-          L.info "#{repo_tag} Dangerfile not found, use the default one"
+          L.info "#{repo_tag} Dangerfile.hosted not found, use the default one"
           exec_cmd(repo_tag, "cp #{DANGERFILE_DEFAULT} #{dangerfile_path}", dir, env)
         end
 

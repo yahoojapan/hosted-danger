@@ -2,7 +2,7 @@ lang:
   ruby
 
 dangerfile:
-  Dangerfile.hosted
+  Dangerfile.hosted2
 
 events:
   - pull_request

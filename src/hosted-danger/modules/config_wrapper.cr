@@ -11,10 +11,10 @@ module HostedDanger
         return config.lang.not_nil! if config.lang
       end
 
-      ruby_dangerfile_exists? = File.exists?("#{@directory}/Dangerfile")
+      ruby_dangerfile_exists? = File.exists?("#{@directory}/Dangerfile.hosted")
       return "ruby" if ruby_dangerfile_exists?
 
-      js_dangerfile_exists? = File.exists?("#{@directory}/dangerfile.js") || File.exists?("#{@directory}/dangerfile.ts")
+      js_dangerfile_exists? = File.exists?("#{@directory}/dangerfile.js.hosted") || File.exists?("#{@directory}/dangerfile.ts.hosted")
       return "js" if js_dangerfile_exists?
 
       "ruby" # by default
@@ -26,10 +26,10 @@ module HostedDanger
       end
 
       if get_lang == "js"
-        return "dangerfile.js"
+        return "dangerfile.js.hosted"
       end
 
-      "Dangerfile"
+      "Dangerfile.hosted"
     end
 
     def events : Array(String)
