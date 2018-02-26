@@ -52,6 +52,7 @@ module HostedDanger
       html_url = payload_json["repository"]["html_url"].as_s
       pr_number = payload_json["number"].as_i
       sha = payload_json["pull_request"]["head"]["sha"].as_s
+      env = {} of String => String
 
       [{
         action:      action,
@@ -60,6 +61,7 @@ module HostedDanger
         pr_number:   pr_number,
         sha:         sha,
         raw_payload: payload_json.to_json,
+        env:         env,
       }]
     end
 
@@ -72,6 +74,7 @@ module HostedDanger
       html_url = payload_json["repository"]["html_url"].as_s
       pr_number = payload_json["pull_request"]["number"].as_i
       sha = payload_json["pull_request"]["head"]["sha"].as_s
+      env = {} of String => String
 
       [{
         action:      action,
@@ -80,6 +83,7 @@ module HostedDanger
         pr_number:   pr_number,
         sha:         sha,
         raw_payload: payload_json.to_json,
+        env:         env,
       }]
     end
 
@@ -92,6 +96,7 @@ module HostedDanger
       html_url = payload_json["repository"]["html_url"].as_s
       pr_number = payload_json["pull_request"]["number"].as_i
       sha = payload_json["pull_request"]["head"]["sha"].as_s
+      env = {} of String => String
 
       [{
         action:      action,
@@ -100,6 +105,7 @@ module HostedDanger
         pr_number:   pr_number,
         sha:         sha,
         raw_payload: payload_json.to_json,
+        env:         env,
       }]
     end
 
@@ -108,12 +114,13 @@ module HostedDanger
       return L.info "skip: deleted" if payload_json["action"] == "deleted"
 
       if payload_json["issue"]["html_url"].as_s =~ /(.*)\/pull\/(.*)/
-        ENV["DANGER_PR_COMMENT"] = payload_json["comment"]["body"].as_s
-
         action = payload_json["action"].as_s
         event = "issue_comment"
         html_url = $1.to_s
         pr_number = $2.to_i
+
+        env = {} of String => String
+        env["DANGER_PR_COMMENT"] = payload_json["comment"]["body"].as_s
 
         git_host = git_host_from_html_url(html_url)
         access_token = access_token_from_git_host(git_host)
@@ -128,6 +135,7 @@ module HostedDanger
           pr_number:   pr_number,
           sha:         pull_json["head"]["sha"].as_s,
           raw_payload: payload_json.to_json,
+          env:         env,
         }]
       end
 
@@ -142,6 +150,7 @@ module HostedDanger
       html_url = payload_json["repository"]["html_url"].as_s
       git_host = git_host_from_html_url(html_url)
       access_token = access_token_from_git_host(git_host)
+      env = {} of String => String
 
       sha = payload_json["sha"].as_s
       org, repo = org_repo_from_html_url(html_url)
@@ -158,6 +167,7 @@ module HostedDanger
           pr_number:   pull_json["number"].as_i,
           sha:         sha,
           raw_payload: payload_json.to_json,
+          env:         env,
         } if pull_json["head"]["sha"].as_s == sha
       end
 
