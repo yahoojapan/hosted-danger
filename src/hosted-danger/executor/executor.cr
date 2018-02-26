@@ -157,13 +157,14 @@ module HostedDanger
     private def danger_params_ruby(dangerfile_path : String) : String
       [
         "--dangerfile=#{dangerfile_path}",
-        "--danger_id=test",
+        "--danger_id=#{DANGER_ID}",
       ].join(" ")
     end
 
     private def danger_params_js(dangerfile_path : String) : String
       [
         "--dangerfile #{dangerfile_path}",
+        "--danger_id #{DANGER_ID}",
       ].join(" ")
     end
 
