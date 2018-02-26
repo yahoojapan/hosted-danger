@@ -14,7 +14,7 @@ module HostedDanger
       ruby_dangerfile_exists? = File.exists?("#{@directory}/Dangerfile.hosted")
       return "ruby" if ruby_dangerfile_exists?
 
-      js_dangerfile_exists? = File.exists?("#{@directory}/dangerfile.js.hosted") || File.exists?("#{@directory}/dangerfile.ts.hosted")
+      js_dangerfile_exists? = File.exists?("#{@directory}/dangerfile.hosted.js") || File.exists?("#{@directory}/dangerfile.hosted.ts")
       return "js" if js_dangerfile_exists?
 
       "ruby" # by default
@@ -26,7 +26,7 @@ module HostedDanger
       end
 
       if get_lang == "js"
-        return "dangerfile.js.hosted"
+        return "dangerfile.hosted.js"
       end
 
       "Dangerfile.hosted"
