@@ -70,11 +70,11 @@ describe HostedDanger::ConfigWrapper do
     config_wrapper = HostedDanger::ConfigWrapper.new("#{sample_root}/empty")
 
     events = config_wrapper.events
-    events.size.should eq(5)
-    events.includes?("pull_request")
-    events.includes?("pull_request_review")
-    events.includes?("pull_request_review_comment")
-    events.includes?("issue_comment")
-    events.includes?("status")
+    events.size.should eq(4)
+    events.includes?("pull_request").should be_true
+    events.includes?("pull_request_review").should be_true
+    events.includes?("pull_request_review_comment").should be_true
+    events.includes?("issue_comment").should be_true
+    events.includes?("status").should be_false
   end
 end
