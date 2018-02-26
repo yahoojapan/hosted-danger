@@ -12,6 +12,7 @@ module HostedDanger
         raise "Empty body"
       end
 
+      payload_for_error_log = payload
       payload_json = JSON.parse(payload)
 
       executables? = create_executable(context, payload_json)
@@ -24,14 +25,14 @@ module HostedDanger
       context.response.print "OK"
       context
     rescue e : Exception
-      message : String = if message = e.message
-                           message
-                         else
-                           "No message"
-                         end
+      message : String = if error_message = e.message
+        error_message
+      else
+        "No message"
+      end
 
-      paster_url = if _payload = payload
-                     upload_text(_payload)
+      paster_url = if _payload_for_error_log = payload_for_error_log
+                     upload_text(_payload_for_error_log)
                    else
                      "No payload"
                    end
