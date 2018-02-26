@@ -113,8 +113,6 @@ module HostedDanger
       raise e
     ensure
       puts "come here"
-      FileUtils.rm_rf(dir.not_nil!) if dir
-
       puts config_wrapper.nil?
       puts config_wrapper.not_nil!.get_lang
       puts git_host.nil?
@@ -142,6 +140,8 @@ module HostedDanger
           end
         end
       end
+
+      FileUtils.rm_rf(dir.not_nil!) if dir
     end
 
     def exec_cmd(repo_tag : String, cmd : String, dir : String, env : Hash(String, String), hide_command : Bool = false)
