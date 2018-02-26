@@ -92,7 +92,7 @@ module HostedDanger
           exec_cmd(repo_tag, "yarn danger ci #{danger_params_js(dangerfile_path)}", dir, env)
         elsif config_wrapper.use_npm?
           exec_cmd(repo_tag, "npm_cache install #{dragon_params}", dir, env, true)
-          exec_cmd(repo_tag, "npm run danger ci #{danger_params_js(dangerfile_path)}", dir, env)
+          exec_cmd(repo_tag, "npm run danger -- ci #{danger_params_js(dangerfile_path)}", dir, env)
         else
           exec_cmd(repo_tag, "danger ci #{danger_params_js(dangerfile_path)}", dir, env)
         end
@@ -128,7 +128,11 @@ module HostedDanger
 
       L.info "#{repo_tag} #{res[:stdout]}"
 
-      raise "#{repo_tag}\n\n```\n#{cmd}\n```\n\n**STDOUT**\n```\n#{res[:stdout]}\n```\n\n**STDERR**\n```\n#{res[:stderr]}\n```" unless res[:status] == 0
+      _msg_command = "**COMMAND**```\n#{hide_command ? "HIDDEN" : cmd}\n```"
+      _msg_stdout  = "**STDOUT**\n```\n#{res[:stdout]}\n```"
+      _msg_stderr  = "**STDERR**\n```\n#{res[:stderr]}\n```"
+
+      raise "#{repo_tag}\n\n#{_msg_command}\n\n#{_msg_stdout}\n\n#{_msg_stderr}" unless res[:status] == 0
     end
 
     private def exec_cmd_internal(cmd : String, dir : String, env : Hash(String, String))
