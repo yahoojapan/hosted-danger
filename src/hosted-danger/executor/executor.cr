@@ -41,8 +41,8 @@ module HostedDanger
       FileUtils.mkdir(dir)
 
       exec_cmd(repo_tag, "git init", dir, env)
-      exec_cmd(repo_tag, "git config --local user.name ap-danger")
-      exec_cmd(repo_tag, "git config --local user.email ap-danger")
+      exec_cmd(repo_tag, "git config --local user.name ap-danger", dir, env)
+      exec_cmd(repo_tag, "git config --local user.email ap-danger", dir, env)
       exec_cmd(repo_tag, "git remote add origin #{html_url}", dir, env)
       exec_cmd(repo_tag, "git fetch origin pull/#{pr_number}/head --depth 50", dir, env)
       exec_cmd(repo_tag, "git reset --hard FETCH_HEAD", dir, env)
