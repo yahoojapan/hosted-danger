@@ -4,7 +4,7 @@ describe HostedDanger::Config do
   it "parsing danger.yaml successfully" do
     config = HostedDanger::Config.parse("#{sample_root}/config/danger.yaml").not_nil!
     config.lang.not_nil!.should eq("ruby")
-    config.dangerfile.not_nil!.should eq("Dangerfile.hosted")
+    config.dangerfile.not_nil!.should eq("Dangerfile.hosted2")
     config.events.not_nil!.includes?("pull_request").should be_true
     config.events.not_nil!.includes?("issue_comment").should be_true
     config.events.not_nil!.includes?("pull_request_review").should be_false
