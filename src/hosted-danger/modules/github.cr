@@ -43,7 +43,7 @@ module HostedDanger
       access_token : String,
       state : String,
       log_url : String? = nil,
-      context : String = "danger/danger"
+      context : String = "danger/#{DANGER_ID}"
     )
       url = "https://#{git_host}/api/v3/repos/#{org}/#{repo}/statuses/#{sha}"
 
