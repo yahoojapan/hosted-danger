@@ -42,6 +42,18 @@ module HostedDanger
 
       config_wrapper = ConfigWrapper.new(directory)
 
+      dangerfile_path = "#{directory}/#{config_wrapper.dangerfile}"
+
+      unless config_wrapper.events.includes?(event)
+        return L.info "#{repo_tag} configuration doesn't include #{event} (#{config_wrapper.events})"
+      end
+
+      unless pull_request_open?(git_host, org, repo, pr_number, access_token)
+        return L.info "#{repo_tag} the pull request has been closed."
+      end
+
+      L.info "#{repo_tag} execute: #{event} #{html_url} #{pr_number}"
+
       # 2018/02/23
       # js版のDangerではstatusが変わらないバグ or こちらの設定ミスがあり
       # pendingのステータスが残り続けてしまうため、一旦rubyのみで有効にする
@@ -57,18 +69,6 @@ module HostedDanger
           State::PENDING,
         )
       end
-
-      dangerfile_path = "#{directory}/#{config_wrapper.dangerfile}"
-
-      unless config_wrapper.events.includes?(event)
-        return L.info "#{repo_tag} configuration doesn't include #{event} (#{config_wrapper.events})"
-      end
-
-      unless pull_request_open?(git_host, org, repo, pr_number, access_token)
-        return L.info "#{repo_tag} the pull request has been closed."
-      end
-
-      L.info "#{repo_tag} execute: #{event} #{html_url} #{pr_number}"
 
       case config_wrapper.get_lang
       when "ruby"
