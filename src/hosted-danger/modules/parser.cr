@@ -26,5 +26,13 @@ module HostedDanger
 
       raise "failed to parse the html url: #{html_url} @org_repo_from_html_url"
     end
+
+    def remote_from_html_url(html_url : String, access_token : String) : String
+      if html_url =~ /https:\/\/(.*)/
+        return "https://ap-danger:#{access_token}@#{$1}"
+      end
+
+      raise "invalid html_url #{html_url} @remote_from_html_url"
+    end
   end
 end
