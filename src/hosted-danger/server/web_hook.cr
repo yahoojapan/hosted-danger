@@ -44,7 +44,7 @@ module HostedDanger
     end
 
     def e_pull_request(payload_json) : Array(Executable)?
-      return L.info "skip: sender is ap-approduce" if payload_json["sender"]["login"] == "ap-approduce"
+      return L.info "skip: sender is ap-danger" if payload_json["sender"]["login"] == "ap-danger"
       return L.info "skip: closed" if payload_json["action"] == "closed"
 
       action = payload_json["action"].as_s
@@ -64,7 +64,7 @@ module HostedDanger
     end
 
     def e_pull_request_review(payload_json) : Array(Executable)?
-      return L.info "skip: sender is ap-approduce" if payload_json["sender"]["login"] == "ap-approduce"
+      return L.info "skip: sender is ap-danger" if payload_json["sender"]["login"] == "ap-danger"
       return L.info "skip: dismissed" if payload_json["action"] == "dismissed"
 
       action = payload_json["action"].as_s
@@ -84,7 +84,7 @@ module HostedDanger
     end
 
     def e_pull_request_review_comment(payload_json) : Array(Executable)?
-      return L.info "skip: sender is ap-approduce" if payload_json["sender"]["login"] == "ap-approduce"
+      return L.info "skip: sender is ap-danger" if payload_json["sender"]["login"] == "ap-danger"
       return L.info "skip: deleted" if payload_json["action"] == "deleted"
 
       action = payload_json["action"].as_s
@@ -94,17 +94,17 @@ module HostedDanger
       sha = payload_json["pull_request"]["head"]["sha"].as_s
 
       [{
-         action:      action,
+        action:      action,
         event:       event,
         html_url:    html_url,
         pr_number:   pr_number,
         sha:         sha,
         raw_payload: payload_json.to_json,
-       }]
+      }]
     end
 
     def e_issue_comment(payload_json) : Array(Executable)?
-      return L.info "skip: sender is ap-approduce" if payload_json["sender"]["login"] == "ap-approduce"
+      return L.info "skip: sender is ap-danger" if payload_json["sender"]["login"] == "ap-danger"
       return L.info "skip: deleted" if payload_json["action"] == "deleted"
 
       if payload_json["issue"]["html_url"].as_s =~ /(.*)\/pull\/(.*)/
@@ -135,7 +135,7 @@ module HostedDanger
     end
 
     def e_status(payload_json) : Array(Executable)?
-      return L.info "skip: sender is ap-approduce" if payload_json["sender"]["login"] == "ap-approduce"
+      return L.info "skip: sender is ap-danger" if payload_json["sender"]["login"] == "ap-danger"
 
       action = payload_json["state"].as_s
       event = "status"
