@@ -164,7 +164,7 @@ module HostedDanger
     private def danger_params_js(dangerfile_path : String) : String
       [
         "--dangerfile #{dangerfile_path}",
-        "--danger_id #{DANGER_ID}",
+        "--id #{DANGER_ID}",
       ].join(" ")
     end
 
