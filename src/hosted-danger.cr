@@ -1,7 +1,7 @@
 require "json"
 
 module HostedDanger
-  DANGER_ID = "Hosted Danger"
+  DANGER_ID = "HostedDanger"
 
   alias Executable = NamedTuple(
     action: String,
