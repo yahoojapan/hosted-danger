@@ -35,12 +35,12 @@ module HostedDanger
     end
 
     def build_state_of(
-          git_host : String,
-          org : String,
-          repo : String,
-          sha : String,
-          access_token : String,
-        )
+      git_host : String,
+      org : String,
+      repo : String,
+      sha : String,
+      access_token : String
+    )
       url = "https://#{git_host}/api/v3/repos/#{org}/#{repo}/commits/#{sha}/statuses"
 
       headers = HTTP::Headers.new
