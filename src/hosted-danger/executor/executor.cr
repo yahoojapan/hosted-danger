@@ -136,13 +136,14 @@ module HostedDanger
 
       res = exec_cmd_internal(cmd, dir, env)
 
-      L.info "#{repo_tag} #{res[:stdout]}"
+      L.info "#{repo_tag} ===> #{res[:stdout]}" if res[:stdout].size > 0
 
-      _msg_command = "**COMMAND**\n```\n#{hide_command ? "HIDDEN" : cmd}\n```"
-      _msg_stdout = "**STDOUT**\n```\n#{res[:stdout]}\n```"
-      _msg_stderr = "**STDERR**\n```\n#{res[:stderr]}\n```"
-
-      raise "#{repo_tag}\n\n#{_msg_command}\n\n#{_msg_stdout}\n\n#{_msg_stderr}" unless res[:status] == 0
+      unless res[:status] == 0
+        _msg_command = "**COMMAND**\n```\n#{hide_command ? "HIDDEN" : cmd}\n```"
+        _msg_stdout = "**STDOUT**\n```\n#{res[:stdout]}\n```"
+        _msg_stderr = "**STDERR**\n```\n#{res[:stderr]}\n```"
+        raise "#{repo_tag}\n\n#{_msg_command}\n\n#{_msg_stdout}\n\n#{_msg_stderr}"
+      end
     end
 
     private def exec_cmd_internal(cmd : String, dir : String, env : Hash(String, String))

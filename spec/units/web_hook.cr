@@ -1,3 +1,5 @@
+require "../mocks/*"
+
 describe HostedDanger::WebHook do
   payloads_root = File.expand_path("../../payloads", __FILE__)
 
@@ -55,11 +57,38 @@ describe HostedDanger::WebHook do
     executable[:env].should eq({} of String => String)
   end
 
-  # 外部依存のためMock化必須
-  pending "e_issue_comment" do
+  it "e_issue_comment" do
+    payload_json = JSON.parse(File.read("#{payloads_root}/issue_comment.json"))
+
+    webhook = HostedDangerMocks::WebHook.new
+
+    executables = webhook.e_issue_comment(payload_json).not_nil!
+    executables.size.should eq(1)
+
+    executable = executables[0]
+    executable[:action].should eq("created")
+    executable[:event].should eq("issue_comment")
+    executable[:html_url].should eq("https://github.com/baxterthehacker/public-repo")
+    executable[:pr_number].should eq(2)
+    executable[:raw_payload].should eq(payload_json.to_json)
+    executable[:sha].should eq("ok")
+    executable[:env].should eq({"DANGER_PR_COMMENT" => "You are totally right! I'll get this fixed right away."} of String => String)
   end
 
-  # 外部依存のためMock化必須
-  pending "e_status" do
+  it "e_status" do
+    payload_json = JSON.parse(File.read("#{payloads_root}/status.json"))
+
+    webhook = HostedDangerMocks::WebHook.new
+
+    executables = webhook.e_status(payload_json).not_nil!
+    executables.size.should eq(1)
+
+    executable = executables[0]
+    executable[:action].should eq("success")
+    executable[:event].should eq("status")
+    executable[:html_url].should eq("https://github.com/baxterthehacker/public-repo")
+    executable[:pr_number].should eq(1)
+    executable[:raw_payload].should eq(payload_json.to_json)
+    executable[:sha].should eq("ok")
   end
 end

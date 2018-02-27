@@ -40,7 +40,7 @@ module HostedDanger
       repo : String,
       sha : String,
       access_token : String
-    )
+    ) : JSON::Any
       url = "https://#{git_host}/api/v3/repos/#{org}/#{repo}/commits/#{sha}/statuses"
 
       headers = HTTP::Headers.new

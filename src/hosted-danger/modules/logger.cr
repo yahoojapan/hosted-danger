@@ -24,7 +24,7 @@ module HostedDanger
 
     def self.log_out(tag, msg)
       msg_with_tag = "[#{ftime}]: [#{tag}] #{msg}"
-      puts msg_with_tag
+      puts msg_with_tag unless ENV["SPEC"]? == "true"
     end
 
     def self.ftime : String
