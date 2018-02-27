@@ -63,6 +63,28 @@ kubectl get nodes
 
 ## Tips
 
+## 手元からkubectlを実行する
+
+1. 手元にkubectlをインストールする
+```bash
+brew install kubectl
+```
+
+2. `hosted-danger/hosted-danger-secrets`からconfigをDLしてきて、手元の`.kube/config`をそれに置き換える
+
+## Podのログを見る
+
+以下でも良いが、
+```bash
+kubectl logs [pod名] -f
+```
+
+[stern](https://github.com/wercker/stern)が楽でおすすめ
+```bash
+brew install stern
+stern hd-deployment*
+```
+
 ### PVM等でリブートが必要になったの方法
 
 masterは特に何も気にせずrebootしてしまってOK
