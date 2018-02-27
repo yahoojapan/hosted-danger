@@ -13,26 +13,26 @@ module HostedDangerMocks
     end
 
     def build_state_of(
-          git_host : String,
-          org : String,
-          repo : String,
-          sha : String,
-          access_token : String
-        ) : JSON::Any
+      git_host : String,
+      org : String,
+      repo : String,
+      sha : String,
+      access_token : String
+    ) : JSON::Any
       JSON.parse(%({"test": "ok"}))
     end
 
     def build_state(
-          git_host : String,
-          org : String,
-          repo : String,
-          sha : String,
-          description : String,
-          access_token : String,
-          state : String,
-          log_url : String? = nil,
-          context : String = "danger/#{DANGER_ID}"
-        ) : JSON::Any
+      git_host : String,
+      org : String,
+      repo : String,
+      sha : String,
+      description : String,
+      access_token : String,
+      state : String,
+      log_url : String? = nil,
+      context : String = "danger/#{DANGER_ID}"
+    ) : JSON::Any
       JSON.parse(%({"test": "ok"}))
     end
   end
