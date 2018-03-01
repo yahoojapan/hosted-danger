@@ -13,7 +13,6 @@ module HostedDanger
       override_headers = HTTP::Headers.new
       override_headers["Host"] = @git_host
       override_headers["Authorization"] = "token #{@access_token}"
-      override_headers["Content-Type"] = "application/json" if context.request.method.downcase == "post"
 
       context.request.headers.merge!(override_headers)
     end
@@ -21,10 +20,10 @@ module HostedDanger
     # TODO: spec for this
     def rewrite_resource(context) : String
       resource = context.request.resource
-                 .lchop("/proxy")
-                 .lchop("/ghe/")
-                 .lchop("/partner/")
-                 .lchop("/git/")
+                                .lchop("/proxy")
+                                .lchop("/ghe/")
+                                .lchop("/partner/")
+                                .lchop("/git/")
       resource
     end
 

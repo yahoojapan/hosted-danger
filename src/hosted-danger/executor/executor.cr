@@ -74,7 +74,8 @@ module HostedDanger
         end
 
         if config_wrapper.use_bundler?
-          exec_cmd(repo_tag, "bundle_cache install #{dragon_params}", dir, env, true)
+          # TODO: revert here
+          # exec_cmd(repo_tag, "bundle_cache install #{dragon_params}", dir, env, true)
           exec_cmd(repo_tag, "bundle exec danger #{danger_params_ruby(dangerfile_path)}", dir, env)
         else
           exec_cmd(repo_tag, "danger_ruby #{danger_params_ruby(dangerfile_path)}", dir, env)
