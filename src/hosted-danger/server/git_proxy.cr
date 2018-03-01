@@ -41,9 +41,10 @@ module HostedDanger
 
       res = HTTP::Client.get("https://#{@git_host}/api/v3/#{resource}", headers)
 
-      puts res.body
+      puts res
 
       context.response.status_code = res.status_code
+      context.response.content_type = "application/json"
       context.response.print res.body
       context
     end
@@ -67,9 +68,10 @@ module HostedDanger
 
       res = HTTP::Client.post("https://#{@git_host}/api/v3/#{resource}", headers, payload)
 
-      puts res.body
+      puts res
 
       context.response.status_code = res.status_code
+      context.response.content_type = "application/json"
       context.response.print res.body
       context
     end
@@ -93,9 +95,10 @@ module HostedDanger
 
       res = HTTP::Client.patch("https://#{@git_host}/api/v3/#{resource}", headers, payload)
 
-      puts res.body
+      puts res
 
       context.response.status_code = res.status_code
+      context.response.content_type = "application/json"
       context.response.print res.body
       context
     end
