@@ -28,7 +28,7 @@ module HostedDanger
     end
 
     def converted_hosts(body : String) : String
-      body.gsub("ghe.corp.yahoo.co.jp/api/v3", "localhost/proxy/ghe")
+      body.gsub("https://ghe.corp.yahoo.co.jp/api/v3", "http://localhost/proxy/ghe")
     end
 
     def proxy_get(context, params)
