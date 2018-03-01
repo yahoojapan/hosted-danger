@@ -22,4 +22,4 @@ if [[ -z "${DRAGON_SECRET_ACCESS_KEY}" ]]; then
     exit -1
 fi
 
-echo "{\"access_token_ghe\": \"$ACCESS_TOKEN_GHE\", \"access_token_partner\": \"$ACCESS_TOKEN_PARTNER\", \"dragon_access_key\": \"${DRAGON_ACCESS_KEY}\", \"dragon_secret_access_key\": \"${DRAGON_SECRET_ACCESS_KEY}\"}" > token.json
+echo "{\"access_token_ghe\": \"$ACCESS_TOKEN_GHE\", \"access_token_partner\": \"$ACCESS_TOKEN_PARTNER\", \"access_token_git\": \"$ACCESS_TOKEN_GIT\", \"dragon_access_key\": \"${DRAGON_ACCESS_KEY}\", \"dragon_secret_access_key\": \"${DRAGON_SECRET_ACCESS_KEY}\"}" > token.json

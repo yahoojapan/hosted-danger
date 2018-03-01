@@ -23,16 +23,11 @@ module HostedDanger
       env["DANGER_EVENT"] = event
       env["DANGER_PAYLOAD"] = raw_payload
       env["DANGER_GITHUB_HOST"] = git_host
-      env["DANGER_GITHUB_API_BASE_URL"] = "https://#{git_host}/api/v3"
+      env["DANGER_GITHUB_API_BASE_URL"] = "http://localhost/proxy"
+      env["DANGER_GITHUB_API_TOKEN"] = "Hi there! :)"
       env["ghprbPullId"] = "#{pr_number}"
       env["ghprbGhRepository"] = "#{org}/#{repo}"
       env.merge!(executable[:env])
-
-      if git_host == "ghe.corp.yahoo.co.jp"
-        env["DANGER_GITHUB_API_TOKEN"] = ENV["DANGER_GITHUB_API_TOKEN_GHE"]
-      else
-        env["DANGER_GITHUB_API_TOKEN"] = ENV["DANGER_GITHUB_API_TOKEN_PARTNER"]
-      end
 
       FileUtils.mkdir(dir)
 

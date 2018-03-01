@@ -1,4 +1,5 @@
 require "router"
+require "json"
 require "./server/*"
 
 module HostedDanger
@@ -8,6 +9,7 @@ module HostedDanger
     def initialize
       @health_check = HealthCheck.new
       @web_hook = WebHook.new
+      @git_proxy = GitProxy.new
     end
 
     def draw_routes
@@ -17,19 +19,19 @@ module HostedDanger
 
       # WebHook
       post "/hook" { |context, params| @web_hook.hook(context, params) }
+
+      # Internal Proxy
+      get "/proxy/*" { |context, params| @git_proxy.proxy_get(context, params) }
+      post "/proxy/*" { |context, params| @git_proxy.proxy_post(context, params) }
     end
 
     def run
-      server = HTTP::Server.new("0.0.0.0", port, [
+      server = HTTP::Server.new("0.0.0.0", 80, [
         LogHandler.new,
         HTTP::ErrorHandler.new,
         route_handler,
       ])
       server.listen
-    end
-
-    def port
-      ENV.has_key?("HD_PORT") ? ENV["HD_PORT"].to_i : 80
     end
   end
 end
