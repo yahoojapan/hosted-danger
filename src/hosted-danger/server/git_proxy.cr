@@ -27,6 +27,10 @@ module HostedDanger
       resource
     end
 
+    def converted_hosts(body : String) : String
+      body.gsub("ghe.corp.yahoo.co.jp/api/v3", "localhost/proxy/ghe")
+    end
+
     def proxy_get(context, params)
       puts "------PROXY GET------"
       p context
@@ -45,7 +49,7 @@ module HostedDanger
 
       context.response.status_code = res.status_code
       context.response.content_type = "application/vnd.github.v3+json"
-      context.response.print res.body
+      context.response.print converted_hosts(res.body)
       context
     end
 
@@ -72,7 +76,7 @@ module HostedDanger
 
       context.response.status_code = res.status_code
       context.response.content_type = "application/vnd.github.v3+json"
-      context.response.print res.body
+      context.response.print converted_hosts(res.body)
       context
     end
 
@@ -99,7 +103,7 @@ module HostedDanger
 
       context.response.status_code = res.status_code
       context.response.content_type = "application/vnd.github.v3+json"
-      context.response.print res.body
+      context.response.print converted_hosts(res.body)
       context
     end
 
