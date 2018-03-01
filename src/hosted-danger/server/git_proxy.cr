@@ -44,7 +44,7 @@ module HostedDanger
       puts res
 
       context.response.status_code = res.status_code
-      context.response.content_type = "application/json"
+      context.response.content_type = "application/vnd.github.v3+json"
       context.response.print res.body
       context
     end
@@ -71,7 +71,7 @@ module HostedDanger
       puts res
 
       context.response.status_code = res.status_code
-      context.response.content_type = "application/json"
+      context.response.content_type = "application/vnd.github.v3+json"
       context.response.print res.body
       context
     end
@@ -98,7 +98,7 @@ module HostedDanger
       puts res
 
       context.response.status_code = res.status_code
-      context.response.content_type = "application/json"
+      context.response.content_type = "application/vnd.github.v3+json"
       context.response.print res.body
       context
     end
