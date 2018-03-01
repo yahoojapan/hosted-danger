@@ -48,6 +48,7 @@ jobs:
     secrets:
       - ACCESS_TOKEN_GHE
       - ACCESS_TOKEN_PARTNER
+      - ACCESS_TOKEN_GIT
       - DRAGON_ACCESS_KEY
       - DRAGON_SECRET_ACCESS_KEY
 

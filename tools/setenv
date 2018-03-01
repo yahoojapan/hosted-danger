@@ -12,6 +12,11 @@ if [[ -z "${ACCESS_TOKEN_PARTNER}" ]]; then
     exit -1
 fi
 
+if [[ -z "${ACCESS_TOKEN_GIT}" ]]; then
+    echo "Please set \$ACCESS_TOKEN_GIT for the building"
+    exit -1
+fi
+
 if [[ -z "${DRAGON_ACCESS_KEY}" ]]; then
     echo "Please set \$DRAGON_ACCESS_KEY for the building"
     exit -1

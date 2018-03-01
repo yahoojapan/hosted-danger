@@ -9,7 +9,10 @@ module HostedDanger
     def initialize
       @health_check = HealthCheck.new
       @web_hook = WebHook.new
-      @git_proxy = GitProxy.new
+
+      @ghe_proxy = GitProxy.new("ghe.corp.yahoo.co.jp")
+      @partner_proxy = GitProxy.new("partner.git.corp.yahoo.co.jp")
+      @git_proxy = GitProxy.new("git.corp.yahoo.co.jp")
     end
 
     def draw_routes
@@ -21,8 +24,15 @@ module HostedDanger
       post "/hook" { |context, params| @web_hook.hook(context, params) }
 
       # Internal Proxy
-      get "/proxy/*" { |context, params| @git_proxy.proxy_get(context, params) }
-      post "/proxy/*" { |context, params| @git_proxy.proxy_post(context, params) }
+      get "/proxy/ghe/*" { |context, params| @ghe_proxy.proxy_get(context, params) }
+      get "/proxy/partner/*" { |context, params| @partner_proxy.proxy_get(context, params) }
+      get "/proxy/git/*" { |context, params| @git_proxy.proxy_get(context, params) }
+      post "/proxy/ghe/*" { |context, params| @ghe_proxy.proxy_post(context, params) }
+      post "/proxy/partner/*" { |context, params| @partner_proxy.proxy_post(context, params) }
+      post "/proxy/git/*" { |context, params| @git_proxy.proxy_post(context, params) }
+      patch "/proxy/ghe/*" { |context, params| @ghe_proxy.proxy_patch(context, params) }
+      patch "/proxy/partner/*" { |context, params| @partner_proxy.proxy_patch(context, params) }
+      patch "/proxy/git/*" { |context, params| @git_proxy.proxy_patch(context, params) }
     end
 
     def run

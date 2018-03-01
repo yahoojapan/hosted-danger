@@ -13,14 +13,13 @@ module HostedDanger
     env: Hash(String, String),
   )
 
-  def self.set_envs
-    ENV["JENKINS_URL"] = "I'm jenkins! :)"
-
+  def self.tokens
     token_path = File.expand_path("../../token.json", __FILE__)
     tokens = JSON.parse(File.read(token_path))
+  end
 
-    ENV["DANGER_GITHUB_API_TOKEN_GHE"] = tokens["access_token_ghe"].as_s
-    ENV["DANGER_GITHUB_API_TOKEN_PARTNER"] = tokens["access_token_partner"].as_s
+  def self.set_envs
+    ENV["JENKINS_URL"] = "I'm jenkins! :)"
     ENV["DRAGON_ACCESS_KEY"] = tokens["dragon_access_key"].as_s
     ENV["DRAGON_SECRET_ACCESS_KEY"] = tokens["dragon_secret_access_key"].as_s
   end
