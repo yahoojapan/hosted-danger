@@ -20,7 +20,12 @@ module HostedDanger
 
     # TODO: spec for this
     def rewrite_resource(context) : String
-      resource = context.request.resource.lchop("/proxy/")
+      resource = context.request.resource
+                 .lchop("/proxy")
+                 .lchop("/ghe/")
+                 .lchop("/partner/")
+                 .lchop("/git/")
+      resource
     end
 
     def proxy_get(context, params)
