@@ -29,7 +29,8 @@ module HostedDanger
 
     # will be deprecated
     def converted_hosts(body : String) : String
-      body.gsub("https://ghe.corp.yahoo.co.jp/api/v3", "http://localhost/proxy/ghe")
+      # body.gsub("https://ghe.corp.yahoo.co.jp/api/v3", "http://localhost/proxy/ghe")
+      body
     end
 
     def proxy_get(context, params)
@@ -45,8 +46,6 @@ module HostedDanger
       puts resource
 
       res = HTTP::Client.get("https://#{@git_host}/api/v3/#{resource}", headers)
-
-      puts res
 
       context.response.status_code = res.status_code
       context.response.content_type = "application/vnd.github.v3+json"
@@ -68,12 +67,8 @@ module HostedDanger
       puts resource
 
       payload = context.request.body.try &.gets_to_end
-      puts "------------------------ payload"
-      puts payload
 
       res = HTTP::Client.post("https://#{@git_host}/api/v3/#{resource}", headers, payload)
-
-      puts res
 
       context.response.status_code = res.status_code
       context.response.content_type = "application/vnd.github.v3+json"
@@ -95,12 +90,8 @@ module HostedDanger
       puts resource
 
       payload = context.request.body.try &.gets_to_end
-      puts "------------------------ payload"
-      puts payload
 
       res = HTTP::Client.patch("https://#{@git_host}/api/v3/#{resource}", headers, payload)
-
-      puts res
 
       context.response.status_code = res.status_code
       context.response.content_type = "application/vnd.github.v3+json"
