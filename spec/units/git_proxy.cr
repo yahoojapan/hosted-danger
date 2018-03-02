@@ -38,11 +38,16 @@ describe HostedDanger::GitProxy do
     resource.should eq("resource")
   end
 
-  it "convert_body" do
+  it "convert_body for api(pulls)" do
     git_proxy = HostedDanger::GitProxy.new
 
     body = git_proxy.convert_body(File.read("#{api_path}/pulls.json"), spec_git_context)
     body_json = JSON.parse(body)
     body_json["_links"]["issue"]["href"].as_s.should eq("http://localhost/proxy/ghe/repos/hosted-danger/hosted-danger/issues/3")
+  end
+
+  it "convert_body for api(issues) without any errors" do
+    git_proxy = HostedDanger::GitProxy.new
+    git_proxy.convert_body(File.read("#{api_path}/issues.json"), spec_git_context).should be_truthy
   end
 end

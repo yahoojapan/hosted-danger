@@ -21,7 +21,7 @@ module HostedDanger
       # RubyのDangerがここで直接 _links -> issue -> href を参照しているため
       # ここだけproxyのURLに置き換える
       # https://github.com/danger/danger/blob/250988a1ac5e93b8c3c9b6da5bd0fb5e737348a4/lib/danger/request_sources/github/github.rb#L131
-      if body_json["_links"]["issue"]["href"]?
+      if body_json["_links"]? && body_json["_links"]["issue"]? && body_json["_links"]["issue"]["href"]?
         _links_issue_href = body_json["_links"]["issue"]["href"].as_s.sub(
           "https://#{git_context[:git_host]}/api/v3",
           "http://localhost/proxy/#{git_context[:symbol]}",
