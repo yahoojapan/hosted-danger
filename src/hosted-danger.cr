@@ -25,8 +25,6 @@ module HostedDanger
 
   def self.set_envs
     ENV["JENKINS_URL"] = "I'm jenkins! :)"
-    ENV["DRAGON_ACCESS_KEY"] = envs["dragon_access_key"].as_s
-    ENV["DRAGON_SECRET_ACCESS_KEY"] = envs["dragon_secret_access_key"].as_s
   end
 
   def self.run

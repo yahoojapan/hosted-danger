@@ -68,6 +68,12 @@ GemfileとGemfile.lockの編集
 - Gemfileが存在し、dangerが定義されていない場合はbundlerを使用しない
 - Gemfileが存在しない場合は、bundlerを使用しない
 
+### Acceptance Testを実行したい
+1. [acceptance-tests](https://ghe.corp.yahoo.co.jp/hosted-danger/acceptance-tests)に開発環境のwebhookを設定
+1. Pull Requestsに各環境の実行環境があるので、「hoge」など適当なコメントをして実行させる (全てのPull Requestsに対して行う)
+1. エラーがでなければ実行成功
+1. コメントを消す
+
 ## 運用
 - Kubernetesのセットアップ及びリリース・デプロイなどの手順については[ops](https://ghe.corp.yahoo.co.jp/hosted-danger/hosted-danger/tree/master/ops)
 - [Screwdriver.cdで使用しているイメージ(sd-image)](http://cd.docker-registry.corp.yahoo.co.jp/repository/hosted-danger/sd-image)
