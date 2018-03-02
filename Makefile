@@ -11,8 +11,7 @@ run-i:
 	docker run -it --name hd-container -p 80:80 hd-image
 
 stop:
-	docker stop hd-container || true
-	/usr/local/bin/docker-clean run
+	/usr/local/bin/docker-clean run -s
 
 rerun: build stop run
 

@@ -3,7 +3,6 @@ require "../utils/ready_env_json"
 include HostedDanger::Executor
 
 describe HostedDanger::Executor do
-
   it "with_dragon_envs" do
     ready_env_json
 
