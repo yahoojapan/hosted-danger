@@ -38,33 +38,11 @@ module HostedDanger
 
     def proxy_get(context, params)
       git_context = get_git_context(params)
-      puts "-------------------- context --------------------"
-      p context
-
-      puts "-------------------- git_context --------------------"
-      puts git_context
 
       headers = rewrite_headers(context, git_context)
-      puts "-------------------- headers --------------------"
-      puts headers
-
       resource = rewrite_resource(context, git_context)
-      puts "-------------------- resource --------------------"
-      puts resource
-      puts "https://#{git_context[:git_host]}/api/v3/#{resource}"
 
       res = HTTP::Client.get("https://#{git_context[:git_host]}/api/v3/#{resource}", headers)
-      puts "-------------------- res --------------------"
-      p res
-
-      puts "-------------------- convert_body --------------------"
-
-      begin
-        puts convert_body(res.body, git_context)
-      rescue e : Exception
-        puts "error at convert_body"
-        p e
-      end
 
       context.response.status_code = res.status_code
       context.response.content_type = "application/vnd.github.v3+json"

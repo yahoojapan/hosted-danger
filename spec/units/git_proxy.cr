@@ -52,7 +52,7 @@ describe HostedDanger::GitProxy do
   end
 
   it "convert_body for api(comments) without any errors" do
-     git_proxy = HostedDanger::GitProxy.new
-     git_proxy.convert_body(File.read("#{api_path}/comments.json"), spec_git_context).should be_truthy
+    git_proxy = HostedDanger::GitProxy.new
+    git_proxy.convert_body(File.read("#{api_path}/comments.json"), spec_git_context).should be_truthy
   end
 end
