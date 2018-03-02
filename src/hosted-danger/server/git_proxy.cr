@@ -54,6 +54,15 @@ module HostedDanger
       puts "-------------------- res --------------------"
       p res
 
+      puts "-------------------- convert_body --------------------"
+
+      begin
+        puts convert_body(res.body, git_context)
+      rescue e : Exception
+        puts "error at convert_body"
+        p e
+      end
+
       context.response.status_code = res.status_code
       context.response.content_type = "application/vnd.github.v3+json"
       context.response.print convert_body(res.body, git_context)
