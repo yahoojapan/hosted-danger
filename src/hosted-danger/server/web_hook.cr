@@ -1,10 +1,5 @@
-require "json"
-
 module HostedDanger
   class WebHook
-    def initialize
-    end
-
     def hook(context, params)
       payload : String = if body = context.request.body
         body.gets_to_end
