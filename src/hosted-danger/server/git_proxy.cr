@@ -27,6 +27,7 @@ module HostedDanger
       resource
     end
 
+    # will be deprecated
     def converted_hosts(body : String) : String
       body.gsub("https://ghe.corp.yahoo.co.jp/api/v3", "http://localhost/proxy/ghe")
     end

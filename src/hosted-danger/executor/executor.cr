@@ -2,10 +2,6 @@ module HostedDanger
   module Executor
     DANGERFILE_DEFAULT = File.expand_path("../../../../Dangerfile.default", __FILE__)
 
-    def symbol(git_host : String) : String
-      git_host.split(".")[0]
-    end
-
     def exec_danger(executable : Executable)
       env = {} of String => String
       action = executable[:action]
@@ -27,7 +23,7 @@ module HostedDanger
       env["DANGER_EVENT"] = event
       env["DANGER_PAYLOAD"] = raw_payload
       env["DANGER_GITHUB_HOST"] = git_host
-      env["DANGER_GITHUB_API_BASE_URL"] = "http://localhost/proxy/#{symbol(git_host)}"
+      env["DANGER_GITHUB_API_BASE_URL"] = github_api_base_url(git_host)
       env["DANGER_GITHUB_API_TOKEN"] = "Hi there! :)"
       env["ghprbPullId"] = "#{pr_number}"
       env["ghprbGhRepository"] = "#{org}/#{repo}"
@@ -163,6 +159,11 @@ module HostedDanger
       }
     end
 
+    def github_api_base_url(git_host : String) : String
+      return "http://#{git_host}/api/v3" if ENV["DEV"]? == "true"
+      "http://localhost/proxy/#{symbol(git_host)}"
+    end
+
     private def dragon_params : String
       [
         "--region kks",
@@ -185,6 +186,10 @@ module HostedDanger
         "--dangerfile #{dangerfile_path}",
         "--id #{DANGER_ID}",
       ].join(" ")
+    end
+
+    private def symbol(git_host : String) : String
+      git_host.split(".")[0]
     end
 
     include Github

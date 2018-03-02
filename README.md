@@ -34,7 +34,7 @@ curl -sf https://raw.ghe.corp.yahoo.co.jp/hosted-danger/hosted-danger/master/too
 ### コマンド
 ```bash
 # ビルド
-> sudo ACCESS_TOKEN_GHE=hoge ACCESS_TOKEN_PARTNER=hoga DRAGON_ACCESS_KEY=fuga DRAGON_SECRET_ACCESS_KEY=hoga make build
+> sudo DEV=true ACCESS_TOKEN_GHE=hoge ACCESS_TOKEN_PARTNER=hoga DRAGON_ACCESS_KEY=fuga DRAGON_SECRET_ACCESS_KEY=hoga make build
 
 # コンテナの停止 & 削除
 > sudo make stop
@@ -46,10 +46,10 @@ curl -sf https://raw.ghe.corp.yahoo.co.jp/hosted-danger/hosted-danger/master/too
 > sudo make run-i
 
 # デーモンとしてコンテナをリスタート (ビルド -> 停止 -> 削除 -> スタート)
-> sudo ACCESS_TOKEN_GHE=hoge ACCESS_TOKEN_PARTNER=hoga DRAGON_ACCESS_KEY=fuga DRAGON_SECRET_ACCESS_KEY=hoga make rerun
+> sudo DEV=true ACCESS_TOKEN_GHE=hoge ACCESS_TOKEN_PARTNER=hoga DRAGON_ACCESS_KEY=fuga DRAGON_SECRET_ACCESS_KEY=hoga make rerun
 
 # インタラクティブにコンテナをリスタート (ビルド -> 停止 -> 削除 -> スタート)
-> sudo ACCESS_TOKEN_GHE=hoge ACCESS_TOKEN_PARTNER=hoga DRAGON_ACCESS_KEY=fuga DRAGON_SECRET_ACCESS_KEY=hoga make rerun-i
+> sudo DEV=true ACCESS_TOKEN_GHE=hoge ACCESS_TOKEN_PARTNER=hoga DRAGON_ACCESS_KEY=fuga DRAGON_SECRET_ACCESS_KEY=hoga make rerun-i
 ```
 
 ＊) `ACCESS_TOKEN_GHE`と`ACCESS_TOKEN_PARTNER`はそれぞれghe.corpとpartner.git.corpのAccess Token(要repoスコープ)
