@@ -1,102 +1,103 @@
 module HostedDanger
   class GitProxy
-    @access_token : String
+    alias GitContext = NamedTuple(symbol: String, git_host: String, access_token: String)
 
-    # TODO: support partner and git.corp
-    # idea set each host durating the initialization
-    def initialize(@git_host : String)
-      @access_token = access_token_from_git_host(@git_host)
-    end
-
-    # TODO: spec for this
-    def rewrite_headers(context) : HTTP::Headers
+    def rewrite_headers(context, git_context : GitContext) : HTTP::Headers
       override_headers = HTTP::Headers.new
-      override_headers["Host"] = @git_host
-      override_headers["Authorization"] = "token #{@access_token}"
+      override_headers["Host"] = git_context[:git_host]
+      override_headers["Authorization"] = "token #{git_context[:access_token]}"
 
       context.request.headers.merge!(override_headers)
     end
 
-    # TODO: spec for this
-    def rewrite_resource(context) : String
-      resource = context.request.resource
-                                .lchop("/proxy")
-                                .lchop("/ghe/")
-                                .lchop("/partner/")
-                                .lchop("/git/")
+    def rewrite_resource(context, git_context : GitContext) : String
+      resource = context.request.resource.lchop("/proxy").lchop("/#{git_context[:symbol]}/")
       resource
     end
 
-    # will be deprecated
-    def converted_hosts(body : String) : String
-      # body.gsub("https://ghe.corp.yahoo.co.jp/api/v3", "http://localhost/proxy/ghe")
-      body
+    def convert_body(body : String, git_context : GitContext) : String
+      body_json = JSON.parse(body)
+
+      # RubyのDangerがここで直接 _links -> issue -> href を参照しているため
+      # ここだけproxyのURLに置き換える
+      # https://github.com/danger/danger/blob/250988a1ac5e93b8c3c9b6da5bd0fb5e737348a4/lib/danger/request_sources/github/github.rb#L131
+      if body_json["_links"]["issue"]["href"]?
+           _links_issue_href = body_json["_links"]["issue"]["href"].as_s.sub(
+             "https://#{git_context[:git_host]}/api/v3",
+             "http://localhost/proxy/#{git_context[:symbol]}",
+           )
+
+           body_json["_links"]["issue"].as_h["href"] = _links_issue_href
+      end
+
+      body_json.to_json
     end
 
     def proxy_get(context, params)
-      puts "------PROXY GET------"
-      p context
+      git_context = get_git_context(params)
 
-      headers = rewrite_headers(context)
-      puts "------------------------ rewrite_headers"
-      puts headers
+      headers = rewrite_headers(context, git_context)
+      resource = rewrite_resource(context, git_context)
 
-      resource = rewrite_resource(context)
-      puts "------------------------ resource"
-      puts resource
-
-      res = HTTP::Client.get("https://#{@git_host}/api/v3/#{resource}", headers)
+      res = HTTP::Client.get("https://#{git_context[:git_host]}/api/v3/#{resource}", headers)
 
       context.response.status_code = res.status_code
       context.response.content_type = "application/vnd.github.v3+json"
-      context.response.print converted_hosts(res.body)
+      context.response.print convert_body(res.body, git_context)
       context
     end
 
     def proxy_post(context, params)
-      puts "------PROXY POST------"
-      p context
+      git_context = get_git_context(params)
 
-      headers = rewrite_headers(context)
-      puts "------------------------ rewrite_headers"
-      puts headers
-
-      resource = rewrite_resource(context)
-
-      puts "------------------------ resource"
-      puts resource
-
+      headers = rewrite_headers(context, git_context)
+      resource = rewrite_resource(context, git_context)
       payload = context.request.body.try &.gets_to_end
 
-      res = HTTP::Client.post("https://#{@git_host}/api/v3/#{resource}", headers, payload)
+      res = HTTP::Client.post("https://#{git_context[:git_host]}/api/v3/#{resource}", headers, payload)
 
       context.response.status_code = res.status_code
       context.response.content_type = "application/vnd.github.v3+json"
-      context.response.print converted_hosts(res.body)
+      context.response.print convert_body(res.body, git_context)
       context
     end
 
     def proxy_patch(context, params)
-      puts "------PROXY PATCH------"
-      p context
+      git_context = get_git_context(params)
 
-      headers = rewrite_headers(context)
-      puts "------------------------ rewrite_headers"
-      puts headers
-
-      resource = rewrite_resource(context)
-
-      puts "------------------------ resource"
-      puts resource
-
+      headers = rewrite_headers(context, git_context)
+      resource = rewrite_resource(context, git_context)
       payload = context.request.body.try &.gets_to_end
 
-      res = HTTP::Client.patch("https://#{@git_host}/api/v3/#{resource}", headers, payload)
+      res = HTTP::Client.patch("https://#{git_context[:git_host]}/api/v3/#{resource}", headers, payload)
 
       context.response.status_code = res.status_code
       context.response.content_type = "application/vnd.github.v3+json"
-      context.response.print converted_hosts(res.body)
+      context.response.print convert_body(res.body, git_context)
       context
+    end
+
+    def get_git_context(params : Hash(String, String)) : GitContext
+      symbol = params["symbol"]
+
+      git_host = case symbol
+                 when "ghe"
+                   "ghe.corp.yahoo.co.jp"
+                 when "partner"
+                   "partner.git.corp.yahoo.co.jp"
+                 when "git"
+                   "git.corp.yahoo.co.jp"
+                 else
+                   raise "Invalid symbol @get_git_context: #{symbol}"
+                 end
+
+      access_token = access_token_from_git_host(git_host)
+
+      {
+        symbol: symbol,
+        git_host: git_host,
+        access_token: access_token,
+      }
     end
 
     include Parser
