@@ -13,8 +13,8 @@ end
 
 def spec_git_context
   {
-    symbol: "ghe",
-    git_host: "ghe.corp.yahoo.co.jp",
+    symbol:       "ghe",
+    git_host:     "ghe.corp.yahoo.co.jp",
     access_token: "dummy",
   }
 end
