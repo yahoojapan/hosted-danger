@@ -13,15 +13,21 @@ module HostedDanger
     env: Hash(String, String),
   )
 
-  def self.tokens
-    token_path = File.expand_path("../../token.json", __FILE__)
-    tokens = JSON.parse(File.read(token_path))
+  @@envs : JSON::Any?
+
+  def self.envs : JSON::Any
+    return @@envs.not_nil! if @@envs
+
+    envs_path = File.expand_path("../../envs.json", __FILE__)
+    @@envs = JSON.parse(File.read(envs_path))
+    @@envs.not_nil!
   end
 
   def self.set_envs
     ENV["JENKINS_URL"] = "I'm jenkins! :)"
-    ENV["DRAGON_ACCESS_KEY"] = tokens["dragon_access_key"].as_s
-    ENV["DRAGON_SECRET_ACCESS_KEY"] = tokens["dragon_secret_access_key"].as_s
+    ENV["DEV"] = envs["dev"].as_s
+    ENV["DRAGON_ACCESS_KEY"] = envs["dragon_access_key"].as_s
+    ENV["DRAGON_SECRET_ACCESS_KEY"] = envs["dragon_secret_access_key"].as_s
   end
 
   def self.run
