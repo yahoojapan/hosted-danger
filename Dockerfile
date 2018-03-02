@@ -42,13 +42,13 @@ RUN danger_js --version
 # hd
 RUN mkdir -p /tmp/hd
 
-COPY src /tmp/hd/src
-COPY shard.yml shard.lock /tmp/hd/
+ADD envs.json /tmp/hd/envs.json
 COPY Dangerfile.default /tmp/hd/Dangerfile.default
+COPY shard.yml shard.lock /tmp/hd/
 
+COPY src /tmp/hd/src
 RUN cd /tmp/hd && shards build
 
 EXPOSE 80
 
-ADD envs.json /tmp/hd/envs.json
 CMD /tmp/hd/bin/hosted-danger
