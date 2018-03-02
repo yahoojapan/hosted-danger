@@ -1,16 +1,6 @@
+require "../utils/ready_env_json"
+
 include HostedDanger::Parser
-
-setenv_binary = File.expand_path("../../../tools/setenv", __FILE__)
-
-envs = [
-  ["ACCESS_TOKEN_GHE", "dummy_ghe"],
-  ["ACCESS_TOKEN_PARTNER", "dummy_partner"],
-  ["ACCESS_TOKEN_GIT", "dummy_git"],
-  ["DRAGON_ACCESS_KEY", "dragon_key"],
-  ["DRAGON_SECRET_ACCESS_KEY", "dragon_secret_key"],
-].map { |env| env.join("=") }.join(" ")
-
-`#{envs} #{setenv_binary}`
 
 describe HostedDanger::Parser do
   html_url_ghe = "https://ghe.corp.yahoo.co.jp/hosted-danger/docs"
@@ -28,6 +18,8 @@ describe HostedDanger::Parser do
   end
 
   it "access_token_from_git_host" do
+    ready_env_json
+
     access_token_from_git_host(ghe).should eq("dummy_ghe")
     access_token_from_git_host(partner).should eq("dummy_partner")
     access_token_from_git_host(git).should eq("dummy_git")

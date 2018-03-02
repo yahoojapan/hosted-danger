@@ -64,27 +64,9 @@ module HostedDanger
 
       case config_wrapper.get_lang
       when "ruby"
-        unless File.exists?(dangerfile_path)
-          L.info "#{repo_tag} Dangerfile.hosted not found, use the default one"
-          exec_cmd(repo_tag, "cp #{DANGERFILE_DEFAULT} #{dangerfile_path}", dir, env)
-        end
-
-        if config_wrapper.use_bundler?
-          exec_cmd(repo_tag, "bundle_cache install #{dragon_params}", dir, env, true)
-          exec_cmd(repo_tag, "bundle exec danger #{danger_params_ruby(dangerfile_path)}", dir, env)
-        else
-          exec_cmd(repo_tag, "danger_ruby #{danger_params_ruby(dangerfile_path)}", dir, env)
-        end
+        exec_ruby(config_wrapper, repo_tag, dangerfile_path, dir, env)
       when "js"
-        if config_wrapper.use_yarn?
-          exec_cmd(repo_tag, "yarn install", dir, env)
-          exec_cmd(repo_tag, "yarn danger ci #{danger_params_js(dangerfile_path)}", dir, env)
-        elsif config_wrapper.use_npm?
-          exec_cmd(repo_tag, "npm_cache install #{dragon_params}", dir, env, true)
-          exec_cmd(repo_tag, "npm run danger -- ci #{danger_params_js(dangerfile_path)}", dir, env)
-        else
-          exec_cmd(repo_tag, "danger ci #{danger_params_js(dangerfile_path)}", dir, env)
-        end
+        exec_js(config_wrapper, repo_tag, dangerfile_path, dir, env)
       else
         raise "unknown lang: #{config_wrapper.get_lang}"
       end
@@ -126,7 +108,56 @@ module HostedDanger
       FileUtils.rm_rf(dir.not_nil!) if dir
     end
 
-    def exec_cmd(repo_tag : String, cmd : String, dir : String, env : Hash(String, String), hide_command : Bool = false)
+    private def exec_ruby(config_wrapper : ConfigWrapper, repo_tag : String, dangerfile_path : String, dir : String, env : Hash(String, String))
+      exec_cmd(repo_tag, "cp #{DANGERFILE_DEFAULT} #{dangerfile_path}", dir, env) unless File.exists?(dangerfile_path)
+
+      if config_wrapper.use_bundler?
+        exec_ruby_bundler(repo_tag, dangerfile_path, dir, env)
+      else
+        exec_ruby_system(repo_tag, dangerfile_path, dir, env)
+      end
+    end
+
+    private def exec_ruby_bundler(repo_tag : String, dangerfile_path : String, dir : String, env : Hash(String, String))
+      with_dragon_envs(env) do
+        exec_cmd(repo_tag, "bundle_cache install #{dragon_params(env)}", dir, env, true)
+      end
+
+      exec_cmd(repo_tag, "bundle exec danger #{danger_params_ruby(dangerfile_path)}", dir, env)
+    end
+
+    private def exec_ruby_system(repo_tag : String, dangerfile_path : String, dir : String, env : Hash(String, String))
+      exec_cmd(repo_tag, "danger_ruby #{danger_params_ruby(dangerfile_path)}", dir, env)
+    end
+
+    private def exec_js(config_wrapper : ConfigWrapper, repo_tag, dangerfile_path : String, dir : String, env : Hash(String, String))
+      if config_wrapper.use_yarn?
+        exec_js_yarn(repo_tag, dangerfile_path, dir, env)
+      elsif config_wrapper.use_npm?
+        exec_js_npm(repo_tag, dangerfile_path, dir, env)
+      else
+        exec_js_system(repo_tag, dangerfile_path, dir, env)
+      end
+    end
+
+    private def exec_js_yarn(repo_tag, dangerfile_path : String, dir : String, env : Hash(String, String))
+      exec_cmd(repo_tag, "yarn install", dir, env)
+      exec_cmd(repo_tag, "yarn danger ci #{danger_params_js(dangerfile_path)}", dir, env)
+    end
+
+    private def exec_js_npm(repo_tag, dangerfile_path : String, dir : String, env : Hash(String, String))
+      with_dragon_envs(env) do
+        exec_cmd(repo_tag, "npm_cache install #{dragon_params(env)}", dir, env, true)
+      end
+
+      exec_cmd(repo_tag, "npm run danger -- ci #{danger_params_js(dangerfile_path)}", dir, env)
+    end
+
+    private def exec_js_system(repo_tag, dangerfile_path : String, dir : String, env : Hash(String, String))
+      exec_cmd(repo_tag, "danger ci #{danger_params_js(dangerfile_path)}", dir, env)
+    end
+
+    private def exec_cmd(repo_tag : String, cmd : String, dir : String, env : Hash(String, String), hide_command : Bool = false)
       L.info "#{repo_tag} #{hide_command ? "**HIDDEN**" : cmd}"
 
       res = exec_cmd_internal(cmd, dir, env)
@@ -157,13 +188,23 @@ module HostedDanger
       }
     end
 
-    private def dragon_params : String
+    private def with_dragon_envs(env : Hash(String, String), &block)
+      env["DRAGON_ACCESS_KEY"] = HostedDanger.envs["dragon_access_key"].as_s
+      env["DRAGON_SECRET_ACCESS_KEY"] = HostedDanger.envs["dragon_secret_access_key"].as_s
+
+      yield
+
+      env.delete("DRAGON_ACCESS_KEY")
+      env.delete("DRAGON_SECRET_ACCESS_KEY")
+    end
+
+    private def dragon_params(env : Hash(String, String)) : String
       [
         "--region kks",
         "--endpoint https://kks.dragon.storage-yahoo.jp",
         "--bucket hosted-danger-cache",
-        "--access_key #{ENV["DRAGON_ACCESS_KEY"]}",
-        "--secret_access_key #{ENV["DRAGON_SECRET_ACCESS_KEY"]}",
+        "--access_key #{env["DRAGON_ACCESS_KEY"]}",
+        "--secret_access_key #{env["DRAGON_SECRET_ACCESS_KEY"]}",
       ].join(" ")
     end
 
