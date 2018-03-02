@@ -2,11 +2,6 @@
 
 rm -rf envs.json
 
-if [[ -z "${DEV}" ]]; then
-    echo "Please set \$DEV for the building (true/false)"
-    exit -1
-fi
-
 if [[ -z "${ACCESS_TOKEN_GHE}" ]]; then
     echo "Please set \$ACCESS_TOKEN_GHE for the building"
     exit -1
@@ -32,4 +27,4 @@ if [[ -z "${DRAGON_SECRET_ACCESS_KEY}" ]]; then
     exit -1
 fi
 
-echo "{\"dev\": \"$DEV\", \"access_token_ghe\": \"$ACCESS_TOKEN_GHE\", \"access_token_partner\": \"$ACCESS_TOKEN_PARTNER\", \"access_token_git\": \"$ACCESS_TOKEN_GIT\", \"dragon_access_key\": \"${DRAGON_ACCESS_KEY}\", \"dragon_secret_access_key\": \"${DRAGON_SECRET_ACCESS_KEY}\"}" > envs.json
+echo "{\"access_token_ghe\": \"$ACCESS_TOKEN_GHE\", \"access_token_partner\": \"$ACCESS_TOKEN_PARTNER\", \"access_token_git\": \"$ACCESS_TOKEN_GIT\", \"dragon_access_key\": \"${DRAGON_ACCESS_KEY}\", \"dragon_secret_access_key\": \"${DRAGON_SECRET_ACCESS_KEY}\"}" > envs.json
