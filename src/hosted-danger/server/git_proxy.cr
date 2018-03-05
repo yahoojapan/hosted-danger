@@ -15,7 +15,9 @@ module HostedDanger
       resource
     end
 
-    def convert_body(body : String, git_context : GitContext) : String
+    def convert_body(_body : String?, git_context : GitContext) : String?
+      return nil unless body = _body
+
       body_json = JSON.parse(body)
 
       # RubyのDangerがここで直接 _links -> issue -> href を参照しているため
@@ -82,19 +84,11 @@ module HostedDanger
 
     def proxy_delete(context, params)
       git_context = get_git_context(params)
-      puts "--- git_context ---"
-      p git_context
 
-      # headers = rewrite_headers(context, git_context)
       headers = HTTP::Headers.new
       headers["Authorization"] = "token #{git_context[:access_token]}"
-      puts "--- headers ---"
-      p headers
 
       resource = rewrite_resource(context, git_context)
-      puts "--- resource ---"
-      p resource
-      puts "https://#{git_context[:git_host]}/api/v3/#{resource}"
 
       res = HTTP::Client.delete("https://#{git_context[:git_host]}/api/v3/#{resource}", headers)
 
