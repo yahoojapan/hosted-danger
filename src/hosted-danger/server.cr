@@ -24,6 +24,7 @@ module HostedDanger
       get "/proxy/:symbol/*" { |context, params| @git_proxy.proxy_get(context, params) }
       post "/proxy/:symbol/*" { |context, params| @git_proxy.proxy_post(context, params) }
       patch "/proxy/:symbol/*" { |context, params| @git_proxy.proxy_patch(context, params) }
+      delete "/proxy/:symbol/*" { |context, params| @git_proxy.proxy_delete(context, params) }
     end
 
     def run
