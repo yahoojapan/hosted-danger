@@ -85,7 +85,9 @@ module HostedDanger
       puts "--- git_context ---"
       p git_context
 
-      headers = rewrite_headers(context, git_context)
+      # headers = rewrite_headers(context, git_context)
+      headers = HTTP::Headers.new
+      headers["Authorization"] = git_context[:access_token]
       puts "--- headers ---"
       p headers
 
@@ -94,7 +96,7 @@ module HostedDanger
       p resource
       puts "https://#{git_context[:git_host]}/api/v3/#{resource}"
 
-      res = HTTP::Client.delete(URI.unescape("https://#{git_context[:git_host]}/api/v3/#{resource}"), headers)
+      res = HTTP::Client.delete("https://#{git_context[:git_host]}/api/v3/#{resource}", headers)
 
       p res
 
