@@ -1,5 +1,3 @@
-require "json"
-
 module HostedDanger
   DANGER_ID = "hosted-danger"
 
@@ -13,22 +11,8 @@ module HostedDanger
     env: Hash(String, String),
   )
 
-  @@envs : JSON::Any?
-
-  def self.envs : JSON::Any
-    return @@envs.not_nil! if @@envs
-
-    envs_path = File.expand_path("../../envs.json", __FILE__)
-    @@envs = JSON.parse(File.read(envs_path))
-    @@envs.not_nil!
-  end
-
-  def self.set_envs
-    ENV["JENKINS_URL"] = "I'm jenkins! :)"
-  end
-
   def self.run
-    set_envs
+    Envs.setup
 
     server = Server.new
     server.draw_routes

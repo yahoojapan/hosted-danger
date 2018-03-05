@@ -43,14 +43,6 @@ jobs:
       REPO_NAME: hosted-danger
       IMAGE_NAME: hosted-danger-image
     requires: [commit]
-    steps:
-      - prebuild_image: tools/setenv
-    secrets:
-      - ACCESS_TOKEN_GHE
-      - ACCESS_TOKEN_PARTNER
-      - ACCESS_TOKEN_GIT
-      - DRAGON_ACCESS_KEY
-      - DRAGON_SECRET_ACCESS_KEY
 
   deployment:
     image: cd.docker-registry.corp.yahoo.co.jp:4443/hosted-danger/sd-image:latest
@@ -59,12 +51,30 @@ jobs:
       - confirmation: |
           echo "Deploying image: "
           echo `meta get fixed_docker_image`
+      - create_secrets: |
+          echo "Create secrets.yaml"
       - deployment: |
           sed -e "s@IMAGE@"`meta get fixed_docker_image`"@g" ops/kube/deployment.yaml.tmpl > deployment.yaml
+
+          sed -e "s@ACCESS_TOKEN_GHE@"`echo -n $ACCESS_TOKEN_GHE | base64`"@g" ops/kube/secrets.yaml.tmpl | \
+            sed -e "s@ACCESS_TOKEN_PARTNER@"`echo -n $ACCESS_TOKEN_PARTNER | base64`"@g" | \
+            sed -e "s@ACCESS_TOKEN_GIT@"`echo -n $ACCESS_TOKEN_GIT | base64`"@g" | \
+            sed -e "s@DRAGON_ACCESS_KEY@"`echo -n $DRAGON_ACCESS_KEY | base64`"@g" | \
+            sed -e "s@DRAGON_SECRET_ACCESS_KEY@"`echo -n $DRAGON_SECRET_ACCESS_KEY | base64`"@g" > secrets.yaml
+
           wget https://raw.ghe.corp.yahoo.co.jp/hosted-danger/secrets/master/config?token=$WGET_TOKEN -O config -q
+
+          cat secrets.yaml
+
+          kubectl apply -f secrets.yaml --kubeconfig config --namespace=default
           kubectl apply -f deployment.yaml --kubeconfig config --namespace=default
     secrets:
       - WGET_TOKEN
+      - ACCESS_TOKEN_GHE
+      - ACCESS_TOKEN_PARTNER
+      - ACCESS_TOKEN_GIT
+      - DRAGON_ACCESS_KEY
+      - DRAGON_SECRET_ACCESS_KEY
   acceptance-test:
     image: cd.docker-registry.corp.yahoo.co.jp:4443/hosted-danger/sd-image:latest
     requires: [deployment]

@@ -11,11 +11,11 @@ module HostedDanger
     def access_token_from_git_host(git_host : String) : String
       case git_host
       when "ghe.corp.yahoo.co.jp"
-        return HostedDanger.envs["access_token_ghe"].as_s
+        return Envs.get("access_token_ghe")
       when "partner.git.corp.yahoo.co.jp"
-        return HostedDanger.envs["access_token_partner"].as_s
+        return Envs.get("access_token_partner")
       when "git.corp.yahoo.co.jp"
-        return HostedDanger.envs["access_token_git"].as_s
+        return Envs.get("access_token_git")
       end
 
       raise "failed to find an access_token for #{git_host}"
