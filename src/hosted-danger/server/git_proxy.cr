@@ -17,6 +17,7 @@ module HostedDanger
 
     def convert_body(_body : String?, git_context : GitContext) : String?
       return nil unless body = _body
+      return nil if body.size == 0
 
       body_json = JSON.parse(body)
 
@@ -93,6 +94,8 @@ module HostedDanger
       res = HTTP::Client.delete("https://#{git_context[:git_host]}/api/v3/#{resource}", headers)
 
       p res
+      puts "--- body ---"
+      p res.body
 
       begin
         context.response.status_code = res.status_code
