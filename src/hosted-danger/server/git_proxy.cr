@@ -82,11 +82,21 @@ module HostedDanger
 
     def proxy_delete(context, params)
       git_context = get_git_context(params)
+      puts "--- git_context ---"
+      p git_context
 
       headers = rewrite_headers(context, git_context)
+      puts "--- headers ---"
+      p headers
+
       resource = rewrite_resource(context, git_context)
+      puts "--- resource ---"
+      p resource
+      puts "https://#{git_context[:git_host]}/api/v3/#{resource}"
 
       res = HTTP::Client.delete("https://#{git_context[:git_host]}/api/v3/#{resource}", headers)
+
+      p res
 
       context.response.status_code = res.status_code
       context.response.content_type = "application/vnd.github.v3+json"
