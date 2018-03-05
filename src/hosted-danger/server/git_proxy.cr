@@ -86,7 +86,6 @@ module HostedDanger
       p git_context
 
       headers = rewrite_headers(context, git_context)
-      headers["Accept"] = "*/*"
       puts "--- headers ---"
       p headers
 
@@ -95,7 +94,7 @@ module HostedDanger
       p resource
       puts "https://#{git_context[:git_host]}/api/v3/#{resource}"
 
-      res = HTTP::Client.delete("https://#{git_context[:git_host]}/api/v3/#{resource}", headers)
+      res = HTTP::Client.delete(URI.unescape("https://#{git_context[:git_host]}/api/v3/#{resource}"), headers)
 
       p res
 
