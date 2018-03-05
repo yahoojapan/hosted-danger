@@ -1,6 +1,5 @@
 require "router"
 require "json"
-require "uri"
 require "./server/*"
 
 module HostedDanger
