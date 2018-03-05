@@ -1,5 +1,3 @@
-require "../utils/ready_env_json"
-
 include HostedDanger::Parser
 
 describe HostedDanger::Parser do
@@ -17,12 +15,20 @@ describe HostedDanger::Parser do
     git_host_from_html_url(html_url_git).should eq(git)
   end
 
-  it "access_token_from_git_host" do
-    ready_env_json
+  it "access_token_from_git_host (dev)" do
+    setup_envs_dev do
+      access_token_from_git_host(ghe).should eq("dummy_ghe")
+      access_token_from_git_host(partner).should eq("dummy_partner")
+      access_token_from_git_host(git).should eq("dummy_git")
+    end
+  end
 
-    access_token_from_git_host(ghe).should eq("dummy_ghe")
-    access_token_from_git_host(partner).should eq("dummy_partner")
-    access_token_from_git_host(git).should eq("dummy_git")
+  it "access_token_from_git_host (prod)" do
+    setup_envs_prod do
+      access_token_from_git_host(ghe).should eq("dummy_ghe")
+      access_token_from_git_host(partner).should eq("dummy_partner")
+      access_token_from_git_host(git).should eq("dummy_git")
+    end
   end
 
   it "org_repo_from_html_url" do
