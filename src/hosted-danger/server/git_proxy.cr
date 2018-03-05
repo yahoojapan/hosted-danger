@@ -93,18 +93,9 @@ module HostedDanger
 
       res = HTTP::Client.delete("https://#{git_context[:git_host]}/api/v3/#{resource}", headers)
 
-      p res
-      puts "--- body ---"
-      p res.body
-
-      begin
-        context.response.status_code = res.status_code
-        context.response.content_type = "application/vnd.github.v3+json"
-        context.response.print convert_body(res.body, git_context)
-      rescue e : Exception
-        p e
-      end
-
+      context.response.status_code = res.status_code
+      context.response.content_type = "application/vnd.github.v3+json"
+      context.response.print convert_body(res.body, git_context)
       context
     end
 
