@@ -86,6 +86,7 @@ module HostedDanger
       p git_context
 
       headers = rewrite_headers(context, git_context)
+      headers["Accept"] = "*/*"
       puts "--- headers ---"
       p headers
 
