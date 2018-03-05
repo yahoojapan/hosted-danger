@@ -66,8 +66,6 @@ jobs:
 
           wget https://raw.ghe.corp.yahoo.co.jp/hosted-danger/secrets/master/config?token=$WGET_TOKEN -O config -q
 
-          cat secrets.yaml
-
           kubectl apply -f secrets.yaml --kubeconfig config --namespace=default
           kubectl apply -f deployment.yaml --kubeconfig config --namespace=default
     secrets:
