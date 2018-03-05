@@ -87,7 +87,7 @@ module HostedDanger
 
       # headers = rewrite_headers(context, git_context)
       headers = HTTP::Headers.new
-      headers["Authorization"] = git_context[:access_token]
+      headers["Authorization"] = "token #{git_context[:access_token]}"
       puts "--- headers ---"
       p headers
 
