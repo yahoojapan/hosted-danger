@@ -1,5 +1,4 @@
 describe HostedDanger::Envs do
-
   it "setup (dev)" do
     setup_envs_dev do
       HostedDanger::Envs.setup

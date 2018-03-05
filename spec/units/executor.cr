@@ -2,7 +2,6 @@ include HostedDanger::Executor
 
 describe HostedDanger::Executor do
   it "with_dragon_envs" do
-
     setup_envs_prod do
       env = {} of String => String
       env["hoge"] = "test"

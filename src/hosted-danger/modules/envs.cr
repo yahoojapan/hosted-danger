@@ -1,6 +1,5 @@
 module HostedDanger
   class Envs
-
     # 開発時にしか使用しない
     ENVS_PATH = File.expand_path("../../../../envs.json", __FILE__)
 
