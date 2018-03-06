@@ -1,12 +1,10 @@
 module HostedDanger
   class ConfigWrapper
-    CONFIG_FILE = "danger.yaml"
-
     getter directory
     @config : Config?
 
     def initialize(@directory : String)
-      @config = Config.parse("#{@directory}/#{CONFIG_FILE}")
+      @config = Config.parse("#{@directory}/danger.yaml")
     end
 
     def config_file_exists?
