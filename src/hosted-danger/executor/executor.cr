@@ -44,6 +44,7 @@ module HostedDanger
         if org_config_wrapper
           L.info "#{repo_tag} use org config"
           config_wrapper = org_config_wrapper
+        end
       end
 
       dangerfile_path = config_wrapper.dangerfile_path
