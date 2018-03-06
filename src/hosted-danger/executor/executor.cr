@@ -42,7 +42,7 @@ module HostedDanger
       unless config_wrapper.config_exists?
         org_config_wrapper = get_org_config(repo_tag, git_host, org, access_token, env)
         if org_config_wrapper
-          L.info "#{repo_tag} use org config"
+          L.info "#{repo_tag} use org config."
           config_wrapper = org_config_wrapper
         end
       end
