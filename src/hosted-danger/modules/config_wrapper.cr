@@ -7,8 +7,12 @@ module HostedDanger
       @config = Config.parse("#{@directory}/danger.yaml")
     end
 
+    def config_exists?
+      config_file_exists? || dangerfile_exists?
+    end
+
     def config_file_exists?
-      @config.nil?
+      !@config.nil?
     end
 
     def dangerfile_exists?
@@ -32,6 +36,10 @@ module HostedDanger
       return "js" if js_dangerfile_exists?
 
       "ruby" # by default
+    end
+
+    def dangerfile_path : String
+      "#{@directory}/#{dangerfile}"
     end
 
     def dangerfile : String

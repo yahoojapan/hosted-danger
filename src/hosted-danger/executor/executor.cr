@@ -39,12 +39,14 @@ module HostedDanger
 
       config_wrapper = ConfigWrapper.new(dir)
 
-      unless config_wrapper.config_file_exists? || config_wrapper.dangerfile_exists?
+      unless config_wrapper.config_exists?
         org_config_wrapper = get_org_config(repo_tag, git_host, org, access_token, env)
-        config_wrapper = org_config_wrapper if org_config_wrapper
+        if org_config_wrapper
+          L.info "#{repo_tag} use org config"
+          config_wrapper = org_config_wrapper
       end
 
-      dangerfile_path = "#{dir}/#{config_wrapper.dangerfile}"
+      dangerfile_path = config_wrapper.dangerfile_path
 
       unless config_wrapper.events.includes?(event)
         return L.info "#{repo_tag} configuration doesn't include #{event} (#{config_wrapper.events})"
@@ -126,8 +128,11 @@ module HostedDanger
       exec_cmd(repo_tag, "git remote add origin https://ap-danger:#{access_token}@#{git_host}/#{org}/#{repo}.git", dir, env, true)
       exec_cmd(repo_tag, "git fetch --depth 1", dir, env)
       exec_cmd(repo_tag, "git reset --hard FETCH_HEAD", dir, env)
+      exec_cmd(repo_tag, "pwd", dir, env)
+      exec_cmd(repo_tag, "ls -al", dir, env)
 
-      ConfigWrapper.new(dir)
+      config = ConfigWrapper.new(dir)
+      config if config.config_exists?
     rescue 
       nil
     end
