@@ -165,9 +165,10 @@ module HostedDanger
 
       L.info "#{repo_tag} ===> #{res[:stdout]}" if res[:stdout].size > 0
 
-      unless res[:status] == 0
-        _msg_command = "**COMMAND (#{res[:status]})**\n```\n#{hide_command ? "HIDDEN" : cmd}\n```"
+      unless res[:code] == 0
+        _msg_command = "**COMMAND (#{res[:code]})**\n```\n#{hide_command ? "HIDDEN" : cmd}\n```"
         _msg_stdout = "**STDOUT**\n```\n#{res[:stdout]}\n```"
+        _msg_stdout += "\n(**Build Timeout**)" if res[:code] == 124
         _msg_stderr = "**STDERR**\n```\n#{res[:stderr]}\n```"
         raise "#{repo_tag}\n\n#{_msg_command}\n\n#{_msg_stdout}\n\n#{_msg_stderr}"
       end
@@ -185,7 +186,7 @@ module HostedDanger
       {
         stdout: stdout.to_s,
         stderr: stderr.to_s,
-        status: process.exit_status,
+        code:   process.exit_code,
       }
     end
 
