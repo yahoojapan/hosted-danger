@@ -38,7 +38,7 @@ module HostedDanger
       # exec_cmd(repo_tag, "git fetch origin pull/#{pr_number}/head --depth 50", dir, env)
       # exec_cmd(repo_tag, "git reset --hard FETCH_HEAD", dir, env)
       exec_cmd(repo_tag, "git fetch --depth 50", dir, env)
-      exec_cmd(repo_tag, "git reset --hard #{sha}")
+      exec_cmd(repo_tag, "git reset --hard #{sha}", dir, env)
 
       config_wrapper = ConfigWrapper.new(dir)
 
