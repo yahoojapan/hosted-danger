@@ -1,7 +1,7 @@
 module HostedDanger
   module Executor
     DANGERFILE_DEFAULT = File.expand_path("../../../../Dangerfile.default", __FILE__)
-    TIMEOUT = 120
+    TIMEOUT            = 120
 
     def exec_danger(executable : Executable)
       env = {} of String => String
@@ -166,7 +166,7 @@ module HostedDanger
       L.info "#{repo_tag} ===> #{res[:stdout]}" if res[:stdout].size > 0
 
       unless res[:status] == 0
-        _msg_command = "**COMMAND**\n```\n#{hide_command ? "HIDDEN" : cmd}\n```"
+        _msg_command = "**COMMAND (#{res[:status]})**\n```\n#{hide_command ? "HIDDEN" : cmd}\n```"
         _msg_stdout = "**STDOUT**\n```\n#{res[:stdout]}\n```"
         _msg_stdout += "\n(**Build Timeout**)" if res[:status] == 124
         _msg_stderr = "**STDERR**\n```\n#{res[:stderr]}\n```"
