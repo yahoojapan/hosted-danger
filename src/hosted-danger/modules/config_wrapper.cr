@@ -98,7 +98,5 @@ module HostedDanger
 
       false
     end
-
-    include Github
   end
 end

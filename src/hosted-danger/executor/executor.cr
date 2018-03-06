@@ -35,14 +35,14 @@ module HostedDanger
       exec_cmd(repo_tag, "git config --local user.name ap-danger", dir, env)
       exec_cmd(repo_tag, "git config --local user.email hosted-danger-pj@ml.yahoo-corp.jp", dir, env)
       exec_cmd(repo_tag, "git remote add origin #{remote_from_html_url(html_url, access_token)}", dir, env)
-      exec_cmd(repo_tag, "git fetch origin pull/#{pr_number}/head --depth 50", dir, env)
+      exec_cmd(repo_tag, "git fetch --depth 50", dir, env)
       exec_cmd(repo_tag, "git reset --hard FETCH_HEAD", dir, env)
 
       config_wrapper = ConfigWrapper.new(dir)
 
       unless config_wrapper.config_file_exists? || config_wrapper.dangerfile_exists?
-        org_config_wrapper = get_org_config(git_host, org, access_token, env)
-        config_wrapper ||= org_config_wrapper
+        org_config_wrapper = get_org_config(repo_tag, git_host, org, access_token, env)
+        config_wrapper = org_config_wrapper if org_config_wrapper
       end
 
       dangerfile_path = "#{dir}/#{config_wrapper.dangerfile}"
@@ -114,7 +114,7 @@ module HostedDanger
       FileUtils.rm_rf(org_config_wrapper.directory) if org_config_wrapper
     end
 
-    private def get_org_config(git_host : String, org : String, access_token : String, env : Hash(String, String)) : ConfigWrapper?
+    private def get_org_config(repo_tag, git_host : String, org : String, access_token : String, env : Hash(String, String)) : ConfigWrapper?
       dir = "/tmp/#{Random::Secure.hex}"
 
       FileUtils.mkdir(dir)
