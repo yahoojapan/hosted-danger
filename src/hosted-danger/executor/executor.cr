@@ -1,6 +1,7 @@
 module HostedDanger
   module Executor
     DANGERFILE_DEFAULT = File.expand_path("../../../../Dangerfile.default", __FILE__)
+    TIMEOUT = 120
 
     def exec_danger(executable : Executable)
       env = {} of String => String
@@ -123,11 +124,11 @@ module HostedDanger
         exec_cmd(repo_tag, "bundle_cache install #{dragon_params(env)}", dir, env, true)
       end
 
-      exec_cmd(repo_tag, "bundle exec danger #{danger_params_ruby(dangerfile_path)}", dir, env)
+      exec_cmd(repo_tag, "timeout #{TIMEOUT} bundle exec danger #{danger_params_ruby(dangerfile_path)}", dir, env)
     end
 
     private def exec_ruby_system(repo_tag : String, dangerfile_path : String, dir : String, env : Hash(String, String))
-      exec_cmd(repo_tag, "danger_ruby #{danger_params_ruby(dangerfile_path)}", dir, env)
+      exec_cmd(repo_tag, "timeout #{TIMEOUT} danger_ruby #{danger_params_ruby(dangerfile_path)}", dir, env)
     end
 
     private def exec_js(config_wrapper : ConfigWrapper, repo_tag, dangerfile_path : String, dir : String, env : Hash(String, String))
@@ -142,7 +143,7 @@ module HostedDanger
 
     private def exec_js_yarn(repo_tag, dangerfile_path : String, dir : String, env : Hash(String, String))
       exec_cmd(repo_tag, "yarn install", dir, env)
-      exec_cmd(repo_tag, "yarn danger ci #{danger_params_js(dangerfile_path)}", dir, env)
+      exec_cmd(repo_tag, "timeout #{TIMEOUT} yarn danger ci #{danger_params_js(dangerfile_path)}", dir, env)
     end
 
     private def exec_js_npm(repo_tag, dangerfile_path : String, dir : String, env : Hash(String, String))
@@ -150,11 +151,11 @@ module HostedDanger
         exec_cmd(repo_tag, "npm_cache install #{dragon_params(env)}", dir, env, true)
       end
 
-      exec_cmd(repo_tag, "npm run danger -- ci #{danger_params_js(dangerfile_path)}", dir, env)
+      exec_cmd(repo_tag, "timeout #{TIMEOUT} npm run danger -- ci #{danger_params_js(dangerfile_path)}", dir, env)
     end
 
     private def exec_js_system(repo_tag, dangerfile_path : String, dir : String, env : Hash(String, String))
-      exec_cmd(repo_tag, "danger ci #{danger_params_js(dangerfile_path)}", dir, env)
+      exec_cmd(repo_tag, "timeout #{TIMEOUT} danger ci #{danger_params_js(dangerfile_path)}", dir, env)
     end
 
     private def exec_cmd(repo_tag : String, cmd : String, dir : String, env : Hash(String, String), hide_command : Bool = false)
@@ -167,6 +168,7 @@ module HostedDanger
       unless res[:status] == 0
         _msg_command = "**COMMAND**\n```\n#{hide_command ? "HIDDEN" : cmd}\n```"
         _msg_stdout = "**STDOUT**\n```\n#{res[:stdout]}\n```"
+        _msg_stdout += "\n(**Build Timeout**)" if res[:status] == 124
         _msg_stderr = "**STDERR**\n```\n#{res[:stderr]}\n```"
         raise "#{repo_tag}\n\n#{_msg_command}\n\n#{_msg_stdout}\n\n#{_msg_stderr}"
       end
