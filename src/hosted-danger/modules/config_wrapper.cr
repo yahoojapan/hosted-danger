@@ -1,9 +1,28 @@
 module HostedDanger
   class ConfigWrapper
+    CONFIG_FILE = "danger.yaml"
+
+    getter directory
     @config : Config?
 
     def initialize(@directory : String)
-      @config = Config.parse("#{@directory}/danger.yaml")
+      @config = Config.parse("#{@directory}/#{CONFIG_FILE}")
+    end
+
+    def config_file_exists?
+      @config.nil?
+    end
+
+    def dangerfile_exists?
+      ruby_dangerfile_exists? || js_dangerfile_exists?
+    end
+
+    def ruby_dangerfile_exists?
+      File.exists?("#{@directory}/Dangerfile.hosted")
+    end
+
+    def js_dangerfile_exists?
+      File.exists?("#{@directory}/dangerfile.hosted.js") || File.exists?("#{@directory}/dangerfile.hosted.ts")
     end
 
     def get_lang : String
@@ -11,10 +30,7 @@ module HostedDanger
         return config.lang.not_nil! if config.lang
       end
 
-      ruby_dangerfile_exists? = File.exists?("#{@directory}/Dangerfile.hosted")
       return "ruby" if ruby_dangerfile_exists?
-
-      js_dangerfile_exists? = File.exists?("#{@directory}/dangerfile.hosted.js") || File.exists?("#{@directory}/dangerfile.hosted.ts")
       return "js" if js_dangerfile_exists?
 
       "ruby" # by default
@@ -82,5 +98,7 @@ module HostedDanger
 
       false
     end
+
+    include Github
   end
 end

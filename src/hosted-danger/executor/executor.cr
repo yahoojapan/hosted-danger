@@ -40,6 +40,11 @@ module HostedDanger
 
       config_wrapper = ConfigWrapper.new(dir)
 
+      unless config_wrapper.config_file_exists? || config_wrapper.dangerfile_exists?
+        org_config_wrapper = get_org_config(git_host, org, access_token, env)
+        config_wrapper ||= org_config_wrapper
+      end
+
       dangerfile_path = "#{dir}/#{config_wrapper.dangerfile}"
 
       unless config_wrapper.events.includes?(event)
@@ -106,6 +111,26 @@ module HostedDanger
       end
 
       FileUtils.rm_rf(dir.not_nil!) if dir
+      FileUtils.rm_rf(org_config_wrapper.directory) if org_config_wrapper
+    end
+
+    private def get_org_config(git_host : String, org : String, access_token : String, env : Hash(String, String)) : ConfigWrapper?
+      dir = "/tmp/#{Random::Secure.hex}"
+
+      FileUtils.mkdir(dir)
+
+      repo = "danger"
+
+      exec_cmd(repo_tag, "git init", dir, env)
+      exec_cmd(repo_tag, "git config --local user.name ap-danger", dir, env)
+      exec_cmd(repo_tag, "git config --local user.email hosted-danger-pj@ml.yahoo-corp.jp", dir, env)
+      exec_cmd(repo_tag, "git remote add origin https://ap-danger:#{access_token}@#{git_host}/#{org}/#{repo}.git", dir, env, true)
+      exec_cmd(repo_tag, "git fetch --depth 1", dir, env)
+      exec_cmd(repo_tag, "git reset --hard FETCH_HEAD", dir, env)
+
+      ConfigWrapper.new(dir)
+    rescue 
+      nil
     end
 
     private def exec_ruby(config_wrapper : ConfigWrapper, repo_tag : String, dangerfile_path : String, dir : String, env : Hash(String, String))
