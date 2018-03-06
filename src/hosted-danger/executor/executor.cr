@@ -35,7 +35,7 @@ module HostedDanger
       exec_cmd(repo_tag, "git config --local user.name ap-danger", dir, env)
       exec_cmd(repo_tag, "git config --local user.email hosted-danger-pj@ml.yahoo-corp.jp", dir, env)
       exec_cmd(repo_tag, "git remote add origin #{remote_from_html_url(html_url, access_token)}", dir, env)
-      exec_cmd(repo_tag, "git fetch origin pull/#{pr_number}/head --depth 50", dir, env)
+      exec_cmd(repo_tag, "git fetch --depth 50", dir, env)
       exec_cmd(repo_tag, "git reset --hard FETCH_HEAD", dir, env)
 
       config_wrapper = ConfigWrapper.new(dir)
