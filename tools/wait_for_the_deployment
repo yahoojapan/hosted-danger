@@ -6,11 +6,11 @@ start_time = Time.now
 success = false
 
 loop do
-  pods = `kubectl get pods`
-  statues = pods.split("\n")[1..-1].map{ |pod| pod.split(" ")[2] }
-
+  pods = `kubectl get pods --kubeconfig config --namespace=default`
   puts "----- pods -----"
   puts pods
+
+  statues = pods.split("\n")[1..-1].map{ |pod| pod.split(" ")[2] }
 
   break success = true if statues.all? { |status| status == "Running" }
   break if Time.now - start_time > 60 * 10
