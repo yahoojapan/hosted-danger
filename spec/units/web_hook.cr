@@ -1,14 +1,47 @@
 require "../mocks/*"
 
+def spec_context(event : String) : HTTP::Server::Context
+  request_headers = HTTP::Headers.new
+  request_headers["X-Github-Event"] = event
+  request = HTTP::Request.new("METHOD", "some_resources", request_headers, "body")
+
+  response = HTTP::Server::Response.new(IO::Memory.new)
+
+  HTTP::Server::Context.new(request, response)
+end
+
 describe HostedDanger::WebHook do
   payloads_root = File.expand_path("../../payloads", __FILE__)
+
+  it "create_executables" do
+    webhook = HostedDangerMocks::WebHook.new
+
+    [
+      "pull_request",
+      "pull_request_review",
+      "pull_request_review_comment",
+      "issue_comment",
+      "issues",
+      "status",
+    ].each do |event|
+      payload_json = JSON.parse(File.read("#{payloads_root}/#{event}.json"))
+      webhook.create_executable(spec_context(event), payload_json).should be_truthy
+    end
+  end
+
+  it "create_executables for unsupported event" do
+    webhook = HostedDangerMocks::WebHook.new
+
+    payload_json = JSON.parse(%({"test": "test"}))
+    webhook.create_executable(spec_context("unknown"), payload_json).should be_nil
+  end
 
   it "e_pull_request" do
     payload_json = JSON.parse(File.read("#{payloads_root}/pull_request.json"))
 
     webhook = HostedDanger::WebHook.new
 
-    executables = webhook.e_pull_request(payload_json).not_nil!
+    executables = webhook.e_pull_request("pull_request", payload_json).not_nil!
     executables.size.should eq(1)
 
     executable = executables[0]
@@ -26,7 +59,7 @@ describe HostedDanger::WebHook do
 
     webhook = HostedDanger::WebHook.new
 
-    executables = webhook.e_pull_request_review(payload_json).not_nil!
+    executables = webhook.e_pull_request_review("pull_request_review", payload_json).not_nil!
     executables.size.should eq(1)
 
     executable = executables[0]
@@ -44,7 +77,7 @@ describe HostedDanger::WebHook do
 
     webhook = HostedDanger::WebHook.new
 
-    executables = webhook.e_pull_request_review_comment(payload_json).not_nil!
+    executables = webhook.e_pull_request_review_comment("pull_request_review_comment", payload_json).not_nil!
     executables.size.should eq(1)
 
     executable = executables[0]
@@ -62,7 +95,7 @@ describe HostedDanger::WebHook do
 
     webhook = HostedDangerMocks::WebHook.new
 
-    executables = webhook.e_issue_comment(payload_json).not_nil!
+    executables = webhook.e_issue_comment("issue_comment", payload_json).not_nil!
     executables.size.should eq(1)
 
     executable = executables[0]
@@ -75,12 +108,30 @@ describe HostedDanger::WebHook do
     executable[:env].should eq({"DANGER_PR_COMMENT" => "You are totally right! I'll get this fixed right away."} of String => String)
   end
 
+  it "e_issues" do
+    payload_json = JSON.parse(File.read("#{payloads_root}/issues.json"))
+
+    webhook = HostedDangerMocks::WebHook.new
+
+    executables = webhook.e_issues("issues", payload_json).not_nil!
+    executables.size.should eq(1)
+
+    executable = executables[0]
+    executable[:action].should eq("opened")
+    executable[:event].should eq("issues")
+    executable[:html_url].should eq("https://github.com/baxterthehacker/public-repo")
+    executable[:pr_number].should eq(2)
+    executable[:raw_payload].should eq(payload_json.to_json)
+    executable[:sha].should eq("ok")
+    executable[:env].should eq({} of String => String)
+  end
+
   it "e_status" do
     payload_json = JSON.parse(File.read("#{payloads_root}/status.json"))
 
     webhook = HostedDangerMocks::WebHook.new
 
-    executables = webhook.e_status(payload_json).not_nil!
+    executables = webhook.e_status("status", payload_json).not_nil!
     executables.size.should eq(1)
 
     executable = executables[0]
