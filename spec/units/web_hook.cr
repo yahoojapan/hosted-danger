@@ -21,7 +21,7 @@ describe HostedDanger::WebHook do
       "pull_request_review",
       "pull_request_review_comment",
       "issue_comment",
-      "issue",
+      "issues",
       "status",
     ].each do |event|
       payload_json = JSON.parse(File.read("#{payloads_root}/#{event}.json"))
@@ -108,17 +108,17 @@ describe HostedDanger::WebHook do
     executable[:env].should eq({"DANGER_PR_COMMENT" => "You are totally right! I'll get this fixed right away."} of String => String)
   end
 
-  it "e_issue" do
-    payload_json = JSON.parse(File.read("#{payloads_root}/issue.json"))
+  it "e_issues" do
+    payload_json = JSON.parse(File.read("#{payloads_root}/issues.json"))
 
     webhook = HostedDangerMocks::WebHook.new
 
-    executables = webhook.e_issue("issue", payload_json).not_nil!
+    executables = webhook.e_issues("issues", payload_json).not_nil!
     executables.size.should eq(1)
 
     executable = executables[0]
     executable[:action].should eq("opened")
-    executable[:event].should eq("issue")
+    executable[:event].should eq("issues")
     executable[:html_url].should eq("https://github.com/baxterthehacker/public-repo")
     executable[:pr_number].should eq(2)
     executable[:raw_payload].should eq(payload_json.to_json)

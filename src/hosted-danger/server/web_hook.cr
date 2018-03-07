@@ -46,7 +46,7 @@ module HostedDanger
       return e_pull_request_review(event, payload_json) if event == "pull_request_review"
       return e_pull_request_review_comment(event, payload_json) if event == "pull_request_review_comment"
       return e_issue_comment(event, payload_json) if event == "issue_comment"
-      return e_issue(event, payload_json) if event == "issue"
+      return e_issues(event, payload_json) if event == "issues"
       return e_status(event, payload_json) if event == "status"
 
       L.info "danger will not be triggered (#{event})"
@@ -147,7 +147,7 @@ module HostedDanger
       nil
     end
 
-    def e_issue(event, payload_json) : Array(Executable)?
+    def e_issues(event, payload_json) : Array(Executable)?
       return L.info "#{event} skip: sender is ap-danger" if payload_json["sender"]["login"] == "ap-danger"
       return L.info "#{event} skip: closed" if payload_json["action"] == "closed"
 
