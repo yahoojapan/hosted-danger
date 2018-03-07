@@ -8,7 +8,7 @@ describe HostedDanger::WebHook do
 
     webhook = HostedDanger::WebHook.new
 
-    executables = webhook.e_pull_request(payload_json).not_nil!
+    executables = webhook.e_pull_request("pull_request", payload_json).not_nil!
     executables.size.should eq(1)
 
     executable = executables[0]
@@ -26,7 +26,7 @@ describe HostedDanger::WebHook do
 
     webhook = HostedDanger::WebHook.new
 
-    executables = webhook.e_pull_request_review(payload_json).not_nil!
+    executables = webhook.e_pull_request_review("pull_request_review", payload_json).not_nil!
     executables.size.should eq(1)
 
     executable = executables[0]
@@ -44,7 +44,7 @@ describe HostedDanger::WebHook do
 
     webhook = HostedDanger::WebHook.new
 
-    executables = webhook.e_pull_request_review_comment(payload_json).not_nil!
+    executables = webhook.e_pull_request_review_comment("pull_request_review_comment", payload_json).not_nil!
     executables.size.should eq(1)
 
     executable = executables[0]
@@ -62,7 +62,7 @@ describe HostedDanger::WebHook do
 
     webhook = HostedDangerMocks::WebHook.new
 
-    executables = webhook.e_issue_comment(payload_json).not_nil!
+    executables = webhook.e_issue_comment("issue_comment", payload_json).not_nil!
     executables.size.should eq(1)
 
     executable = executables[0]
@@ -75,12 +75,30 @@ describe HostedDanger::WebHook do
     executable[:env].should eq({"DANGER_PR_COMMENT" => "You are totally right! I'll get this fixed right away."} of String => String)
   end
 
+  it "e_issue" do
+    payload_json = JSON.parse(File.read("#{payloads_root}/issue.json"))
+
+    webhook = HostedDangerMocks::WebHook.new
+
+    executables = webhook.e_issue("issue", payload_json).not_nil!
+    executables.size.should eq(1)
+
+    executable = executables[0]
+    executable[:action].should eq("opened")
+    executable[:event].should eq("issue")
+    executable[:html_url].should eq("https://github.com/baxterthehacker/public-repo")
+    executable[:pr_number].should eq(2)
+    executable[:raw_payload].should eq(payload_json.to_json)
+    executable[:sha].should eq("ok")
+    executable[:env].should eq({} of String => String)
+  end
+
   it "e_status" do
     payload_json = JSON.parse(File.read("#{payloads_root}/status.json"))
 
     webhook = HostedDangerMocks::WebHook.new
 
-    executables = webhook.e_status(payload_json).not_nil!
+    executables = webhook.e_status("status", payload_json).not_nil!
     executables.size.should eq(1)
 
     executable = executables[0]
