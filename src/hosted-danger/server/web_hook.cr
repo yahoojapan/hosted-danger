@@ -42,12 +42,12 @@ module HostedDanger
     def create_executable(context, payload_json) : Array(Executable)?
       event = context.request.headers["X-GitHub-Event"]
 
-      return e_pull_request(payload_json) if event == "pull_request"
-      return e_pull_request_review(payload_json) if event == "pull_request_review"
-      return e_pull_request_review_comment(payload_json) if event == "pull_request_review_comment"
-      return e_issue_comment(payload_json) if event == "issue_comment"
-      return e_issue(payload) if event == "issue"
-      return e_status(payload_json) if event == "status"
+      return e_pull_request(event, payload_json) if event == "pull_request"
+      return e_pull_request_review(event, payload_json) if event == "pull_request_review"
+      return e_pull_request_review_comment(event, payload_json) if event == "pull_request_review_comment"
+      return e_issue_comment(event, payload_json) if event == "issue_comment"
+      return e_issue(event, payload_json) if event == "issue"
+      return e_status(event, payload_json) if event == "status"
 
       L.info "danger will not be triggered (#{event})"
     end

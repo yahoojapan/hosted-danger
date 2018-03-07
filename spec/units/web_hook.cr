@@ -1,7 +1,40 @@
 require "../mocks/*"
 
+def spec_context(event : String) : HTTP::Server::Context
+  request_headers = HTTP::Headers.new
+  request_headers["X-Github-Event"] = event
+  request = HTTP::Request.new("METHOD", "some_resources", request_headers, "body")
+
+  response = HTTP::Server::Response.new(IO::Memory.new)
+
+  HTTP::Server::Context.new(request, response)
+end
+
 describe HostedDanger::WebHook do
   payloads_root = File.expand_path("../../payloads", __FILE__)
+
+  it "create_executables" do
+    webhook = HostedDangerMocks::WebHook.new
+
+    [
+      "pull_request",
+      "pull_request_review",
+      "pull_request_review_comment",
+      "issue_comment",
+      "issue",
+      "status",
+    ].each do |event|
+      payload_json = JSON.parse(File.read("#{payloads_root}/#{event}.json"))
+      webhook.create_executable(spec_context(event), payload_json).should be_truthy
+    end
+  end
+
+  it "create_executables for unsupported event" do
+    webhook = HostedDangerMocks::WebHook.new
+
+    payload_json = JSON.parse(%({"test": "test"}))
+    webhook.create_executable(spec_context("unknown"), payload_json).should be_nil
+  end
 
   it "e_pull_request" do
     payload_json = JSON.parse(File.read("#{payloads_root}/pull_request.json"))
