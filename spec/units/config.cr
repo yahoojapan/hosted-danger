@@ -25,6 +25,11 @@ describe HostedDanger::Config do
     config.yarn.should be_nil
   end
 
+  it "return nil if config is empty" do
+    config = HostedDanger::Config.parse("#{sample_root}/config/empty.yaml")
+    config.should be_nil
+  end
+
   it "return nil if config not exists" do
     config = HostedDanger::Config.parse("#{sample_root}/empty/danger.yaml")
     config.should be_nil

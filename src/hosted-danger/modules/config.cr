@@ -4,6 +4,7 @@ module HostedDanger
       return nil unless File.exists?(path)
       return nil unless yaml_file = File.read(path)
       return nil unless yaml = YAML.parse(yaml_file)
+      return nil if yaml == nil
 
       Config.new(yaml)
     rescue e : Exception
