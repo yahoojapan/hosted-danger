@@ -1,7 +1,7 @@
 module HostedDanger
   module Executor
     DANGERFILE_DEFAULT = File.expand_path("../../../../Dangerfile.default", __FILE__)
-    TIMEOUT            = 300
+    TIMEOUT            = 1200
 
     def exec_danger(executable : Executable)
       env = {} of String => String
