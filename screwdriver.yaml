@@ -68,7 +68,7 @@ jobs:
 
           kubectl apply -f secrets.yaml --kubeconfig config --namespace=default
           kubectl apply -f deployment.yaml --kubeconfig config --namespace=default
-      - wait_for_the_deployment: |
+
           tools/wait_for_the_deployment
     secrets:
       - WGET_TOKEN
