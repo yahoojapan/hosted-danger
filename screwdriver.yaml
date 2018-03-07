@@ -68,6 +68,8 @@ jobs:
 
           kubectl apply -f secrets.yaml --kubeconfig config --namespace=default
           kubectl apply -f deployment.yaml --kubeconfig config --namespace=default
+      - wait_for_the_deployment: |
+          tools/wait_for_the_deployment
     secrets:
       - WGET_TOKEN
       - ACCESS_TOKEN_GHE
@@ -79,9 +81,6 @@ jobs:
     image: cd.docker-registry.corp.yahoo.co.jp:4443/hosted-danger/sd-image:latest
     requires: [deployment]
     steps:
-      - wait_deployment: |
-          echo "Wait the deployment, sleeping 600 sec..."
-          sleep 600
       - setup-test: |
           mkdir wd && cd wd
           git clone git@ghe.corp.yahoo.co.jp:hosted-danger/acceptance-tests

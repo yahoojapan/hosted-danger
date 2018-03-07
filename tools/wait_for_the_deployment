@@ -1,0 +1,22 @@
+#!/usr/bin/env ruby
+
+puts "Waiting for the deployment..."
+
+start_time = Time.now
+success = false
+
+loop do
+  pods = `kubectl get pods`
+  statues = pods.split("\n")[1..-1].map{ |pod| pod.split(" ")[2] }
+
+  puts "----- pods -----"
+  puts pods
+
+  break success = true if statues.all? { |status| status == "Running" }
+  break if Time.now - start_time > 10
+
+  sleep 10
+end
+
+puts "=> Successfully deployed!" if success
+puts "=> Deployment timeout!!!" unless success
