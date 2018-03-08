@@ -2,7 +2,7 @@ FROM crystallang/crystal
 
 # base
 RUN apt-get clean -y && apt-get update -y
-RUN apt-get install curl wget dnsutils locales locales-all -y
+RUN apt-get install curl libcurl3 libcurl3-gnutls libcurl4-openssl-dev wget dnsutils locales locales-all -y
 
 ENV LANG ja_JP.UTF-8
 ENV LANGUAGE ja_JP.UTF-8
