@@ -42,10 +42,20 @@ module HostedDanger
     def proxy_get(context, params)
       git_context = get_git_context(params)
 
+      puts "-- git_context --"
+      p git_context
+
       headers = rewrite_headers(context, git_context)
+      puts "-- headers --"
+      p headers
+
       resource = rewrite_resource(context, git_context)
+      puts "-- resource --"
+      p resource
 
       res = HTTP::Client.get("https://#{git_context[:git_host]}/api/v3/#{resource}", headers)
+      puts "-- res --"
+      p res
 
       context.response.status_code = res.status_code
       context.response.content_type = "application/vnd.github.v3+json"
