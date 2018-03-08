@@ -136,40 +136,20 @@ module HostedDanger
       exec_cmd(repo_tag, "cp #{DANGERFILE_DEFAULT} #{dangerfile_path}", dir, env) unless File.exists?(dangerfile_path)
 
       if config_wrapper.use_bundler?
-        exec_ruby_bundler(repo_tag, dangerfile_path, dir, env)
+        exec_cmd(repo_tag, "timeout #{TIMEOUT} bundle exec danger #{danger_params_ruby(dangerfile_path)}", dir, env)
       else
-        exec_ruby_system(repo_tag, dangerfile_path, dir, env)
+        exec_cmd(repo_tag, "timeout #{TIMEOUT} danger_ruby #{danger_params_ruby(dangerfile_path)}", dir, env)
       end
-    end
-
-    private def exec_ruby_bundler(repo_tag : String, dangerfile_path : String, dir : String, env : Hash(String, String))
-      exec_cmd(repo_tag, "timeout #{TIMEOUT} bundle exec danger #{danger_params_ruby(dangerfile_path)}", dir, env)
-    end
-
-    private def exec_ruby_system(repo_tag : String, dangerfile_path : String, dir : String, env : Hash(String, String))
-      exec_cmd(repo_tag, "timeout #{TIMEOUT} danger_ruby #{danger_params_ruby(dangerfile_path)}", dir, env)
     end
 
     private def exec_js(config_wrapper : ConfigWrapper, repo_tag, dangerfile_path : String, dir : String, env : Hash(String, String))
       if config_wrapper.use_yarn?
-        exec_js_yarn(repo_tag, dangerfile_path, dir, env)
+        exec_cmd(repo_tag, "timeout #{TIMEOUT} yarn danger ci #{danger_params_js(dangerfile_path)}", dir, env)
       elsif config_wrapper.use_npm?
-        exec_js_npm(repo_tag, dangerfile_path, dir, env)
+        exec_cmd(repo_tag, "timeout #{TIMEOUT} npm run danger -- ci #{danger_params_js(dangerfile_path)}", dir, env)
       else
-        exec_js_system(repo_tag, dangerfile_path, dir, env)
+        exec_cmd(repo_tag, "timeout #{TIMEOUT} danger ci #{danger_params_js(dangerfile_path)}", dir, env)
       end
-    end
-
-    private def exec_js_yarn(repo_tag, dangerfile_path : String, dir : String, env : Hash(String, String))
-      exec_cmd(repo_tag, "timeout #{TIMEOUT} yarn danger ci #{danger_params_js(dangerfile_path)}", dir, env)
-    end
-
-    private def exec_js_npm(repo_tag, dangerfile_path : String, dir : String, env : Hash(String, String))
-      exec_cmd(repo_tag, "timeout #{TIMEOUT} npm run danger -- ci #{danger_params_js(dangerfile_path)}", dir, env)
-    end
-
-    private def exec_js_system(repo_tag, dangerfile_path : String, dir : String, env : Hash(String, String))
-      exec_cmd(repo_tag, "timeout #{TIMEOUT} danger ci #{danger_params_js(dangerfile_path)}", dir, env)
     end
 
     private def exec_cmd(repo_tag : String, cmd : String, dir : String, env : Hash(String, String), hide_command : Bool = false)
