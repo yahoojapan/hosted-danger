@@ -51,26 +51,25 @@ module HostedDanger
       _body
     end
 
+    def write_headers(context, response) : HTTP::Server::Context
+      response.headers.each do |k, v|
+        context.response.headers[k] = v
+      end
+
+      context
+    end
+
     def proxy_get(context, params)
       git_context = get_git_context(params)
 
-      puts "-- git_context --"
-      p git_context
-
       headers = rewrite_headers(context, git_context)
-      puts "-- headers --"
-      p headers
-
       resource = rewrite_resource(context, git_context)
-      puts "-- resource --"
-      p resource
 
       res = HTTP::Client.get("https://#{git_context[:git_host]}/api/v3/#{resource}", headers)
-      puts "-- res --"
-      p res
+
+      write_headers(context, res)
 
       context.response.status_code = res.status_code
-      context.response.content_type = "application/vnd.github.v3+json"
       context.response.print convert_body(res.body, git_context)
       context
     end
@@ -84,8 +83,9 @@ module HostedDanger
 
       res = HTTP::Client.post("https://#{git_context[:git_host]}/api/v3/#{resource}", headers, payload)
 
+      write_headers(context, res)
+
       context.response.status_code = res.status_code
-      context.response.content_type = "application/vnd.github.v3+json"
       context.response.print convert_body(res.body, git_context)
       context
     end
@@ -99,8 +99,9 @@ module HostedDanger
 
       res = HTTP::Client.patch("https://#{git_context[:git_host]}/api/v3/#{resource}", headers, payload)
 
+      write_headers(context, res)
+
       context.response.status_code = res.status_code
-      context.response.content_type = "application/vnd.github.v3+json"
       context.response.print convert_body(res.body, git_context)
       context
     end
@@ -115,8 +116,9 @@ module HostedDanger
 
       res = HTTP::Client.delete("https://#{git_context[:git_host]}/api/v3/#{resource}", headers)
 
+      write_headers(context, res)
+
       context.response.status_code = res.status_code
-      context.response.content_type = "application/vnd.github.v3+json"
       context.response.print convert_body(res.body, git_context)
       context
     end
