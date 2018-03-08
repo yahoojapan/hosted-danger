@@ -37,11 +37,18 @@ module HostedDanger
       end
 
       body_json.to_json
+    rescue e : JSON::ParseException
+      # Json形式でない時もある
+      # エラー扱いにはしない
+      # 例: Content-Type: application/vnd.github.v3.diff
+      _body
     rescue e : Exception
       error_message = "Error at @convert_body"
       error_message += e.message.not_nil! if e.message
 
       L.error error_message
+
+      _body
     end
 
     def proxy_get(context, params)
