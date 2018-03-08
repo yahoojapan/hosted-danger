@@ -63,6 +63,29 @@ module HostedDanger
         State::PENDING,
       )
 
+      #
+      # Phase: パッケージ管理ツール
+      # 注) npmとgemを両方使いたい、という場合がある
+      #
+      if config_wrapper.use_bundler?
+        with_dragon_envs(env) do
+          exec_cmd(repo_tag, "bundle_cache install #{dragon_params(env)}", dir, env, true)
+        end
+      end
+
+      if config_wrapper.use_yarn?
+        exec_cmd(repo_tag, "yarn install", dir, env)
+      end
+
+      if config_wrapper.use_npm?
+        with_dragon_envs(env) do
+          exec_cmd(repo_tag, "npm_cache install #{dragon_params(env)}", dir, env, true)
+        end
+      end
+
+      #
+      #  Phase: 実行
+      #
       case config_wrapper.get_lang
       when "ruby"
         exec_ruby(config_wrapper, repo_tag, dangerfile_path, dir, env)
@@ -120,10 +143,6 @@ module HostedDanger
     end
 
     private def exec_ruby_bundler(repo_tag : String, dangerfile_path : String, dir : String, env : Hash(String, String))
-      with_dragon_envs(env) do
-        exec_cmd(repo_tag, "bundle_cache install #{dragon_params(env)}", dir, env, true)
-      end
-
       exec_cmd(repo_tag, "timeout #{TIMEOUT} bundle exec danger #{danger_params_ruby(dangerfile_path)}", dir, env)
     end
 
@@ -142,15 +161,10 @@ module HostedDanger
     end
 
     private def exec_js_yarn(repo_tag, dangerfile_path : String, dir : String, env : Hash(String, String))
-      exec_cmd(repo_tag, "yarn install", dir, env)
       exec_cmd(repo_tag, "timeout #{TIMEOUT} yarn danger ci #{danger_params_js(dangerfile_path)}", dir, env)
     end
 
     private def exec_js_npm(repo_tag, dangerfile_path : String, dir : String, env : Hash(String, String))
-      with_dragon_envs(env) do
-        exec_cmd(repo_tag, "npm_cache install #{dragon_params(env)}", dir, env, true)
-      end
-
       exec_cmd(repo_tag, "timeout #{TIMEOUT} npm run danger -- ci #{danger_params_js(dangerfile_path)}", dir, env)
     end
 
