@@ -37,6 +37,11 @@ module HostedDanger
       end
 
       body_json.to_json
+    rescue e : Exception
+      error_message = "Error at @convert_body"
+      error_message += e.message.not_nil! if e.message
+
+      L.error error_message
     end
 
     def proxy_get(context, params)
