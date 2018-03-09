@@ -576,6 +576,8 @@ GEM
     danger-rubocop (0.6.0)
       danger
       rubocop
+    danger-textlint (1.2.0)
+      danger-plugin-api (~> 1.0)
     danger-todoist (1.2.3)
       danger-plugin-api (~> 1.0)
     dotenv (2.2.1)
@@ -628,6 +630,7 @@ DEPENDENCIES
   danger-ios_logs
   danger-lgtm
   danger-rubocop
+  danger-textlint
   danger-todoist
   npm_cache
   rubocop
