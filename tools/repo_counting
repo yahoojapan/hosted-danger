@@ -1,0 +1,72 @@
+#!/usr/bin/env ruby
+
+require "json"
+
+if ARGV.size < 3
+  help_message = <<-HELP
+
+ap-dangerのリポジトリの登録数を取得するスクリプトです
+
+```
+$ tools/repo_counting [ghe.corpのaccess token] [git.corpのaccess token] [partner.git.corpのaccess token]
+```
+HELP
+
+  puts help_message
+  exit 0
+end
+
+def repos(host)
+  header = case host
+           when "ghe.corp.yahoo.co.jp"
+             "-H \"Authorization: token #{ARGV[0]}\""
+           when "git.corp.yahoo.co.jp"
+             "-H \"Authorization: token #{ARGV[1]}\""
+           when "partner.git.corp.yahoo.co.jp"
+             "-H \"Authorization: token #{ARGV[2]}\""
+           end
+
+  json0 = JSON.parse(`curl #{header} --silent https://#{host}/api/v3/users/ap-danger/repos?type=all`)
+  json1 = JSON.parse(`curl #{header} --silent https://#{host}/api/v3/user/repos`)
+  [json0.map { |j| j["html_url"].to_s }, json1.map { |j| j["html_url"].to_s } ].flatten.uniq
+end
+
+def member_repo?(repo)
+  members = ["tahori", "kasonoda", "taicsuzu", "atyamash", "gelee", "ap-approduce", "ap-danger", "approduce", "hosted-danger"]
+  members.each do |member|
+    return true if repo.include?(member)
+  end
+
+  false
+end
+
+ghe = repos("ghe.corp.yahoo.co.jp")
+ghe_members = ghe.select { |repo| member_repo?(repo) }
+
+git = repos("git.corp.yahoo.co.jp")
+git_members = git.select { |repo| member_repo?(repo) }
+
+partner = repos("partner.git.corp.yahoo.co.jp")
+partner_members = partner.select { |repo| member_repo?(repo) }
+
+msg = <<-MSG
+Hosted Danger利用リポジトリを集計します (メンバーのリポジトリは含まれません)
+
+------- ghe -------
+リポジトリ数: #{ghe.size - ghe_members.size} (合計: #{ghe.size} 身内: #{ghe_members.size})
+
+#{(ghe - ghe_members).join("\n")}
+
+------- git -------
+リポジトリ数: #{git.size - git_members.size} (合計: #{git.size} 身内: #{git_members.size})
+
+#{(git - git_members).join("\n")}
+
+------- partner -------
+リポジトリ数: #{partner.size - partner_members.size} (合計: #{partner.size} 身内: #{partner_members.size})
+
+#{(partner - partner_members).join("\n")}
+
+MSG
+
+puts msg
