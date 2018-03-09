@@ -49,8 +49,9 @@ describe HostedDanger::WebHook do
     executable[:event].should eq("pull_request")
     executable[:html_url].should eq("https://github.com/baxterthehacker/public-repo")
     executable[:pr_number].should eq(1)
-    executable[:raw_payload].should eq(payload_json.to_json)
     executable[:sha].should eq("0d1a26e67d8f5eaf1f6ba5c57fc3c7d91ac0fd1c")
+    executable[:base_branch].should eq("master")
+    executable[:raw_payload].should eq(payload_json.to_json)
     executable[:env].should eq({} of String => String)
   end
 
@@ -68,6 +69,7 @@ describe HostedDanger::WebHook do
     executable[:html_url].should eq("https://github.com/baxterthehacker/public-repo")
     executable[:pr_number].should eq(8)
     executable[:raw_payload].should eq(payload_json.to_json)
+    executable[:base_branch].should eq("master")
     executable[:sha].should eq("b7a1f9c27caa4e03c14a88feb56e2d4f7500aa63")
     executable[:env].should eq({} of String => String)
   end
@@ -85,8 +87,9 @@ describe HostedDanger::WebHook do
     executable[:event].should eq("pull_request_review_comment")
     executable[:html_url].should eq("https://github.com/baxterthehacker/public-repo")
     executable[:pr_number].should eq(1)
-    executable[:raw_payload].should eq(payload_json.to_json)
     executable[:sha].should eq("0d1a26e67d8f5eaf1f6ba5c57fc3c7d91ac0fd1c")
+    executable[:base_branch].should eq("master")
+    executable[:raw_payload].should eq(payload_json.to_json)
     executable[:env].should eq({} of String => String)
   end
 
@@ -103,8 +106,9 @@ describe HostedDanger::WebHook do
     executable[:event].should eq("issue_comment")
     executable[:html_url].should eq("https://github.com/baxterthehacker/public-repo")
     executable[:pr_number].should eq(2)
+    executable[:sha].should eq("cdf5ec2d0bfb5457107f07ed8f0dcec2a655c040")
+    executable[:base_branch].should eq("master")
     executable[:raw_payload].should eq(payload_json.to_json)
-    executable[:sha].should eq("ok")
     executable[:env].should eq({"DANGER_PR_COMMENT" => "You are totally right! I'll get this fixed right away."} of String => String)
   end
 
@@ -121,8 +125,9 @@ describe HostedDanger::WebHook do
     executable[:event].should eq("issues")
     executable[:html_url].should eq("https://github.com/baxterthehacker/public-repo")
     executable[:pr_number].should eq(2)
+    executable[:sha].should eq("cdf5ec2d0bfb5457107f07ed8f0dcec2a655c040")
+    executable[:base_branch].should eq("master")
     executable[:raw_payload].should eq(payload_json.to_json)
-    executable[:sha].should eq("ok")
     executable[:env].should eq({} of String => String)
   end
 
@@ -138,8 +143,10 @@ describe HostedDanger::WebHook do
     executable[:action].should eq("success")
     executable[:event].should eq("status")
     executable[:html_url].should eq("https://github.com/baxterthehacker/public-repo")
-    executable[:pr_number].should eq(1)
+    executable[:pr_number].should eq(1347)
+    executable[:sha].should eq("6dcb09b5b57875f334f61aebed695e2e4193db5e")
+    executable[:base_branch].should eq("master")
     executable[:raw_payload].should eq(payload_json.to_json)
-    executable[:sha].should eq("ok")
+    executable[:env].should eq({} of String => String)
   end
 end

@@ -6,7 +6,8 @@ module HostedDanger
     event: String,
     html_url: String,
     pr_number: Int32,
-    sha: String,
+    sha: String,         # build status の変更に使用
+    base_branch: String, # fetch origin に使用
     raw_payload: String,
     env: Hash(String, String),
   )
