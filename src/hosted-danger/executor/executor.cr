@@ -97,6 +97,8 @@ module HostedDanger
       else
         raise "unknown lang: #{config_wrapper.get_lang}"
       end
+
+      clean_comments(repo_tag, git_host, org, repo, pr_number, access_token)
     rescue e : Exception
       paster_url : String = if error_message = e.message
         upload_text(error_message)
@@ -184,6 +186,21 @@ module HostedDanger
         stderr: stderr.to_s,
         code:   process.exit_code,
       }
+    end
+
+    private def clean_comments(repo_tag : String, git_host : String, org : String, repo : String, pr_number : Int32, access_token : String)
+      comments = issue_comments(git_host, org, repo, pr_number, access_token)
+
+      delete_comments = comments
+        .select { |comment| comment["user"]["login"].as_s == "ap-danger" }
+        .select { |comment| comment["body"].as_s.includes?("generated_by_hosted-danger") }
+
+      return if delete_comments.size <= 1
+
+      delete_comments[0..-2].each do |comment|
+        L.info "#{repo_tag} delete comment: #{comment["id"]}"
+        delete_comment(git_host, org, repo, comment["id"].as_i, access_token)
+      end
     end
 
     private def with_dragon_envs(env : Hash(String, String), &block)
