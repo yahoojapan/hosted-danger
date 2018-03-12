@@ -45,15 +45,14 @@ module HostedDanger
       JSON.parse(res.body)
     end
 
-    def delete_comment(git_host : String, org : String, repo : String, comment_id : Int32, access_token : String) : Bool
+    def delete_comment(git_host : String, org : String, repo : String, comment_id : Int32, access_token : String)
       url = "https://#{git_host}/api/v3/repos/#{org}/#{repo}/issues/comments/#{comment_id}"
 
       headers = HTTP::Headers.new
       headers["Authorization"] = "token #{access_token}"
 
       res = HTTP::Client.delete(url, headers)
-      p res
-      res.status_code == 204
+      res
     end
 
     def build_state_of(

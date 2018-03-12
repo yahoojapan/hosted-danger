@@ -98,22 +98,7 @@ module HostedDanger
         raise "unknown lang: #{config_wrapper.get_lang}"
       end
 
-      # for debugging
-      channel = Channel(Nil).new
-
-      spawn do
-        clean_comments(git_host.not_nil!, org.not_nil!, repo.not_nil!, pr_number, access_token.not_nil!)
-        channel.send(nil)
-      end
-
-      spawn do
-        clean_comments(git_host.not_nil!, org.not_nil!, repo.not_nil!, pr_number, access_token.not_nil!)
-        channel.send(nil)
-      end
-
-      2.times do |_|
-        channel.receive
-      end
+      clean_comments(repo_tag, git_host, org, repo, pr_number, access_token)
     rescue e : Exception
       paster_url : String = if error_message = e.message
         upload_text(error_message)
@@ -158,24 +143,7 @@ module HostedDanger
       if config_wrapper.use_bundler?
         exec_cmd(repo_tag, "timeout #{TIMEOUT} bundle exec danger #{danger_params_ruby(dangerfile_path)}", dir, env)
       else
-        # for debugging
-        channel = Channel(Nil).new
-
-        spawn do
-          puts "in spawn 0"
-          exec_cmd(repo_tag, "timeout #{TIMEOUT} danger_ruby #{danger_params_ruby(dangerfile_path)}", dir, env)
-          channel.send(nil)
-        end
-
-        spawn do
-          puts "in spawn 1"
-          exec_cmd(repo_tag, "timeout #{TIMEOUT} danger_ruby #{danger_params_ruby(dangerfile_path)}", dir, env)
-          channel.send(nil)
-        end
-
-        2.times do |_|
-          channel.receive
-        end
+        exec_cmd(repo_tag, "timeout #{TIMEOUT} danger_ruby #{danger_params_ruby(dangerfile_path)}", dir, env)
       end
     end
 
@@ -220,11 +188,8 @@ module HostedDanger
       }
     end
 
-    private def clean_comments(git_host : String, org : String, repo : String, pr_number : Int32, access_token : String)
-      puts "----- clean_comments -----"
+    private def clean_comments(repo_tag : String, git_host : String, org : String, repo : String, pr_number : Int32, access_token : String)
       comments = issue_comments(git_host, org, repo, pr_number, access_token)
-
-      p comments
 
       delete_comments = comments
         .select { |comment| comment["user"]["login"].as_s == "ap-danger" }
@@ -233,7 +198,7 @@ module HostedDanger
       return if delete_comments.size <= 1
 
       delete_comments[0..-2].each do |comment|
-        puts "-----> delete comment #{comment["id"].as_i}"
+        L.info "#{repo_tag} delete comment: #{comment["id"]}"
         delete_comment(git_host, org, repo, comment["id"].as_i, access_token)
       end
     end
