@@ -97,6 +97,8 @@ module HostedDanger
       else
         raise "unknown lang: #{config_wrapper.get_lang}"
       end
+
+      clean_comments(git_host, org, repo, pr_number, access_token)
     rescue e : Exception
       paster_url : String = if error_message = e.message
         upload_text(error_message)
@@ -201,6 +203,12 @@ module HostedDanger
         stderr: stderr.to_s,
         code:   process.exit_code,
       }
+    end
+
+    private def clean_comments(git_host : String, org : String, repo : String, pr_number : Int32, access_token : String)
+      puts "----- clean_comments -----"
+      comments = issue_comments(git_host, org, repo, pr_number, access_token)
+      p comments
     end
 
     private def with_dragon_envs(env : Hash(String, String), &block)

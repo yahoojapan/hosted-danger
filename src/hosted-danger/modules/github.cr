@@ -34,6 +34,17 @@ module HostedDanger
       JSON.parse(res.body)
     end
 
+    def issue_comments(git_host : String, org : String, repo : String, pr_number : Int32, access_token : String) : JSON::Any
+      url = "https://#{git_host}/api/v3/repos/#{org}/#{repo}/issues/#{pr_number}/comments"
+
+      headers = HTTP::Headers.new
+      headers["Authorization"] = "token #{access_token}"
+
+      res = HTTP::Client.get(url, headers)
+
+      JSON.parse(res.body)
+    end
+
     def build_state_of(
       git_host : String,
       org : String,
