@@ -16,19 +16,29 @@ HELP
   exit 0
 end
 
-def repos(host)
-  header = case host
-           when "ghe.corp.yahoo.co.jp"
-             "-H \"Authorization: token #{ARGV[0]}\""
-           when "git.corp.yahoo.co.jp"
-             "-H \"Authorization: token #{ARGV[1]}\""
-           when "partner.git.corp.yahoo.co.jp"
-             "-H \"Authorization: token #{ARGV[2]}\""
-           end
+def header(host)
+  case host
+  when "ghe.corp.yahoo.co.jp"
+    "-H \"Authorization: token #{ARGV[0]}\""
+  when "git.corp.yahoo.co.jp"
+    "-H \"Authorization: token #{ARGV[1]}\""
+  when "partner.git.corp.yahoo.co.jp"
+    "-H \"Authorization: token #{ARGV[2]}\""
+  end
+end
 
-  json0 = JSON.parse(`curl #{header} --silent https://#{host}/api/v3/users/ap-danger/repos?type=all`)
-  json1 = JSON.parse(`curl #{header} --silent https://#{host}/api/v3/user/repos`)
-  [json0.map { |j| j["html_url"].to_s }, json1.map { |j| j["html_url"].to_s } ].flatten.uniq
+def repos(host)
+  repos_urls = JSON.parse(`curl #{header(host)} --silent https://#{host}/api/v3/user/orgs`).map { |j| j["repos_url"].to_s }
+
+  jsons = []
+  jsons << JSON.parse(`curl #{header(host)} --silent https://#{host}/api/v3/users/ap-danger/repos?type=all`)
+  jsons << JSON.parse(`curl #{header(host)} --silent https://#{host}/api/v3/user/repos`)
+
+  repos_urls.each do |repos_url|
+    jsons << JSON.parse(`curl #{header(host)} --silent #{repos_url}`)
+  end
+
+  jsons.map { |json| json.map { |j| j["html_url"].to_s } }.flatten.uniq.reject { |repo| member_repo?(repo) }
 end
 
 def member_repo?(repo)
@@ -41,31 +51,26 @@ def member_repo?(repo)
 end
 
 ghe = repos("ghe.corp.yahoo.co.jp")
-ghe_members = ghe.select { |repo| member_repo?(repo) }
-
 git = repos("git.corp.yahoo.co.jp")
-git_members = git.select { |repo| member_repo?(repo) }
-
 partner = repos("partner.git.corp.yahoo.co.jp")
-partner_members = partner.select { |repo| member_repo?(repo) }
 
 msg = <<-MSG
 Hosted Danger利用リポジトリを集計します (メンバーのリポジトリは含まれません)
 
 ------- ghe -------
-リポジトリ数: #{ghe.size - ghe_members.size} (合計: #{ghe.size} 身内: #{ghe_members.size})
+リポジトリ数: #{ghe.size}
 
-#{(ghe - ghe_members).join("\n")}
+#{ghe.join("\n")}
 
 ------- git -------
-リポジトリ数: #{git.size - git_members.size} (合計: #{git.size} 身内: #{git_members.size})
+リポジトリ数: #{git.size}
 
-#{(git - git_members).join("\n")}
+#{git.join("\n")}
 
 ------- partner -------
-リポジトリ数: #{partner.size - partner_members.size} (合計: #{partner.size} 身内: #{partner_members.size})
+リポジトリ数: #{partner.size}
 
-#{(partner - partner_members).join("\n")}
+#{partner.join("\n")}
 
 MSG
 
