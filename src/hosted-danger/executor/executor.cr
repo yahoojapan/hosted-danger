@@ -141,7 +141,24 @@ module HostedDanger
       if config_wrapper.use_bundler?
         exec_cmd(repo_tag, "timeout #{TIMEOUT} bundle exec danger #{danger_params_ruby(dangerfile_path)}", dir, env)
       else
-        exec_cmd(repo_tag, "timeout #{TIMEOUT} danger_ruby #{danger_params_ruby(dangerfile_path)}", dir, env)
+        # for debugging
+        channel = Channel(Nil).new
+
+        spawn do
+          puts "in spawn 0"
+          exec_cmd(repo_tag, "timeout #{TIMEOUT} danger_ruby #{danger_params_ruby(dangerfile_path)}", dir, env)
+          channel.send(nil)
+        end
+
+        spawn do
+          puts "in spawn 1"
+          exec_cmd(repo_tag, "timeout #{TIMEOUT} danger_ruby #{danger_params_ruby(dangerfile_path)}", dir, env)
+          channel.send(nil)
+        end
+
+        2.times do |_|
+          channel.receive
+        end
       end
     end
 
