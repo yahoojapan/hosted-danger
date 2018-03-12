@@ -20,6 +20,7 @@ RUN gem install bundler --no-ri --no-rdoc
 # gems
 RUN mkdir /tmp/gem
 COPY Gemfile /tmp/gem
+COPY Gemfile.lock /tmp/gem
 RUN cd /tmp/gem && /bin/bash -l -c "bundle install --system"
 RUN mv /usr/local/bin/danger /usr/local/bin/danger_ruby
 RUN ls -la /usr/local/bin
