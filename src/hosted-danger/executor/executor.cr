@@ -230,7 +230,7 @@ module HostedDanger
 
       delete_comments.each do |comment|
         puts "-----> delete comment #{comment["id"].as_i}"
-        delete_comment(git_host, org, repo, pr_number, comment["id"].as_i, access_token)
+        delete_comment(git_host, org, repo, comment["id"].as_i, access_token)
       end
     end
 
