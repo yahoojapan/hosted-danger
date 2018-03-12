@@ -224,11 +224,15 @@ module HostedDanger
       puts "----- clean_comments -----"
       comments = issue_comments(git_host, org, repo, pr_number, access_token)
 
+      p comments
+
       delete_comments = comments
         .select { |comment| comment["user"]["login"].as_s == "ap-danger" }
         .select { |comment| comment["body"].as_s.includes?("generated_by_hosted-danger") }
 
-      delete_comments.each do |comment|
+      return if delete_comments.size <= 1
+
+      delete_comments[0..-2].each do |comment|
         puts "-----> delete comment #{comment["id"].as_i}"
         delete_comment(git_host, org, repo, comment["id"].as_i, access_token)
       end
