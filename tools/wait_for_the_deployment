@@ -19,4 +19,8 @@ loop do
 end
 
 puts "=> Successfully deployed!" if success
-puts "=> Deployment timeout!!!" unless success
+
+unless success
+  puts "=> Deployment timeout!!!"
+  exit -1
+end
