@@ -72,6 +72,9 @@ Hosted Danger利用リポジトリを集計します (メンバーのリポジ�
 
 #{partner.join("\n")}
 
+-------------------
+合計: #{ghe.size + git.size + partner.size}
+
 MSG
 
 puts msg
