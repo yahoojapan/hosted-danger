@@ -56,6 +56,8 @@ jobs:
           echo "Deploying image: "
           echo `meta get fixed_docker_image`
       - deployment: |
+          echo "Start deployment"
+
           sed -e "s@IMAGE@"`meta get fixed_docker_image`"@g" ops/kube/deployment.yaml.tmpl > deployment.yaml
 
           sed -e "s@ACCESS_TOKEN_GHE@"`echo -n $ACCESS_TOKEN_GHE | base64`"@g" ops/kube/secrets.yaml.tmpl | \
@@ -102,3 +104,5 @@ jobs:
           ./acceptance-test js-yarn
       - js-dangerfile: |
           ./acceptance-test js-dangerfile
+      - conflict: |
+          ./acceptance-test conflict
