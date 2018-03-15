@@ -1,4 +1,4 @@
-FROM crystallang/crystal
+FROM crystallang/crystal:0.24.2
 
 # base
 RUN apt-get clean -y && apt-get update -y
