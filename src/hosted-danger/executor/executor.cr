@@ -17,7 +17,7 @@ module HostedDanger
       org, repo = org_repo_from_html_url(html_url)
       access_token = access_token_from_git_host(git_host)
 
-      repo_tag = "#{html_url} (event: #{event}) (pr: #{pr_number})"
+      repo_tag = "#{html_url}/pull/#{pr_number} (event: #{event})"
       dir = "/tmp/#{Random::Secure.hex}"
 
       env["GIT_URL"] = html_url
