@@ -26,13 +26,19 @@ module HostedDanger
         "No message"
       end
 
+      backtrace : String = if _backtrace = e.backtrace?
+        _backtrace.join("\n")
+      else
+        "No backtrace"
+      end
+
       paster_url = if _payload_for_error_log = payload_for_error_log
                      upload_text(_payload_for_error_log)
                    else
                      "No payload"
                    end
 
-      L.error "<< Message >>:\n#{message}\n\n<< Log >>\n#{paster_url}"
+      L.error "<< Message >>:\n#{message}\n\n<< Backtrace >>\n```\n#{backtrace}\n```\n\n<< Log >>\n#{paster_url}"
 
       context.response.status_code = 400
       context.response.print "Bad Request"

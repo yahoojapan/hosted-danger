@@ -96,6 +96,8 @@ jobs:
           ./acceptance-test ruby-bundler
       - ruby-dangerfile: |
           ./acceptance-test ruby-dangerfile
+      - ruby-dangerfile-rb: |
+          ./acceptance-test ruby-dangerfile-rb
       - js-system: |
           ./acceptance-test js-system
       - js-npm: |
