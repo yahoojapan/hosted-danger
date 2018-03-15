@@ -27,10 +27,10 @@ module HostedDanger
       end
 
       backtrace : String = if _backtrace = e.backtrace?
-                             _backtrace.join("\n")
-                           else
-                             "No backtrace"
-                           end
+        _backtrace.join("\n")
+      else
+        "No backtrace"
+      end
 
       paster_url = if _payload_for_error_log = payload_for_error_log
                      upload_text(_payload_for_error_log)
