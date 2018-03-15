@@ -1,6 +1,9 @@
 #!/usr/bin/env ruby
 
-require "json"
+require 'net/http'
+require 'json'
+require 'date'
+require 'uri'
 
 if ARGV.size < 3
   help_message = <<-HELP
@@ -8,7 +11,7 @@ if ARGV.size < 3
 ap-dangerのリポジトリの登録数を取得するスクリプトです
 
 ```
-$ tools/repo_counting [ghe.corpのaccess token] [git.corpのaccess token] [partner.git.corpのaccess token]
+$ tools/repo_counting [ghe.corpのaccess token] [git.corpのaccess token] [partner.git.corpのaccess token] [MYM Token(Optional)]
 ```
 HELP
 
@@ -41,6 +44,14 @@ def repos(host)
   jsons.map { |json| json.map { |j| j["html_url"].to_s } }.flatten.uniq.reject { |repo| member_repo?(repo) }
 end
 
+def get_all_repos
+  ghe = repos("ghe.corp.yahoo.co.jp")
+  git = repos("git.corp.yahoo.co.jp")
+  partner = repos("partner.git.corp.yahoo.co.jp")
+
+  { ghe: ghe, git: git, partner: partner }
+end
+
 def member_repo?(repo)
   members = ["tahori", "kasonoda", "taicsuzu", "atyamash", "gelee", "ap-approduce", "ap-danger", "approduce", "hosted-danger"]
   members.each do |member|
@@ -50,11 +61,12 @@ def member_repo?(repo)
   false
 end
 
-ghe = repos("ghe.corp.yahoo.co.jp")
-git = repos("git.corp.yahoo.co.jp")
-partner = repos("partner.git.corp.yahoo.co.jp")
+def print_result(all_repos)
+  ghe = all_repos[:ghe]
+  git = all_repos[:git]
+  partner = all_repos[:partner]
 
-msg = <<-MSG
+  puts <<-MSG
 Hosted Danger利用リポジトリを集計します (メンバーのリポジトリは含まれません)
 
 ------- ghe -------
@@ -76,5 +88,81 @@ Hosted Danger利用リポジトリを集計します (メンバーのリポジ�
 合計: #{ghe.size + git.size + partner.size}
 
 MSG
+end
 
-puts msg
+def post_to_mym?
+  ARGV.size == 4
+end
+
+def post_to_mym(all_repos)
+  ghe = all_repos[:ghe]
+  git = all_repos[:git]
+  partner = all_repos[:partner]
+
+  date = DateTime.now.strftime("%Y/%m/%d")
+
+  details_ghe = (ghe - current_repos["ghe"]).map{ |repo| repo + " :new:" }.join("\n")
+  details_ghe = details_ghe.empty? ? "新規導入はありませんでした :hand:" : details_ghe
+
+  details_git = (git - current_repos["git"]).map{ |repo| repo + " :new:" }.join("\n")
+  details_git = details_git.empty? ? "新規導入はありませんでした :hand:" : details_git
+
+  details_partner = (partner - current_repos["partner"]).map{ |repo| repo + " :new:" }.join("\n")
+  details_partner = details_partner.empty? ? "新規導入はありませんでした :hand:" : details_partner
+
+  message = <<-MSG
+:rocket: #{date} の利用状況をリポートします!! :rocket:
+
+導入リポジトリ数: **#{ghe.size + git.size + partner.size}** :chart_with_upwards_trend:
+
+[ ghe.corp.yahoo.co.jp ]
+導入リポジトリ数: **#{ghe.size}**
+#{details_ghe}
+
+[ git.corp.yahoo.co.jp ]
+導入リポジトリ数: **#{git.size}**
+#{details_git}
+
+[ partner.git.corp.yahoo.co.jp ]
+導入リポジトリ数: **#{partner.size}**
+#{details_partner}
+MSG
+
+  url = 'https://mym.corp.yahoo.co.jp/api/post'
+  uri = URI.parse(url)
+
+  https = Net::HTTP.new(uri.host, uri.port)
+  https.use_ssl = true
+
+  req = Net::HTTP::Post.new(uri.path)
+  req['Content-Type'] = 'application/json'
+  payload = {
+    token: ARGV[3],
+    message: message,
+  }.to_json
+
+  req.body = payload
+
+  https.request(req)
+
+  save_repos(all_repos)
+end
+
+def repos_json_path
+  File.expand_path('../../repos.json', __FILE__)
+end
+
+def current_repos
+  return { "ghe" => [], "git" => [], "partner" => [] } unless File.exist?(repos_json_path)
+
+  JSON.parse(File.read(repos_json_path))
+end
+
+def save_repos(all_repos)
+  File.write(repos_json_path, all_repos.to_json)
+end
+
+all_repos = get_all_repos
+
+print_result(all_repos)
+post_to_mym(all_repos) if post_to_mym?
