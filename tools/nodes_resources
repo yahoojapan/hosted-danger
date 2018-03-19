@@ -28,7 +28,7 @@ def post_to_mym(message)
 end
 
 def create_message
-  res = "リソースの使用状況をお知らせします :computer:\n\n"
+  res = "リソースの使用状況をお知らせします :computer:\n"
 
   nodes = `kubectl describe nodes`.chomp
   nodes.lines.each_with_index do |line, idx|
