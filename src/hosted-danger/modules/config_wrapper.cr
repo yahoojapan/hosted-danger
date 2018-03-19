@@ -3,7 +3,7 @@ module HostedDanger
     @config : Config?
 
     def initialize(@directory : String)
-      @config = Config.parse("#{@directory}/danger.yaml")
+      @config = Config.create_from("#{@directory}/danger.yaml")
     end
 
     def get_lang : String
