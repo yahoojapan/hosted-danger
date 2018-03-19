@@ -24,7 +24,7 @@ FileUtils.rm_rf(TESTD)
 FileUtils.mkdir_p(TESTD)
 
 Dir.chdir(TESTD) do
-  puts `git clone https://ghe.corp.yahoo.co.jp/hosted-danger/acceptance-tests.git`
+  puts `git clone git@ghe.corp.yahoo.co.jp:hosted-danger/acceptance-tests.git`
 
   Dir.chdir('acceptance-tests') do
     BRANCHES.each do |branch|
