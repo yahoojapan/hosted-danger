@@ -77,14 +77,13 @@ jobs:
             sed -e "s@DRAGON_ACCESS_KEY@"`echo -n $DRAGON_ACCESS_KEY | base64`"@g" | \
             sed -e "s@DRAGON_SECRET_ACCESS_KEY@"`echo -n $DRAGON_SECRET_ACCESS_KEY | base64`"@g" > secrets.yaml
 
-          wget https://raw.ghe.corp.yahoo.co.jp/hosted-danger/secrets/master/config?token=$WGET_TOKEN -O config -q
+          curl -H "Authorization: token $ACCESS_TOKEN_GHE" https://raw.ghe.corp.yahoo.co.jp/hosted-danger/secrets/master/config > config
 
           kubectl apply -f secrets.yaml --kubeconfig config --namespace=default
           kubectl apply -f deployment.yaml --kubeconfig config --namespace=default
 
           tools/wait_for_the_deployment
     secrets:
-      - WGET_TOKEN
       - ACCESS_TOKEN_GHE
       - ACCESS_TOKEN_PARTNER
       - ACCESS_TOKEN_GIT
