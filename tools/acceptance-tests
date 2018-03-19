@@ -1,0 +1,50 @@
+#!/usr/bin/env ruby
+
+require 'fileutils'
+
+BRANCHES = [
+  'default', 'conflict',
+  'ruby-default', 'ruby-bundler', 'ruby-dangerfile', 'ruby-dangerfile-rb',
+  'js-system', 'js-npm', 'js-yarn', 'js-dangerfile',
+]
+
+TESTD = 'testd'
+
+puts 'Start executing acceptance tests...'
+
+sd = !ENV['SCREWDRIVER'].nil?
+
+if sd
+  puts '<- from Screwdriver.cd'
+else
+  puts '<- from local'
+end
+
+FileUtils.rm_rf(TESTD)
+FileUtils.mkdir_p(TESTD)
+
+Dir.chdir(TESTD) do
+  puts `git clone https://ghe.corp.yahoo.co.jp/hosted-danger/acceptance-tests.git`
+
+  Dir.chdir('acceptance-tests') do
+    if sd
+      puts `git config --local user.email "screwdriver-admin@ml.yahoo-corp.jp"`
+      puts `git config --local user.name "ap-screwdriver"`
+    else
+      username = `whoami`.strip
+      puts "You are '#{username}'"
+      puts `git config --local user.email "#{username}@yahoo-corp.jp"`
+      puts `git config --local user.name "#{username}"`
+    end
+
+    BRANCHES.each do |branch|
+      puts `git reset --hard origin/#{branch}`
+      puts `rm -f update && echo \`date\` > update`
+      puts `git add update`
+      puts `git commit -m "[skip ci] \`date\`"`
+      puts `git push origin HEAD:#{branch}`
+    end
+  end
+end
+
+FileUtils.rm_rf(TESTD)
