@@ -30,6 +30,13 @@ jobs:
       - ac: |
           ./tools/acceptance-tests
 
+  build-image:
+    template: docker/build@stable
+    environment:
+      REPO_NAME: hosted-danger
+      IMAGE_NAME: hosted-danger-image
+      requires: [~pr]
+
   commit:
     image: cd.docker-registry.corp.yahoo.co.jp:4443/hosted-danger/sd-image:latest
     requires: [~commit]

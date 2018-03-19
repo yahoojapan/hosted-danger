@@ -29,6 +29,7 @@ Dir.chdir(TESTD) do
   Dir.chdir('acceptance-tests') do
     BRANCHES.each do |branch|
       if sd
+        puts "You are 'ap-screwdriver'"
         puts `git config --local user.email "screwdriver-admin@ml.yahoo-corp.jp"`
         puts `git config --local user.name "ap-screwdriver"`
       else
@@ -42,6 +43,7 @@ Dir.chdir(TESTD) do
       puts `rm -f update && echo \`date\` > update`
       puts `git add update`
       puts `git commit -m "[skip ci] \`date\`"`
+      puts `cat .git/config`
       puts `git push origin HEAD:#{branch}`
     end
   end
