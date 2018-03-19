@@ -10,6 +10,10 @@ module HostedDanger
     def pull_request_open?(git_host : String, org : String, repo : String, pr_number : Int32, access_token : String) : Bool
       pull_json = pull_request(git_host, org, repo, pr_number, access_token)
       pull_json["state"].as_s == "open"
+    rescue e : Exception
+      L.error e, pull_json.to_s
+
+      true
     end
 
     def pull_request(git_host : String, org : String, repo : String, pr_number : Int32, access_token : String) : JSON::Any
