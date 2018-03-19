@@ -27,8 +27,6 @@ jobs:
           shards build
       - test: |
           crystal spec
-      - ac: |
-          ./tools/acceptance-tests
 
   build-image:
     template: docker/build@stable
@@ -92,28 +90,5 @@ jobs:
     image: cd.docker-registry.corp.yahoo.co.jp:4443/hosted-danger/sd-image:latest
     requires: [deployment]
     steps:
-      - setup-test: |
-          mkdir wd && cd wd
-          git clone git@ghe.corp.yahoo.co.jp:hosted-danger/acceptance-tests
-          cd acceptance-tests
-          cp ../../tools/acceptance-test .
-      - default: |
-          ./acceptance-test default
-      - ruby-default: |
-          ./acceptance-test ruby-default
-      - ruby-bundler: |
-          ./acceptance-test ruby-bundler
-      - ruby-dangerfile: |
-          ./acceptance-test ruby-dangerfile
-      - ruby-dangerfile-rb: |
-          ./acceptance-test ruby-dangerfile-rb
-      - js-system: |
-          ./acceptance-test js-system
-      - js-npm: |
-          ./acceptance-test js-npm
-      - js-yarn: |
-          ./acceptance-test js-yarn
-      - js-dangerfile: |
-          ./acceptance-test js-dangerfile
-      - conflict: |
-          ./acceptance-test conflict
+      - tests: |
+          ./tools/acceptance-tests
