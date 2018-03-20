@@ -27,11 +27,7 @@ module HostedDanger
         raise "Empty body"
       end
 
-      puts "request headers: #{context.request.headers}"
-
-      return JSON.parse(payload) if context.request.headers["Content-type"] == "application/json"
-      puts "point 0"
-
+      return JSON.parse(payload) if context.request.headers["content-type"] == "application/json"
       return JSON.parse(URI.unescape(payload.lchop("payload="))) if payload.starts_with?("payload=")
 
       raise "Unknown payload type"
