@@ -18,8 +18,8 @@ module HostedDanger
       access_token = access_token_from_git_host(git_host)
 
       repo_tag = "#{html_url}/pull/#{pr_number} (event: #{event})"
-      parent_dir = "/tmp/#{Random::Secure.hex}"
-      dir = "#{parent_dir}/#{Random::Secure.hex}"
+      work_dir = "/tmp/#{Random::Secure.hex}"
+      dir = "#{work_dir}/#{Random::Secure.hex}"
 
       env["GIT_URL"] = html_url
       env["DANGER_ACTION"] = action
@@ -46,7 +46,7 @@ module HostedDanger
       config_wrapper = ConfigWrapper.new(dir)
 
       unless config_wrapper.config_exists?
-        org_config_wrapper = get_org_config(parent_dir, repo_tag, git_host, org, access_token, env)
+        org_config_wrapper = get_org_config(work_dir, repo_tag, git_host, org, access_token, env)
         if org_config_wrapper
           L.info "#{repo_tag} use org config."
           config_wrapper = org_config_wrapper
@@ -143,8 +143,7 @@ module HostedDanger
         end
       end
 
-      FileUtils.rm_rf(dir.not_nil!) if dir
-      FileUtils.rm_rf(org_config_wrapper.directory) if org_config_wrapper
+      FileUtils.rm_rf(work_dir.not_nil!) if work_dir
     end
 
     private def get_org_config(dir, repo_tag, git_host : String, org : String, access_token : String, env : Hash(String, String)) : ConfigWrapper?
