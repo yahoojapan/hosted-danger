@@ -1,20 +1,7 @@
 module HostedDanger
   class WebHook
     def hook(context, params)
-      payload : String = if body = context.request.body
-        body.gets_to_end
-      else
-        raise "Empty body"
-      end
-
-      payload_for_error_log = payload
-      payload_json = if context.request.headers["Content-type"] == "application/json"
-                       JSON.parse(payload)
-                     elsif payload.starts_with?("payload=")
-                       JSON.parse(URI.unescape(payload.lchop("payload=")))
-                     else
-                       raise "Unknown payload type"
-                     end
+      payload_json = create_payload_json(context)
 
       executables? = create_executable(context, payload_json)
 
@@ -26,11 +13,28 @@ module HostedDanger
       context.response.print "OK"
       context
     rescue e : Exception
-      L.error e, payload_for_error_log
+      L.error e, payload_json.to_json
 
       context.response.status_code = 400
       context.response.print "Bad Request"
       context
+    end
+
+    def create_payload_json(context) : JSON::Any
+      payload : String = if body = context.request.body
+        body.gets_to_end
+      else
+        raise "Empty body"
+      end
+
+      puts "request headers: #{context.request.headers}"
+
+      return JSON.parse(payload) if context.request.headers["Content-type"] == "application/json"
+      puts "point 0"
+
+      return JSON.parse(URI.unescape(payload.lchop("payload="))) if payload.starts_with?("payload=")
+
+      raise "Unknown payload type"
     end
 
     def create_executable(context, payload_json) : Array(Executable)?
