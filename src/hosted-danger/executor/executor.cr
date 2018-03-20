@@ -18,7 +18,8 @@ module HostedDanger
       access_token = access_token_from_git_host(git_host)
 
       repo_tag = "#{html_url}/pull/#{pr_number} (event: #{event})"
-      dir = "/tmp/#{Random::Secure.hex}"
+      parent_dir = "/tmp/#{Random::Secure.hex}"
+      dir = "#{parent_dir}/#{Random::Secure.hex}"
 
       env["GIT_URL"] = html_url
       env["DANGER_ACTION"] = action
@@ -31,7 +32,7 @@ module HostedDanger
       env["ghprbGhRepository"] = "#{org}/#{repo}"
       env.merge!(executable[:env])
 
-      FileUtils.mkdir(dir)
+      FileUtils.mkdir_p(dir)
 
       exec_cmd(repo_tag, "git init", dir, env)
       exec_cmd(repo_tag, "git config --local user.name ap-danger", dir, env)
@@ -45,7 +46,7 @@ module HostedDanger
       config_wrapper = ConfigWrapper.new(dir)
 
       unless config_wrapper.config_exists?
-        org_config_wrapper = get_org_config(repo_tag, git_host, org, access_token, env)
+        org_config_wrapper = get_org_config(parent_dir, repo_tag, git_host, org, access_token, env)
         if org_config_wrapper
           L.info "#{repo_tag} use org config."
           config_wrapper = org_config_wrapper
@@ -80,17 +81,17 @@ module HostedDanger
       #
       if config_wrapper.use_bundler?
         with_dragon_envs(env) do
-          exec_cmd(repo_tag, "bundle_cache install #{dragon_params(env)}", dir, env, true)
+          exec_cmd(repo_tag, "bundle_cache install #{dragon_params(env)}", config_wrapper.directory, env, true)
         end
       end
 
       if config_wrapper.use_yarn?
-        exec_cmd(repo_tag, "yarn install --ignore-engines", dir, env)
+        exec_cmd(repo_tag, "yarn install --ignore-engines", config_wrapper.directory, env)
       end
 
       if config_wrapper.use_npm?
         with_dragon_envs(env) do
-          exec_cmd(repo_tag, "npm_cache install #{dragon_params(env)}", dir, env, true)
+          exec_cmd(repo_tag, "npm_cache install #{dragon_params(env)}", dir, config_wrapper.directory, true)
         end
       end
 
@@ -146,9 +147,7 @@ module HostedDanger
       FileUtils.rm_rf(org_config_wrapper.directory) if org_config_wrapper
     end
 
-    private def get_org_config(repo_tag, git_host : String, org : String, access_token : String, env : Hash(String, String)) : ConfigWrapper?
-      dir = "/tmp/#{Random::Secure.hex}"
-
+    private def get_org_config(dir, repo_tag, git_host : String, org : String, access_token : String, env : Hash(String, String)) : ConfigWrapper?
       FileUtils.mkdir(dir)
 
       repo = "danger"
