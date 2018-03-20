@@ -1,8 +1,8 @@
-FROM crystallang/crystal
+FROM crystallang/crystal:0.24.2
 
 # base
 RUN apt-get clean -y && apt-get update -y
-RUN apt-get install curl wget dnsutils locales locales-all -y
+RUN apt-get install curl libcurl3 libcurl3-gnutls libcurl4-openssl-dev wget dnsutils locales locales-all -y
 
 ENV LANG ja_JP.UTF-8
 ENV LANGUAGE ja_JP.UTF-8
@@ -20,6 +20,7 @@ RUN gem install bundler --no-ri --no-rdoc
 # gems
 RUN mkdir /tmp/gem
 COPY Gemfile /tmp/gem
+COPY Gemfile.lock /tmp/gem
 RUN cd /tmp/gem && /bin/bash -l -c "bundle install --system"
 RUN mv /usr/local/bin/danger /usr/local/bin/danger_ruby
 RUN ls -la /usr/local/bin

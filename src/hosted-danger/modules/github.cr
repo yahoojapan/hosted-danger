@@ -10,6 +10,10 @@ module HostedDanger
     def pull_request_open?(git_host : String, org : String, repo : String, pr_number : Int32, access_token : String) : Bool
       pull_json = pull_request(git_host, org, repo, pr_number, access_token)
       pull_json["state"].as_s == "open"
+    rescue e : Exception
+      L.error e, pull_json.to_s
+
+      true
     end
 
     def pull_request(git_host : String, org : String, repo : String, pr_number : Int32, access_token : String) : JSON::Any
@@ -32,6 +36,27 @@ module HostedDanger
       res = HTTP::Client.get(url, headers)
 
       JSON.parse(res.body)
+    end
+
+    def issue_comments(git_host : String, org : String, repo : String, pr_number : Int32, access_token : String) : JSON::Any
+      url = "https://#{git_host}/api/v3/repos/#{org}/#{repo}/issues/#{pr_number}/comments"
+
+      headers = HTTP::Headers.new
+      headers["Authorization"] = "token #{access_token}"
+
+      res = HTTP::Client.get(url, headers)
+
+      JSON.parse(res.body)
+    end
+
+    def delete_comment(git_host : String, org : String, repo : String, comment_id : Int32, access_token : String)
+      url = "https://#{git_host}/api/v3/repos/#{org}/#{repo}/issues/comments/#{comment_id}"
+
+      headers = HTTP::Headers.new
+      headers["Authorization"] = "token #{access_token}"
+
+      res = HTTP::Client.delete(url, headers)
+      res
     end
 
     def build_state_of(

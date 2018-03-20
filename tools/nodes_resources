@@ -1,0 +1,53 @@
+#!/usr/bin/env ruby
+
+require 'net/http'
+require 'json'
+require 'uri'
+
+def post_to_mym?
+  ARGV.size == 1
+end
+
+def post_to_mym(message)
+  url = 'https://mym.corp.yahoo.co.jp/api/post'
+  uri = URI.parse(url)
+
+  https = Net::HTTP.new(uri.host, uri.port)
+  https.use_ssl = true
+
+  req = Net::HTTP::Post.new(uri.path)
+  req['Content-Type'] = 'application/json'
+  payload = {
+    token: ARGV[0],
+    message: message,
+  }.to_json
+
+  req.body = payload
+
+  https.request(req)
+end
+
+def create_message
+  res = "リソースの使用状況をお知らせします :computer:\n"
+
+  nodes = `kubectl describe nodes`.chomp
+  nodes.lines.each_with_index do |line, idx|
+    if line.include?('Hostname')
+      res += "\n**#{line.lstrip.chomp}**"
+    end
+
+    if line.include?('Allocated resources')
+      res += "\n```:nonum:\n"
+      res += nodes.lines[idx+2..idx+4].map{ |l| l.lstrip.chomp! }.join("\n")
+      res += "\n```\n"
+    end
+  end
+
+  res
+end
+
+message = create_message
+
+puts message
+
+post_to_mym(message) if post_to_mym?

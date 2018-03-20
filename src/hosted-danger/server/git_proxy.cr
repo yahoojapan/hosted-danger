@@ -37,6 +37,26 @@ module HostedDanger
       end
 
       body_json.to_json
+    rescue e : JSON::ParseException
+      # Json形式でない時もある
+      # エラー扱いにはしない
+      # 例: Content-Type: application/vnd.github.v3.diff
+      _body
+    rescue e : Exception
+      error_message = "Error at @convert_body"
+      error_message += e.message.not_nil! if e.message
+
+      L.error error_message
+
+      _body
+    end
+
+    def write_headers(context, response) : HTTP::Server::Context
+      response.headers.each do |k, v|
+        context.response.headers[k] = v
+      end
+
+      context
     end
 
     def proxy_get(context, params)
@@ -47,8 +67,9 @@ module HostedDanger
 
       res = HTTP::Client.get("https://#{git_context[:git_host]}/api/v3/#{resource}", headers)
 
+      write_headers(context, res)
+
       context.response.status_code = res.status_code
-      context.response.content_type = "application/vnd.github.v3+json"
       context.response.print convert_body(res.body, git_context)
       context
     end
@@ -62,8 +83,9 @@ module HostedDanger
 
       res = HTTP::Client.post("https://#{git_context[:git_host]}/api/v3/#{resource}", headers, payload)
 
+      write_headers(context, res)
+
       context.response.status_code = res.status_code
-      context.response.content_type = "application/vnd.github.v3+json"
       context.response.print convert_body(res.body, git_context)
       context
     end
@@ -77,8 +99,9 @@ module HostedDanger
 
       res = HTTP::Client.patch("https://#{git_context[:git_host]}/api/v3/#{resource}", headers, payload)
 
+      write_headers(context, res)
+
       context.response.status_code = res.status_code
-      context.response.content_type = "application/vnd.github.v3+json"
       context.response.print convert_body(res.body, git_context)
       context
     end
@@ -93,8 +116,9 @@ module HostedDanger
 
       res = HTTP::Client.delete("https://#{git_context[:git_host]}/api/v3/#{resource}", headers)
 
+      write_headers(context, res)
+
       context.response.status_code = res.status_code
-      context.response.content_type = "application/vnd.github.v3+json"
       context.response.print convert_body(res.body, git_context)
       context
     end

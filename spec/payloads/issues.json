@@ -1,36 +1,15 @@
 {
-  "id": 214015194,
-  "sha": "6dcb09b5b57875f334f61aebed695e2e4193db5e",
-  "name": "baxterthehacker/public-repo",
-  "target_url": null,
-  "context": "default",
-  "description": null,
-  "state": "success",
-  "commit": {
-    "sha": "9049f1265b7d61be4a8904a9a27120d2064dab3b",
-    "commit": {
-      "author": {
-        "name": "baxterthehacker",
-        "email": "baxterthehacker@users.noreply.github.com",
-        "date": "2015-05-05T23:40:12Z"
-      },
-      "committer": {
-        "name": "baxterthehacker",
-        "email": "baxterthehacker@users.noreply.github.com",
-        "date": "2015-05-05T23:40:12Z"
-      },
-      "message": "Initial commit",
-      "tree": {
-        "sha": "02b49ad0ba4f1acd9f06531b21e16a4ac5d341d0",
-        "url": "https://api.github.com/repos/baxterthehacker/public-repo/git/trees/02b49ad0ba4f1acd9f06531b21e16a4ac5d341d0"
-      },
-      "url": "https://api.github.com/repos/baxterthehacker/public-repo/git/commits/9049f1265b7d61be4a8904a9a27120d2064dab3b",
-      "comment_count": 1
-    },
-    "url": "https://api.github.com/repos/baxterthehacker/public-repo/commits/9049f1265b7d61be4a8904a9a27120d2064dab3b",
-    "html_url": "https://github.com/baxterthehacker/public-repo/commit/9049f1265b7d61be4a8904a9a27120d2064dab3b",
-    "comments_url": "https://api.github.com/repos/baxterthehacker/public-repo/commits/9049f1265b7d61be4a8904a9a27120d2064dab3b/comments",
-    "author": {
+  "action": "opened",
+  "issue": {
+    "url": "https://api.github.com/repos/baxterthehacker/public-repo/issues/2",
+    "labels_url": "https://api.github.com/repos/baxterthehacker/public-repo/issues/2/labels{/name}",
+    "comments_url": "https://api.github.com/repos/baxterthehacker/public-repo/issues/2/comments",
+    "events_url": "https://api.github.com/repos/baxterthehacker/public-repo/issues/2/events",
+    "html_url": "https://github.com/baxterthehacker/public-repo/pull/2",
+    "id": 73464126,
+    "number": 2,
+    "title": "Spelling error in the README file",
+    "user": {
       "login": "baxterthehacker",
       "id": 6752317,
       "avatar_url": "https://avatars.githubusercontent.com/u/6752317?v=3",
@@ -49,54 +28,25 @@
       "type": "User",
       "site_admin": false
     },
-    "committer": {
-      "login": "baxterthehacker",
-      "id": 6752317,
-      "avatar_url": "https://avatars.githubusercontent.com/u/6752317?v=3",
-      "gravatar_id": "",
-      "url": "https://api.github.com/users/baxterthehacker",
-      "html_url": "https://github.com/baxterthehacker",
-      "followers_url": "https://api.github.com/users/baxterthehacker/followers",
-      "following_url": "https://api.github.com/users/baxterthehacker/following{/other_user}",
-      "gists_url": "https://api.github.com/users/baxterthehacker/gists{/gist_id}",
-      "starred_url": "https://api.github.com/users/baxterthehacker/starred{/owner}{/repo}",
-      "subscriptions_url": "https://api.github.com/users/baxterthehacker/subscriptions",
-      "organizations_url": "https://api.github.com/users/baxterthehacker/orgs",
-      "repos_url": "https://api.github.com/users/baxterthehacker/repos",
-      "events_url": "https://api.github.com/users/baxterthehacker/events{/privacy}",
-      "received_events_url": "https://api.github.com/users/baxterthehacker/received_events",
-      "type": "User",
-      "site_admin": false
-    },
-    "parents": [
-
-    ]
+    "labels": [
+      {
+        "id": 208045946,
+        "url": "https://api.github.com/repos/baxterthehacker/public-repo/labels/bug",
+        "name": "bug",
+        "color": "fc2929",
+        "default": true
+      }
+    ],
+    "state": "open",
+    "locked": false,
+    "assignee": null,
+    "milestone": null,
+    "comments": 0,
+    "created_at": "2015-05-05T23:40:28Z",
+    "updated_at": "2015-05-05T23:40:28Z",
+    "closed_at": null,
+    "body": "It looks like you accidently spelled 'commit' with two 't's."
   },
-  "branches": [
-    {
-      "name": "master",
-      "commit": {
-        "sha": "9049f1265b7d61be4a8904a9a27120d2064dab3b",
-        "url": "https://api.github.com/repos/baxterthehacker/public-repo/commits/9049f1265b7d61be4a8904a9a27120d2064dab3b"
-      }
-    },
-    {
-      "name": "changes",
-      "commit": {
-        "sha": "0d1a26e67d8f5eaf1f6ba5c57fc3c7d91ac0fd1c",
-        "url": "https://api.github.com/repos/baxterthehacker/public-repo/commits/0d1a26e67d8f5eaf1f6ba5c57fc3c7d91ac0fd1c"
-      }
-    },
-    {
-      "name": "gh-pages",
-      "commit": {
-        "sha": "b11bb7545ac14abafc6191a0481b0d961e7793c6",
-        "url": "https://api.github.com/repos/baxterthehacker/public-repo/commits/b11bb7545ac14abafc6191a0481b0d961e7793c6"
-      }
-    }
-  ],
-  "created_at": "2015-05-05T23:40:39Z",
-  "updated_at": "2015-05-05T23:40:39Z",
   "repository": {
     "id": 35129377,
     "name": "public-repo",
@@ -161,8 +111,8 @@
     "labels_url": "https://api.github.com/repos/baxterthehacker/public-repo/labels{/name}",
     "releases_url": "https://api.github.com/repos/baxterthehacker/public-repo/releases{/id}",
     "created_at": "2015-05-05T23:40:12Z",
-    "updated_at": "2015-05-05T23:40:30Z",
-    "pushed_at": "2015-05-05T23:40:39Z",
+    "updated_at": "2015-05-05T23:40:12Z",
+    "pushed_at": "2015-05-05T23:40:27Z",
     "git_url": "git://github.com/baxterthehacker/public-repo.git",
     "ssh_url": "git@github.com:baxterthehacker/public-repo.git",
     "clone_url": "https://github.com/baxterthehacker/public-repo.git",

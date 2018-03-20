@@ -4,7 +4,7 @@ module HostedDanger
     @config : Config?
 
     def initialize(@directory : String)
-      @config = Config.parse("#{@directory}/danger.yaml")
+      @config = Config.create_from("#{@directory}/danger.yaml")
     end
 
     def config_exists?
@@ -32,6 +32,8 @@ module HostedDanger
         return config.lang.not_nil! if config.lang
       end
 
+      ruby_dangerfile_exists? = File.exists?("#{@directory}/Dangerfile.hosted") || File.exists?("#{@directory}/Dangerfile.hosted.rb")
+
       return "ruby" if ruby_dangerfile_exists?
       return "js" if js_dangerfile_exists?
 
@@ -47,9 +49,25 @@ module HostedDanger
         return config.dangerfile.not_nil! if config.dangerfile
       end
 
+      # ここにくるのは
+      # 1. 設定でjsとした場合
+      # 2. ファイルの存在で、システムがjsと判断した場合
       if get_lang == "js"
-        return "dangerfile.hosted.js"
+        if File.exists?("#{@directory}/dangerfile.hosted.js")
+          return "dangerfile.hosted.js"
+        elsif File.exists?("#{@directory}/dangerfile.hosted.ts")
+          return "dangerfile.hosted.ts"
+        else
+          # 設定でjsにしているのに該当するファイルがない場合にここに来る
+          raise "dangerfile.hosted.[js|ts] not found"
+        end
       end
+
+      # ここにくるのは
+      # 1. 設定でrubyとした場合
+      # 2. ファイルの存在で、システムがrubyと判断した場合
+      # 3. 設定もファイルも存在しておらず、デフォルトのDangerfile.hostedを使用する場合
+      return "Dangerfile.hosted.rb" if File.exists?("#{@directory}/Dangerfile.hosted.rb")
 
       "Dangerfile.hosted"
     end
@@ -64,6 +82,7 @@ module HostedDanger
         "pull_request_review",
         "pull_request_review_comment",
         "issue_comment",
+        "issues",
         # https://ghe.corp.yahoo.co.jp/hosted-danger/hosted-danger/issues/99
         # "status",
       ]

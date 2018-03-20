@@ -1,7 +1,7 @@
 module HostedDanger
   module Executor
     DANGERFILE_DEFAULT = File.expand_path("../../../../Dangerfile.default", __FILE__)
-    TIMEOUT            = 120
+    TIMEOUT            = 1200
 
     def exec_danger(executable : Executable)
       env = {} of String => String
@@ -10,13 +10,14 @@ module HostedDanger
       html_url = executable[:html_url]
       pr_number = executable[:pr_number]
       sha = executable[:sha]
+      base_branch = executable[:base_branch]
       raw_payload = executable[:raw_payload]
 
       git_host = git_host_from_html_url(html_url)
       org, repo = org_repo_from_html_url(html_url)
       access_token = access_token_from_git_host(git_host)
 
-      repo_tag = "#{html_url} (event: #{event}) (pr: #{pr_number})"
+      repo_tag = "#{html_url}/pull/#{pr_number} (event: #{event})"
       dir = "/tmp/#{Random::Secure.hex}"
 
       env["GIT_URL"] = html_url
@@ -35,8 +36,10 @@ module HostedDanger
       exec_cmd(repo_tag, "git init", dir, env)
       exec_cmd(repo_tag, "git config --local user.name ap-danger", dir, env)
       exec_cmd(repo_tag, "git config --local user.email hosted-danger-pj@ml.yahoo-corp.jp", dir, env)
+      exec_cmd(repo_tag, "git config --local http.postBuffer 1048576000", dir, env)
       exec_cmd(repo_tag, "git remote add origin #{remote_from_html_url(html_url, access_token)}", dir, env)
-      exec_cmd(repo_tag, "git fetch origin pull/#{pr_number}/head --depth 1", dir, env)
+      exec_cmd(repo_tag, "git fetch origin #{base_branch} --depth 50", dir, env)
+      exec_cmd(repo_tag, "git fetch origin +refs/pull/#{pr_number}/head --depth 50", dir, env)
       exec_cmd(repo_tag, "git reset --hard FETCH_HEAD", dir, env)
 
       config_wrapper = ConfigWrapper.new(dir)
@@ -71,6 +74,29 @@ module HostedDanger
         State::PENDING,
       )
 
+      #
+      # Phase: パッケージ管理ツール
+      # 注) npmとgemを両方使いたい、という場合がある
+      #
+      if config_wrapper.use_bundler?
+        with_dragon_envs(env) do
+          exec_cmd(repo_tag, "bundle_cache install #{dragon_params(env)}", dir, env, true)
+        end
+      end
+
+      if config_wrapper.use_yarn?
+        exec_cmd(repo_tag, "yarn install --ignore-engines", dir, env)
+      end
+
+      if config_wrapper.use_npm?
+        with_dragon_envs(env) do
+          exec_cmd(repo_tag, "npm_cache install #{dragon_params(env)}", dir, env, true)
+        end
+      end
+
+      #
+      #  Phase: 実行
+      #
       case config_wrapper.get_lang
       when "ruby"
         exec_ruby(config_wrapper, repo_tag, dangerfile_path, dir, env)
@@ -79,6 +105,8 @@ module HostedDanger
       else
         raise "unknown lang: #{config_wrapper.get_lang}"
       end
+
+      clean_comments(repo_tag, git_host, org, repo, pr_number, access_token)
     rescue e : Exception
       paster_url : String = if error_message = e.message
         upload_text(error_message)
@@ -134,7 +162,7 @@ module HostedDanger
 
       config = ConfigWrapper.new(dir)
       config if config.config_exists?
-    rescue 
+    rescue
       nil
     end
 
@@ -142,49 +170,20 @@ module HostedDanger
       exec_cmd(repo_tag, "cp #{DANGERFILE_DEFAULT} #{dangerfile_path}", dir, env) unless File.exists?(dangerfile_path)
 
       if config_wrapper.use_bundler?
-        exec_ruby_bundler(repo_tag, dangerfile_path, dir, env)
+        exec_cmd(repo_tag, "timeout #{TIMEOUT} bundle exec danger #{danger_params_ruby(dangerfile_path)}", dir, env)
       else
-        exec_ruby_system(repo_tag, dangerfile_path, dir, env)
+        exec_cmd(repo_tag, "timeout #{TIMEOUT} danger_ruby #{danger_params_ruby(dangerfile_path)}", dir, env)
       end
-    end
-
-    private def exec_ruby_bundler(repo_tag : String, dangerfile_path : String, dir : String, env : Hash(String, String))
-      with_dragon_envs(env) do
-        exec_cmd(repo_tag, "bundle_cache install #{dragon_params(env)}", dir, env, true)
-      end
-
-      exec_cmd(repo_tag, "timeout #{TIMEOUT} bundle exec danger #{danger_params_ruby(dangerfile_path)}", dir, env)
-    end
-
-    private def exec_ruby_system(repo_tag : String, dangerfile_path : String, dir : String, env : Hash(String, String))
-      exec_cmd(repo_tag, "timeout #{TIMEOUT} danger_ruby #{danger_params_ruby(dangerfile_path)}", dir, env)
     end
 
     private def exec_js(config_wrapper : ConfigWrapper, repo_tag, dangerfile_path : String, dir : String, env : Hash(String, String))
       if config_wrapper.use_yarn?
-        exec_js_yarn(repo_tag, dangerfile_path, dir, env)
+        exec_cmd(repo_tag, "timeout #{TIMEOUT} yarn danger ci #{danger_params_js(dangerfile_path)}", dir, env)
       elsif config_wrapper.use_npm?
-        exec_js_npm(repo_tag, dangerfile_path, dir, env)
+        exec_cmd(repo_tag, "timeout #{TIMEOUT} npm run danger -- ci #{danger_params_js(dangerfile_path)}", dir, env)
       else
-        exec_js_system(repo_tag, dangerfile_path, dir, env)
+        exec_cmd(repo_tag, "timeout #{TIMEOUT} danger ci #{danger_params_js(dangerfile_path)}", dir, env)
       end
-    end
-
-    private def exec_js_yarn(repo_tag, dangerfile_path : String, dir : String, env : Hash(String, String))
-      exec_cmd(repo_tag, "yarn install", dir, env)
-      exec_cmd(repo_tag, "timeout #{TIMEOUT} yarn danger ci #{danger_params_js(dangerfile_path)}", dir, env)
-    end
-
-    private def exec_js_npm(repo_tag, dangerfile_path : String, dir : String, env : Hash(String, String))
-      with_dragon_envs(env) do
-        exec_cmd(repo_tag, "npm_cache install #{dragon_params(env)}", dir, env, true)
-      end
-
-      exec_cmd(repo_tag, "timeout #{TIMEOUT} npm run danger -- ci #{danger_params_js(dangerfile_path)}", dir, env)
-    end
-
-    private def exec_js_system(repo_tag, dangerfile_path : String, dir : String, env : Hash(String, String))
-      exec_cmd(repo_tag, "timeout #{TIMEOUT} danger ci #{danger_params_js(dangerfile_path)}", dir, env)
     end
 
     private def exec_cmd(repo_tag : String, cmd : String, dir : String, env : Hash(String, String), hide_command : Bool = false)
@@ -216,6 +215,21 @@ module HostedDanger
         stderr: stderr.to_s,
         code:   process.exit_code,
       }
+    end
+
+    private def clean_comments(repo_tag : String, git_host : String, org : String, repo : String, pr_number : Int32, access_token : String)
+      comments = issue_comments(git_host, org, repo, pr_number, access_token)
+
+      delete_comments = comments
+        .select { |comment| comment["user"]["login"].as_s == "ap-danger" }
+        .select { |comment| comment["body"].as_s.includes?("generated_by_hosted-danger") }
+
+      return if delete_comments.size <= 1
+
+      delete_comments[0..-2].each do |comment|
+        L.info "#{repo_tag} delete comment: #{comment["id"]}"
+        delete_comment(git_host, org, repo, comment["id"].as_i, access_token)
+      end
     end
 
     private def with_dragon_envs(env : Hash(String, String), &block)

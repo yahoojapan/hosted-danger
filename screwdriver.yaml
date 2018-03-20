@@ -28,6 +28,17 @@ jobs:
       - test: |
           crystal spec
 
+  build-image:
+    template: docker/build@stable
+    environment:
+      REPO_NAME: hosted-danger
+      IMAGE_NAME: hosted-danger-image
+    requires: [~pr]
+    steps:
+      - prebuild_image: |
+          sed -i -e s@"ADD envs.json /tmp/hd/envs.json"@""@g Dockerfile
+          cat Dockerfile
+
   commit:
     image: cd.docker-registry.corp.yahoo.co.jp:4443/hosted-danger/sd-image:latest
     requires: [~commit]
@@ -56,6 +67,8 @@ jobs:
           echo "Deploying image: "
           echo `meta get fixed_docker_image`
       - deployment: |
+          echo "Start deployment"
+
           sed -e "s@IMAGE@"`meta get fixed_docker_image`"@g" ops/kube/deployment.yaml.tmpl > deployment.yaml
 
           sed -e "s@ACCESS_TOKEN_GHE@"`echo -n $ACCESS_TOKEN_GHE | base64`"@g" ops/kube/secrets.yaml.tmpl | \
@@ -64,12 +77,13 @@ jobs:
             sed -e "s@DRAGON_ACCESS_KEY@"`echo -n $DRAGON_ACCESS_KEY | base64`"@g" | \
             sed -e "s@DRAGON_SECRET_ACCESS_KEY@"`echo -n $DRAGON_SECRET_ACCESS_KEY | base64`"@g" > secrets.yaml
 
-          wget https://raw.ghe.corp.yahoo.co.jp/hosted-danger/secrets/master/config?token=$WGET_TOKEN -O config -q
+          curl -H "Authorization: token $ACCESS_TOKEN_GHE" https://raw.ghe.corp.yahoo.co.jp/hosted-danger/secrets/master/config > config
 
           kubectl apply -f secrets.yaml --kubeconfig config --namespace=default
           kubectl apply -f deployment.yaml --kubeconfig config --namespace=default
+
+          tools/wait_for_the_deployment
     secrets:
-      - WGET_TOKEN
       - ACCESS_TOKEN_GHE
       - ACCESS_TOKEN_PARTNER
       - ACCESS_TOKEN_GIT
@@ -79,27 +93,5 @@ jobs:
     image: cd.docker-registry.corp.yahoo.co.jp:4443/hosted-danger/sd-image:latest
     requires: [deployment]
     steps:
-      - wait_deployment: |
-          echo "Wait the deployment, sleeping 600 sec..."
-          sleep 600
-      - setup-test: |
-          mkdir wd && cd wd
-          git clone git@ghe.corp.yahoo.co.jp:hosted-danger/acceptance-tests
-          cd acceptance-tests
-          cp ../../tools/acceptance-test .
-      - default: |
-          ./acceptance-test default
-      - ruby-default: |
-          ./acceptance-test ruby-default
-      - ruby-bundler: |
-          ./acceptance-test ruby-bundler
-      - ruby-dangerfile: |
-          ./acceptance-test ruby-dangerfile
-      - js-system: |
-          ./acceptance-test js-system
-      - js-npm: |
-          ./acceptance-test js-npm
-      - js-yarn: |
-          ./acceptance-test js-yarn
-      - js-dangerfile: |
-          ./acceptance-test js-dangerfile
+      - tests: |
+          ./tools/acceptance-tests
