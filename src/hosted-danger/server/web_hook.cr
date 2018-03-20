@@ -8,7 +8,13 @@ module HostedDanger
       end
 
       payload_for_error_log = payload
-      payload_json = JSON.parse(payload)
+      payload_json = if context.request.headers["Content-type"] == "application/json"
+                       JSON.parse(payload)
+                     elsif payload.starts_with?("payload=")
+                       JSON.parse(URI.unescape(payload.lchop("payload=")))
+                     else
+                       raise "Unknown payload type"
+                     end
 
       executables? = create_executable(context, payload_json)
 
