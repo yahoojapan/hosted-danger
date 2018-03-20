@@ -1,9 +1,10 @@
 require "../mocks/*"
 
-def spec_context(event : String) : HTTP::Server::Context
+def spec_context(event : String, headers : HTTP::Headers = HTTP::Headers.new, body : String = "body") : HTTP::Server::Context
   request_headers = HTTP::Headers.new
   request_headers["X-Github-Event"] = event
-  request = HTTP::Request.new("METHOD", "some_resources", request_headers, "body")
+  request_headers.merge!(headers)
+  request = HTTP::Request.new("METHOD", "some_resources", request_headers, body)
 
   response = HTTP::Server::Response.new(IO::Memory.new)
 
@@ -12,6 +13,26 @@ end
 
 describe HostedDanger::WebHook do
   payloads_root = File.expand_path("../../payloads", __FILE__)
+
+  it "create_payload_json (application/json)" do
+    headers = HTTP::Headers.new
+    headers["Content-type"] = "application/json"
+
+    context = spec_context("someevent", headers, File.read("#{payloads_root}/pull_request.json"))
+
+    webhook = HostedDanger::WebHook.new
+    webhook.create_payload_json(context).should be_truthy
+  end
+
+  it "create_payload_json (application/x-www-form-urlencoded)" do
+    headers = HTTP::Headers.new
+    headers["Content-type"] = "application/x-www-form-urlencoded"
+
+    context = spec_context("someevent", headers, File.read("#{payloads_root}/pull_request_urlencoded.txt"))
+
+    webhook = HostedDanger::WebHook.new
+    webhook.create_payload_json(context).should be_truthy
+  end
 
   it "create_executables" do
     webhook = HostedDangerMocks::WebHook.new
