@@ -20,7 +20,7 @@ module HostedDanger
     end
 
     def ruby_dangerfile_exists?
-      File.exists?("#{@directory}/Dangerfile.hosted")
+      File.exists?("#{@directory}/Dangerfile.hosted") || File.exists?("#{@directory}/Dangerfile.hosted.rb")
     end
 
     def js_dangerfile_exists?

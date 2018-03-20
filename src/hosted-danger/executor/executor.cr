@@ -79,7 +79,7 @@ module HostedDanger
       # Phase: パッケージ管理ツール
       # 注) npmとgemを両方使いたい、という場合がある
       #
-      if config_wrapper.use_bundler?
+      if config_wrapper.get_lang == "ruby" && config_wrapper.use_bundler?
         with_dragon_envs(env) do
           exec_cmd(repo_tag, "bundle_cache install #{dragon_params(env)}", config_wrapper.directory, env, true)
         end
@@ -91,7 +91,7 @@ module HostedDanger
 
       if config_wrapper.use_npm?
         with_dragon_envs(env) do
-          exec_cmd(repo_tag, "npm_cache install #{dragon_params(env)}", dir, config_wrapper.directory, true)
+          exec_cmd(repo_tag, "npm_cache install #{dragon_params(env)}", config_wrapper.directory, env, true)
         end
       end
 
@@ -148,8 +148,6 @@ module HostedDanger
     end
 
     private def get_org_config(dir, repo_tag, git_host : String, org : String, access_token : String, env : Hash(String, String)) : ConfigWrapper?
-      FileUtils.mkdir(dir)
-
       repo = "danger"
 
       exec_cmd(repo_tag, "git init", dir, env)
@@ -160,8 +158,12 @@ module HostedDanger
       exec_cmd(repo_tag, "git reset --hard FETCH_HEAD", dir, env)
 
       config = ConfigWrapper.new(dir)
-      config if config.config_exists?
-    rescue
+      config if config.dangerfile_exists?
+    rescue e : Exception
+      if msg = e.message
+        L.info msg
+      end
+
       nil
     end
 
@@ -177,9 +179,9 @@ module HostedDanger
 
     private def exec_js(config_wrapper : ConfigWrapper, repo_tag, dangerfile_path : String, dir : String, env : Hash(String, String))
       if config_wrapper.use_yarn?
-        exec_cmd(repo_tag, "timeout #{TIMEOUT} yarn danger ci #{danger_params_js(dangerfile_path)}", dir, env)
+        exec_cmd(repo_tag, "timeout #{TIMEOUT} $(yarn bin)/danger ci #{danger_params_js(dangerfile_path)}", dir, env)
       elsif config_wrapper.use_npm?
-        exec_cmd(repo_tag, "timeout #{TIMEOUT} npm run danger -- ci #{danger_params_js(dangerfile_path)}", dir, env)
+        exec_cmd(repo_tag, "timeout #{TIMEOUT} $(npm bin)/danger -- ci #{danger_params_js(dangerfile_path)}", dir, env)
       else
         exec_cmd(repo_tag, "timeout #{TIMEOUT} danger ci #{danger_params_js(dangerfile_path)}", dir, env)
       end
