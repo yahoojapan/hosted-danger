@@ -77,7 +77,7 @@ module HostedDanger
       end
 
       if config_wrapper.use_yarn?
-        exec_cmd(repo_tag, "yarn install", dir, env)
+        exec_cmd(repo_tag, "yarn install --ignore-engines", dir, env)
       end
 
       if config_wrapper.use_npm?
