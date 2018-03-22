@@ -48,8 +48,7 @@ module HostedDanger
       unless config_wrapper.config_exists?
         # bundler と npm の親ディレクトリを探索するという仕様を利用するため、
         # org は対象のリポジトリの一つ上の階層に取得する
-        org_config_wrapper = get_org_config(work_dir, repo_tag, git_host, org, access_token, env)
-        if org_config_wrapper
+        if org_config_wrapper = get_org_config(work_dir, repo_tag, git_host, org, access_token, env)
           L.info "#{repo_tag} use org config."
           config_wrapper = org_config_wrapper
         end
