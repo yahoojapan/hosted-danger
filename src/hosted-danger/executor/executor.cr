@@ -146,9 +146,8 @@ module HostedDanger
         end
       end
 
-      # for debugging
-      # FileUtils.rm_rf(org_dir) if org_dir
-      # FileUtils.rm_rf(dir) if dir
+      FileUtils.rm_rf(org_dir) if org_dir
+      FileUtils.rm_rf(dir) if dir
     end
 
     private def fetch_org_config?(dir, repo_tag, git_host : String, org : String, access_token : String, env : Hash(String, String)) : Bool
@@ -234,10 +233,6 @@ module HostedDanger
 
     private def copy_config(repo_tag : String, from_path : String, to_path : String)
       src_files = Dir.glob("#{from_path}/*").reject { |file| file.includes?("/.git") }.join(" ")
-
-      puts "dir.glob:"
-      puts src_files
-
       exec_cmd(repo_tag, "cp -rf #{src_files} #{to_path}", from_path, {} of String => String)
     end
 
