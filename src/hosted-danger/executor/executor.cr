@@ -32,7 +32,7 @@ module HostedDanger
       env["ghprbGhRepository"] = "#{org}/#{repo}"
       env.merge!(executable[:env])
 
-      FileUtils.mkdir_p(dir)
+      FileUtils.mkdir(dir)
 
       exec_cmd(repo_tag, "git init", dir, env)
       exec_cmd(repo_tag, "git config --local user.name ap-danger", dir, env)
@@ -46,7 +46,7 @@ module HostedDanger
       config_wrapper = ConfigWrapper.new(dir)
 
       unless config_wrapper.config_exists?
-        FileUtils.mkdir_p(org_dir)
+        FileUtils.mkdir(org_dir)
 
         if org_config_wrapper = get_org_config(org_dir, repo_tag, git_host, org, access_token, env)
           L.info "#{repo_tag} use org config."
