@@ -13,6 +13,7 @@ BRANCHES = [
   'js-npm',
   'js-yarn',
   'js-dangerfile',
+  'org',
 ]
 
 TESTD = 'testd'
