@@ -98,6 +98,10 @@ module HostedDanger
       false
     end
 
+    def gemfile_path
+      "#{directory}/Gemfile"
+    end
+
     def use_yarn? : Bool
       if config = @config
         return config.yarn.not_nil! if config.yarn

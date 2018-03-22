@@ -84,6 +84,7 @@ module HostedDanger
         with_dragon_envs(env) do
           exec_cmd(repo_tag, "bundle_cache install #{dragon_params(env)}", config_wrapper.directory, env, true)
         end
+        env["BUNDLE_GEMFILE"] = config_wrapper.gemfile_path
       end
 
       if config_wrapper.use_yarn?
@@ -128,19 +129,19 @@ module HostedDanger
     ensure
       # jsではstatusがsuccessにならない問題がある(danger側の問題かこちら側の問題かは不明)
       # そこで、pendingのstatusを最後にsuccessにする必要がある
-      if config_wrapper && config_wrapper.not_nil!.get_lang == "js" && git_host && org && repo && sha && access_token
-        status = build_state_of(git_host.not_nil!, org.not_nil!, repo.not_nil!, sha.not_nil!, access_token.not_nil!)
-        status.each do |state|
-          if state["creator"]["login"].as_s == "ap-danger" && state["state"].as_s == "pending"
-            build_state(
-              git_host.not_nil!, org.not_nil!, repo.not_nil!, sha.not_nil!,
-              "Success! yay!",
-              access_token.not_nil!,
-              State::SUCCESS,
-            )
-          end
-        end
-      end
+      # if config_wrapper && config_wrapper.not_nil!.get_lang == "js" && git_host && org && repo && sha && access_token
+      #   status = build_state_of(git_host.not_nil!, org.not_nil!, repo.not_nil!, sha.not_nil!, access_token.not_nil!)
+      #   status.each do |state|
+      #     if state["creator"]["login"].as_s == "ap-danger" && state["state"].as_s == "pending"
+      #       build_state(
+      #         git_host.not_nil!, org.not_nil!, repo.not_nil!, sha.not_nil!,
+      #         "Success! yay!",
+      #         access_token.not_nil!,
+      #         State::SUCCESS,
+      #       )
+      #     end
+      #   end
+      # end
 
       FileUtils.rm_rf(work_dir.not_nil!) if work_dir
     end
