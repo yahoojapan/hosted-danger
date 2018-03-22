@@ -159,6 +159,7 @@ module HostedDanger
       exec_cmd(repo_tag, "git remote add origin https://ap-danger:#{access_token}@#{git_host}/#{org}/#{repo}.git", dir, env, true)
       exec_cmd(repo_tag, "git fetch --depth 1", dir, env)
       exec_cmd(repo_tag, "git reset --hard FETCH_HEAD", dir, env)
+      exec_cmd(repo_tag, "rm -rf .git*", dir, env)
 
       true
     rescue
@@ -232,7 +233,7 @@ module HostedDanger
     end
 
     private def copy_config(repo_tag : String, from_path : String, to_path : String)
-      src_files = Dir.glob("#{from_path}/*").reject { |file| file.includes?("/.git") }.join(" ")
+      src_files = Dir.glob("#{from_path}/*").join(" ")
       exec_cmd(repo_tag, "cp -rf #{src_files} #{to_path}", from_path, {} of String => String)
     end
 
