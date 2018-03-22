@@ -18,6 +18,7 @@ module HostedDanger
       access_token = access_token_from_git_host(git_host)
 
       repo_tag = "#{html_url}/pull/#{pr_number} (event: #{event})"
+      org_dir = "/tmp/#{Random::Secure.hex}"
       dir = "/tmp/#{Random::Secure.hex}"
 
       env["GIT_URL"] = html_url
@@ -44,7 +45,16 @@ module HostedDanger
 
       config_wrapper = ConfigWrapper.new(dir)
 
-      dangerfile_path = "#{dir}/#{config_wrapper.dangerfile}"
+      unless config_wrapper.config_exists?
+        FileUtils.mkdir(org_dir)
+
+        if org_config_wrapper = get_org_config(org_dir, repo_tag, git_host, org, access_token, env)
+          L.info "#{repo_tag} use org config."
+          config_wrapper = org_config_wrapper
+        end
+      end
+
+      dangerfile_path = config_wrapper.dangerfile_path
 
       unless config_wrapper.events.includes?(event)
         return L.info "#{repo_tag} configuration doesn't include #{event} (#{config_wrapper.events})"
@@ -70,19 +80,18 @@ module HostedDanger
       # Phase: パッケージ管理ツール
       # 注) npmとgemを両方使いたい、という場合がある
       #
-      if config_wrapper.use_bundler?
+      if config_wrapper.get_lang == "ruby" && config_wrapper.use_bundler?
         with_dragon_envs(env) do
-          exec_cmd(repo_tag, "bundle_cache install #{dragon_params(env)}", dir, env, true)
+          exec_cmd(repo_tag, "bundle_cache install #{dragon_params(env)}", config_wrapper.directory, env, true)
         end
+        env["BUNDLE_GEMFILE"] = config_wrapper.gemfile_path
       end
 
       if config_wrapper.use_yarn?
-        exec_cmd(repo_tag, "yarn install --ignore-engines", dir, env)
-      end
-
-      if config_wrapper.use_npm?
+        exec_cmd(repo_tag, "yarn install --ignore-engines", config_wrapper.directory, env)
+      elsif config_wrapper.use_npm?
         with_dragon_envs(env) do
-          exec_cmd(repo_tag, "npm_cache install #{dragon_params(env)}", dir, env, true)
+          exec_cmd(repo_tag, "npm_cache install #{dragon_params(env)}", config_wrapper.directory, env, true)
         end
       end
 
@@ -134,7 +143,24 @@ module HostedDanger
         end
       end
 
-      FileUtils.rm_rf(dir.not_nil!) if dir
+      FileUtils.rm_rf(org_dir) if org_dir
+      FileUtils.rm_rf(dir) if dir
+    end
+
+    private def get_org_config(dir, repo_tag, git_host : String, org : String, access_token : String, env : Hash(String, String)) : ConfigWrapper?
+      repo = "danger"
+
+      exec_cmd(repo_tag, "git init", dir, env)
+      exec_cmd(repo_tag, "git config --local user.name ap-danger", dir, env)
+      exec_cmd(repo_tag, "git config --local user.email hosted-danger-pj@ml.yahoo-corp.jp", dir, env)
+      exec_cmd(repo_tag, "git remote add origin https://ap-danger:#{access_token}@#{git_host}/#{org}/#{repo}.git", dir, env, true)
+      exec_cmd(repo_tag, "git fetch --depth 1", dir, env)
+      exec_cmd(repo_tag, "git reset --hard FETCH_HEAD", dir, env)
+
+      config = ConfigWrapper.new(dir)
+      config if config.dangerfile_exists?
+    rescue
+      nil
     end
 
     private def exec_ruby(config_wrapper : ConfigWrapper, repo_tag : String, dangerfile_path : String, dir : String, env : Hash(String, String))
@@ -148,13 +174,13 @@ module HostedDanger
     end
 
     private def exec_js(config_wrapper : ConfigWrapper, repo_tag, dangerfile_path : String, dir : String, env : Hash(String, String))
-      if config_wrapper.use_yarn?
-        exec_cmd(repo_tag, "timeout #{TIMEOUT} yarn danger ci #{danger_params_js(dangerfile_path)}", dir, env)
-      elsif config_wrapper.use_npm?
-        exec_cmd(repo_tag, "timeout #{TIMEOUT} npm run danger -- ci #{danger_params_js(dangerfile_path)}", dir, env)
-      else
-        exec_cmd(repo_tag, "timeout #{TIMEOUT} danger ci #{danger_params_js(dangerfile_path)}", dir, env)
-      end
+      danger_bin = if config_wrapper.use_yarn? || config_wrapper.use_npm?
+                     "#{config_wrapper.directory}/node_modules/.bin/danger"
+                   else
+                     "danger"
+                   end
+
+      exec_cmd(repo_tag, "timeout #{TIMEOUT} #{danger_bin} ci #{danger_params_js(dangerfile_path)}", dir, env)
     end
 
     private def exec_cmd(repo_tag : String, cmd : String, dir : String, env : Hash(String, String), hide_command : Bool = false)

@@ -1,9 +1,30 @@
 module HostedDanger
   class ConfigWrapper
+    getter directory
     @config : Config?
 
     def initialize(@directory : String)
       @config = Config.create_from("#{@directory}/danger.yaml")
+    end
+
+    def config_exists?
+      config_file_exists? || dangerfile_exists?
+    end
+
+    def config_file_exists?
+      !@config.nil?
+    end
+
+    def dangerfile_exists?
+      ruby_dangerfile_exists? || js_dangerfile_exists?
+    end
+
+    def ruby_dangerfile_exists?
+      File.exists?("#{@directory}/Dangerfile.hosted") || File.exists?("#{@directory}/Dangerfile.hosted.rb")
+    end
+
+    def js_dangerfile_exists?
+      File.exists?("#{@directory}/dangerfile.hosted.js") || File.exists?("#{@directory}/dangerfile.hosted.ts")
     end
 
     def get_lang : String
@@ -11,13 +32,14 @@ module HostedDanger
         return config.lang.not_nil! if config.lang
       end
 
-      ruby_dangerfile_exists? = File.exists?("#{@directory}/Dangerfile.hosted") || File.exists?("#{@directory}/Dangerfile.hosted.rb")
       return "ruby" if ruby_dangerfile_exists?
-
-      js_dangerfile_exists? = File.exists?("#{@directory}/dangerfile.hosted.js") || File.exists?("#{@directory}/dangerfile.hosted.ts")
       return "js" if js_dangerfile_exists?
 
       "ruby" # by default
+    end
+
+    def dangerfile_path : String
+      "#{@directory}/#{dangerfile}"
     end
 
     def dangerfile : String
@@ -74,6 +96,10 @@ module HostedDanger
       return true if File.read("#{@directory}/Gemfile") =~ /(gem\s*?'danger')/
 
       false
+    end
+
+    def gemfile_path
+      "#{@directory}/Gemfile"
     end
 
     def use_yarn? : Bool
