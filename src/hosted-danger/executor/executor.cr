@@ -181,7 +181,7 @@ module HostedDanger
       if config_wrapper.use_yarn?
         exec_cmd(repo_tag, "timeout #{TIMEOUT} $(yarn bin)/danger ci #{danger_params_js(dangerfile_path)}", dir, env)
       elsif config_wrapper.use_npm?
-        exec_cmd(repo_tag, "timeout #{TIMEOUT} $(npm bin)/danger -- ci #{danger_params_js(dangerfile_path)}", dir, env)
+        exec_cmd(repo_tag, "timeout #{TIMEOUT} $(npm bin)/danger ci #{danger_params_js(dangerfile_path)}", dir, env)
       else
         exec_cmd(repo_tag, "timeout #{TIMEOUT} danger ci #{danger_params_js(dangerfile_path)}", dir, env)
       end
