@@ -99,7 +99,7 @@ module HostedDanger
     end
 
     def gemfile_path
-      "#{directory}/Gemfile"
+      "#{@directory}/Gemfile"
     end
 
     def use_yarn? : Bool
