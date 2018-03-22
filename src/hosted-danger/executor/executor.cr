@@ -18,8 +18,8 @@ module HostedDanger
       access_token = access_token_from_git_host(git_host)
 
       repo_tag = "#{html_url}/pull/#{pr_number} (event: #{event})"
-      work_dir = "/tmp/#{Random::Secure.hex}"
-      dir = "#{work_dir}/#{Random::Secure.hex}"
+      org_dir = "/tmp/#{Random::Secure.hex}"
+      dir = "/tmp/#{Random::Secure.hex}"
 
       env["GIT_URL"] = html_url
       env["DANGER_ACTION"] = action
@@ -46,9 +46,11 @@ module HostedDanger
       config_wrapper = ConfigWrapper.new(dir)
 
       unless config_wrapper.config_exists?
+        FileUtils.mkdir_p(org_dir)
+
         # bundler と npm の親ディレクトリを探索するという仕様を利用するため、
         # org は対象のリポジトリの一つ上の階層に取得する
-        if org_config_wrapper = get_org_config(work_dir, repo_tag, git_host, org, access_token, env)
+        if org_config_wrapper = get_org_config(org_dir, repo_tag, git_host, org, access_token, env)
           L.info "#{repo_tag} use org config."
           config_wrapper = org_config_wrapper
         end
@@ -143,7 +145,8 @@ module HostedDanger
         end
       end
 
-      FileUtils.rm_rf(work_dir.not_nil!) if work_dir
+      FileUtils.rm_rf(org_dir) if org_dir
+      FileUtils.rm_rf(dir) if dir
     end
 
     private def get_org_config(dir, repo_tag, git_host : String, org : String, access_token : String, env : Hash(String, String)) : ConfigWrapper?
