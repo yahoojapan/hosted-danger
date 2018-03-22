@@ -88,9 +88,7 @@ module HostedDanger
 
       if config_wrapper.use_yarn?
         exec_cmd(repo_tag, "yarn install --ignore-engines", config_wrapper.directory, env)
-      end
-
-      if config_wrapper.use_npm?
+      elsif config_wrapper.use_npm?
         with_dragon_envs(env) do
           exec_cmd(repo_tag, "npm_cache install #{dragon_params(env)}", config_wrapper.directory, env, true)
         end
@@ -178,13 +176,15 @@ module HostedDanger
     end
 
     private def exec_js(config_wrapper : ConfigWrapper, repo_tag, dangerfile_path : String, dir : String, env : Hash(String, String))
-      if config_wrapper.use_yarn?
-        exec_cmd(repo_tag, "timeout #{TIMEOUT} $(yarn bin)/danger ci #{danger_params_js(dangerfile_path)}", dir, env)
-      elsif config_wrapper.use_npm?
-        exec_cmd(repo_tag, "timeout #{TIMEOUT} $(npm bin)/danger ci #{danger_params_js(dangerfile_path)}", dir, env)
-      else
-        exec_cmd(repo_tag, "timeout #{TIMEOUT} danger ci #{danger_params_js(dangerfile_path)}", dir, env)
-      end
+      danger_bin = "#{config_wrapper.directory}/node_modules/.bin/danger"
+
+      danger_bin = if config_wrapper.use_yarn? || config_wrapper.use_npm?
+                     "#{config_wrapper.directory}/node_modules/.bin/danger"
+                   else
+                     "danger"
+                   end
+
+      exec_cmd(repo_tag, "timeout #{TIMEOUT} #{danger_bin} ci #{danger_params_js(dangerfile_path)}", dir, env)
     end
 
     private def exec_cmd(repo_tag : String, cmd : String, dir : String, env : Hash(String, String), hide_command : Bool = false)
