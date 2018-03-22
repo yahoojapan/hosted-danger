@@ -178,8 +178,6 @@ module HostedDanger
     end
 
     private def exec_js(config_wrapper : ConfigWrapper, repo_tag, dangerfile_path : String, dir : String, env : Hash(String, String))
-      danger_bin = "#{config_wrapper.directory}/node_modules/.bin/danger"
-
       danger_bin = if config_wrapper.use_yarn? || config_wrapper.use_npm?
                      "#{config_wrapper.directory}/node_modules/.bin/danger"
                    else
