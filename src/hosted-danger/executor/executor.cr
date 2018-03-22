@@ -50,7 +50,10 @@ module HostedDanger
 
         if fetch_org_config?(org_dir, repo_tag, git_host, org, access_token, env)
           L.info "#{repo_tag} use org config."
+
           copy_config(repo_tag, org_dir, dir)
+
+          config_wrapper.set_dir(dir)
         end
       end
 
@@ -82,16 +85,16 @@ module HostedDanger
       #
       if config_wrapper.get_lang == "ruby" && config_wrapper.use_bundler?
         with_dragon_envs(env) do
-          exec_cmd(repo_tag, "bundle_cache install #{dragon_params(env)}", config_wrapper.directory, env, true)
+          exec_cmd(repo_tag, "bundle_cache install #{dragon_params(env)}", dir, env, true)
         end
         env["BUNDLE_GEMFILE"] = config_wrapper.gemfile_path
       end
 
       if config_wrapper.use_yarn?
-        exec_cmd(repo_tag, "yarn install --ignore-engines", config_wrapper.directory, env)
+        exec_cmd(repo_tag, "yarn install --ignore-engines", dir, env)
       elsif config_wrapper.use_npm?
         with_dragon_envs(env) do
-          exec_cmd(repo_tag, "npm_cache install #{dragon_params(env)}", config_wrapper.directory, env, true)
+          exec_cmd(repo_tag, "npm_cache install #{dragon_params(env)}", dir, env, true)
         end
       end
 
@@ -230,7 +233,7 @@ module HostedDanger
     end
 
     private def copy_config(repo_tag : String, from_path : String, to_path : String)
-      src_files = Dir.glob("#{from_path}/*").reject { |file| file.starts_with?(".git") }.join(" ")
+      src_files = Dir.glob("#{from_path}/*").reject { |file| file.includes?("/.git") }.join(" ")
 
       puts "dir.glob:"
       puts src_files

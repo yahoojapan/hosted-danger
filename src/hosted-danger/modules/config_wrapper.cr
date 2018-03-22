@@ -7,6 +7,10 @@ module HostedDanger
       @config = Config.create_from("#{@directory}/danger.yaml")
     end
 
+    def set_dir(@directory : String)
+      @config = Config.create_from("#{@directory}/danger.yaml")
+    end
+
     def config_exists?
       config_file_exists? || dangerfile_exists?
     end
