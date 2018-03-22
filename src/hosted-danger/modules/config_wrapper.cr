@@ -32,8 +32,6 @@ module HostedDanger
         return config.lang.not_nil! if config.lang
       end
 
-      ruby_dangerfile_exists? = File.exists?("#{@directory}/Dangerfile.hosted") || File.exists?("#{@directory}/Dangerfile.hosted.rb")
-
       return "ruby" if ruby_dangerfile_exists?
       return "js" if js_dangerfile_exists?
 
