@@ -159,11 +159,7 @@ module HostedDanger
 
       config = ConfigWrapper.new(dir)
       config if config.dangerfile_exists?
-    rescue e : Exception
-      if msg = e.message
-        L.info msg
-      end
-
+    rescue
       nil
     end
 
