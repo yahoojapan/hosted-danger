@@ -159,7 +159,7 @@ module HostedDanger
       exec_cmd(repo_tag, "git remote add origin https://ap-danger:#{access_token}@#{git_host}/#{org}/#{repo}.git", dir, env, true)
       exec_cmd(repo_tag, "git fetch --depth 1", dir, env)
       exec_cmd(repo_tag, "git reset --hard FETCH_HEAD", dir, env)
-      exec_cmd(repo_tag, "rm -rf .git*", dir, env)
+      exec_cmd(repo_tag, "rm -rf .git* README.md", dir, env)
 
       true
     rescue
