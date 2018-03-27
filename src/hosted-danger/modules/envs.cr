@@ -18,6 +18,7 @@ module HostedDanger
         @@envs_internal["access_token_git"] = json["access_token_git"].as_s
         @@envs_internal["dragon_access_key"] = json["dragon_access_key"].as_s
         @@envs_internal["dragon_secret_access_key"] = json["dragon_secret_access_key"].as_s
+        @@envs_internal["sd_user_token"] = json["sd_user_token"].as_s
       else
         L.info "Load env vars as prod environment"
 
@@ -26,12 +27,14 @@ module HostedDanger
         @@envs_internal["access_token_git"] = ENV["ACCESS_TOKEN_GIT"]
         @@envs_internal["dragon_access_key"] = ENV["DRAGON_ACCESS_KEY"]
         @@envs_internal["dragon_secret_access_key"] = ENV["DRAGON_SECRET_ACCESS_KEY"]
+        @@envs_internal["sd_user_token"] = ENV["SD_USER_TOKEN"]
 
         ENV.delete("ACCESS_TOKEN_GHE")
         ENV.delete("ACCESS_TOKEN_PARTNER")
         ENV.delete("ACCESS_TOKEN_GIT")
         ENV.delete("DRAGON_ACCESS_KEY")
         ENV.delete("DRAGON_SECRET_ACCESS_KEY")
+        ENV.delete("SD_USER_TOKEN")
       end
 
       L.info "All env vars are loaded successfully"

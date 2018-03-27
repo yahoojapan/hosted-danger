@@ -75,7 +75,8 @@ jobs:
             sed -e "s@ACCESS_TOKEN_PARTNER@"`echo -n $ACCESS_TOKEN_PARTNER | base64`"@g" | \
             sed -e "s@ACCESS_TOKEN_GIT@"`echo -n $ACCESS_TOKEN_GIT | base64`"@g" | \
             sed -e "s@DRAGON_ACCESS_KEY@"`echo -n $DRAGON_ACCESS_KEY | base64`"@g" | \
-            sed -e "s@DRAGON_SECRET_ACCESS_KEY@"`echo -n $DRAGON_SECRET_ACCESS_KEY | base64`"@g" > secrets.yaml
+            sed -e "s@DRAGON_SECRET_ACCESS_KEY@"`echo -n $DRAGON_SECRET_ACCESS_KEY | base64`"@g" \
+            sed -e "s@SD_USER_TOKEN@"`echo -n $SD_USER_TOKEN | base64`"@g" > secrets.yaml
 
           curl -H "Authorization: token $ACCESS_TOKEN_GHE" https://raw.ghe.corp.yahoo.co.jp/hosted-danger/secrets/master/config > config
 
@@ -89,6 +90,7 @@ jobs:
       - ACCESS_TOKEN_GIT
       - DRAGON_ACCESS_KEY
       - DRAGON_SECRET_ACCESS_KEY
+      - SD_USER_TOKEN
   acceptance-test:
     image: cd.docker-registry.corp.yahoo.co.jp:4443/hosted-danger/sd-image:latest
     requires: [deployment]
