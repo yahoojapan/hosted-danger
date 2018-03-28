@@ -169,10 +169,14 @@ module HostedDanger
     private def exec_ruby(config_wrapper : ConfigWrapper, repo_tag : String, dangerfile_path : String, dir : String, env : Hash(String, String))
       exec_cmd(repo_tag, "cp #{DANGERFILE_DEFAULT} #{dangerfile_path}", dir, env) unless File.exists?(dangerfile_path)
 
-      if config_wrapper.use_bundler?
-        exec_cmd(repo_tag, "timeout #{TIMEOUT} bundle exec danger #{danger_params_ruby(dangerfile_path)}", dir, env)
-      else
-        exec_cmd(repo_tag, "timeout #{TIMEOUT} danger_ruby #{danger_params_ruby(dangerfile_path)}", dir, env)
+      danger_bin = if config_wrapper.use_bundler?
+                     "bundle exec danger"
+                   else
+                     "danger_ruby"
+                   end
+
+      with_sd_user_token_env(env) do
+        exec_cmd(repo_tag, "timeout #{TIMEOUT} #{danger_bin} #{danger_params_ruby(dangerfile_path)}", dir, env)
       end
     end
 
@@ -183,7 +187,9 @@ module HostedDanger
                      "danger"
                    end
 
-      exec_cmd(repo_tag, "timeout #{TIMEOUT} #{danger_bin} ci #{danger_params_js(dangerfile_path)}", dir, env)
+      with_sd_user_token_env(env) do
+        exec_cmd(repo_tag, "timeout #{TIMEOUT} #{danger_bin} ci #{danger_params_js(dangerfile_path)}", dir, env)
+      end
     end
 
     private def exec_cmd(repo_tag : String, cmd : String, dir : String, env : Hash(String, String), hide_command : Bool = false)
@@ -245,6 +251,14 @@ module HostedDanger
 
       env.delete("DRAGON_ACCESS_KEY")
       env.delete("DRAGON_SECRET_ACCESS_KEY")
+    end
+
+    private def with_sd_user_token_env(env : Hash(String, String), &block)
+      env["SD_USER_TOKEN"] = Envs.get("sd_user_token")
+
+      yield
+
+      env.delete("SD_USER_TOKEN")
     end
 
     private def dragon_params(env : Hash(String, String)) : String
