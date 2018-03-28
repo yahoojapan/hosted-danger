@@ -1,25 +1,9 @@
-GIT
-  remote: https://github.com/tbrand/danger.git
-  revision: d2ede314a57eb35054c2a6d0c9565261557b9d49
-  specs:
-    danger (5.5.11)
-      claide (~> 1.0)
-      claide-plugins (>= 0.9.2)
-      colored2 (~> 3.1)
-      cork (~> 0.1)
-      faraday (~> 0.9)
-      faraday-http-cache (~> 1.0)
-      git (~> 1)
-      kramdown (~> 1.5)
-      no_proxy_fix
-      octokit (~> 4.7)
-      terminal-table (~> 1)
-
 GEM
   remote: http://rubygems.corp.yahoo.co.jp:8000/apj-rubygems/
   specs:
     addressable (2.5.2)
       public_suffix (>= 2.0.2, < 4.0)
+    ansi (1.5.0)
     ast (2.4.0)
     aws-partitions (1.70.0)
     aws-sdk (3.0.1)
@@ -567,6 +551,21 @@ GEM
     colored2 (3.1.2)
     cork (0.3.0)
       colored2 (~> 3.1)
+    danger (5.5.11)
+      claide (~> 1.0)
+      claide-plugins (>= 0.9.2)
+      colored2 (~> 3.1)
+      cork (~> 0.1)
+      faraday (~> 0.9)
+      faraday-http-cache (~> 1.0)
+      git (~> 1)
+      kramdown (~> 1.5)
+      no_proxy_fix
+      octokit (~> 4.7)
+      terminal-table (~> 1)
+    danger-android_lint (0.0.6)
+      danger-plugin-api (~> 1.0)
+      oga
     danger-changelog (0.2.1)
       danger-plugin-api (~> 1.0)
     danger-commit_lint (0.0.6)
@@ -574,6 +573,12 @@ GEM
     danger-ios_logs (0.1.1)
       danger-plugin-api (~> 1.0)
       git_diff_parser (~> 2.3)
+    danger-jacoco (0.1.2)
+      danger-plugin-api (~> 1.0)
+      nokogiri-happymapper (~> 0.6)
+    danger-junit (0.7.4)
+      danger (> 2.0)
+      ox (~> 2.0)
     danger-lgtm (1.0.0)
       danger-plugin-api (~> 1.0)
     danger-plugin-api (1.0.0)
@@ -594,15 +599,24 @@ GEM
     git_diff_parser (2.3.0)
     jmespath (1.3.1)
     kramdown (1.16.2)
+    mini_portile2 (2.3.0)
     multipart-post (2.0.0)
     nap (1.1.0)
     no_proxy_fix (0.1.2)
+    nokogiri (1.8.2)
+      mini_portile2 (~> 2.3.0)
+    nokogiri-happymapper (0.6.0)
+      nokogiri (~> 1.5)
     npm_cache (1.0.4)
       aws-sdk
       dotenv
     octokit (4.8.0)
       sawyer (~> 0.8.0, >= 0.5.3)
+    oga (2.14)
+      ast
+      ruby-ll (~> 2.1)
     open4 (1.3.4)
+    ox (2.9.0)
     parallel (1.12.1)
     parser (2.5.0.3)
       ast (~> 2.4.0)
@@ -616,6 +630,9 @@ GEM
       rainbow (>= 2.2.2, < 4.0)
       ruby-progressbar (~> 1.7)
       unicode-display_width (~> 1.0, >= 1.0.1)
+    ruby-ll (2.1.2)
+      ansi
+      ast
     ruby-progressbar (1.9.0)
     sawyer (0.8.1)
       addressable (>= 2.3.5, < 2.6)
@@ -629,10 +646,12 @@ PLATFORMS
 
 DEPENDENCIES
   bundler_cache
-  danger!
+  danger-android_lint
   danger-changelog
   danger-commit_lint
   danger-ios_logs
+  danger-jacoco
+  danger-junit
   danger-lgtm
   danger-rubocop
   danger-textlint

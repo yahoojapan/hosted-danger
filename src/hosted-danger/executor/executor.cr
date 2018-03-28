@@ -175,9 +175,7 @@ module HostedDanger
                      "danger_ruby"
                    end
 
-      with_sd_user_token_env(env) do
-        exec_cmd(repo_tag, "timeout #{TIMEOUT} #{danger_bin} #{danger_params_ruby(dangerfile_path)}", dir, env)
-      end
+      exec_cmd(repo_tag, "timeout #{TIMEOUT} #{danger_bin} #{danger_params_ruby(dangerfile_path)}", dir, env)
     end
 
     private def exec_js(config_wrapper : ConfigWrapper, repo_tag, dangerfile_path : String, dir : String, env : Hash(String, String))
@@ -187,9 +185,7 @@ module HostedDanger
                      "danger"
                    end
 
-      with_sd_user_token_env(env) do
-        exec_cmd(repo_tag, "timeout #{TIMEOUT} #{danger_bin} ci #{danger_params_js(dangerfile_path)}", dir, env)
-      end
+      exec_cmd(repo_tag, "timeout #{TIMEOUT} #{danger_bin} ci #{danger_params_js(dangerfile_path)}", dir, env)
     end
 
     private def exec_cmd(repo_tag : String, cmd : String, dir : String, env : Hash(String, String), hide_command : Bool = false)
@@ -251,14 +247,6 @@ module HostedDanger
 
       env.delete("DRAGON_ACCESS_KEY")
       env.delete("DRAGON_SECRET_ACCESS_KEY")
-    end
-
-    private def with_sd_user_token_env(env : Hash(String, String), &block)
-      env["SD_USER_TOKEN"] = Envs.get("sd_user_token")
-
-      yield
-
-      env.delete("SD_USER_TOKEN")
     end
 
     private def dragon_params(env : Hash(String, String)) : String

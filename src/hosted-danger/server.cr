@@ -10,6 +10,7 @@ module HostedDanger
       @health_check = HealthCheck.new
       @web_hook = WebHook.new
       @git_proxy = GitProxy.new
+      @sd_proxy = SDProxy.new
     end
 
     def draw_routes
@@ -20,11 +21,14 @@ module HostedDanger
       # WebHook
       post "/hook" { |context, params| @web_hook.hook(context, params) }
 
-      # Internal Proxy
+      # Internal Github Proxy
       get "/proxy/:symbol/*" { |context, params| @git_proxy.proxy_get(context, params) }
       post "/proxy/:symbol/*" { |context, params| @git_proxy.proxy_post(context, params) }
       patch "/proxy/:symbol/*" { |context, params| @git_proxy.proxy_patch(context, params) }
       delete "/proxy/:symbol/*" { |context, params| @git_proxy.proxy_delete(context, params) }
+
+      # Internal Screwdriver.cd Proxy
+      get "/sdproxy/auth" { |context, params| @sd_proxy.auth(context, params) }
     end
 
     def run
