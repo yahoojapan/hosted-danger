@@ -41,5 +41,10 @@ spec:
               secretKeyRef:
                 name: secret-envs
                 key: dragon_secret_access_key
+          - name: SD_USER_TOKEN
+            valueFrom:
+              secretKeyRef:
+                name: secret-envs
+                key: sd_user_token
         ports:
         - containerPort: 80
