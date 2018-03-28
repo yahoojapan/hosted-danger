@@ -80,7 +80,7 @@ jobs:
 
           curl -H "Authorization: token $ACCESS_TOKEN_GHE" https://raw.ghe.corp.yahoo.co.jp/hosted-danger/secrets/master/config > config
 
-          kubectl delete secret secret-envs || true
+          kubectl delete secret secret-envs --kubeconfig config --namespace=default || true
           kubectl apply -f secrets.yaml --kubeconfig config --namespace=default
 
           kubectl apply -f deployment.yaml --kubeconfig config --namespace=default
