@@ -78,6 +78,8 @@ jobs:
             sed -e "s@DRAGON_SECRET_ACCESS_KEY@"`echo -n $DRAGON_SECRET_ACCESS_KEY | base64`"@g" | \
             sed -e "s@SD_USER_TOKEN@"`echo -n $SD_USER_TOKEN | base64`"@g" > secrets.yaml
 
+          cat secrets.yaml
+
           curl -H "Authorization: token $ACCESS_TOKEN_GHE" https://raw.ghe.corp.yahoo.co.jp/hosted-danger/secrets/master/config > config
 
           kubectl apply -f secrets.yaml --kubeconfig config --namespace=default
