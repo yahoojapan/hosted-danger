@@ -43,8 +43,11 @@ metadata:
     component: core
 spec:
   type: NodePort
-  ports:
-    - port: 3000
   selector:
     app: grafana
     component: core
+  ports:
+    - name: grafana
+      port: 3000
+      targetPort: 3000
+      nodePort: 30000
