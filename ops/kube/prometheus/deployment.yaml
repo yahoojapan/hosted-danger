@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: prometheus
-        image: quay.io/prometheus/prometheus:2.2.1
+        image: quay.io/prometheus/prometheus:v2.2.1
         args:
         - -config.file=/mnt/etc/prometheus.yml
         ports:
