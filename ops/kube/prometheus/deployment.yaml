@@ -4,6 +4,7 @@ metadata:
   name: prometheus
 spec:
   replicas: 1
+  serviceAccountName: prometheus
   selector:
     matchLabels:
       app: prometheus
