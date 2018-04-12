@@ -2,6 +2,7 @@ apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
   name: prometheus
+  namespace: monitoring
 spec:
   replicas: 1
   selector:
@@ -10,6 +11,7 @@ spec:
   template:
     metadata:
       name: prometheus
+      namespace: monitoring
       labels:
         app: prometheus
     spec:

@@ -1,8 +1,14 @@
+#
+# namespace.yaml
+#
 apiVersion: v1
 kind: Namespace
 metadata:
   name: monitoring
 ---
+#
+# rbac-setup.yaml
+#
 apiVersion: rbac.authorization.k8s.io/v1beta1
 kind: ClusterRole
 metadata:
@@ -46,6 +52,9 @@ subjects:
   name: prometheus
   namespace: monitoring
 ---
+#
+# configmap.yaml
+#
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -247,6 +256,9 @@ data:
         action: replace
         target_label: kubernetes_pod_name
 ---
+#
+# deployment.yaml
+#
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
@@ -289,6 +301,9 @@ spec:
         hostPath:
           path: /var/run/secrets
 ---
+#
+# service.yaml
+#
 apiVersion: v1
 kind: Service
 metadata:
@@ -303,45 +318,3 @@ spec:
     port: 9090
     targetPort: 9090
     nodePort: 30090
----
-apiVersion: extensions/v1beta1
-kind: Deployment
-metadata:
-  name: prometheus
-  namespace: monitoring
-spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: prometheus
-  template:
-    metadata:
-      name: prometheus
-      namespace: monitoring
-      labels:
-        app: prometheus
-    spec:
-      serviceAccountName: prometheus
-      containers:
-      - name: prometheus
-        image: quay.io/prometheus/prometheus:v2.2.1
-        args:
-        - --config.file=/mnt/etc/prometheus.yml
-        ports:
-        - containerPort: 9090
-        volumeMounts:
-        - name: config-volume
-          mountPath: /mnt/etc/
-        - name: data-volume
-          mountPath: /mnt/data/
-        - name: secrets-volume
-          mountPath: /var/run/secrets
-      volumes:
-      - name: config-volume
-        configMap:
-          name: prometheus-config
-      - name: data-volume
-        emptyDir: {}
-      - name: secrets-volume
-        hostPath:
-          path: /var/run/secrets
