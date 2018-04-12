@@ -1,0 +1,38 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: prometheus
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: prometheus
+  template:
+    metadata:
+      name: prometheus
+      labels:
+        app: prometheus
+    spec:
+      containers:
+      - name: prometheus
+        image: quay.io/prometheus/prometheus:2.2.1
+        args:
+        - -config.file=/mnt/etc/prometheus.yml
+        ports:
+        - containerPort: 9090
+        volumeMounts:
+        - name: config-volume
+          mountPath: /mnt/etc/
+        - name: data-volume
+          mountPath: /mnt/data/
+        - name: secrets-volume
+          mountPath: /var/run/secrets
+      volumes:
+      - name: config-volume
+        configMap:
+          name: prometheus-config
+      - name: data-volume
+        emptyDir: {}
+      - name: secrets-volume
+        hostPath:
+          path: /var/run/secrets
