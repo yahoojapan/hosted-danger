@@ -12,8 +12,14 @@ spec:
       name: prometheus
       labels:
         app: prometheus
+      annotations:
+        prometheus.io/scrape: 'true'
+        prometheus.io/port: '9100'
+        prometheus.io/path: /metrics
     spec:
       containers:
+      - name: node-exporter
+        image: quay.io/prometheus/node-exporter:v0.15.2
       - name: prometheus
         image: quay.io/prometheus/prometheus:v2.2.1
         args:
