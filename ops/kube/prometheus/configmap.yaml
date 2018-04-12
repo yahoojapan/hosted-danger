@@ -15,6 +15,8 @@ data:
     # * `prometheus.io/scrape`: Only scrape pods that have a value of `true`
     # * `prometheus.io/path`: If the metrics path is not `/metrics` override this.
     # * `prometheus.io/port`: Scrape the pod on the indicated port instead of the default of `9102`.
+    scrape_configs:
+
     - job_name: 'kubernetes-pods'
 
       kubernetes_sd_configs:
