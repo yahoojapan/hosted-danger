@@ -251,7 +251,7 @@ data:
         action: replace
         target_label: kubernetes_pod_name
     alerting:
-      alertmanager:
+      alertmanagers:
         - static_configs:
             - targets: ["http://kubedev-m-001.ssk.ynwm.yahoo.co.jp:9093"]
 ---
