@@ -58,15 +58,8 @@ data:
       # All the above attributes are inherited by all child routes and can
       # overwritten on each.
 
-      # The child route trees.
-      routes:
-      # Send severity=slack alerts to slack.
-      - match:
-          severity: slack
-        receiver: slack_alert
-
     receivers:
-    - name: 'slack_alert'
+    - name: 'default'
       slack_configs:
       - channel: '#taicsuzuプライベート'
         send_resolved: true
