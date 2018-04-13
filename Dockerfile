@@ -42,6 +42,13 @@ RUN ls -la /usr/local/bin
 RUN danger_ruby --version
 RUN danger_js --version
 
+# node_exporter for prometheus
+RUN wget https://github.com/prometheus/node_exporter/releases/download/v0.15.2/node_exporter-0.15.2.linux-amd64.tar.gz \
+      tar -zcvf node_exporter-0.15.2.linux-amd64.tar.gz \
+      cp node_exporter-0.15.2.linux-amd64/node_exporter /usr/local/bin/.
+      rm -rf node_exporter-*
+RUN node_exporter &
+
 # hd
 RUN mkdir -p /tmp/hd
 
