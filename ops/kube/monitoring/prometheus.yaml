@@ -253,7 +253,7 @@ data:
     alerting:
       alertmanagers:
         - static_configs:
-            - targets: ["http://kubedev-m-001.ssk.ynwm.yahoo.co.jp:9093"]
+            - targets: ["kubedev-m-001.ssk.ynwm.yahoo.co.jp:9093"]
 ---
 #
 # Deployment
