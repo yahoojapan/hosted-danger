@@ -84,17 +84,18 @@ jobs:
           kubectl apply -f secrets.yaml --kubeconfig config --namespace=default
 
           kubectl apply -f deployment.yaml --kubeconfig config --namespace=default
-          kubectl apply -f ops/kube/admin-user-role.yaml
-          kubectl apply -f ops/kube/admin-user.yaml
-          kubectl apply -f ops/kube/service.yaml
+          kubectl apply -f ops/kube/admin-user-role.yaml --kubeconfig config --namespace=default
+          kubectl apply -f ops/kube/admin-user.yaml --kubeconfig config --namespace=default
+          kubectl apply -f ops/kube/service.yaml --kubeconfig config --namespace=default
 
           #
           # Prometheus
           #
-          kubectl apply -f ops/kube/monitoring/prometheus.yaml
-          kubectl apply -f ops/kube/monitoring/grafana.yaml
-          kubectl apply -f ops/kube/monitoring/alertmanager.yaml
-          kubectl apply -f ops/kube/monitoring/daemonset.yaml
+          kubectl apply -f ops/kube/monitoring/namespace.yaml --kubeconfig config --namespace=default
+          kubectl apply -f ops/kube/monitoring/prometheus.yaml --kubeconfig config --namespace=monitoring
+          kubectl apply -f ops/kube/monitoring/grafana.yaml --kubeconfig config --namespace=monitoring
+          kubectl apply -f ops/kube/monitoring/alertmanager.yaml --kubeconfig config --namespace=monitoring
+          kubectl apply -f ops/kube/monitoring/daemonset.yaml --kubeconfig config --namespace=monitoring
 
           tools/wait_for_the_deployment
     secrets:
