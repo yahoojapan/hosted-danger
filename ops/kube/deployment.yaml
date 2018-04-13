@@ -48,3 +48,4 @@ spec:
                 key: sd_user_token
         ports:
         - containerPort: 80
+        - containerPort: 9100
