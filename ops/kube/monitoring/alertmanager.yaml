@@ -17,7 +17,6 @@ data:
       # The API URL to use for Slack notifications.
       slack_api_url: 'https://mym.corp.yahoo.co.jp/api/hook/591ae265759378964cb1d29c'
 
-    # todo: disable templates for now
     # # The directory from which notification templates are read.
     # templates:
     # - '/etc/alertmanager-templates/*.tmpl'
