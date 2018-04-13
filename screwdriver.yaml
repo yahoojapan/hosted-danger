@@ -96,6 +96,8 @@ jobs:
           kubectl apply -f ops/kube/monitoring/namespace.yaml --kubeconfig config --namespace=default
           kubectl apply -f ops/kube/monitoring/prometheus.yaml --kubeconfig config --namespace=monitoring
           kubectl apply -f ops/kube/monitoring/grafana.yaml --kubeconfig config --namespace=monitoring
+          kubectl apply -f ops/kube/monitoring/tmpl.yaml --kubeconfig config --namespace=monitoring
+          kubectl apply -f ops/kube/monitoring/rules.yaml --kubeconfig config --namespace=monitoring
           kubectl apply -f ops/kube/monitoring/alertmanager.yaml --kubeconfig config --namespace=monitoring
           kubectl apply -f ops/kube/monitoring/daemonset.yaml --kubeconfig config --namespace=monitoring
 

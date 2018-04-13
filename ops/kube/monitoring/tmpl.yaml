@@ -1,0 +1,11 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: mym-template
+  namespace: monitoring
+data:
+  mym.tmpl: |-
+    {{ define "slack.devops.text" }}
+    {{range .Alerts}}{{.Annotations.DESCRIPTION}}
+    {{end}}
+    {{ end }}
