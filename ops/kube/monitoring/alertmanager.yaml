@@ -114,8 +114,8 @@ spec:
       - name: alertmanager
         image: quay.io/prometheus/alertmanager:v0.14.0
         args:
-          - '-config.file=/etc/alertmanager/config.yml'
-          - '-storage.path=/alertmanager'
+          - '--config.file=/etc/alertmanager/config.yml'
+          - '--storage.path=/alertmanager'
           # - '-web.external-url=$(EXTERNAL_URL)/alertmanager'
         ports:
         - name: alertmanager
