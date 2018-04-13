@@ -250,6 +250,10 @@ data:
       - source_labels: [__meta_kubernetes_pod_name]
         action: replace
         target_label: kubernetes_pod_name
+    alerting:
+      alertmanager:
+        - static_configs:
+            - targets: ["http://kubedev-m-001.ssk.ynwm.yahoo.co.jp:9093"]
 ---
 #
 # Deployment
@@ -277,7 +281,6 @@ spec:
         image: quay.io/prometheus/prometheus:v2.2.1
         args:
         - '--config.file=/mnt/etc/prometheus.yml'
-        - '--alertmanager.url=http://kubedev-m-001.ssk.ynwm.yahoo.co.jp:9093'
         ports:
         - containerPort: 9090
         volumeMounts:
