@@ -15,6 +15,7 @@ data:
       resolve_timeout: 5m
 
       # The API URL to use for Slack notifications.
+      # todo
       slack_api_url: 'https://mym.corp.yahoo.co.jp/api/hook/591ae265759378964cb1d29c'
 
     # # The directory from which notification templates are read.
@@ -56,6 +57,7 @@ data:
       receiver: default
 
     receivers:
+    # todo
     - name: 'default'
       slack_configs:
       - channel: '#taicsuzuプライベート'

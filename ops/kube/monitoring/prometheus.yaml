@@ -253,6 +253,7 @@ data:
     alerting:
       alertmanagers:
         - static_configs:
+            # todo
             - targets: ["kubedev-m-001.ssk.ynwm.yahoo.co.jp:9093"]
 ---
 #
