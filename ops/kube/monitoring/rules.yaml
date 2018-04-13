@@ -12,7 +12,7 @@ data:
             # テスト用に設定
             expr: up == 1
             for: 1m
-            lables:
+            labels:
               severity: default
             annotations:
               summary: just for testing (the system is healthy)
