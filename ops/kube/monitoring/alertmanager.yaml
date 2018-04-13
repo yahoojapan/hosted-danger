@@ -55,13 +55,11 @@ data:
       # If an alert isn't caught by a route, send it to default.
       receiver: default
 
-      # All the above attributes are inherited by all child routes and can
-      # overwritten on each.
-
     receivers:
     - name: 'default'
       slack_configs:
       - channel: '#taicsuzuプライベート'
+        text: '<!channel>{{ template "slack.devops.text" . }}'
         send_resolved: true
 
         # # Whether or not to notify about resolved alerts.
