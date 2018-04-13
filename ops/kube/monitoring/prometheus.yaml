@@ -276,7 +276,8 @@ spec:
       - name: prometheus
         image: quay.io/prometheus/prometheus:v2.2.1
         args:
-        - --config.file=/mnt/etc/prometheus.yml
+        - '--config.file=/mnt/etc/prometheus.yml'
+        - '--alertmanager.url=http://kubedev-m-001.ssk.ynwm.yahoo.co.jp:9093'
         ports:
         - containerPort: 9090
         volumeMounts:
