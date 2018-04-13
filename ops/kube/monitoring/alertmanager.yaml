@@ -19,7 +19,7 @@ data:
 
     # # The directory from which notification templates are read.
     templates:
-      - '/etc/alertmanager/mym.tmpl'
+      - '/alertmanager/*.tmpl'
     # - '/etc/alertmanager-templates/*.tmpl'
 
     # The root route on which each incoming alert enters.
@@ -122,20 +122,20 @@ spec:
         volumeMounts:
         - name: config-volume
           mountPath: /etc/alertmanager
-        - name: templates-volume
-          mountPath: /etc/alertmanager/mym.tmpl
-          subPath: mym.tmpl
         - name: alertmanager
           mountPath: /alertmanager
+        - name: templates-volume
+          mountPath: /alertmanager/mym.tmpl
+          subPath: mym.tmpl
       volumes:
       - name: config-volume
         configMap:
           name: alertmanager
+      - name: alertmanager
+        emptyDir: {}
       - name: templates-volume
         configMap:
           name: mym-template
-      - name: alertmanager
-        emptyDir: {}
 ---
 #
 # Service
