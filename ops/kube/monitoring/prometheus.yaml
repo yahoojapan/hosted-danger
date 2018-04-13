@@ -283,6 +283,9 @@ spec:
           mountPath: /mnt/data/
         - name: secrets-volume
           mountPath: /var/run/secrets
+        - name: rules-volume
+          mountPath: /etc/prometheus/rules.yaml
+          subPath: rules.yaml
       volumes:
       - name: config-volume
         configMap:
@@ -292,6 +295,9 @@ spec:
       - name: secrets-volume
         hostPath:
           path: /var/run/secrets
+      - name: rules-volume
+        configMap:
+          name: alert-rules
 ---
 #
 # Service

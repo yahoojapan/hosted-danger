@@ -1,0 +1,14 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: alert-rules
+  namespace: monitoring
+data:
+  rules.yaml: |-
+    groups:
+      - name: node
+        rules:
+          - alert: InstanceDown
+            # テスト用に設定
+            expr: up == 1
+            for: 1m
