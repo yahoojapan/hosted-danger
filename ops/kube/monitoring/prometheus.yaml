@@ -58,6 +58,9 @@ data:
       scrape_interval:     15s # By default, scrape targets every 15 seconds.
       evaluation_interval: 15s # By default, scrape targets every 15 seconds.
 
+    rule_files:
+      - "/etc/prometheus/rules.yaml"
+
     # A scrape configuration for running Prometheus on a Kubernetes cluster.
     # This uses separate scrape configs for cluster components (i.e. API server, node)
     # and services to allow each to use different authentication configs.
