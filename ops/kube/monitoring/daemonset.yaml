@@ -1,0 +1,20 @@
+apiVersion: extensions/v1beta1
+kind: DaemonSet
+metadata:
+  name: node-exporter
+spec:
+  template:
+    metadata:
+      labels:
+        app: node-exporter
+      annotations:
+        prometheus.io/scrape: 'true'
+        prometheus.io/port: '9100'
+    spec:
+      containers:
+      - name: node-exporter
+        image: quai.io/prometheus/node-exporter:v0.15.2
+        ports:
+        - containerPort: 9100
+      hostNetwork: true
+      hostPID: true
