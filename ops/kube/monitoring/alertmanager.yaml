@@ -89,6 +89,7 @@ data:
         # [ pretext: <tmpl_string> | default = '{{ template "slack.default.pretext" . }}' ]
         # [ text: <tmpl_string> | default = '{{ template "slack.default.text" . }}' ]
         # [ fallback: <tmpl_string> | default = '{{ template "slack.default.fallback" . }}' ]
+---
 #
 # Deployment
 #
@@ -141,6 +142,7 @@ spec:
       #     name: alertmanager-templates
       - name: alertmanager
         emptyDir: {}
+---
 #
 # Service
 #
@@ -153,6 +155,7 @@ metadata:
   labels:
     name: alertmanager
   name: alertmanager
+  namespace: monitoring
 spec:
   type: NodePort
   selector:

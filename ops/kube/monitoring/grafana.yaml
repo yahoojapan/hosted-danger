@@ -1,3 +1,6 @@
+#
+# Deployment
+#
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
@@ -33,6 +36,9 @@ spec:
       - name: grafana-persistent-storage
         emptyDir: {}
 ---
+#
+# Service
+#
 apiVersion: v1
 kind: Service
 metadata:
