@@ -68,7 +68,7 @@ data:
         text: |
           @all
           Details:
-            {{ range .Alerts }}{{ .Annotations.summary }} ({{ .Labels.job }} in {{ .Labels.instance }})
+            {{ range .Alerts }}{{ .Annotations.summary }} (**{{ .Labels.job }}** in {{ .Labels.instance }})
             {{ end }}
         send_resolved: true
 
