@@ -5,7 +5,10 @@ metadata:
   namespace: monitoring
 data:
   mym.tmpl: |-
-    {{ define "slack.devops.text" }}
-    {{range .Alerts}}{{.Annotations.DESCRIPTION}}
-    {{end}}
+    {{ define "mym.template" }}
+    @all
+
+    summary: {{ .Annotations.summary }}
+    instance: {{ $labels.instance }}
+    app: {{ .GroupLabels.app }}
     {{ end }}

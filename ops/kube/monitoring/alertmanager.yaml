@@ -61,7 +61,7 @@ data:
     - name: 'default'
       slack_configs:
       - channel: '#taicsuzuプライベート'
-        text: '<!channel>{{ template "slack.devops.text" . }}'
+        text: '{{ template "mym.template" . }}'
         send_resolved: true
 
         # # Whether or not to notify about resolved alerts.
