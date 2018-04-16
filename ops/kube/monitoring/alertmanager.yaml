@@ -61,10 +61,15 @@ data:
     - name: 'default'
       slack_configs:
       - channel: '#taicsuzuプライベート'
-        title: 'アラート!'
-        # text: '{{ template "mym.template" }}'
+        title: 'New Alert!'
+        title_link: 'http://kubedev-m-001.ssk.ynwm.yahoo.co.jp:9093/#/alerts?receiver=default'
         pretext: ''
-        text: 'Instances: {{ range .Alerts }}{{ .Labels.instance }} {{ end }}'
+        fallback: ''
+        text: |
+          @all
+          Details:
+            {{ range .Alerts }}{{ .Annotations.summary }}{{ .Labels.instance }}
+            {{ end }}
         send_resolved: true
 
         # # Whether or not to notify about resolved alerts.

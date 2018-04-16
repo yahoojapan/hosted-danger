@@ -8,12 +8,11 @@ data:
     groups:
       - name: node
         rules:
-          - alert: InstanceDown
-            # テスト用に設定
+          - alert: InstanceUp
             expr: up == 1
             for: 1m
             labels:
               severity: default
             annotations:
-              summary: "instance: {{$labels.instance}}, job: {{$labels.job}}"
-              description: "{{$labels.instance}} of job {{$labels.job}} has been down"
+              summary: "Just for testing"
+              description: "Just for testing, the instance is healthy."
