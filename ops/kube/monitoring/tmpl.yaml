@@ -9,6 +9,6 @@ data:
     @all
 
     summary: {{ .Annotations.summary }}
-    instance: {{ $labels.instance }}
     app: {{ .GroupLabels.app }}
+    {{ .Labels.instance }}
     {{ end }}
