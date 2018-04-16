@@ -12,6 +12,5 @@ data:
     {{ define "mym.template" }}
     @all
     summary:
-    {{ range .Alerts }}
-    {{ .Annotations.summary }}
+    {{ range .Alerts }}{{ .Annotations.summary }}
     {{ end }}{{ end }}
