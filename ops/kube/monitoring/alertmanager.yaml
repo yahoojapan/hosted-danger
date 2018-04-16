@@ -19,8 +19,8 @@ data:
       slack_api_url: 'https://mym.corp.yahoo.co.jp/api/hook/591ae265759378964cb1d29c'
 
     # # The directory from which notification templates are read.
-    templates:
-      - '/alertmanager/*.tmpl'
+    # templates:
+    #   - '/alertmanager/*.tmpl'
     # - '/etc/alertmanager-templates/*.tmpl'
 
     # The root route on which each incoming alert enters.
@@ -141,9 +141,6 @@ spec:
           name: alertmanager
       - name: alertmanager
         emptyDir: {}
-      - name: templates-volume
-        configMap:
-          name: mym-template
 ---
 #
 # Service
