@@ -61,6 +61,7 @@ data:
     - name: 'default'
       slack_configs:
       - channel: '#taicsuzuプライベート'
+        title: 'アラート!'
         text: '{{ template "mym.template" . }}'
         send_resolved: true
 

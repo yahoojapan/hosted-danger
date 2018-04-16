@@ -11,5 +11,5 @@ data:
   mym.tmpl: |-
     {{ define "mym.template" }}
     @all
-    summary: {{ range .Alerts }}{{ .Annotations.summary }}{{ end }}
+    summary: {{ range .Alerts }}{{ .Annotations.summary }}\n{{ end }}
     {{ end }}
