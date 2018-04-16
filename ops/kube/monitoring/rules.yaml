@@ -15,4 +15,4 @@ data:
             labels:
               severity: default
             annotations:
-              summary: just for testing (the system is healthy) instance: {{$labels.instance}}, job: {{$labels.job}}
+              summary: instance: {{$labels.instance}}, job: {{$labels.job}}

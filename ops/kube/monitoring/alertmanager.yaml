@@ -62,7 +62,7 @@ data:
       slack_configs:
       - channel: '#taicsuzuプライベート'
         title: 'アラート!'
-        text: '{{ template "mym.template" . }}'
+        text: '{{ template "mym.template" }}'
         send_resolved: true
 
         # # Whether or not to notify about resolved alerts.
