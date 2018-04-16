@@ -132,9 +132,6 @@ spec:
           mountPath: /etc/alertmanager
         - name: alertmanager
           mountPath: /alertmanager
-        - name: templates-volume
-          mountPath: /alertmanager/mym.tmpl
-          subPath: mym.tmpl
       volumes:
       - name: config-volume
         configMap:
