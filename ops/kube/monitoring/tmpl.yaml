@@ -14,5 +14,4 @@ data:
     summary:
     {{ range .Alerts }}
     {{ .Annotations.summary }}
-    {{ end }}
-    {{ end }}
+    {{ end }}{{ end }}
