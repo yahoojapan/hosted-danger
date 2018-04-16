@@ -3,12 +3,13 @@ apiVersion: v1
 metadata:
   name: mym-template
   namespace: monitoring
+  #
+  # template内で使用できる変数はここにある
+  # -> https://prometheus.io/docs/alerting/notifications/
+  #
 data:
   mym.tmpl: |-
     {{ define "mym.template" }}
     @all
-
-    summary: {{ .Annotations.summary }}
-    app: {{ .GroupLabels.app }}
-    {{ .Labels.instance }}
+    summary: {{ Alerts.Annotations.summary }}
     {{ end }}
