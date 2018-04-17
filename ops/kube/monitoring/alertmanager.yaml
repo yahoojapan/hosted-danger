@@ -29,7 +29,7 @@ data:
       # multiple alerts coming in for cluster=A and alertname=LatencyHigh would
       # be batched into a single group.
 
-      group_by: ['alertname', 'cluster', 'service']
+      group_by: ['alertname', 'cluster', 'service', 'app']
 
       # When a new group of alerts is created by an incoming alert, wait at
       # least 'group_wait' to send the initial notification.
@@ -64,7 +64,7 @@ data:
         pretext: ''
         fallback: ''
         text: |
-          @all {{ .GroupLabels.alertname }}
+          @all {{ .GroupLabels.alertname }} {{ .GroupLabels.app }}
           details:
             {{ range .Alerts }}{{ .Annotations.summary }} (**{{ .Labels.job }}** in {{ .Labels.instance }})
             {{ end }}
