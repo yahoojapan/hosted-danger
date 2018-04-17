@@ -60,7 +60,7 @@ data:
       slack_configs:
       - channel: 'HostedDanger通知'
         title: 'New Alert!'
-        title_link: 'http://kubedev-m-001.ssk.ynwm.yahoo.co.jp:9093/#/alerts?receiver=default'
+        title_link: 'http://kube-m-a-001.ssk.ynwm.yahoo.co.jp:9093/#/alerts?receiver=default'
         pretext: ''
         fallback: ''
         text: |
