@@ -58,6 +58,9 @@ data:
       scrape_interval:     15s # By default, scrape targets every 15 seconds.
       evaluation_interval: 15s # By default, scrape targets every 15 seconds.
 
+    rule_files:
+      - "/etc/prometheus/rules.yaml"
+
     # A scrape configuration for running Prometheus on a Kubernetes cluster.
     # This uses separate scrape configs for cluster components (i.e. API server, node)
     # and services to allow each to use different authentication configs.
@@ -247,6 +250,10 @@ data:
       - source_labels: [__meta_kubernetes_pod_name]
         action: replace
         target_label: kubernetes_pod_name
+    alerting:
+      alertmanagers:
+        - static_configs:
+            - targets: ["alertmanager.monitoring.svc.cluster.local:9093"]
 ---
 #
 # Deployment
@@ -273,7 +280,7 @@ spec:
       - name: prometheus
         image: quay.io/prometheus/prometheus:v2.2.1
         args:
-        - --config.file=/mnt/etc/prometheus.yml
+        - '--config.file=/mnt/etc/prometheus.yml'
         ports:
         - containerPort: 9090
         volumeMounts:
@@ -283,6 +290,9 @@ spec:
           mountPath: /mnt/data/
         - name: secrets-volume
           mountPath: /var/run/secrets
+        - name: rules-volume
+          mountPath: /etc/prometheus/rules.yaml
+          subPath: rules.yaml
       volumes:
       - name: config-volume
         configMap:
@@ -292,6 +302,9 @@ spec:
       - name: secrets-volume
         hostPath:
           path: /var/run/secrets
+      - name: rules-volume
+        configMap:
+          name: alert-rules
 ---
 #
 # Service

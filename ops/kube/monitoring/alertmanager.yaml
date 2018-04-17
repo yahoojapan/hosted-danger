@@ -15,10 +15,11 @@ data:
       resolve_timeout: 5m
 
       # The API URL to use for Slack notifications.
-      slack_api_url: 'https://mym.corp.yahoo.co.jp/api/hook/591ae265759378964cb1d29c'
+      slack_api_url: 'https://mym.corp.yahoo.co.jp/api/hook/5a790d48c4f7812415429c15'
 
     # # The directory from which notification templates are read.
     # templates:
+    #   - '/alertmanager/*.tmpl'
     # - '/etc/alertmanager-templates/*.tmpl'
 
     # The root route on which each incoming alert enters.
@@ -28,7 +29,7 @@ data:
       # multiple alerts coming in for cluster=A and alertname=LatencyHigh would
       # be batched into a single group.
 
-      group_by: ['alertname', 'cluster', 'service']
+      group_by: ['alertname', 'cluster', 'service', 'app']
 
       # When a new group of alerts is created by an incoming alert, wait at
       # least 'group_wait' to send the initial notification.
@@ -54,13 +55,19 @@ data:
       # If an alert isn't caught by a route, send it to default.
       receiver: default
 
-      # All the above attributes are inherited by all child routes and can
-      # overwritten on each.
-
     receivers:
     - name: 'default'
       slack_configs:
-      - channel: '#taicsuzuプライベート'
+      - channel: 'HostedDanger通知'
+        title: 'New Alert!'
+        title_link: 'http://kubedev-m-001.ssk.ynwm.yahoo.co.jp:9093/#/alerts?receiver=default'
+        pretext: ''
+        fallback: ''
+        text: |
+          @all {{ .GroupLabels.alertname }} {{ .GroupLabels.app }}
+          details:
+            {{ range .Alerts }}{{ .Annotations.summary }} (**{{ .Labels.job }}** in {{ .Labels.instance }})
+            {{ end }}
         send_resolved: true
 
         # # Whether or not to notify about resolved alerts.
@@ -121,17 +128,12 @@ spec:
         volumeMounts:
         - name: config-volume
           mountPath: /etc/alertmanager
-        # - name: templates-volume
-        #   mountPath: /etc/alertmanager-templates
         - name: alertmanager
           mountPath: /alertmanager
       volumes:
       - name: config-volume
         configMap:
           name: alertmanager
-      # - name: templates-volume
-      #   configMap:
-      #     name: alertmanager-templates
       - name: alertmanager
         emptyDir: {}
 ---

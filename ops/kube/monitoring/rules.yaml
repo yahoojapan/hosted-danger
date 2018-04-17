@@ -1,0 +1,18 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: alert-rules
+  namespace: monitoring
+data:
+  rules.yaml: |-
+    groups:
+      - name: node
+        rules:
+          - alert: InstanceDown
+            expr: up == 0
+            for: 5m
+            labels:
+              severity: default
+            annotations:
+              summary: "Some instance is down"
+              description: "Some instance is down. Pleasee check the status."
