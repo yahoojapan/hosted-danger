@@ -15,8 +15,7 @@ data:
       resolve_timeout: 5m
 
       # The API URL to use for Slack notifications.
-      # todo
-      slack_api_url: 'https://mym.corp.yahoo.co.jp/api/hook/591ae265759378964cb1d29c'
+      slack_api_url: 'https://mym.corp.yahoo.co.jp/api/hook/5a790d48c4f7812415429c15'
 
     # # The directory from which notification templates are read.
     # templates:
@@ -57,10 +56,9 @@ data:
       receiver: default
 
     receivers:
-    # todo
     - name: 'default'
       slack_configs:
-      - channel: '#taicsuzuプライベート'
+      - channel: 'HostedDanger通知'
         title: 'New Alert!'
         title_link: 'http://kubedev-m-001.ssk.ynwm.yahoo.co.jp:9093/#/alerts?receiver=default'
         pretext: ''

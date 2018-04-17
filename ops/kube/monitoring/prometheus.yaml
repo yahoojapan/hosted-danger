@@ -253,7 +253,6 @@ data:
     alerting:
       alertmanagers:
         - static_configs:
-            # todo
             - targets: ["alertmanager.monitoring.svc.cluster.local:9093"]
 ---
 #
