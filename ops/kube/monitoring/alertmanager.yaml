@@ -64,7 +64,7 @@ data:
         pretext: ''
         fallback: ''
         text: |
-          @all {{ .GroupLabels.alertname }} ({{ .GroupLabels.service }})
+          @all {{ .GroupLabels.alertname }}
           details:
             {{ range .Alerts }}{{ .Annotations.summary }} (**{{ .Labels.job }}** in {{ .Labels.instance }})
             {{ end }}
