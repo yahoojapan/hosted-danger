@@ -22,7 +22,6 @@ RUN gem install specific_install --no-ri --no-rdoc
 RUN mkdir /tmp/gem
 COPY Gemfile /tmp/gem
 COPY Gemfile.lock /tmp/gem
-RUN gem specific_install -l 'https://github.com/tbrand/danger.git'
 RUN cd /tmp/gem && /bin/bash -l -c "bundle install --system"
 RUN mv /usr/local/bin/danger /usr/local/bin/danger_ruby
 RUN ls -la /usr/local/bin
