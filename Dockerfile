@@ -42,9 +42,9 @@ RUN danger_ruby --version
 RUN danger_js --version
 
 # node-exporter
-RUN wget https://github.com/prometheus/node_exporter/releases/download/v0.15.2/node_exporter-0.15.2.linux-arm64.tar.gz && \
-  tar -xvzf node_exporter-0.15.2.linux-arm64.tar.gz && \
-  cp node_exporter-0.15.2.linux-arm64/node_exporter /usr/local/bin/node_exporter && \
+RUN wget https://github.com/prometheus/node_exporter/releases/download/v0.15.2/node_exporter-0.15.2.linux-amd64.tar.gz && \
+  tar -xvzf node_exporter-0.15.2.linux-amd64.tar.gz && \
+  cp node_exporter-0.15.2.linux-amd64/node_exporter /usr/local/bin/node_exporter && \
   rm -rf node_exporter*
 
 RUN daemon --name="node_exporter" --output=/var/log/node_exporter.log node_exporter
