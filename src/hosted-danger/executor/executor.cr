@@ -38,7 +38,7 @@ module HostedDanger
       exec_cmd(repo_tag, "git config --local user.name ap-danger", dir, env)
       exec_cmd(repo_tag, "git config --local user.email hosted-danger-pj@ml.yahoo-corp.jp", dir, env)
       exec_cmd(repo_tag, "git config --local http.postBuffer 1048576000", dir, env)
-      exec_cmd(repo_tag, "git remote add origin #{remote_from_html_url(html_url, access_token)}", dir, env)
+      exec_cmd(repo_tag, "git remote add origin #{remote_from_html_url(html_url, access_token)}", dir, env, true)
       exec_cmd(repo_tag, "git fetch origin #{base_branch} --depth 50", dir, env)
       exec_cmd(repo_tag, "git fetch origin +refs/pull/#{pr_number}/head --depth 50", dir, env)
       exec_cmd(repo_tag, "git reset --hard FETCH_HEAD", dir, env)
@@ -158,7 +158,7 @@ module HostedDanger
       exec_cmd(repo_tag, "git config --local user.email hosted-danger-pj@ml.yahoo-corp.jp", dir, env)
       exec_cmd(repo_tag, "git remote add origin https://ap-danger:#{access_token}@#{git_host}/#{org}/#{repo}.git", dir, env, true)
       exec_cmd(repo_tag, "git fetch --depth 1", dir, env)
-      exec_cmd(repo_tag, "git reset --hard FETCH_HEAD", dir, env)
+      exec_cmd(repo_tag, "git reset --hard origin/master", dir, env)
       exec_cmd(repo_tag, "rm -rf .git* README.md", dir, env)
 
       true
