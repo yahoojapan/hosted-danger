@@ -51,9 +51,9 @@ module HostedDanger
         if fetch_org_config?(org_dir, repo_tag, git_host, org, access_token, env)
           L.info "#{repo_tag} use org config."
 
-          copy_config(repo_tag, org_dir, dir)
-
-          config_wrapper.set_dir(dir)
+          if copy_config(repo_tag, org_dir, dir)
+            config_wrapper.set_dir(dir)
+          end
         end
       end
 
@@ -234,9 +234,12 @@ module HostedDanger
       end
     end
 
-    private def copy_config(repo_tag : String, from_path : String, to_path : String)
+    private def copy_config(repo_tag : String, from_path : String, to_path : String) : Bool
       src_files = Dir.glob("#{from_path}/*").join(" ")
+      return false if src_files.size == 0
+
       exec_cmd(repo_tag, "cp -rf #{src_files} #{to_path}", from_path, {} of String => String)
+      true
     end
 
     private def with_dragon_envs(env : Hash(String, String), &block)

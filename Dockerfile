@@ -2,7 +2,7 @@ FROM crystallang/crystal:0.24.2
 
 # base
 RUN apt-get clean -y && apt-get update -y
-RUN apt-get install curl libcurl3 libcurl3-gnutls libcurl4-openssl-dev wget dnsutils locales locales-all -y
+RUN apt-get install curl libcurl3 libcurl3-gnutls libcurl4-openssl-dev wget dnsutils locales locales-all daemon -y
 
 ENV LANG ja_JP.UTF-8
 ENV LANGUAGE ja_JP.UTF-8
@@ -41,13 +41,21 @@ RUN ls -la /usr/local/bin
 RUN danger_ruby --version
 RUN danger_js --version
 
+# node-exporter
+RUN wget https://github.com/prometheus/node_exporter/releases/download/v0.15.2/node_exporter-0.15.2.linux-amd64.tar.gz && \
+  tar -xvzf node_exporter-0.15.2.linux-amd64.tar.gz && \
+  cp node_exporter-0.15.2.linux-amd64/node_exporter /usr/local/bin/node_exporter && \
+  rm -rf node_exporter*
+
+RUN daemon --name="node_exporter" --output=/var/log/node_exporter.log node_exporter
+
 # hd
 RUN mkdir -p /tmp/hd
 
 ADD envs.json /tmp/hd/envs.json
 COPY shard.yml shard.lock /tmp/hd/
 
-EXPOSE 80
+EXPOSE 80 9100
 
 COPY Dangerfile.default /tmp/hd/Dangerfile.default
 COPY src /tmp/hd/src
