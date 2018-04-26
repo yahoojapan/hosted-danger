@@ -21,9 +21,11 @@ module HostedDanger
 
       body_json = JSON.parse(body)
 
+      #
       # RubyのDangerがここで直接 _links -> issue -> href を参照しているため
       # ここだけproxyのURLに置き換える
       # https://github.com/danger/danger/blob/250988a1ac5e93b8c3c9b6da5bd0fb5e737348a4/lib/danger/request_sources/github/github.rb#L131
+      #
       if body_json.as_h? &&
          body_json["_links"]? &&
          body_json["_links"]["issue"]? &&
@@ -59,9 +61,9 @@ module HostedDanger
           # https://mym.corp.yahoo.co.jp/#!/HostedDanger/2018/04/26/12:29:18
           #
           context.response.headers[k] = if v.is_a?(Array)
-                                          v.map { |_v| _v.gsub("https://#{git_context[:git_host]}", "http://localhost/proxy/#{git_context[:symbol]}") }
+                                          v.map { |_v| _v.gsub("https://#{git_context[:git_host]}/api/v3", "http://localhost/proxy/#{git_context[:symbol]}") }
                                         else
-                                          v.as(String).gsub("https://#{git_context[:git_host]}", "http://localhost/proxy/#{git_context[:symbol]}")
+                                          v.as(String).gsub("https://#{git_context[:git_host]}/api/v3", "http://localhost/proxy/#{git_context[:symbol]}")
                                         end
         else
           context.response.headers[k] = v
@@ -78,14 +80,6 @@ module HostedDanger
       resource = rewrite_resource(context, git_context)
 
       res = HTTP::Client.get("https://#{git_context[:git_host]}/api/v3/#{resource}", headers)
-
-      p "-------- proxy_get --------"
-      p "---- headers"
-      p headers
-      p "---- resource"
-      p resource
-      p "---- res"
-      p res
 
       write_headers(context, git_context, res)
 
