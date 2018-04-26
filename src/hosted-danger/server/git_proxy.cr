@@ -21,9 +21,11 @@ module HostedDanger
 
       body_json = JSON.parse(body)
 
+      #
       # RubyのDangerがここで直接 _links -> issue -> href を参照しているため
       # ここだけproxyのURLに置き換える
       # https://github.com/danger/danger/blob/250988a1ac5e93b8c3c9b6da5bd0fb5e737348a4/lib/danger/request_sources/github/github.rb#L131
+      #
       if body_json.as_h? &&
          body_json["_links"]? &&
          body_json["_links"]["issue"]? &&
@@ -51,9 +53,21 @@ module HostedDanger
       _body
     end
 
-    def write_headers(context, response) : HTTP::Server::Context
+    def write_headers(context, git_context, response) : HTTP::Server::Context
       response.headers.each do |k, v|
-        context.response.headers[k] = v
+        if k == "Link"
+          #
+          # HeaderのLinkは参照されているので、Proxyに書き換える
+          # https://mym.corp.yahoo.co.jp/#!/HostedDanger/2018/04/26/12:29:18
+          #
+          context.response.headers[k] = if v.is_a?(Array)
+                                          v.map { |_v| _v.gsub("https://#{git_context[:git_host]}/api/v3", "http://localhost/proxy/#{git_context[:symbol]}") }
+                                        else
+                                          v.as(String).gsub("https://#{git_context[:git_host]}/api/v3", "http://localhost/proxy/#{git_context[:symbol]}")
+                                        end
+        else
+          context.response.headers[k] = v
+        end
       end
 
       context
@@ -67,7 +81,7 @@ module HostedDanger
 
       res = HTTP::Client.get("https://#{git_context[:git_host]}/api/v3/#{resource}", headers)
 
-      write_headers(context, res)
+      write_headers(context, git_context, res)
 
       context.response.status_code = res.status_code
       context.response.print convert_body(res.body, git_context)
@@ -83,7 +97,7 @@ module HostedDanger
 
       res = HTTP::Client.post("https://#{git_context[:git_host]}/api/v3/#{resource}", headers, payload)
 
-      write_headers(context, res)
+      write_headers(context, git_context, res)
 
       context.response.status_code = res.status_code
       context.response.print convert_body(res.body, git_context)
@@ -99,7 +113,7 @@ module HostedDanger
 
       res = HTTP::Client.patch("https://#{git_context[:git_host]}/api/v3/#{resource}", headers, payload)
 
-      write_headers(context, res)
+      write_headers(context, git_context, res)
 
       context.response.status_code = res.status_code
       context.response.print convert_body(res.body, git_context)
@@ -116,7 +130,7 @@ module HostedDanger
 
       res = HTTP::Client.delete("https://#{git_context[:git_host]}/api/v3/#{resource}", headers)
 
-      write_headers(context, res)
+      write_headers(context, git_context, res)
 
       context.response.status_code = res.status_code
       context.response.print convert_body(res.body, git_context)
