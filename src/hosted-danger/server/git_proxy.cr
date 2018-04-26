@@ -51,9 +51,22 @@ module HostedDanger
       _body
     end
 
-    def write_headers(context, response) : HTTP::Server::Context
+    def write_headers(context, git_context, response) : HTTP::Server::Context
       response.headers.each do |k, v|
-        context.response.headers[k] = v
+        if k == "Link"
+          #
+          # HeaderのLinkは参照されているので、Proxyに書き換える
+          # https://mym.corp.yahoo.co.jp/#!/HostedDanger/2018/04/26/12:29:18
+          #
+          p "----------------- come here!!! -----------------"
+          p v
+          p v.class
+          p "------------------------------------------------"
+          # context.response.headers[k] = v.gsub("https://#{git_context[:git_host]}", "http://localhost/proxy/#{git_context[:symbol]}")
+          context.response.headers[k] = v
+        else
+          context.response.headers[k] = v
+        end
       end
 
       context
@@ -67,7 +80,7 @@ module HostedDanger
 
       res = HTTP::Client.get("https://#{git_context[:git_host]}/api/v3/#{resource}", headers)
 
-      write_headers(context, res)
+      write_headers(context, git_context, res)
 
       context.response.status_code = res.status_code
       context.response.print convert_body(res.body, git_context)
@@ -83,7 +96,7 @@ module HostedDanger
 
       res = HTTP::Client.post("https://#{git_context[:git_host]}/api/v3/#{resource}", headers, payload)
 
-      write_headers(context, res)
+      write_headers(context, git_context, res)
 
       context.response.status_code = res.status_code
       context.response.print convert_body(res.body, git_context)
@@ -99,7 +112,7 @@ module HostedDanger
 
       res = HTTP::Client.patch("https://#{git_context[:git_host]}/api/v3/#{resource}", headers, payload)
 
-      write_headers(context, res)
+      write_headers(context, git_context, res)
 
       context.response.status_code = res.status_code
       context.response.print convert_body(res.body, git_context)
@@ -116,7 +129,7 @@ module HostedDanger
 
       res = HTTP::Client.delete("https://#{git_context[:git_host]}/api/v3/#{resource}", headers)
 
-      write_headers(context, res)
+      write_headers(context, git_context, res)
 
       context.response.status_code = res.status_code
       context.response.print convert_body(res.body, git_context)
