@@ -79,6 +79,14 @@ module HostedDanger
 
       res = HTTP::Client.get("https://#{git_context[:git_host]}/api/v3/#{resource}", headers)
 
+      p "-------- proxy_get --------"
+      p "---- headers"
+      p headers
+      p "---- resource"
+      p resource
+      p "---- res"
+      p res
+
       write_headers(context, git_context, res)
 
       context.response.status_code = res.status_code
