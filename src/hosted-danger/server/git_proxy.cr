@@ -58,12 +58,11 @@ module HostedDanger
           # HeaderのLinkは参照されているので、Proxyに書き換える
           # https://mym.corp.yahoo.co.jp/#!/HostedDanger/2018/04/26/12:29:18
           #
-          p "----------------- come here!!! -----------------"
-          p v
-          p v.class
-          p "------------------------------------------------"
-          # context.response.headers[k] = v.gsub("https://#{git_context[:git_host]}", "http://localhost/proxy/#{git_context[:symbol]}")
-          context.response.headers[k] = v
+          context.response.headers[k] = if v.is_a?(Array)
+                                          v.map { |_v| _v.gsub("https://#{git_context[:git_host]}", "http://localhost/proxy/#{git_context[:symbol]}") }
+                                        else
+                                          v.as(String).gsub("https://#{git_context[:git_host]}", "http://localhost/proxy/#{git_context[:symbol]}")
+                                        end
         else
           context.response.headers[k] = v
         end
