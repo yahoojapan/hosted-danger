@@ -659,6 +659,9 @@ GEM
     terminal-table (1.8.0)
       unicode-display_width (~> 1.1, >= 1.1.1)
     unicode-display_width (1.3.0)
+    yarn_cache (1.0.2)
+      aws-sdk
+      dotenv
 
 PLATFORMS
   ruby
@@ -679,6 +682,7 @@ DEPENDENCIES
   danger-todoist
   npm_cache
   rubocop
+  yarn_cache
 
 BUNDLED WITH
    1.16.1
