@@ -91,7 +91,9 @@ module HostedDanger
       end
 
       if config_wrapper.use_yarn?
-        exec_cmd(repo_tag, "yarn install --ignore-engines", dir, env)
+        with_dragon_envs(env) do
+          exec_cmd(repo_tag, "yarn_cache install #{dragon_params(env)}", dir, env, true)
+        end
       elsif config_wrapper.use_npm?
         with_dragon_envs(env) do
           exec_cmd(repo_tag, "npm_cache install #{dragon_params(env)}", dir, env, true)
