@@ -42,9 +42,6 @@ module HostedDanger
 
       query_params = parse_query_params(context)
 
-      puts "------------------------ query params ----------------------"
-      puts query_params
-
       return e_pull_request(event, payload_json, query_params) if event == "pull_request"
       return e_pull_request_review(event, payload_json, query_params) if event == "pull_request_review"
       return e_pull_request_review_comment(event, payload_json, query_params) if event == "pull_request_review_comment"
