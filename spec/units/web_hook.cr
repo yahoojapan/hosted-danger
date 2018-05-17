@@ -11,6 +11,14 @@ def spec_context(event : String, headers : HTTP::Headers = HTTP::Headers.new, bo
   HTTP::Server::Context.new(request, response)
 end
 
+def query_params_exists
+  HTTP::Params.parse("HOGE=true")
+end
+
+def query_params_nil
+  HTTP::Params.parse("")
+end
+
 describe HostedDanger::WebHook do
   payloads_root = File.expand_path("../../payloads", __FILE__)
 
@@ -62,7 +70,7 @@ describe HostedDanger::WebHook do
 
     webhook = HostedDanger::WebHook.new
 
-    executables = webhook.e_pull_request("pull_request", payload_json).not_nil!
+    executables = webhook.e_pull_request("pull_request", payload_json, query_params_exists).not_nil!
     executables.size.should eq(1)
 
     executable = executables[0]
@@ -73,7 +81,7 @@ describe HostedDanger::WebHook do
     executable[:sha].should eq("0d1a26e67d8f5eaf1f6ba5c57fc3c7d91ac0fd1c")
     executable[:base_branch].should eq("master")
     executable[:raw_payload].should eq(payload_json.to_json)
-    executable[:env].should eq({} of String => String)
+    executable[:env].should eq({"HOGE" => "true"})
   end
 
   it "e_pull_request_review" do
@@ -81,7 +89,7 @@ describe HostedDanger::WebHook do
 
     webhook = HostedDanger::WebHook.new
 
-    executables = webhook.e_pull_request_review("pull_request_review", payload_json).not_nil!
+    executables = webhook.e_pull_request_review("pull_request_review", payload_json, query_params_exists).not_nil!
     executables.size.should eq(1)
 
     executable = executables[0]
@@ -92,7 +100,7 @@ describe HostedDanger::WebHook do
     executable[:raw_payload].should eq(payload_json.to_json)
     executable[:base_branch].should eq("master")
     executable[:sha].should eq("b7a1f9c27caa4e03c14a88feb56e2d4f7500aa63")
-    executable[:env].should eq({} of String => String)
+    executable[:env].should eq({"HOGE" => "true"})
   end
 
   it "e_pull_request_review_comment" do
@@ -100,7 +108,7 @@ describe HostedDanger::WebHook do
 
     webhook = HostedDanger::WebHook.new
 
-    executables = webhook.e_pull_request_review_comment("pull_request_review_comment", payload_json).not_nil!
+    executables = webhook.e_pull_request_review_comment("pull_request_review_comment", payload_json, query_params_exists).not_nil!
     executables.size.should eq(1)
 
     executable = executables[0]
@@ -111,7 +119,7 @@ describe HostedDanger::WebHook do
     executable[:sha].should eq("0d1a26e67d8f5eaf1f6ba5c57fc3c7d91ac0fd1c")
     executable[:base_branch].should eq("master")
     executable[:raw_payload].should eq(payload_json.to_json)
-    executable[:env].should eq({} of String => String)
+    executable[:env].should eq({"HOGE" => "true"})
   end
 
   it "e_issue_comment" do
@@ -119,7 +127,7 @@ describe HostedDanger::WebHook do
 
     webhook = HostedDangerMocks::WebHook.new
 
-    executables = webhook.e_issue_comment("issue_comment", payload_json).not_nil!
+    executables = webhook.e_issue_comment("issue_comment", payload_json, query_params_exists).not_nil!
     executables.size.should eq(1)
 
     executable = executables[0]
@@ -130,7 +138,10 @@ describe HostedDanger::WebHook do
     executable[:sha].should eq("cdf5ec2d0bfb5457107f07ed8f0dcec2a655c040")
     executable[:base_branch].should eq("master")
     executable[:raw_payload].should eq(payload_json.to_json)
-    executable[:env].should eq({"DANGER_PR_COMMENT" => "You are totally right! I'll get this fixed right away."} of String => String)
+    executable[:env].should eq({
+      "HOGE"              => "true",
+      "DANGER_PR_COMMENT" => "You are totally right! I'll get this fixed right away.",
+    })
   end
 
   it "e_issues" do
@@ -138,7 +149,7 @@ describe HostedDanger::WebHook do
 
     webhook = HostedDangerMocks::WebHook.new
 
-    executables = webhook.e_issues("issues", payload_json).not_nil!
+    executables = webhook.e_issues("issues", payload_json, query_params_exists).not_nil!
     executables.size.should eq(1)
 
     executable = executables[0]
@@ -149,7 +160,7 @@ describe HostedDanger::WebHook do
     executable[:sha].should eq("cdf5ec2d0bfb5457107f07ed8f0dcec2a655c040")
     executable[:base_branch].should eq("master")
     executable[:raw_payload].should eq(payload_json.to_json)
-    executable[:env].should eq({} of String => String)
+    executable[:env].should eq({"HOGE" => "true"})
   end
 
   it "e_status" do
@@ -157,7 +168,7 @@ describe HostedDanger::WebHook do
 
     webhook = HostedDangerMocks::WebHook.new
 
-    executables = webhook.e_status("status", payload_json).not_nil!
+    executables = webhook.e_status("status", payload_json, query_params_exists).not_nil!
     executables.size.should eq(1)
 
     executable = executables[0]
@@ -168,6 +179,6 @@ describe HostedDanger::WebHook do
     executable[:sha].should eq("6dcb09b5b57875f334f61aebed695e2e4193db5e")
     executable[:base_branch].should eq("master")
     executable[:raw_payload].should eq(payload_json.to_json)
-    executable[:env].should eq({} of String => String)
+    executable[:env].should eq({"HOGE" => "true"})
   end
 end
