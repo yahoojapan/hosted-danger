@@ -4,7 +4,7 @@ module HostedDanger
     TIMEOUT            = 1200
 
     def exec_danger(executable : Executable)
-      env = {} of String => String
+      env = executable[:env]
       action = executable[:action]
       event = executable[:event]
       html_url = executable[:html_url]
@@ -30,7 +30,6 @@ module HostedDanger
       env["DANGER_GITHUB_API_TOKEN"] = "Hi there! :)"
       env["ghprbPullId"] = "#{pr_number}"
       env["ghprbGhRepository"] = "#{org}/#{repo}"
-      env.merge!(executable[:env])
 
       FileUtils.mkdir(dir)
 
