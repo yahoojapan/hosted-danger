@@ -33,20 +33,26 @@ module HostedDanger
       raise "Unknown payload type"
     end
 
+    def parse_query_params(context) : HTTP::Params
+      HTTP::Params.parse(context.request.query || "")
+    end
+
     def create_executable(context, payload_json) : Array(Executable)?
       event = context.request.headers["X-GitHub-Event"]
 
-      return e_pull_request(event, payload_json) if event == "pull_request"
-      return e_pull_request_review(event, payload_json) if event == "pull_request_review"
-      return e_pull_request_review_comment(event, payload_json) if event == "pull_request_review_comment"
-      return e_issue_comment(event, payload_json) if event == "issue_comment"
-      return e_issues(event, payload_json) if event == "issues"
-      return e_status(event, payload_json) if event == "status"
+      query_params = parse_query_params(context)
+
+      return e_pull_request(event, payload_json, query_params) if event == "pull_request"
+      return e_pull_request_review(event, payload_json, query_params) if event == "pull_request_review"
+      return e_pull_request_review_comment(event, payload_json, query_params) if event == "pull_request_review_comment"
+      return e_issue_comment(event, payload_json, query_params) if event == "issue_comment"
+      return e_issues(event, payload_json, query_params) if event == "issues"
+      return e_status(event, payload_json, query_params) if event == "status"
 
       L.info "danger will not be triggered (#{event})"
     end
 
-    def e_pull_request(event, payload_json) : Array(Executable)?
+    def e_pull_request(event, payload_json, query_params) : Array(Executable)?
       return L.info "#{event} skip: sender is ap-danger" if payload_json["sender"]["login"] == "ap-danger"
       return L.info "#{event} skip: closed" if payload_json["action"] == "closed"
 
@@ -55,7 +61,7 @@ module HostedDanger
       pr_number = payload_json["number"].as_i
       sha = payload_json["pull_request"]["head"]["sha"].as_s
       base_branch = payload_json["pull_request"]["base"]["ref"].as_s
-      env = {} of String => String
+      env = query_params.to_h
 
       [{
         action:      action,
@@ -69,7 +75,7 @@ module HostedDanger
       }]
     end
 
-    def e_pull_request_review(event, payload_json) : Array(Executable)?
+    def e_pull_request_review(event, payload_json, query_params) : Array(Executable)?
       return L.info "#{event} skip: sender is ap-danger" if payload_json["sender"]["login"] == "ap-danger"
       return L.info "#{event} skip: dismissed" if payload_json["action"] == "dismissed"
 
@@ -78,7 +84,7 @@ module HostedDanger
       pr_number = payload_json["pull_request"]["number"].as_i
       sha = payload_json["pull_request"]["head"]["sha"].as_s
       base_branch = payload_json["pull_request"]["base"]["ref"].as_s
-      env = {} of String => String
+      env = query_params.to_h
 
       [{
         action:      action,
@@ -92,7 +98,7 @@ module HostedDanger
       }]
     end
 
-    def e_pull_request_review_comment(event, payload_json) : Array(Executable)?
+    def e_pull_request_review_comment(event, payload_json, query_params) : Array(Executable)?
       return L.info "#{event} skip: sender is ap-danger" if payload_json["sender"]["login"] == "ap-danger"
       return L.info "#{event} skip: deleted" if payload_json["action"] == "deleted"
 
@@ -101,7 +107,7 @@ module HostedDanger
       pr_number = payload_json["pull_request"]["number"].as_i
       sha = payload_json["pull_request"]["head"]["sha"].as_s
       base_branch = payload_json["pull_request"]["base"]["ref"].as_s
-      env = {} of String => String
+      env = query_params.to_h
 
       [{
         action:      action,
@@ -115,7 +121,7 @@ module HostedDanger
       }]
     end
 
-    def e_issue_comment(event, payload_json) : Array(Executable)?
+    def e_issue_comment(event, payload_json, query_params) : Array(Executable)?
       return L.info "#{event} skip: sender is ap-danger" if payload_json["sender"]["login"] == "ap-danger"
       return L.info "#{event} skip: deleted" if payload_json["action"] == "deleted"
 
@@ -124,7 +130,7 @@ module HostedDanger
         html_url = $1.to_s
         pr_number = $2.to_i
 
-        env = {} of String => String
+        env = query_params.to_h
         env["DANGER_PR_COMMENT"] = payload_json["comment"]["body"].as_s
 
         git_host = git_host_from_html_url(html_url)
@@ -148,7 +154,7 @@ module HostedDanger
       nil
     end
 
-    def e_issues(event, payload_json) : Array(Executable)?
+    def e_issues(event, payload_json, query_params) : Array(Executable)?
       return L.info "#{event} skip: sender is ap-danger" if payload_json["sender"]["login"] == "ap-danger"
       return L.info "#{event} skip: closed" if payload_json["action"] == "closed"
 
@@ -156,7 +162,7 @@ module HostedDanger
         action = payload_json["action"].as_s
         html_url = $1.to_s
         pr_number = $2.to_i
-        env = {} of String => String
+        env = query_params.to_h
 
         git_host = git_host_from_html_url(html_url)
         access_token = access_token_from_git_host(git_host)
@@ -177,14 +183,14 @@ module HostedDanger
       end
     end
 
-    def e_status(event, payload_json) : Array(Executable)?
+    def e_status(event, payload_json, query_params) : Array(Executable)?
       return L.info "#{event} skip: sender is ap-danger" if payload_json["sender"]["login"] == "ap-danger"
 
       action = payload_json["state"].as_s
       html_url = payload_json["repository"]["html_url"].as_s
       git_host = git_host_from_html_url(html_url)
       access_token = access_token_from_git_host(git_host)
-      env = {} of String => String
+      env = query_params.to_h
 
       sha = payload_json["sha"].as_s
       org, repo = org_repo_from_html_url(html_url)
