@@ -132,7 +132,7 @@ module HostedDanger
       # repository without ap-danger as collaborator or the ap-danger doesn't have write role
       #
       if res.status_code == 404
-        message = "**Github API returns 404** (#{git_url_from_api_url(url)})\n"
+        message = "**Github API returns 404** ( #{git_url_from_api_url(url)} )\n"
         message += "```\n"
         message += "url    : #{url}\n"
         message += "method : #{method}\n"
