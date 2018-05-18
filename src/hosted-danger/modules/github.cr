@@ -28,7 +28,7 @@ module HostedDanger
 
       res = HTTP::Client.get(url, headers)
 
-      validate_github_result(res, url)
+      validate_github_result(res, url, "GET")
 
       JSON.parse(res.body)
     end
@@ -41,7 +41,7 @@ module HostedDanger
 
       res = HTTP::Client.get(url, headers)
 
-      validate_github_result(res, url)
+      validate_github_result(res, url, "GET")
 
       JSON.parse(res.body)
     end
@@ -54,7 +54,7 @@ module HostedDanger
 
       res = HTTP::Client.get(url, headers)
 
-      validate_github_result(res, url)
+      validate_github_result(res, url, "GET")
 
       JSON.parse(res.body)
     end
@@ -67,7 +67,7 @@ module HostedDanger
 
       res = HTTP::Client.delete(url, headers)
 
-      validate_github_result(res, url)
+      validate_github_result(res, url, "DELETE")
 
       res
     end
@@ -86,7 +86,7 @@ module HostedDanger
 
       res = HTTP::Client.get(url, headers)
 
-      validate_github_result(res, url)
+      validate_github_result(res, url, "GET")
 
       JSON.parse(res.body)
     end
@@ -122,17 +122,19 @@ module HostedDanger
 
       res = HTTP::Client.post(url, headers, body)
 
-      validate_github_result(res, url)
+      validate_github_result(res, url, "POST")
 
       JSON.parse(res.body)
     end
 
-    def validate_github_result(res : HTTP::Client::Response, url : String)
+    def validate_github_result(res : HTTP::Client::Response, url : String, method : String)
       #
       # private repository without ap-danger as collaborator
       #
       if res.status_code == 404
-        message = "Github API returns 404 for #{url}\nReason: private repository without ad-danger as collaborator"
+        message = "Github API returns 404\n"
+        message += "URL    : #{url}"
+        message += "METHOD : #{method}"
 
         github_exception = Github::Exception.new(message)
         github_exception.res = res
