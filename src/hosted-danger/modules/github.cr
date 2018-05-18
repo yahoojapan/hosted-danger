@@ -7,10 +7,6 @@ module HostedDanger
       SUCCESS = "success"
     end
 
-    class Exception < Exception
-      property res : HTTP::Client::Response?
-    end
-
     def pull_request_open?(git_host : String, org : String, repo : String, pr_number : Int32, access_token : String) : Bool
       pull_json = pull_request(git_host, org, repo, pr_number, access_token)
       pull_json["state"].as_s == "open"
@@ -28,8 +24,6 @@ module HostedDanger
 
       res = HTTP::Client.get(url, headers)
 
-      validate_github_result(res, url)
-
       JSON.parse(res.body)
     end
 
@@ -40,8 +34,6 @@ module HostedDanger
       headers["Authorization"] = "token #{access_token}"
 
       res = HTTP::Client.get(url, headers)
-
-      validate_github_result(res, url)
 
       JSON.parse(res.body)
     end
@@ -54,8 +46,6 @@ module HostedDanger
 
       res = HTTP::Client.get(url, headers)
 
-      validate_github_result(res, url)
-
       JSON.parse(res.body)
     end
 
@@ -66,9 +56,6 @@ module HostedDanger
       headers["Authorization"] = "token #{access_token}"
 
       res = HTTP::Client.delete(url, headers)
-
-      validate_github_result(res, url)
-
       res
     end
 
@@ -85,8 +72,6 @@ module HostedDanger
       headers["Authorization"] = "token #{access_token}"
 
       res = HTTP::Client.get(url, headers)
-
-      validate_github_result(res, url)
 
       JSON.parse(res.body)
     end
@@ -122,23 +107,7 @@ module HostedDanger
 
       res = HTTP::Client.post(url, headers, body)
 
-      validate_github_result(res, url)
-
       JSON.parse(res.body)
-    end
-
-    def validate_github_result(res : HTTP::Client::Response, url : String)
-      #
-      # private repository without ap-danger as collaborator
-      #
-      if res.status_code == 404
-        message = "Github API returns 404 for #{url}\nReason: private repository without ad-danger as collaborator"
-
-        github_exception = Github::Exception.new(message)
-        github_exception.res = res
-
-        raise github_exception
-      end
     end
   end
 end
