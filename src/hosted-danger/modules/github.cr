@@ -7,7 +7,9 @@ module HostedDanger
       SUCCESS = "success"
     end
 
-    class GithubException < Exception; end
+    class Exception < Exception
+      property res : HTTP::Client::Response?
+    end
 
     def pull_request_open?(git_host : String, org : String, repo : String, pr_number : Int32, access_token : String) : Bool
       pull_json = pull_request(git_host, org, repo, pr_number, access_token)
@@ -26,7 +28,7 @@ module HostedDanger
 
       res = HTTP::Client.get(url, headers)
 
-      validate_github_result(res)
+      validate_github_result(res, url)
 
       JSON.parse(res.body)
     end
@@ -39,7 +41,7 @@ module HostedDanger
 
       res = HTTP::Client.get(url, headers)
 
-      validate_github_result(res)
+      validate_github_result(res, url)
 
       JSON.parse(res.body)
     end
@@ -52,7 +54,7 @@ module HostedDanger
 
       res = HTTP::Client.get(url, headers)
 
-      validate_github_result(res)
+      validate_github_result(res, url)
 
       JSON.parse(res.body)
     end
@@ -65,7 +67,7 @@ module HostedDanger
 
       res = HTTP::Client.delete(url, headers)
 
-      validate_github_result(res)
+      validate_github_result(res, url)
 
       res
     end
@@ -84,7 +86,7 @@ module HostedDanger
 
       res = HTTP::Client.get(url, headers)
 
-      validate_github_result(res)
+      validate_github_result(res, url)
 
       JSON.parse(res.body)
     end
@@ -120,15 +122,23 @@ module HostedDanger
 
       res = HTTP::Client.post(url, headers, body)
 
-      validate_github_result(res)
+      validate_github_result(res, url)
 
       JSON.parse(res.body)
     end
 
-    def validate_github_result(res : HTTP::Client::Response)
-      p "----------------- res ------------------------"
-      p res.status_code
-      p res
+    def validate_github_result(res : HTTP::Client::Response, url : String)
+      #
+      # private repository without ap-danger as collaborator
+      #
+      if res.status_code == 404
+        message = "Github API returns 404 for #{url} (private repository without ad-danger as collaborator)"
+
+        github_exception = Github::Exception.new(message)
+        github_exception.res = res
+
+        raise github_exception
+      end
     end
   end
 end
