@@ -7,6 +7,8 @@ module HostedDanger
       SUCCESS = "success"
     end
 
+    class GithubException < Exception; end
+
     def pull_request_open?(git_host : String, org : String, repo : String, pr_number : Int32, access_token : String) : Bool
       pull_json = pull_request(git_host, org, repo, pr_number, access_token)
       pull_json["state"].as_s == "open"
@@ -24,6 +26,8 @@ module HostedDanger
 
       res = HTTP::Client.get(url, headers)
 
+      validate_github_result(res)
+
       JSON.parse(res.body)
     end
 
@@ -34,6 +38,8 @@ module HostedDanger
       headers["Authorization"] = "token #{access_token}"
 
       res = HTTP::Client.get(url, headers)
+
+      validate_github_result(res)
 
       JSON.parse(res.body)
     end
@@ -46,6 +52,8 @@ module HostedDanger
 
       res = HTTP::Client.get(url, headers)
 
+      validate_github_result(res)
+
       JSON.parse(res.body)
     end
 
@@ -56,6 +64,9 @@ module HostedDanger
       headers["Authorization"] = "token #{access_token}"
 
       res = HTTP::Client.delete(url, headers)
+
+      validate_github_result(res)
+
       res
     end
 
@@ -72,6 +83,8 @@ module HostedDanger
       headers["Authorization"] = "token #{access_token}"
 
       res = HTTP::Client.get(url, headers)
+
+      validate_github_result(res)
 
       JSON.parse(res.body)
     end
@@ -107,7 +120,15 @@ module HostedDanger
 
       res = HTTP::Client.post(url, headers, body)
 
+      validate_github_result(res)
+
       JSON.parse(res.body)
+    end
+
+    def validate_github_result(res : HTTP::Client::Response)
+      p "----------------- res ------------------------"
+      p res.status_code
+      p res
     end
   end
 end
