@@ -28,7 +28,7 @@ module HostedDanger
 
       res = HTTP::Client.get(url, headers)
 
-      validate_github_result(res, url, "GET")
+      github_result(res, url, "GET")
 
       JSON.parse(res.body)
     end
@@ -41,7 +41,7 @@ module HostedDanger
 
       res = HTTP::Client.get(url, headers)
 
-      validate_github_result(res, url, "GET")
+      github_result(res, url, "GET")
 
       JSON.parse(res.body)
     end
@@ -54,7 +54,7 @@ module HostedDanger
 
       res = HTTP::Client.get(url, headers)
 
-      validate_github_result(res, url, "GET")
+      github_result(res, url, "GET")
 
       JSON.parse(res.body)
     end
@@ -67,7 +67,7 @@ module HostedDanger
 
       res = HTTP::Client.delete(url, headers)
 
-      validate_github_result(res, url, "DELETE")
+      github_result(res, url, "DELETE")
 
       res
     end
@@ -86,7 +86,7 @@ module HostedDanger
 
       res = HTTP::Client.get(url, headers)
 
-      validate_github_result(res, url, "GET")
+      github_result(res, url, "GET")
 
       JSON.parse(res.body)
     end
@@ -122,19 +122,21 @@ module HostedDanger
 
       res = HTTP::Client.post(url, headers, body)
 
-      validate_github_result(res, url, "POST")
+      github_result(res, url, "POST")
 
       JSON.parse(res.body)
     end
 
-    def validate_github_result(res : HTTP::Client::Response, url : String, method : String)
+    def github_result(res : HTTP::Client::Response, url : String, method : String)
       #
-      # private repository without ap-danger as collaborator
+      # repository without ap-danger as collaborator or the ap-danger doesn't have write role
       #
       if res.status_code == 404
-        message = "Github API returns 404\n"
-        message += "URL    : #{url}"
-        message += "METHOD : #{method}"
+        message = "**Github API returns 404** (#{git_url_from_api_url(url)})\n"
+        message += "```\n"
+        message += "url    : #{url}\n"
+        message += "method : #{method}\n"
+        message += "```"
 
         github_exception = Github::Exception.new(message)
         github_exception.res = res
@@ -142,5 +144,7 @@ module HostedDanger
         raise github_exception
       end
     end
+
+    include Parser
   end
 end

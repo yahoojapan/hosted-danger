@@ -13,7 +13,7 @@ module HostedDanger
       context.response.print "OK"
       context
     rescue ge : Github::Exception
-      L.error ge, ge.res.inspect
+      L.error ge, ge.res.inspect, false
 
       bad_request(context)
     rescue e : Exception
