@@ -132,7 +132,7 @@ module HostedDanger
       # private repository without ap-danger as collaborator
       #
       if res.status_code == 404
-        message = "Github API returns 404 for #{url} (private repository without ad-danger as collaborator)"
+        message = "Github API returns 404 for #{url}\nprivate repository without ad-danger as collaborator"
 
         github_exception = Github::Exception.new(message)
         github_exception.res = res
