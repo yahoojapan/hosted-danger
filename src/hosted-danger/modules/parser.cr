@@ -36,5 +36,17 @@ module HostedDanger
 
       raise "invalid html_url #{html_url} @remote_from_html_url"
     end
+
+    def git_url_from_api_url(api_url : String) : String
+      if api_url =~ /https:\/\/(.*?)\/api\/v3\/repos\/(.*?)\/(.*?)\/.*/
+        git_host = $1
+        org = $2
+        repo = $3
+
+        return "https://#{git_host}/#{org}/#{repo}"
+      end
+
+      raise "failed to parse git url from #{api_url}"
+    end
   end
 end

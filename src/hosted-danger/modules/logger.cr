@@ -18,7 +18,7 @@ module HostedDanger
       nil
     end
 
-    def self.error(e : Exception, payload : String?) : Nil
+    def self.error(e : Exception, payload : String?, show_backtrace : Bool = true) : Nil
       message : String = if error_message = e.message
         error_message
       else
@@ -37,7 +37,11 @@ module HostedDanger
                      "No payload"
                    end
 
-      L.error "<< Message >>:\n#{message}\n\n<< Backtrace >>\n```\n#{backtrace}\n```\n\n<< Log >>\n#{paster_url}"
+      message = "<< Message >>:\n#{message}\n\n"
+      backtrace = show_backtrace ? "<< Backtrace >>\n```\n#{backtrace}\n```\n\n" : ""
+      log = "<< Log >>\n#{paster_url}"
+
+      L.error "#{message}#{backtrace}#{log}"
     end
 
     def self.warn(msg : String, mym = false) : Nil

@@ -7,6 +7,10 @@ module HostedDanger
       SUCCESS = "success"
     end
 
+    class Exception < Exception
+      property res : HTTP::Client::Response?
+    end
+
     def pull_request_open?(git_host : String, org : String, repo : String, pr_number : Int32, access_token : String) : Bool
       pull_json = pull_request(git_host, org, repo, pr_number, access_token)
       pull_json["state"].as_s == "open"
@@ -24,6 +28,8 @@ module HostedDanger
 
       res = HTTP::Client.get(url, headers)
 
+      github_result(res, url, "GET")
+
       JSON.parse(res.body)
     end
 
@@ -34,6 +40,8 @@ module HostedDanger
       headers["Authorization"] = "token #{access_token}"
 
       res = HTTP::Client.get(url, headers)
+
+      github_result(res, url, "GET")
 
       JSON.parse(res.body)
     end
@@ -46,6 +54,8 @@ module HostedDanger
 
       res = HTTP::Client.get(url, headers)
 
+      github_result(res, url, "GET")
+
       JSON.parse(res.body)
     end
 
@@ -56,6 +66,9 @@ module HostedDanger
       headers["Authorization"] = "token #{access_token}"
 
       res = HTTP::Client.delete(url, headers)
+
+      github_result(res, url, "DELETE")
+
       res
     end
 
@@ -72,6 +85,8 @@ module HostedDanger
       headers["Authorization"] = "token #{access_token}"
 
       res = HTTP::Client.get(url, headers)
+
+      github_result(res, url, "GET")
 
       JSON.parse(res.body)
     end
@@ -107,7 +122,36 @@ module HostedDanger
 
       res = HTTP::Client.post(url, headers, body)
 
+      github_result(res, url, "POST")
+
       JSON.parse(res.body)
     end
+
+    def github_result(res : HTTP::Client::Response, url : String, method : String)
+      #
+      # repository without ap-danger as collaborator or the ap-danger doesn't have write role
+      #
+      if res.status_code == 404
+        message = "Github API returns 404 ( #{git_url_from_api_url(url)} )\n"
+
+        if method == "GET"
+          message += "Reason: **private repository without ap-danger collaborator**\n"
+        else
+          message += "Reason: **public repository without ap-danger collaborator**\n"
+        end
+
+        message += "```\n"
+        message += "url    : #{url}\n"
+        message += "method : #{method}\n"
+        message += "```"
+
+        github_exception = Github::Exception.new(message)
+        github_exception.res = res
+
+        raise github_exception
+      end
+    end
+
+    include Parser
   end
 end
