@@ -8,6 +8,7 @@ describe HostedDanger::Envs do
       HostedDanger::Envs.get("dragon_access_key").should eq("dragon_key")
       HostedDanger::Envs.get("dragon_secret_access_key").should eq("dragon_secret_key")
       HostedDanger::Envs.get("sd_user_token").should eq("sd_user_token")
+      HostedDanger::Envs.get("sd_user_token_next").should eq("sd_user_token_next")
     end
   end
 
@@ -19,6 +20,7 @@ describe HostedDanger::Envs do
       HostedDanger::Envs.get("dragon_access_key").should eq("dragon_key")
       HostedDanger::Envs.get("dragon_secret_access_key").should eq("dragon_secret_key")
       HostedDanger::Envs.get("sd_user_token").should eq("sd_user_token")
+      HostedDanger::Envs.get("sd_user_token_next").should eq("sd_user_token_next")
 
       ENV["ACCESS_TOKEN_GHE"]?.should be_nil
       ENV["ACCESS_TOKEN_PARTNER"]?.should be_nil
@@ -26,6 +28,7 @@ describe HostedDanger::Envs do
       ENV["DRAGON_ACCESS_KEY"]?.should be_nil
       ENV["DRAGON_SECRET_ACCESS_KEY"]?.should be_nil
       ENV["SD_USER_TOKEN"]?.should be_nil
+      ENV["SD_USER_TOKEN_NEXT"]?.should be_nil
     end
   end
 end

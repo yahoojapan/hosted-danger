@@ -19,6 +19,7 @@ module HostedDanger
         @@envs_internal["dragon_access_key"] = json["dragon_access_key"].as_s
         @@envs_internal["dragon_secret_access_key"] = json["dragon_secret_access_key"].as_s
         @@envs_internal["sd_user_token"] = json["sd_user_token"].as_s
+        @@envs_internal["sd_user_token_next"] = json["sd_user_token_next"].as_s
       else
         L.info "Load env vars as prod environment"
 
@@ -28,6 +29,7 @@ module HostedDanger
         @@envs_internal["dragon_access_key"] = ENV["DRAGON_ACCESS_KEY"]
         @@envs_internal["dragon_secret_access_key"] = ENV["DRAGON_SECRET_ACCESS_KEY"]
         @@envs_internal["sd_user_token"] = ENV["SD_USER_TOKEN"]
+        @@envs_internal["sd_user_token_next"] = ENV["SD_USER_TOKEN_NEXT"]
 
         ENV.delete("ACCESS_TOKEN_GHE")
         ENV.delete("ACCESS_TOKEN_PARTNER")
@@ -35,6 +37,7 @@ module HostedDanger
         ENV.delete("DRAGON_ACCESS_KEY")
         ENV.delete("DRAGON_SECRET_ACCESS_KEY")
         ENV.delete("SD_USER_TOKEN")
+        ENV.delete("SD_USER_TOKEN_NEXT")
       end
 
       L.info "All env vars are loaded successfully"
