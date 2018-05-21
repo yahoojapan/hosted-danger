@@ -132,12 +132,12 @@ module HostedDanger
       # repository without ap-danger as collaborator or the ap-danger doesn't have write role
       #
       if res.status_code == 404
-        message = "**Github API returns 404** ( #{git_url_from_api_url(url)} )\n"
+        message = "Github API returns 404 ( #{git_url_from_api_url(url)} )\n"
 
         if method == "GET"
-          message += "reason: private repository without ap-danger collaborator\n"
+          message += "Reason: **private repository without ap-danger collaborator**\n"
         else
-          message += "reason: public repository without ap-danger collaborator\n"
+          message += "Reason: **public repository without ap-danger collaborator**\n"
         end
 
         message += "```\n"
