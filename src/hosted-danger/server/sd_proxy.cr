@@ -1,9 +1,15 @@
 module HostedDanger
   class SDProxy
-    ENDPOINT = "https://api-cd.screwdriver.corp.yahoo.co.jp/v4"
-
     def auth(context, params)
-      res = HTTP::Client.get("#{ENDPOINT}/auth/token?api_token=#{Envs.get("sd_user_token")}")
+      auth_internal(context, "https://api-cd.screwdriver.corp.yahoo.co.jp/v4")
+    end
+
+    def auth_next(context, params)
+      auth_internal(context, "https://api-next.screwdriver.corp.yahoo.co.jp/v4")
+    end
+
+    def auth_internal(context, endpoint)
+      res = HTTP::Client.get("#{endpoint}/auth/token?api_token=#{Envs.get("sd_user_token")}")
 
       context.response.status_code = res.status_code
       context.response.print res.body

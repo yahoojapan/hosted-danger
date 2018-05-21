@@ -29,6 +29,7 @@ module HostedDanger
 
       # Internal Screwdriver.cd Proxy
       get "/sdproxy/auth" { |context, params| @sd_proxy.auth(context, params) }
+      get "/sdproxy/auth/next" { |context, params| @sd_proxy.auth_next(context, params) }
     end
 
     def run
