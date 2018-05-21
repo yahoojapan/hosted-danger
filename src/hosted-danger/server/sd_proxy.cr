@@ -1,10 +1,12 @@
 module HostedDanger
   class SDProxy
     def auth(context, params)
+      puts "auth (for cd)"
       auth_internal(context, "https://api-cd.screwdriver.corp.yahoo.co.jp/v4")
     end
 
     def auth_next(context, params)
+      puts "auth (for next)"
       auth_internal(context, "https://api-next.screwdriver.corp.yahoo.co.jp/v4")
     end
 

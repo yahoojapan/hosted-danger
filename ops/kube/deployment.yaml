@@ -46,5 +46,10 @@ spec:
               secretKeyRef:
                 name: secret-envs
                 key: sd_user_token
+          - name: SD_USER_TOKEN_NEXT
+            valueFrom:
+              secretKeyRef:
+                name: secret-envs
+                key: sd_user_token_next
         ports:
         - containerPort: 80
