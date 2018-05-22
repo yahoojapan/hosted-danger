@@ -18,7 +18,7 @@ module HostedDanger
       nil
     end
 
-    def self.error(e : Exception, payload : String?, show_backtrace : Bool = true) : Nil
+    def self.error(e : Exception, payload : String?, show_backtrace : Bool = true, mym : Bool = true) : Nil
       message : String = if error_message = e.message
         error_message
       else
@@ -41,7 +41,7 @@ module HostedDanger
       backtrace = show_backtrace ? "<< Backtrace >>\n```\n#{backtrace}\n```\n\n" : ""
       log = "<< Log >>\n#{paster_url}"
 
-      L.error "#{message}#{backtrace}#{log}"
+      L.error "#{message}#{backtrace}#{log}", mym
     end
 
     def self.warn(msg : String, mym = false) : Nil
