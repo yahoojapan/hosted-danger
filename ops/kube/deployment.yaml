@@ -41,11 +41,11 @@ spec:
               secretKeyRef:
                 name: secret-envs
                 key: dragon_secret_access_key
-          - name: SD_USER_TOKEN
+          - name: SD_USER_TOKEN_CD
             valueFrom:
               secretKeyRef:
                 name: secret-envs
-                key: sd_user_token
+                key: sd_user_token_cd
           - name: SD_USER_TOKEN_NEXT
             valueFrom:
               secretKeyRef:

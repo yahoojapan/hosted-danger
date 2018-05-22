@@ -4,7 +4,7 @@ def setup_envs_prod(&block)
   ENV["ACCESS_TOKEN_GIT"] = "dummy_git"
   ENV["DRAGON_ACCESS_KEY"] = "dragon_key"
   ENV["DRAGON_SECRET_ACCESS_KEY"] = "dragon_secret_key"
-  ENV["SD_USER_TOKEN"] = "sd_user_token"
+  ENV["SD_USER_TOKEN_CD"] = "sd_user_token_cd"
   ENV["SD_USER_TOKEN_NEXT"] = "sd_user_token_next"
 
   HostedDanger::Envs.setup
@@ -33,7 +33,7 @@ def ready_env_json
     ["ACCESS_TOKEN_GIT", "dummy_git"],
     ["DRAGON_ACCESS_KEY", "dragon_key"],
     ["DRAGON_SECRET_ACCESS_KEY", "dragon_secret_key"],
-    ["SD_USER_TOKEN", "sd_user_token"],
+    ["SD_USER_TOKEN_CD", "sd_user_token_cd"],
     ["SD_USER_TOKEN_NEXT", "sd_user_token_next"],
   ].map { |env| env.join("=") }.join(" ")
 
