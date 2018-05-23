@@ -104,7 +104,7 @@ module HostedDanger
       context
     end
 
-    def proxy_post(context, params)
+    def proxy_put(context, params)
       git_context = get_git_context(params)
 
       headers = rewrite_headers(context, git_context)
