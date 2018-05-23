@@ -1,7 +1,8 @@
 module HostedDanger
   module Executor
     DANGERFILE_DEFAULT = File.expand_path("../../../../Dangerfile.default", __FILE__)
-    TIMEOUT            = 1200
+    TIMEOUT_DANGER     = 1200
+    TIMEOUT_FETCH      =  300
 
     def exec_danger(executable : Executable)
       env = executable[:env]
@@ -38,8 +39,8 @@ module HostedDanger
       exec_cmd(repo_tag, "git config --local user.email hosted-danger-pj@ml.yahoo-corp.jp", dir, env)
       exec_cmd(repo_tag, "git config --local http.postBuffer 1048576000", dir, env)
       exec_cmd(repo_tag, "git remote add origin #{remote_from_html_url(html_url, access_token)}", dir, env, true)
-      exec_cmd(repo_tag, "git fetch origin #{base_branch} --depth 50", dir, env)
-      exec_cmd(repo_tag, "git fetch origin +refs/pull/#{pr_number}/head --depth 50", dir, env)
+      exec_cmd(repo_tag, "timeout #{TIMEOUT_FETCH} git fetch origin #{base_branch} --depth 50", dir, env)
+      exec_cmd(repo_tag, "timeout #{TIMEOUT_FETCH} git fetch origin +refs/pull/#{pr_number}/head --depth 50", dir, env)
       exec_cmd(repo_tag, "git reset --hard FETCH_HEAD", dir, env)
 
       config_wrapper = ConfigWrapper.new(dir)
@@ -176,7 +177,7 @@ module HostedDanger
                      "danger_ruby"
                    end
 
-      exec_cmd(repo_tag, "timeout #{TIMEOUT} #{danger_bin} #{danger_params_ruby(dangerfile_path)}", dir, env)
+      exec_cmd(repo_tag, "timeout #{TIMEOUT_DANGER} #{danger_bin} #{danger_params_ruby(dangerfile_path)}", dir, env)
     end
 
     private def exec_js(config_wrapper : ConfigWrapper, repo_tag, dangerfile_path : String, dir : String, env : Hash(String, String))
@@ -186,7 +187,7 @@ module HostedDanger
                      "danger"
                    end
 
-      exec_cmd(repo_tag, "timeout #{TIMEOUT} #{danger_bin} ci #{danger_params_js(dangerfile_path)}", dir, env)
+      exec_cmd(repo_tag, "timeout #{TIMEOUT_DANGER} #{danger_bin} ci #{danger_params_js(dangerfile_path)}", dir, env)
     end
 
     private def exec_cmd(repo_tag : String, cmd : String, dir : String, env : Hash(String, String), hide_command : Bool = false)
