@@ -85,6 +85,7 @@ module HostedDanger
 
     def e_pull_request_review(event, payload_json, query_params) : Array(Executable)?
       return L.info "#{event} skip: sender is ap-danger" if payload_json["sender"]["login"] == "ap-danger"
+      return L.info "#{event} skip: sender is ap-approduce" if payload_json["sender"]["login"] == "ap-approduce"
       return L.info "#{event} skip: dismissed" if payload_json["action"] == "dismissed"
 
       action = payload_json["action"].as_s
