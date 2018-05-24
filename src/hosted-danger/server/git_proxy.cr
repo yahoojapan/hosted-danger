@@ -104,6 +104,22 @@ module HostedDanger
       context
     end
 
+    def proxy_put(context, params)
+      git_context = get_git_context(params)
+
+      headers = rewrite_headers(context, git_context)
+      resource = rewrite_resource(context, git_context)
+      payload = context.request.body.try &.gets_to_end
+
+      res = HTTP::Client.put("https://#{git_context[:git_host]}/api/v3/#{resource}", headers, payload)
+
+      write_headers(context, git_context, res)
+
+      context.response.status_code = res.status_code
+      context.response.print convert_body(res.body, git_context)
+      context
+    end
+
     def proxy_patch(context, params)
       git_context = get_git_context(params)
 

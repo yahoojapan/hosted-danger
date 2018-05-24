@@ -24,6 +24,7 @@ module HostedDanger
       # Internal Github Proxy
       get "/proxy/:symbol/*" { |context, params| @git_proxy.proxy_get(context, params) }
       post "/proxy/:symbol/*" { |context, params| @git_proxy.proxy_post(context, params) }
+      put "/proxy/:symbol/*" { |context, params| @git_proxy.proxy_put(context, params) }
       patch "/proxy/:symbol/*" { |context, params| @git_proxy.proxy_patch(context, params) }
       delete "/proxy/:symbol/*" { |context, params| @git_proxy.proxy_delete(context, params) }
 
