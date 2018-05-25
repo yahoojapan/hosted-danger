@@ -7,7 +7,7 @@ module HostedDanger
       SUCCESS = "success"
     end
 
-    class Exception < Exception
+    class GithubException < Exception
       property res : HTTP::Client::Response?
     end
 
@@ -145,7 +145,7 @@ module HostedDanger
         message += "method : #{method}\n"
         message += "```"
 
-        github_exception = Github::Exception.new(message)
+        github_exception = GithubException.new(message)
         github_exception.res = res
 
         raise github_exception

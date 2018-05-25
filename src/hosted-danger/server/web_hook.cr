@@ -12,12 +12,13 @@ module HostedDanger
       context.response.status_code = 200
       context.response.print "OK"
       context
-    rescue ge : Github::Exception
-      L.error ge, ge.res.inspect, false, false
-
-      bad_request(context)
     rescue e : Exception
-      L.error e, payload_json.to_json
+      case e
+      when Github::GithubException
+        L.error e, e.res.inspect, false, false
+      else
+        L.error e, payload_json.to_json
+      end
 
       bad_request(context)
     end
