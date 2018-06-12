@@ -26,7 +26,7 @@ jobs:
       - build: |
           shards build
       - test: |
-          crystal spec
+          crystal spec --junit_output=$SD_ARTIFACTS_DIR/reports/test
 
   build-image:
     template: docker/build@stable
@@ -46,7 +46,7 @@ jobs:
       - build: |
           shards build
       - test: |
-          crystal spec
+          crystal spec --junit_output=$SD_ARTIFACTS_DIR/reports/test
 
   publish-image:
     template: docker/publish@stable
