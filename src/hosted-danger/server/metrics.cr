@@ -12,7 +12,7 @@ module HostedDanger
 
     def print(context, params)
       metrics = Metrics.new
-                       .add("hosted-danger-pod-up", "gauge", "Health check of Hosted Danger's Pods", "1")
+                       .add("hosted_danger_pod_up", "gauge", "Health check of Hosted Danger's Pods", "1")
       # .add("hosted-danger-pod-time", "counter", "Up time for the pod", duration.to_s)
 
       context.response.headers["Content-Type"] = "text/plain"
