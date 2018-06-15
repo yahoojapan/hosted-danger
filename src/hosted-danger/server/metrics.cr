@@ -28,7 +28,7 @@ module HostedDanger
       end
 
       def add(name : String, type : String, desc : String, value : String) : Metrics
-        @contents << "#HELP #{name} #{desc}\n# TYPE #{name} #{type}\n#{name} #{value}"
+        @contents << "# HELP #{name} #{desc}\n# TYPE #{name} #{type}\n#{name} #{value}"
 
         self
       end
