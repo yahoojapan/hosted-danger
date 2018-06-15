@@ -11,7 +11,7 @@ module HostedDanger
       @web_hook = WebHook.new
       @git_proxy = GitProxy.new
       @sd_proxy = SDProxy.new
-      @metrics = Metrics.new
+      @metrics = MetricsPrinter.new
     end
 
     def draw_routes
