@@ -11,6 +11,7 @@ module HostedDanger
       @web_hook = WebHook.new
       @git_proxy = GitProxy.new
       @sd_proxy = SDProxy.new
+      @metrics = Metrics.new
     end
 
     def draw_routes
@@ -31,6 +32,9 @@ module HostedDanger
       # Internal Screwdriver.cd Proxy
       get "/sdproxy/auth" { |context, params| @sd_proxy.auth(context, params) }
       get "/sdproxy/auth/next" { |context, params| @sd_proxy.auth_next(context, params) }
+
+      # Metrics for Prometheus
+      get "/metrics" { |context, params| @metrics.print(context, params) }
     end
 
     def run
