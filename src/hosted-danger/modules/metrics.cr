@@ -55,7 +55,7 @@ module HostedDanger
     end
 
     private def duration
-      (Time.now - @launch_time).seconds
+      (Time.now - @launch_time).to_i
     end
 
     class MetricsContent

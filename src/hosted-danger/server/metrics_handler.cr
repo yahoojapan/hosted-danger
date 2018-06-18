@@ -21,11 +21,11 @@ module HostedDanger
       #
       # 90秒以上たったリクエストはいらないので捨てる
       #
-      @requests.reject! { |t| (time_now - t).seconds > 90 }
+      @requests.reject! { |t| (time_now - t).to_i > 90 }
       @requests << time_now
 
       SECS.each do |sec|
-        count = @requests.count { |t| (time_now - t).seconds <= sec }
+        count = @requests.count { |t| (time_now - t).to_i <= sec }
         Metrics.set("http_requests_#{sec}_sec", count)
         Metrics.set("http_requests_#{sec}_ratio", (count.to_f / sec.to_f).round(2))
       end
