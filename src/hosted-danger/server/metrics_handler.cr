@@ -26,6 +26,7 @@ module HostedDanger
       SECS.each do |sec|
         count = @requests.count { |t| (time_now - t).seconds <= sec }
         Metrics.set("http_requests_#{sec}_sec", count)
+        Metrics.set("http_requests_#{sec}_ratio", (count.to_f / sec.to_f).round(2))
       end
     end
 
