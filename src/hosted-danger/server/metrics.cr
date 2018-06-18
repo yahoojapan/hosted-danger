@@ -12,8 +12,8 @@ module HostedDanger
 
     def print(context, params)
       metrics = Metrics.new
-                       .add("hosted_danger_pod_up", "gauge", "Health check of Hosted Danger's Pods", "1")
-      # .add("hosted-danger-pod-time", "counter", "Up time for the pod", duration.to_s)
+                       .add("pod_up", "gauge", "Health check of Hosted Danger's Pods", "1")
+                       .add("pod_time", "counter", "Up time for the pod (seconds)", duration.to_s)
 
       context.response.headers["Content-Type"] = "text/plain"
       context.response.status_code = 200
@@ -28,9 +28,14 @@ module HostedDanger
       end
 
       def add(name : String, type : String, desc : String, value : String) : Metrics
-        @contents << "# HELP #{name} #{desc}\n# TYPE #{name} #{type}\n#{name} #{value}"
+        metrics_name = "#{prefix}_#{name}"
+        @contents << "# HELP #{metrics_name} #{desc}\n# TYPE #{metrics_name} #{type}\n#{metrics_name} #{value}"
 
         self
+      end
+
+      def prefix : String
+        "hosted_danger"
       end
 
       def to_s
