@@ -136,7 +136,7 @@ module HostedDanger
       # そこで、pendingのstatusを最後にsuccessにする必要がある
       if config_wrapper && config_wrapper.not_nil!.get_lang == "js" && git_host && org && repo && sha && access_token
         status = build_state_of(git_host.not_nil!, org.not_nil!, repo.not_nil!, sha.not_nil!, access_token.not_nil!)
-        status.each do |state|
+        status.as_a.each do |state|
           if state["creator"]["login"].as_s == "ap-danger" && state["state"].as_s == "pending"
             build_state(
               git_host.not_nil!, org.not_nil!, repo.not_nil!, sha.not_nil!,
@@ -224,7 +224,7 @@ module HostedDanger
     private def clean_comments(repo_tag : String, git_host : String, org : String, repo : String, pr_number : Int32, access_token : String)
       comments = issue_comments(git_host, org, repo, pr_number, access_token)
 
-      delete_comments = comments
+      delete_comments = comments.as_a
         .select { |comment| comment["user"]["login"].as_s == "ap-danger" }
         .select { |comment| comment["body"].as_s.includes?("generated_by_hosted-danger") }
 
