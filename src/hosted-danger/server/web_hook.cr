@@ -1,19 +1,23 @@
 module HostedDanger
   class WebHook
-    alias Requests = Hash(String, UInt32)
-
-    #
-    # For metrics for prometheus
-    #
-    getter requests : Requests
-
     def initialize
-      @requests = Requests.new
+      #
+      # Metrics を収集するEventを登録しておく
+      #
+      [
+        "pull_request",
+        "pull_request_review",
+        "pull_request_review_comment",
+        "issue_comment",
+        "issues",
+        "status",
+      ].each do |event|
+        Metrics.register("event_#{event}", "counter", "Number of requests for #{event} event")
+      end
     end
 
-    def new_request(metrics : String)
-      @requests[metrics] ||= 0_u32
-      @requests[metrics] += 1_u32
+    def new_request(event : String)
+      Metrics.increment("event_#{event}")
     end
 
     def hook(context, params)
