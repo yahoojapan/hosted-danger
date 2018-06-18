@@ -8,7 +8,7 @@ targets:
   hosted-danger:
     main: src/main.cr
 
-crystal: 0.24.1
+crystal: 0.25.0
 
 license: MIT
 
