@@ -39,8 +39,8 @@ module HostedDanger
       exec_cmd(repo_tag, "git config --local user.email hosted-danger-pj@ml.yahoo-corp.jp", dir, env)
       exec_cmd(repo_tag, "git config --local http.postBuffer 1048576000", dir, env)
       exec_cmd(repo_tag, "git remote add origin #{remote_from_html_url(html_url, access_token)}", dir, env, true)
-      exec_cmd(repo_tag, "timeout #{TIMEOUT_FETCH} git fetch origin #{base_branch} --depth 50", dir, env)
-      exec_cmd(repo_tag, "timeout #{TIMEOUT_FETCH} git fetch origin +refs/pull/#{pr_number}/head --depth 50", dir, env)
+      exec_cmd(repo_tag, "timeout #{TIMEOUT_FETCH} git fetch origin #{base_branch} --depth 50", dir, env, true)
+      exec_cmd(repo_tag, "timeout #{TIMEOUT_FETCH} git fetch origin +refs/pull/#{pr_number}/head --depth 50", dir, env, true)
       exec_cmd(repo_tag, "git reset --hard FETCH_HEAD", dir, env)
 
       config_wrapper = ConfigWrapper.new(dir)
@@ -159,7 +159,7 @@ module HostedDanger
       exec_cmd(repo_tag, "git config --local user.name ap-danger", dir, env)
       exec_cmd(repo_tag, "git config --local user.email hosted-danger-pj@ml.yahoo-corp.jp", dir, env)
       exec_cmd(repo_tag, "git remote add origin https://ap-danger:#{access_token}@#{git_host}/#{org}/#{repo}.git", dir, env, true)
-      exec_cmd(repo_tag, "git fetch --depth 1", dir, env)
+      exec_cmd(repo_tag, "git fetch --depth 1", dir, env, true)
       exec_cmd(repo_tag, "git reset --hard origin/master", dir, env)
       exec_cmd(repo_tag, "rm -rf .git* README.md", dir, env)
 
@@ -199,7 +199,7 @@ module HostedDanger
 
       unless res[:code] == 0
         _msg_command = "**COMMAND (#{res[:code]})**\n```\n#{hide_command ? "HIDDEN" : cmd}\n```"
-        _msg_stdout = "**STDOUT**#{res[:code] == 124 ? " (**Build Timeout**)" : ""}\n```\n#{res[:stdout]}\n```"
+        _msg_stdout = "**STDOUT**#{res[:code] == 124 ? " (**Build Timeout**)" : ""}\n```\n#{hide_command ? "HIDDEN" : res[:stdout]}\n```"
         _msg_stderr = "**STDERR**\n```\n#{hide_command ? "HIDDEN" : res[:stderr]}\n```"
         raise "#{repo_tag}\n\n#{_msg_command}\n\n#{_msg_stdout}\n\n#{_msg_stderr}"
       end
