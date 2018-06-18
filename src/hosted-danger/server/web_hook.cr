@@ -1,5 +1,21 @@
 module HostedDanger
   class WebHook
+    alias Requests = Hash(String, UInt32)
+
+    #
+    # For metrics for prometheus
+    #
+    getter requests : Requests
+
+    def initialize
+      @requests = Requests.new
+    end
+
+    def new_request(metrics : String)
+      @requests[metrics] ||= 0_u32
+      @requests[metrics] += 1_u32
+    end
+
     def hook(context, params)
       payload_json = create_payload_json(context)
 
@@ -65,6 +81,8 @@ module HostedDanger
       return L.info "#{event} skip: sender is ap-danger" if payload_json["sender"]["login"] == "ap-danger"
       return L.info "#{event} skip: closed" if payload_json["action"] == "closed"
 
+      new_request(event)
+
       action = payload_json["action"].as_s
       html_url = payload_json["repository"]["html_url"].as_s
       pr_number = payload_json["number"].as_i
@@ -89,6 +107,8 @@ module HostedDanger
       return L.info "#{event} skip: sender is ap-approduce" if payload_json["sender"]["login"] == "ap-approduce"
       return L.info "#{event} skip: dismissed" if payload_json["action"] == "dismissed"
 
+      new_request(event)
+
       action = payload_json["action"].as_s
       html_url = payload_json["repository"]["html_url"].as_s
       pr_number = payload_json["pull_request"]["number"].as_i
@@ -112,6 +132,8 @@ module HostedDanger
       return L.info "#{event} skip: sender is ap-danger" if payload_json["sender"]["login"] == "ap-danger"
       return L.info "#{event} skip: sender is ap-approduce" if payload_json["sender"]["login"] == "ap-approduce"
       return L.info "#{event} skip: deleted" if payload_json["action"] == "deleted"
+
+      new_request(event)
 
       action = payload_json["action"].as_s
       html_url = payload_json["repository"]["html_url"].as_s
@@ -138,6 +160,8 @@ module HostedDanger
       return L.info "#{event} skip: deleted" if payload_json["action"] == "deleted"
 
       if payload_json["issue"]["html_url"].as_s =~ /(.*)\/pull\/(.*)/
+        new_request(event)
+
         action = payload_json["action"].as_s
         html_url = $1.to_s
         pr_number = $2.to_i
@@ -171,6 +195,8 @@ module HostedDanger
       return L.info "#{event} skip: closed" if payload_json["action"] == "closed"
 
       if payload_json["issue"]["html_url"].as_s =~ /(.*)\/pull\/(.*)/
+        new_request(event)
+
         action = payload_json["action"].as_s
         html_url = $1.to_s
         pr_number = $2.to_i
@@ -197,6 +223,8 @@ module HostedDanger
 
     def e_status(event, payload_json, query_params) : Array(Executable)?
       return L.info "#{event} skip: sender is ap-danger" if payload_json["sender"]["login"] == "ap-danger"
+
+      new_request(event)
 
       action = payload_json["state"].as_s
       html_url = payload_json["repository"]["html_url"].as_s
