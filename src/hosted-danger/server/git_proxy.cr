@@ -35,7 +35,7 @@ module HostedDanger
           "http://localhost/proxy/#{git_context[:symbol]}",
         )
 
-        body_json["_links"]["issue"].as_h["href"] = _links_issue_href
+        body_json["_links"]["issue"].as_h["href"] = JSON::Any.new(_links_issue_href)
       end
 
       body_json.to_json

@@ -243,7 +243,7 @@ module HostedDanger
 
       executables = [] of Executable
 
-      pulls_json.each do |pull_json|
+      pulls_json.as_a.each do |pull_json|
         executables << {
           action:      action,
           event:       event,

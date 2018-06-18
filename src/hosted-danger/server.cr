@@ -38,12 +38,13 @@ module HostedDanger
     end
 
     def run
-      server = HTTP::Server.new("0.0.0.0", 80, [
+      server = HTTP::Server.new([
         MetricsHandler.new,
         LogHandler.new,
         HTTP::ErrorHandler.new,
         route_handler,
       ])
+      server.bind_tcp("0.0.0.0", 80)
       server.listen
     end
   end
