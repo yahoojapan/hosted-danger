@@ -11,7 +11,7 @@ module HostedDanger
 
       SECS.each do |sec|
         Metrics.register("http_requests_#{sec}_sec", "counter", "Number of http requests for #{sec} seconds")
-        Metrics.register("http_requests_#{sec}_ratioo", "gauge", "Ratio of http requests per seconds during #{sec} seconds")
+        Metrics.register("http_requests_#{sec}_ratio", "gauge", "Ratio of http requests per seconds during #{sec} seconds")
       end
     end
 
