@@ -59,7 +59,7 @@ module HostedDanger
     end
 
     class MetricsContent
-      alias Valueable = Int32 | UInt32 | Float64
+      alias Valueable = Int32 | Int64 | UInt32 | Float64
 
       property value : Valueable
 
