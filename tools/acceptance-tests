@@ -14,6 +14,9 @@ BRANCHES = [
   'js-yarn',
   'js-dangerfile',
   'org',
+  'fork',
+  'multi-import',
+  'paginate',
 ]
 
 TESTD = 'testd'
@@ -55,6 +58,8 @@ Dir.chdir(TESTD) do
       puts `git commit -m "[skip ci] \`date\`"`
       puts `git push origin HEAD:#{branch}`
     end
+
+    sleep 1
   end
 end
 
