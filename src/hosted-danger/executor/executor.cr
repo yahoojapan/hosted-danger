@@ -6,8 +6,6 @@ module HostedDanger
 
     getter config_wrapper : ConfigWrapper
 
-    @failed : Bool = false
-
     def initialize(@executable : Executable)
       @config_wrapper = ConfigWrapper.new(dir)
     end
@@ -111,13 +109,11 @@ module HostedDanger
 
       build_state(git_host, org, repo, sha, "Crashed during the execution. ERROR LOG ->", access_token, State::ERROR, paster_url)
 
-      @failed = true
-
       raise e
     ensure
       # jsではstatusがsuccessにならない問題がある(danger側の問題かこちら側の問題かは不明)
       # そこで、pendingのstatusを最後にsuccessにする必要がある
-      if config_wrapper.get_lang == "js" && !@failed
+      if config_wrapper.get_lang == "js"
         status = build_state_of(git_host, org, repo, sha, access_token)
         status.as_a.each do |state|
           if state["creator"]["login"].as_s == "ap-danger" && state["state"].as_s == "pending"
