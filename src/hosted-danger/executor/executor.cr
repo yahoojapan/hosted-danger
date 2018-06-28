@@ -34,14 +34,14 @@ module HostedDanger
 
       FileUtils.mkdir(dir)
 
-      exec_cmd(repo_tag, "git init", dir, env)
-      exec_cmd(repo_tag, "git config --local user.name ap-danger", dir, env)
-      exec_cmd(repo_tag, "git config --local user.email hosted-danger-pj@ml.yahoo-corp.jp", dir, env)
-      exec_cmd(repo_tag, "git config --local http.postBuffer 1048576000", dir, env)
-      exec_cmd(repo_tag, "git remote add origin #{remote_from_html_url(html_url, access_token)}", dir, env, true)
-      exec_cmd(repo_tag, "timeout #{TIMEOUT_FETCH} git fetch origin #{base_branch} --depth 50", dir, env, true)
-      exec_cmd(repo_tag, "timeout #{TIMEOUT_FETCH} git fetch origin +refs/pull/#{pr_number}/head --depth 50", dir, env, true)
-      exec_cmd(repo_tag, "git reset --hard FETCH_HEAD", dir, env)
+      exec_cmd(repo_tag, "git init", dir, access_token, env)
+      exec_cmd(repo_tag, "git config --local user.name ap-danger", dir, access_token, env)
+      exec_cmd(repo_tag, "git config --local user.email hosted-danger-pj@ml.yahoo-corp.jp", dir, access_token, env)
+      exec_cmd(repo_tag, "git config --local http.postBuffer 1048576000", dir, access_token, env)
+      exec_cmd(repo_tag, "git remote add origin #{remote_from_html_url(html_url, access_token)}", dir, access_token, env)
+      exec_cmd(repo_tag, "timeout #{TIMEOUT_FETCH} git fetch origin #{base_branch} --depth 50", dir, access_token, env)
+      exec_cmd(repo_tag, "timeout #{TIMEOUT_FETCH} git fetch origin +refs/pull/#{pr_number}/head --depth 50", dir, access_token, env)
+      exec_cmd(repo_tag, "git reset --hard FETCH_HEAD", dir, access_token, env)
 
       config_wrapper = ConfigWrapper.new(dir)
 
@@ -51,7 +51,7 @@ module HostedDanger
         if fetch_org_config?(org_dir, repo_tag, git_host, org, access_token, env)
           L.info "#{repo_tag} use org config."
 
-          if copy_config(repo_tag, org_dir, dir)
+          if copy_config(repo_tag, org_dir, dir, access_token)
             config_wrapper.set_dir(dir)
           end
         end
@@ -85,18 +85,18 @@ module HostedDanger
       #
       if config_wrapper.get_lang == "ruby" && config_wrapper.use_bundler?
         with_dragon_envs(env) do
-          exec_cmd(repo_tag, "bundle_cache install #{dragon_params(env)}", dir, env, true)
+          exec_cmd(repo_tag, "bundle_cache install #{dragon_params(env)}", dir, access_token, env)
         end
         env["BUNDLE_GEMFILE"] = config_wrapper.gemfile_path
       end
 
       if config_wrapper.use_yarn?
         with_dragon_envs(env) do
-          exec_cmd(repo_tag, "yarn_cache install #{dragon_params(env)}", dir, env, true)
+          exec_cmd(repo_tag, "yarn_cache install #{dragon_params(env)}", dir, access_token, env)
         end
       elsif config_wrapper.use_npm?
         with_dragon_envs(env) do
-          exec_cmd(repo_tag, "npm_cache install #{dragon_params(env)}", dir, env, true)
+          exec_cmd(repo_tag, "npm_cache install #{dragon_params(env)}", dir, access_token, env)
         end
       end
 
@@ -105,9 +105,9 @@ module HostedDanger
       #
       case config_wrapper.get_lang
       when "ruby"
-        exec_ruby(config_wrapper, repo_tag, dangerfile_path, dir, env)
+        exec_ruby(config_wrapper, repo_tag, dangerfile_path, dir, access_token, env)
       when "js"
-        exec_js(config_wrapper, repo_tag, dangerfile_path, dir, env)
+        exec_js(config_wrapper, repo_tag, dangerfile_path, dir, access_token, env)
       else
         raise "unknown lang: #{config_wrapper.get_lang}"
       end
@@ -155,21 +155,21 @@ module HostedDanger
     private def fetch_org_config?(dir, repo_tag, git_host : String, org : String, access_token : String, env : Hash(String, String)) : Bool
       repo = "danger"
 
-      exec_cmd(repo_tag, "git init", dir, env)
-      exec_cmd(repo_tag, "git config --local user.name ap-danger", dir, env)
-      exec_cmd(repo_tag, "git config --local user.email hosted-danger-pj@ml.yahoo-corp.jp", dir, env)
-      exec_cmd(repo_tag, "git remote add origin https://ap-danger:#{access_token}@#{git_host}/#{org}/#{repo}.git", dir, env, true)
-      exec_cmd(repo_tag, "git fetch --depth 1", dir, env, true)
-      exec_cmd(repo_tag, "git reset --hard origin/master", dir, env)
-      exec_cmd(repo_tag, "rm -rf .git* README.md", dir, env)
+      exec_cmd(repo_tag, "git init", dir, access_token, env)
+      exec_cmd(repo_tag, "git config --local user.name ap-danger", dir, access_token, env)
+      exec_cmd(repo_tag, "git config --local user.email hosted-danger-pj@ml.yahoo-corp.jp", dir, access_token, env)
+      exec_cmd(repo_tag, "git remote add origin https://ap-danger:#{access_token}@#{git_host}/#{org}/#{repo}.git", dir, access_token, env)
+      exec_cmd(repo_tag, "git fetch --depth 1", dir, access_token, env)
+      exec_cmd(repo_tag, "git reset --hard origin/master", dir, access_token, env)
+      exec_cmd(repo_tag, "rm -rf .git* README.md", dir, access_token, env)
 
       true
     rescue
       false
     end
 
-    private def exec_ruby(config_wrapper : ConfigWrapper, repo_tag : String, dangerfile_path : String, dir : String, env : Hash(String, String))
-      exec_cmd(repo_tag, "cp #{DANGERFILE_DEFAULT} #{dangerfile_path}", dir, env) unless File.exists?(dangerfile_path)
+    private def exec_ruby(config_wrapper : ConfigWrapper, repo_tag : String, dangerfile_path : String, dir : String, access_token : String, env : Hash(String, String))
+      exec_cmd(repo_tag, "cp #{DANGERFILE_DEFAULT} #{dangerfile_path}", dir, access_token, env) unless File.exists?(dangerfile_path)
 
       danger_bin = if config_wrapper.use_bundler?
                      "bundle exec danger"
@@ -177,30 +177,30 @@ module HostedDanger
                      "danger_ruby"
                    end
 
-      exec_cmd(repo_tag, "timeout #{TIMEOUT_DANGER} #{danger_bin} #{danger_params_ruby(dangerfile_path)}", dir, env)
+      exec_cmd(repo_tag, "timeout #{TIMEOUT_DANGER} #{danger_bin} #{danger_params_ruby(dangerfile_path)}", dir, access_token, env)
     end
 
-    private def exec_js(config_wrapper : ConfigWrapper, repo_tag, dangerfile_path : String, dir : String, env : Hash(String, String))
+    private def exec_js(config_wrapper : ConfigWrapper, repo_tag, dangerfile_path : String, dir : String, access_token : String, env : Hash(String, String))
       danger_bin = if config_wrapper.use_yarn? || config_wrapper.use_npm?
                      "#{config_wrapper.directory}/node_modules/.bin/danger"
                    else
                      "danger"
                    end
 
-      exec_cmd(repo_tag, "timeout #{TIMEOUT_DANGER} #{danger_bin} ci #{danger_params_js(dangerfile_path)}", dir, env)
+      exec_cmd(repo_tag, "timeout #{TIMEOUT_DANGER} #{danger_bin} ci #{danger_params_js(dangerfile_path)}", dir, access_token, env)
     end
 
-    private def exec_cmd(repo_tag : String, cmd : String, dir : String, env : Hash(String, String), hide_command : Bool = false)
-      L.info "#{repo_tag} #{hide_command ? "**HIDDEN**" : cmd}"
+    private def exec_cmd(repo_tag : String, cmd : String, dir : String, access_token : String, env : Hash(String, String))
+      L.info "#{repo_tag} #{hidden(cmd, access_token)}"
 
       res = exec_cmd_internal(cmd, dir, env)
 
-      L.info "#{repo_tag} ===> #{res[:stdout]}" if res[:stdout].size > 0
+      L.info "#{repo_tag} ===> #{hidden(res[:stdout], access_token)}" if res[:stdout].size > 0
 
       unless res[:code] == 0
-        _msg_command = "**COMMAND (#{res[:code]})**\n```\n#{hide_command ? "HIDDEN" : cmd}\n```"
-        _msg_stdout = "**STDOUT**#{res[:code] == 124 ? " (**Build Timeout**)" : ""}\n```\n#{hide_command ? "HIDDEN" : res[:stdout]}\n```"
-        _msg_stderr = "**STDERR**\n```\n#{hide_command ? "HIDDEN" : res[:stderr]}\n```"
+        _msg_command = "**COMMAND (#{res[:code]})**\n```\n#{hidden(cmd, access_token)}\n```"
+        _msg_stdout = "**STDOUT**#{res[:code] == 124 ? " (**Build Timeout**)" : ""}\n```\n#{hidden(res[:stdout], access_token)}\n```"
+        _msg_stderr = "**STDERR**\n```\n#{hidden(res[:stderr], access_token)}\n```"
         raise "#{repo_tag}\n\n#{_msg_command}\n\n#{_msg_stdout}\n\n#{_msg_stderr}"
       end
     end
@@ -236,11 +236,11 @@ module HostedDanger
       end
     end
 
-    private def copy_config(repo_tag : String, from_path : String, to_path : String) : Bool
+    private def copy_config(repo_tag : String, from_path : String, to_path : String, access_token) : Bool
       src_files = Dir.glob("#{from_path}/*").join(" ")
       return false if src_files.size == 0
 
-      exec_cmd(repo_tag, "cp -rf #{src_files} #{to_path}", from_path, {} of String => String)
+      exec_cmd(repo_tag, "cp -rf #{src_files} #{to_path}", from_path, access_token, {} of String => String)
       true
     end
 
@@ -280,6 +280,10 @@ module HostedDanger
 
     private def symbol(git_host : String) : String
       git_host.split(".")[0]
+    end
+
+    private def hidden(text : String, access_token : String) : String
+      text.gsub(access_token, "***")
     end
 
     include Github
