@@ -191,16 +191,16 @@ module HostedDanger
     end
 
     private def exec_cmd(repo_tag : String, cmd : String, dir : String, access_token : String, env : Hash(String, String))
-      L.info "#{repo_tag} #{hidden(cmd, access_token)}"
+      L.info "#{repo_tag} #{hidden(cmd, access_token, env)}"
 
       res = exec_cmd_internal(cmd, dir, env)
 
-      L.info "#{repo_tag} ===> #{hidden(res[:stdout], access_token)}" if res[:stdout].size > 0
+      L.info "#{repo_tag} ===> #{hidden(res[:stdout], access_token, env)}" if res[:stdout].size > 0
 
       unless res[:code] == 0
-        _msg_command = "**COMMAND (#{res[:code]})**\n```\n#{hidden(cmd, access_token)}\n```"
-        _msg_stdout = "**STDOUT**#{res[:code] == 124 ? " (**Build Timeout**)" : ""}\n```\n#{hidden(res[:stdout], access_token)}\n```"
-        _msg_stderr = "**STDERR**\n```\n#{hidden(res[:stderr], access_token)}\n```"
+        _msg_command = "**COMMAND (#{res[:code]})**\n```\n#{hidden(cmd, access_token, env)}\n```"
+        _msg_stdout = "**STDOUT**#{res[:code] == 124 ? " (**Build Timeout**)" : ""}\n```\n#{hidden(res[:stdout], access_token, env)}\n```"
+        _msg_stderr = "**STDERR**\n```\n#{hidden(res[:stderr], access_token, env)}\n```"
         raise "#{repo_tag}\n\n#{_msg_command}\n\n#{_msg_stdout}\n\n#{_msg_stderr}"
       end
     end
@@ -282,8 +282,18 @@ module HostedDanger
       git_host.split(".")[0]
     end
 
-    private def hidden(text : String, access_token : String) : String
-      text.gsub(access_token, "***")
+    private def hidden(text : String, access_token : String, env : Hash(String, String)) : String
+      result = text.gsub(access_token, "***")
+
+      if dragon_access_key = env["DRAGON_ACCESS_KEY"]?
+        result = result.gsub(dragon_access_key, "***")
+      end
+
+      if dragon_secret_access_key = env["DRAGON_SECRET_ACCESS_KEY"]?
+        result = result.gsub(dragon_secret_access_key, "***")
+      end
+
+      result
     end
 
     include Github
