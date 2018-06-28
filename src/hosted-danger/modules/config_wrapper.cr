@@ -4,10 +4,9 @@ module HostedDanger
     @config : Config?
 
     def initialize(@directory : String)
-      set_dir(@directory)
     end
 
-    def set_dir(@directory : String)
+    def load
       @config = Config.create_from("#{@directory}/danger.yaml")
     end
 

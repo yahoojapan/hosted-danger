@@ -26,7 +26,10 @@ module HostedDanger
       executables? = create_executable(context, payload_json)
 
       if executables = executables?
-        executables.each { |executable| exec_danger(executable) }
+        executables.each do |executable|
+          executor = Executor.new(executable)
+          executor.exec_danger
+        end
       end
 
       context.response.status_code = 200
@@ -259,6 +262,7 @@ module HostedDanger
       executables
     end
 
-    include Executor
+    include Github
+    include Parser
   end
 end
