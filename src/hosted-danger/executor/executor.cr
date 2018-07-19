@@ -22,7 +22,7 @@ module HostedDanger
       env["ghprbGhRepository"] = "#{org}/#{repo}"
 
       commits = compare(git_host, org, repo, access_token, base_label, head_label)
-      total_commits = commits["ahead_by"].as_i + commits["behind_by"].as_i
+      total_commits = commits["ahead_by"].as_i + commits["behind_by"].as_i + 1
 
       FileUtils.mkdir(dir)
 
