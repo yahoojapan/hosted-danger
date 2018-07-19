@@ -33,6 +33,7 @@ module HostedDanger
       exec_cmd("git config --local http.postBuffer 1048576000", dir)
       exec_cmd("git remote add origin #{remote_from_html_url(html_url, access_token)}", dir)
       exec_cmd("timeout #{TIMEOUT_FETCH} git fetch origin #{base_branch} --depth #{behind_by}", dir) if behind_by > 0
+      exec_cmd("git rev-list --max-parents=0 HEAD", dir) if behind_by > 0
       exec_cmd("git rev-parse --verify FETCH_HEAD", dir) if behind_by > 0
       exec_cmd("timeout #{TIMEOUT_FETCH} git fetch origin +refs/pull/#{pr_number}/head --depth #{ahead_by}", dir) if ahead_by > 0
       exec_cmd("git rev-parse --verify FETCH_HEAD", dir) if ahead_by > 0
