@@ -21,6 +21,10 @@ module HostedDanger
       env["ghprbPullId"] = "#{pr_number}"
       env["ghprbGhRepository"] = "#{org}/#{repo}"
 
+      commits = compare(git_host, org, repo, access_token, base_label, head_label)
+      ahead_by = commits["ahead_by"].as_i
+      behind_by = commits["behind_by"].as_i
+
       FileUtils.mkdir(dir)
 
       exec_cmd("git init", dir)
@@ -28,8 +32,8 @@ module HostedDanger
       exec_cmd("git config --local user.email hosted-danger-pj@ml.yahoo-corp.jp", dir)
       exec_cmd("git config --local http.postBuffer 1048576000", dir)
       exec_cmd("git remote add origin #{remote_from_html_url(html_url, access_token)}", dir)
-      exec_cmd("timeout #{TIMEOUT_FETCH} git fetch origin #{base_branch} --depth 50", dir)
-      exec_cmd("timeout #{TIMEOUT_FETCH} git fetch origin +refs/pull/#{pr_number}/head --depth 50", dir)
+      exec_cmd("timeout #{TIMEOUT_FETCH} git fetch origin #{base_branch} --depth #{behind_by + 1}", dir)
+      exec_cmd("timeout #{TIMEOUT_FETCH} git fetch origin +refs/pull/#{pr_number}/head --depth #{ahead_by + 1}", dir)
       exec_cmd("git reset --hard FETCH_HEAD", dir)
 
       config_wrapper.load
@@ -276,8 +280,16 @@ module HostedDanger
       @executable[:sha]
     end
 
+    def head_label
+      @executable[:head_label]
+    end
+
+    def base_label
+      @executable[:base_label]
+    end
+
     def base_branch
-      @executable[:base_branch]
+      @executable[:base_label].includes?(":") ? @executable[:base_label].split(":", 2)[1] : @executable[:base_label]
     end
 
     def raw_payload
