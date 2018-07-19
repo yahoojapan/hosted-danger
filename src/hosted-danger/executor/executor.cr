@@ -24,11 +24,6 @@ module HostedDanger
       commits = compare(git_host, org, repo, access_token, base_label, head_label)
       total_commits = commits["total_commits"].as_i
 
-      puts "-----------------------------------------------------------------------"
-      puts commits
-      puts "total commits: #{total_commits}"
-      puts "-----------------------------------------------------------------------"
-
       FileUtils.mkdir(dir)
 
       exec_cmd("git init", dir)

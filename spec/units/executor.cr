@@ -5,7 +5,8 @@ def mock_executable : HostedDanger::Executable
     html_url:    "https://ghe.corp.yahoo.co.jp/hosted-danger/hosted-danger",
     pr_number:   1,
     sha:         "abcdefghijklmnop",
-    base_branch: "master",
+    head_label:  "myorg:fugauga",
+    base_label:  "myorg:hogehoge",
     raw_payload: "raw_payload",
     env:         {} of String => String,
   }
