@@ -127,7 +127,7 @@ module HostedDanger
       JSON.parse(res.body)
     end
 
-    def compare(git_host : String, org : String, repo : String, access_token : String, head_label : String, base_label : String) : JSON::Any
+    def compare(git_host : String, org : String, repo : String, access_token : String, base_label : String, head_label : String) : JSON::Any
       url = "https://#{git_host}/api/v3/repos/#{org}/#{repo}/compare/#{base_label}...#{head_label}"
 
       headers = HTTP::Headers.new
