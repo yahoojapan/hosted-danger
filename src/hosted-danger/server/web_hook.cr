@@ -94,7 +94,8 @@ module HostedDanger
       html_url = payload_json["repository"]["html_url"].as_s
       pr_number = payload_json["number"].as_i
       sha = payload_json["pull_request"]["head"]["sha"].as_s
-      base_branch = payload_json["pull_request"]["base"]["ref"].as_s
+      head_label = payload_json["pull_request"]["head"]["label"].as_s
+      base_label = payload_json["pull_request"]["base"]["label"].as_s
       env = query_params.to_h
 
       [{
@@ -103,7 +104,8 @@ module HostedDanger
         html_url:    html_url,
         pr_number:   pr_number,
         sha:         sha,
-        base_branch: base_branch,
+        head_label:  head_label,
+        base_label:  base_label,
         raw_payload: payload_json.to_json,
         env:         env,
       }]
@@ -120,7 +122,8 @@ module HostedDanger
       html_url = payload_json["repository"]["html_url"].as_s
       pr_number = payload_json["pull_request"]["number"].as_i
       sha = payload_json["pull_request"]["head"]["sha"].as_s
-      base_branch = payload_json["pull_request"]["base"]["ref"].as_s
+      head_label = payload_json["pull_request"]["head"]["label"].as_s
+      base_label = payload_json["pull_request"]["base"]["label"].as_s
       env = query_params.to_h
 
       [{
@@ -129,7 +132,8 @@ module HostedDanger
         html_url:    html_url,
         pr_number:   pr_number,
         sha:         sha,
-        base_branch: base_branch,
+        head_label:  head_label,
+        base_label:  base_label,
         raw_payload: payload_json.to_json,
         env:         env,
       }]
@@ -146,7 +150,8 @@ module HostedDanger
       html_url = payload_json["repository"]["html_url"].as_s
       pr_number = payload_json["pull_request"]["number"].as_i
       sha = payload_json["pull_request"]["head"]["sha"].as_s
-      base_branch = payload_json["pull_request"]["base"]["ref"].as_s
+      head_label = payload_json["pull_request"]["head"]["label"].as_s
+      base_label = payload_json["pull_request"]["base"]["label"].as_s
       env = query_params.to_h
 
       [{
@@ -155,7 +160,8 @@ module HostedDanger
         html_url:    html_url,
         pr_number:   pr_number,
         sha:         sha,
-        base_branch: base_branch,
+        head_label:  head_label,
+        base_label:  base_label,
         raw_payload: payload_json.to_json,
         env:         env,
       }]
@@ -188,7 +194,8 @@ module HostedDanger
           html_url:    html_url,
           pr_number:   pr_number,
           sha:         pull_json["head"]["sha"].as_s,
-          base_branch: pull_json["base"]["ref"].as_s,
+          head_label:  pull_json["head"]["label"].as_s,
+          base_label:  pull_json["base"]["label"].as_s,
           raw_payload: payload_json.to_json,
           env:         env,
         }]
@@ -221,7 +228,8 @@ module HostedDanger
           html_url:    html_url,
           pr_number:   pr_number,
           sha:         pull_json["head"]["sha"].as_s,
-          base_branch: pull_json["base"]["ref"].as_s,
+          head_label:  pull_json["head"]["label"].as_s,
+          base_label:  pull_json["base"]["label"].as_s,
           raw_payload: payload_json.to_json,
           env:         env,
         }]
@@ -253,7 +261,8 @@ module HostedDanger
           html_url:    html_url,
           pr_number:   pull_json["number"].as_i,
           sha:         sha,
-          base_branch: pull_json["base"]["ref"].as_s,
+          head_label:  pull_json["head"]["label"].as_s,
+          base_label:  pull_json["base"]["label"].as_s,
           raw_payload: payload_json.to_json,
           env:         env,
         } if pull_json["head"]["sha"].as_s == sha
