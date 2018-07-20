@@ -1,3 +1,5 @@
+require "uri"
+
 module HostedDanger
   module Github
     module State
@@ -128,7 +130,7 @@ module HostedDanger
     end
 
     def compare(git_host : String, org : String, repo : String, access_token : String, base_label : String, head_label : String) : JSON::Any
-      url = "https://#{git_host}/api/v3/repos/#{org}/#{repo}/compare/#{base_label}...#{head_label}"
+      url = "https://#{git_host}/api/v3/repos/#{org}/#{repo}/compare/#{URI.escape(base_label)}...#{URI.escape(head_label)}"
 
       headers = HTTP::Headers.new
       headers["Authorization"] = "token #{access_token}"
