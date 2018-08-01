@@ -55,10 +55,17 @@ module HostedDanger
       end
 
       #
-      # Pull Requestがcloseしている場合は実行しない
-      # ただし、eventがpull_requestの時は拾う
+      # 以下の場合は実行しない
       #
-      if !pull_request_open?(git_host, org, repo, pr_number, access_token) && event != "pull_request"
+      # - Pull Requestがcloseしている
+      #   - event が pull_request ではない
+      #   - event は pull_request だが、danger.yamlで`exec_close: true`ではない
+      #
+      if !pull_request_open?(git_host, org, repo, pr_number, access_token) &&
+         (
+           (event != "pull_request") ||
+           (event == "pull_request" && !config_wrapper.exec_close?)
+         )
         return L.info "#{repo_tag} the pull request has been closed."
       end
 

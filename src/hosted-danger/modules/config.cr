@@ -20,6 +20,7 @@ module HostedDanger
       bundler: Bool?,
       npm: Bool?,
       yarn: Bool?,
+      exec_close: Bool?,
     )
   end
 end
