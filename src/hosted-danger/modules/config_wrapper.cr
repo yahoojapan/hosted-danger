@@ -128,5 +128,13 @@ module HostedDanger
 
       false
     end
+
+    def exec_close? : Bool
+      if config = @config
+        return config.exec_close.not_nil! if config.exec_close
+      end
+
+      false
+    end
   end
 end

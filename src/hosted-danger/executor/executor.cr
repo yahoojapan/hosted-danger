@@ -54,7 +54,15 @@ module HostedDanger
         return L.info "#{repo_tag} configuration doesn't include #{event} (#{config_wrapper.events})"
       end
 
-      unless pull_request_open?(git_host, org, repo, pr_number, access_token)
+      #
+      # 以下の場合は実行しない
+      #
+      # - Pull Requestがcloseしている
+      #   - event が pull_request ではない
+      #   - danger.yamlで`exec_close: true`ではない
+      #
+      unless pull_request_open?(git_host, org, repo, pr_number, access_token) ||
+             (event == "pull_request" && config_wrapper.exec_close?)
         return L.info "#{repo_tag} the pull request has been closed."
       end
 
