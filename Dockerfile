@@ -25,6 +25,8 @@ COPY Gemfile.lock /tmp/gem
 RUN cd /tmp/gem && /bin/bash -l -c "bundle install --system"
 RUN mv /usr/local/bin/danger /usr/local/bin/danger_ruby
 RUN ls -la /usr/local/bin
+# todo: fix branch
+RUN gem specific_install https://ghe.corp.yahoo.co.jp/hosted-danger/no_fetch_danger.git no-fetch
 
 # js
 RUN apt-get install -y nodejs npm
