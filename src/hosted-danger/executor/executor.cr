@@ -103,6 +103,7 @@ module HostedDanger
       L.info `ls -la #{dir}`
       L.info "----- org_dir"
       L.info `ls -la #{org_dir}`
+      L.info "user_bundler?: #{config_wrapper.use_bundler?}"
 
       build_state(
         git_host,
@@ -118,7 +119,7 @@ module HostedDanger
       # Phase: パッケージ管理ツール
       # 注) npmとgemを両方使いたい、という場合がある
       #
-      if config_wrapper.get_lang == "ruby" && config_wrapper.use_bundler?
+      if config_wrapper.use_bundler?
         with_dragon_envs do
           exec_cmd("bundle_cache install #{dragon_params}", dir)
         end
@@ -173,22 +174,6 @@ module HostedDanger
       FileUtils.rm_rf(org_dir)
       FileUtils.rm_rf(dir)
     end
-
-    # def fetch_org_config? : Bool
-    #   repo = "danger"
-    #
-    #   exec_cmd("git init", org_dir)
-    #   exec_cmd("git config --local user.name ap-danger", org_dir)
-    #   exec_cmd("git config --local user.email hosted-danger-pj@ml.yahoo-corp.jp", org_dir)
-    #   exec_cmd("git remote add origin https://ap-danger:#{access_token}@#{git_host}/#{org}/#{repo}.git", org_dir)
-    #   exec_cmd("git fetch --depth 1", org_dir)
-    #   exec_cmd("git reset --hard origin/master", org_dir)
-    #   exec_cmd("rm -rf .git* README.md", org_dir)
-    #
-    #   true
-    # rescue
-    #   false
-    # end
 
     def exec_ruby
       exec_cmd("cp #{DANGERFILE_DEFAULT} #{dangerfile_path}", dir) unless File.exists?(dangerfile_path)

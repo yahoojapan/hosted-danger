@@ -97,6 +97,7 @@ module HostedDanger
       gemfile_exists? = File.exists?("#{@directory}/Gemfile")
       return false unless gemfile_exists?
       return true if File.read("#{@directory}/Gemfile") =~ /(gem\s*?'danger')/
+      return true if File.read("#{@directory}/Gemfile") =~ /(gem\s*?'no-fetch-danger')/
 
       false
     end
