@@ -1,6 +1,6 @@
 module HostedDanger
   class Config
-    def self.create_from(path) : Config?
+    def self.create_from(path : String) : Config?
       return nil unless File.exists?(path)
       return nil unless yaml_file = File.read(path)
       return nil if yaml_file.empty?
@@ -9,6 +9,10 @@ module HostedDanger
     rescue e : Exception
       L.error e.message.not_nil!
       return nil
+    end
+
+    def self.create(yaml : String) : Config
+      Config.from_yaml(yaml)
     end
 
     alias Events = Array(String)
@@ -21,6 +25,7 @@ module HostedDanger
       npm: Bool?,
       yarn: Bool?,
       exec_close: Bool?,
+      no_fetch: Bool?,
     )
   end
 end

@@ -136,5 +136,13 @@ module HostedDanger
 
       false
     end
+
+    def no_fetch? : Bool
+      if config = @config
+        return config.no_fetch.not_nil! if config.no_fetch
+      end
+
+      false
+    end
   end
 end

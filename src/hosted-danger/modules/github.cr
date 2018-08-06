@@ -135,7 +135,8 @@ module HostedDanger
       repo : String,
       sha : String,
       file : String,
-      access_token : String
+      access_token : String,
+      dir : String
     ) : String?
       url = "https://raw.#{git_host}/#{org}/#{repo}/#{sha}/#{file}"
 
@@ -146,7 +147,11 @@ module HostedDanger
 
       return nil if res.status_code == 404
 
-      res.body.to_s
+      file_content = res.body.to_s
+
+      File.write("#{dir}/#{file}", file_content)
+
+      file_content
     end
 
     def compare(git_host : String, org : String, repo : String, access_token : String, base_label : String, head_label : String) : JSON::Any
