@@ -171,8 +171,9 @@ module HostedDanger
         end
       end
 
-      FileUtils.rm_rf(org_dir)
-      FileUtils.rm_rf(dir)
+      # todo: for debugging
+      # FileUtils.rm_rf(org_dir)
+      # FileUtils.rm_rf(dir)
     end
 
     def exec_ruby
