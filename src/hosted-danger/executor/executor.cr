@@ -421,13 +421,15 @@ module HostedDanger
 
     def fetch_files_repo
       fetched_files.each do |file|
-        fetch_file_repo(file)
+        # todo: just debugging
+        L.info "fetch repo #{file} => #{fetch_file_repo(file) ? "exists" : "not exists"}"
       end
     end
 
     def fetch_files_org
       fetched_files.each do |file|
-        fetch_file_org(file)
+        # todo: just debugging
+        L.info "fetch org #{file} => #{fetch_file_org(file) ? "exists" : "not exists"}"
       end
     end
 
