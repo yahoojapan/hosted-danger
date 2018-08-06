@@ -1,9 +1,9 @@
 GIT
-  remote: https://ghe.corp.yahoo.co.jp/hosted-danger/no-fetch-danger
-  revision: 5ef81a4783dfb6126c86d94a2668c68f2e572678
+  remote: https://ghe.corp.yahoo.co.jp/hosted-danger/no_fetch_danger
+  revision: cee405af8377ebc7905706066ddafb37ec0ef0d9
   branch: no-fetch
   specs:
-    no-fetch-danger (5.6.4)
+    no_fetch_danger (5.6.4)
       claide (~> 1.0)
       claide-plugins (>= 0.9.2)
       colored2 (~> 3.1)
@@ -735,7 +735,7 @@ DEPENDENCIES
   danger-rubocop
   danger-textlint
   danger-todoist
-  no-fetch-danger!
+  no_fetch_danger!
   npm_cache
   rubocop
   yarn_cache

@@ -181,13 +181,13 @@ module HostedDanger
 
       danger_bin = if config_wrapper.use_bundler?
                      if config_wrapper.no_fetch?
-                       "bundle exec no-fetch-danger"
+                       "bundle exec no_fetch_danger"
                      else
                        "bundle exec danger"
                      end
                    else
                      if config_wrapper.no_fetch?
-                       "no-fetch-danger"
+                       "no_fetch_danger"
                      else
                        "danger_ruby"
                      end

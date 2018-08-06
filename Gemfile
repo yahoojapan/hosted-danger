@@ -16,6 +16,6 @@ gem 'danger-checkstyle_format'
 gem 'danger-junit'
 gem 'danger-android_lint'
 gem 'danger-jacoco'
-gem 'no-fetch-danger',
-    :git => 'https://ghe.corp.yahoo.co.jp/hosted-danger/no-fetch-danger',
+gem 'no_fetch_danger',
+    :git => 'https://ghe.corp.yahoo.co.jp/hosted-danger/no_fetch_danger',
     :branch => 'no-fetch'
