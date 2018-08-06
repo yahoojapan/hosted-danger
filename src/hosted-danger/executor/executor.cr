@@ -98,6 +98,12 @@ module HostedDanger
 
       L.info "#{repo_tag} execute: #{event} #{html_url} #{pr_number}"
 
+      # todo: just debugging
+      L.info "----- dir"
+      L.info `ls -la #{dir}`
+      L.info "----- org_dir"
+      L.info `ls -la #{org_dir}`
+
       build_state(
         git_host,
         org,
