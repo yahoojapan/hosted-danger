@@ -129,6 +129,26 @@ module HostedDanger
       JSON.parse(res.body)
     end
 
+    def fetch_file(
+      git_host : String,
+      org : String,
+      repo : String,
+      sha : String,
+      file : String,
+      access_token : String
+    ) : String?
+      url = "https://#{git_host}/#{org}/#{repo}/blob/#{sha}/#{file}"
+
+      headers = HTTP::Headers.new
+      headers["Authorization"] = "token #{access_token}"
+
+      res = HTTP::Client.get(url, headers)
+
+      return nil if res.status_code == 404
+
+      res.body.to_s
+    end
+
     def compare(git_host : String, org : String, repo : String, access_token : String, base_label : String, head_label : String) : JSON::Any
       url = "https://#{git_host}/api/v3/repos/#{org}/#{repo}/compare/#{URI.escape(base_label)}...#{URI.escape(head_label)}"
 

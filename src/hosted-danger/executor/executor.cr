@@ -27,6 +27,15 @@ module HostedDanger
 
       FileUtils.mkdir(dir)
 
+      #
+      # 1. repo の設定ファイルを先読みする
+      # 2. org  の設定ファイルを先読みする
+      #
+      if config_file = fetch_file("danger.yaml")
+        puts "--------------------------------------------------"
+        puts config_file
+      end
+
       exec_cmd("git init", dir)
       exec_cmd("git config --local user.name ap-danger", dir)
       exec_cmd("git config --local user.email hosted-danger-pj@ml.yahoo-corp.jp", dir)
@@ -354,6 +363,10 @@ module HostedDanger
       end
 
       result
+    end
+
+    def fetch_file(file : String) : String?
+      fetch_file(git_host, org, repo, sha, file, access_token)
     end
 
     include Github
