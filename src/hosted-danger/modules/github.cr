@@ -137,7 +137,7 @@ module HostedDanger
       file : String,
       access_token : String
     ) : String?
-      url = "https://#{git_host}/#{org}/#{repo}/#{sha}/#{file}"
+      url = "https://raw.#{git_host}/#{org}/#{repo}/#{sha}/#{file}"
 
       headers = HTTP::Headers.new
       headers["Authorization"] = "token #{access_token}"
