@@ -140,6 +140,9 @@ module HostedDanger
     ) : String?
       url = "https://raw.#{git_host}/#{org}/#{repo}/#{sha}/#{file}"
 
+      # todo: debugging
+      puts "fetching file on #{org}/#{repo}/#{file}"
+
       headers = HTTP::Headers.new
       headers["Authorization"] = "token #{access_token}"
 
