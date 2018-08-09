@@ -26,7 +26,7 @@ RUN cd /tmp/gem && /bin/bash -l -c "bundle install --system"
 RUN mv /usr/local/bin/danger /usr/local/bin/danger_ruby
 RUN ls -la /usr/local/bin
 # todo: fix branch
-RUN echo "hoge"
+RUN echo "hogehoge"
 RUN gem specific_install https://ghe.corp.yahoo.co.jp/hosted-danger/no_fetch_danger.git no-fetch
 
 # js
