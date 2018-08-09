@@ -25,9 +25,11 @@ COPY Gemfile.lock /tmp/gem
 RUN cd /tmp/gem && /bin/bash -l -c "bundle install --system"
 RUN mv /usr/local/bin/danger /usr/local/bin/danger_ruby
 RUN ls -la /usr/local/bin
-# todo: fix branch
-RUN echo "hogehoge"
-RUN gem specific_install https://ghe.corp.yahoo.co.jp/hosted-danger/no_fetch_danger.git no-fetch
+#
+# no_fetch_danger を修正した場合は、こちらのコミットハッシュを修正
+#
+RUN gem specific_install https://ghe.corp.yahoo.co.jp/hosted-danger/no_fetch_danger.git \
+  -r 40880365e9127dc69c650ddb0bf5ef72c2ff30f8
 
 # js
 RUN apt-get install -y nodejs npm
