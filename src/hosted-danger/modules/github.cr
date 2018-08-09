@@ -138,10 +138,13 @@ module HostedDanger
       access_token : String,
       dir : String
     ) : String?
+      #
+      # TODO !!!
+      # partner は raw のURLが違うかもしれない！
+      #
       url = "https://raw.#{git_host}/#{org}/#{repo}/#{sha}/#{file}"
 
-      # todo: debugging
-      puts "fetching file on #{org}/#{repo}/#{file}"
+      L.info "fetching file on #{org}/#{repo}/#{file}"
 
       headers = HTTP::Headers.new
       headers["Authorization"] = "token #{access_token}"

@@ -109,13 +109,6 @@ module HostedDanger
 
       L.info "#{repo_tag} execute: #{event} #{html_url} #{pr_number}"
 
-      # todo: just debugging
-      L.info "----- dir"
-      L.info `ls -la #{dir}`
-      L.info "----- org_dir"
-      L.info `ls -la #{org_dir}`
-      L.info "user_bundler?: #{config_wrapper.use_bundler?}"
-
       build_state(
         git_host,
         org,
@@ -182,9 +175,8 @@ module HostedDanger
         end
       end
 
-      # todo: for debugging
-      # FileUtils.rm_rf(org_dir)
-      # FileUtils.rm_rf(dir)
+      FileUtils.rm_rf(org_dir)
+      FileUtils.rm_rf(dir)
     end
 
     def exec_ruby
