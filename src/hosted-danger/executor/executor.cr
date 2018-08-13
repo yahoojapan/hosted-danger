@@ -8,10 +8,20 @@ module HostedDanger
 
     @ahead_by : Int32 = 1
     @behind_by : Int32 = 1
+
     #
-    # `no_fetch.enable: true` の際に、repoを利用するかorgを利用するかを判断するフラグ
+    # 設定を先読みする都合上、pre fetchするファイルリスト
     #
-    @no_fetch_repo : Bool = true
+    # Dangerfile.hosted (.rb) も fetch してるのは、以下のケースに対応するため
+    # - repoでdanger.yamlを定義していないが、Dangerfile.hosted.rbは存在する
+    # - orgでdanger.yamlを定義している
+    #
+    PRE_FETCH_FILES =
+      [
+        "Dangerfile.hosted.rb",
+        "Dangerfile.hosted",
+        "danger.yaml",
+      ]
 
     def initialize(@executable : Executable)
       @config_wrapper = ConfigWrapper.new(dir)
@@ -35,24 +45,26 @@ module HostedDanger
 
       #
       # -------------------------------------------
-      # 1. danger.yaml だけ fetchしてくる
+      # 1. danger.yaml と Dangerfile.hosted (.rb) だけ fetchしてくる
       # 2. 実行する Event か確認する
       # 3. no_fetch の設定を確認し、処理を分岐させる
       # --------------------------------------------
       #
-      # 1. danger.yaml だけ fetchしてくる
+      # 1. danger.yaml と Dangerfile.hosted (.rb) だけ fetchしてくる
       #
-      fetch_danger_yaml
+      fetch_dangerfiles_repo
 
       #
-      # org/repo に danger.yaml が存在するか
+      # repo の設定を読み込む
       #
       config_wrapper.load
 
       #
-      # ない場合は、org/danger の danger.yaml をコピー
+      # 設定がない場合は、org/danger の danger.yaml/Dangerfile.hosted (.rb) をコピー
       #
       unless config_wrapper.config_exists?
+        fetch_dangerfiles_org
+
         if copy_config
           config_wrapper.load
           #
@@ -82,12 +94,6 @@ module HostedDanger
              (event == "pull_request" && config_wrapper.exec_close?)
         return L.info "#{repo_tag} the pull request has been closed."
       end
-
-      #
-      # 一度 danger.yaml は削除しリセットする
-      #
-      clean_fetched_files(dir)
-      clean_fetched_files(org_dir)
 
       #
       # 3. no_fetch の設定を確認し、処理を分岐させる
@@ -415,24 +421,33 @@ module HostedDanger
 
     def fetch_files_repo
       config_wrapper.no_fetch_files.each do |file|
+        #
+        # Pre fetch したファイルは fetch しない
+        #
+        next if PRE_FETCH_FILES.includes?(file)
         fetch_file_repo(file)
       end
     end
 
     def fetch_files_org
       config_wrapper.no_fetch_files.each do |file|
+        #
+        # Pre fetch したファイルは fetch しない
+        #
+        next if PRE_FETCH_FILES.includes?(file)
         fetch_file_org(file)
       end
     end
 
-    def fetch_danger_yaml
-      fetch_file_repo("danger.yaml")
-      fetch_file_org("danger.yaml")
+    def fetch_dangerfiles_repo
+      PRE_FETCH_FILES.each do |file|
+        fetch_file_repo(file)
+      end
     end
 
-    def clean_fetched_files(dir : String)
-      config_wrapper.no_fetch_files.each do |file|
-        File.delete(file) if File.exists?(file)
+    def fetch_dangerfiles_org
+      PRE_FETCH_FILES.each do |file|
+        fetch_file_org(file)
       end
     end
 
