@@ -263,6 +263,8 @@ module HostedDanger
     end
 
     def copy_config : Bool
+      puts `ls -la #{org_dir}`
+      puts Dir.glob("#{org_dir}/*")
       src_files = Dir.glob("#{org_dir}/*").join(" ")
       return false if src_files.size == 0
       exec_cmd("cp -rf #{src_files} #{dir}", org_dir)
