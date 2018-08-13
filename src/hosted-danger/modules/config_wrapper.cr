@@ -138,12 +138,34 @@ module HostedDanger
       false
     end
 
-    def no_fetch? : Bool
-      if config = @config
-        return config.no_fetch.not_nil! if config.no_fetch
-      end
+    def no_fetch_enable? : Bool
+      return false unless config = @config
+      return false unless no_fetch = config.no_fetch
+      return false unless enable = no_fetch[:enable]
 
-      false
+      enable
+    end
+
+    DEFAULT_FETCH_FILES =
+      [
+        "Dangerfile.hosted",
+        "Dangerfile.hosted.rb",
+        "dangerfile.hosted.js",
+        "dangerfile.hosted.ts",
+        "danger.yaml",
+        "Gemfile",
+        "Gemfile.lock",
+        "package.json",
+        "package-lock.json",
+        ".textlintrb",
+      ]
+
+    def no_fetch_files : Array(String)
+      return DEFAULT_FETCH_FILES unless config = @config
+      return DEFAULT_FETCH_FILES unless no_fetch = config.no_fetch
+      return DEFAULT_FETCH_FILES unless files = no_fetch[:files]
+
+      files
     end
   end
 end

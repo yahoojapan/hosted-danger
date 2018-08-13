@@ -80,7 +80,7 @@ module HostedDanger
       #
       # 3. no_fetch の設定を確認し、処理を分岐させる
       #
-      if config_wrapper.no_fetch?
+      if config_wrapper.no_fetch_enable?
         #
         # no_fetch 実行
         #
@@ -183,13 +183,13 @@ module HostedDanger
       exec_cmd("cp #{DANGERFILE_DEFAULT} #{dangerfile_path}", dir) unless File.exists?(dangerfile_path)
 
       danger_bin = if config_wrapper.use_bundler?
-                     if config_wrapper.no_fetch?
+                     if config_wrapper.no_fetch_enable?
                        "bundle exec no_fetch_danger"
                      else
                        "bundle exec danger"
                      end
                    else
-                     if config_wrapper.no_fetch?
+                     if config_wrapper.no_fetch_enable?
                        "no_fetch_danger"
                      else
                        "danger_ruby"
@@ -390,21 +390,6 @@ module HostedDanger
       result
     end
 
-    def fetched_files : Array(String)
-      [
-        "Dangerfile.hosted",
-        "Dangerfile.hosted.rb",
-        "dangerfile.hosted.js",
-        "dangerfile.hosted.ts",
-        "danger.yaml",
-        "Gemfile",
-        "Gemfile.lock",
-        "package.json",
-        "package-lock.json",
-        ".textlintrb",
-      ]
-    end
-
     def fetch_file_repo(file : String) : String?
       fetch_file(git_host, org, repo, sha, file, access_token, dir)
     end
@@ -414,13 +399,13 @@ module HostedDanger
     end
 
     def fetch_files_repo
-      fetched_files.each do |file|
+      config_wrapper.no_fetch_files.each do |file|
         fetch_file_repo(file)
       end
     end
 
     def fetch_files_org
-      fetched_files.each do |file|
+      config_wrapper.no_fetch_files.each do |file|
         fetch_file_org(file)
       end
     end
@@ -431,7 +416,7 @@ module HostedDanger
     end
 
     def clean_fetched_files(dir : String)
-      fetched_files.each do |file|
+      config_wrapper.no_fetch_files.each do |file|
         File.delete(file) if File.exists?(file)
       end
     end
