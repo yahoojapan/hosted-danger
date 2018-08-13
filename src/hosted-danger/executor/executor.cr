@@ -65,7 +65,7 @@ module HostedDanger
       config_wrapper.load
 
       #
-      # 設定がない場合は、org/danger の danger.yaml/Dangerfile.hosted (.rb) をコピー
+      # 設定がない場合は、org/danger の danger.yaml/Dangerfile.hosted (.rb) を fetch してコピー
       #
       unless config_wrapper.config_exists?
         fetch_dangerfiles_org
@@ -462,8 +462,10 @@ module HostedDanger
 
     def clean_prefetch_files
       PREFETCH_FILES.each do |file|
-        file_path = "#{dir}/#{file}"
-        File.delete(file_path) if File.exists?(file_path)
+        file_path_dir = "#{dir}/#{file}"
+        file_path_org_dir = "#{org_dir}/#{file}"
+        File.delete(file_path_dir) if File.exists?(file_path)
+        File.delete(file_path_org_dir) if File.exists?(file_path_org_dir)
       end
     end
 

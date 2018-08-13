@@ -154,8 +154,6 @@ module HostedDanger
       [
         "Dangerfile.hosted",
         "Dangerfile.hosted.rb",
-        "dangerfile.hosted.js",
-        "dangerfile.hosted.ts",
         "danger.yaml",
         "Gemfile",
         "Gemfile.lock",
