@@ -23,6 +23,11 @@ module HostedDanger
         "danger.yaml",
       ]
 
+    #
+    # repoの設定を使うか判断するフラグ
+    #
+    @no_fetch_repo : Bool = true
+
     def initialize(@executable : Executable)
       @config_wrapper = ConfigWrapper.new(dir)
     end
