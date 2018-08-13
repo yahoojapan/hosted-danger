@@ -48,9 +48,16 @@ module HostedDanger
       #
       # ない場合は、org/danger の danger.yaml をコピー
       #
+      puts "point 0"
       unless config_wrapper.config_exists?
-        config_wrapper.load if copy_config
+        puts "point 1"
+        if copy_config
+          puts "point 2"
+          config_wrapper.load
+        end
       end
+
+      L.info "no_fetch: #{config_wrapper.no_fetch_enable?}"
 
       #
       # 2. 実行する Event か確認する

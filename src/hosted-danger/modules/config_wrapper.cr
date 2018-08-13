@@ -146,6 +146,10 @@ module HostedDanger
       enable
     end
 
+    #
+    # `no_fetch.enable: true`時にデフォルトで fetch するファイル
+    # fetchするファイルを変更する場合は、`no_fetch.files`を使う
+    #
     DEFAULT_FETCH_FILES =
       [
         "Dangerfile.hosted",
