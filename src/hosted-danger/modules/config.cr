@@ -16,7 +16,6 @@ module HostedDanger
     end
 
     alias Events = Array(String)
-    alias NoFetch = NamedTuple(enable: Bool?, files: Array(String)?)
 
     YAML.mapping(
       lang: String?,
@@ -27,6 +26,13 @@ module HostedDanger
       yarn: Bool?,
       exec_close: Bool?,
       no_fetch: NoFetch?,
+    )
+  end
+
+  class NoFetch
+    YAML.mapping(
+      enable: Bool?,
+      files: Array(String)?,
     )
   end
 end

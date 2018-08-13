@@ -141,7 +141,7 @@ module HostedDanger
     def no_fetch_enable? : Bool
       return false unless config = @config
       return false unless no_fetch = config.no_fetch
-      return false unless enable = no_fetch[:enable]
+      return false unless enable = no_fetch.enable
 
       enable
     end
@@ -163,7 +163,7 @@ module HostedDanger
     def no_fetch_files : Array(String)
       return DEFAULT_FETCH_FILES unless config = @config
       return DEFAULT_FETCH_FILES unless no_fetch = config.no_fetch
-      return DEFAULT_FETCH_FILES unless files = no_fetch[:files]
+      return DEFAULT_FETCH_FILES unless files = no_fetch.files
 
       files
     end
