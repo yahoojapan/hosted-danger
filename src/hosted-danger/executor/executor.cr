@@ -8,6 +8,10 @@ module HostedDanger
 
     @ahead_by : Int32 = 1
     @behind_by : Int32 = 1
+    #
+    # `no_fetch.enable: true` の際に、repoを利用するかorgを利用するかを判断するフラグ
+    #
+    @no_fetch_repo : Bool = true
 
     def initialize(@executable : Executable)
       @config_wrapper = ConfigWrapper.new(dir)
@@ -48,12 +52,13 @@ module HostedDanger
       #
       # ない場合は、org/danger の danger.yaml をコピー
       #
-      puts "point 0"
       unless config_wrapper.config_exists?
-        puts "point 1"
         if copy_config
-          puts "point 2"
           config_wrapper.load
+          #
+          # orgの設定を利用するフラグ
+          #
+          @no_fetch_repo = false
         end
       end
 
@@ -88,17 +93,20 @@ module HostedDanger
       # 3. no_fetch の設定を確認し、処理を分岐させる
       #
       if config_wrapper.no_fetch_enable?
-        #
-        # no_fetch 実行
-        #
-        fetch_files_repo
+        if @no_fetch_repo
+          #
+          # repoを利用しno_fetchを実行
+          #
+          fetch_files_repo
+        else
+          #
+          # orgを利用しno_fetchを実行
+          #
+          fetch_files_org
+          copy_config
+        end
 
         config_wrapper.load
-
-        unless config_wrapper.config_exists?
-          fetch_files_org
-          config_wrapper.load if copy_config
-        end
       else
         #
         # 通常実行 (git fetch 実行)
@@ -263,8 +271,6 @@ module HostedDanger
     end
 
     def copy_config : Bool
-      puts `ls -la #{org_dir}`
-      puts Dir.glob("#{org_dir}/*")
       src_files = Dir.glob("#{org_dir}/*").join(" ")
       return false if src_files.size == 0
       exec_cmd("cp -rf #{src_files} #{dir}", org_dir)
