@@ -10,13 +10,13 @@ module HostedDanger
     @behind_by : Int32 = 1
 
     #
-    # 設定を先読みする都合上、pre fetchするファイルリスト
+    # 設定を先読みする都合上、prefetch するファイルリスト
     #
     # Dangerfile.hosted (.rb) も fetch してるのは、以下のケースに対応するため
     # - repoでdanger.yamlを定義していないが、Dangerfile.hosted.rbは存在する
     # - orgでdanger.yamlを定義している
     #
-    PRE_FETCH_FILES =
+    PREFETCH_FILES =
       [
         "Dangerfile.hosted.rb",
         "Dangerfile.hosted",
@@ -114,6 +114,10 @@ module HostedDanger
 
         config_wrapper.load
       else
+        #
+        # prefetch したファイルの削除
+        #
+        clean_prefetch_files
         #
         # 通常実行 (git fetch 実行)
         #
@@ -422,9 +426,9 @@ module HostedDanger
     def fetch_files_repo
       config_wrapper.no_fetch_files.each do |file|
         #
-        # Pre fetch したファイルは fetch しない
+        # prefetch したファイルは fetch しない
         #
-        next if PRE_FETCH_FILES.includes?(file)
+        next if PREFETCH_FILES.includes?(file)
         fetch_file_repo(file)
       end
     end
@@ -432,22 +436,29 @@ module HostedDanger
     def fetch_files_org
       config_wrapper.no_fetch_files.each do |file|
         #
-        # Pre fetch したファイルは fetch しない
+        # prefetch したファイルは fetch しない
         #
-        next if PRE_FETCH_FILES.includes?(file)
+        next if PREFETCH_FILES.includes?(file)
         fetch_file_org(file)
       end
     end
 
     def fetch_dangerfiles_repo
-      PRE_FETCH_FILES.each do |file|
+      PREFETCH_FILES.each do |file|
         fetch_file_repo(file)
       end
     end
 
     def fetch_dangerfiles_org
-      PRE_FETCH_FILES.each do |file|
+      PREFETCH_FILES.each do |file|
         fetch_file_org(file)
+      end
+    end
+
+    def clean_prefetch_files
+      PREFETCH_FILES.each do |file|
+        file_path = "#{dir}/#{file}"
+        File.delete(file_path) if File.exists?(file_path)
       end
     end
 
