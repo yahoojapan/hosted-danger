@@ -156,6 +156,8 @@ module HostedDanger
 
       return nil if res.status_code == 404
 
+      L.info "---> fetched!"
+
       file_content = res.body.to_s
 
       File.write("#{dir}/#{file}", file_content)
