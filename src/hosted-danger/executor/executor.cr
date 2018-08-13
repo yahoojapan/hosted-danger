@@ -464,7 +464,7 @@ module HostedDanger
       PREFETCH_FILES.each do |file|
         file_path_dir = "#{dir}/#{file}"
         file_path_org_dir = "#{org_dir}/#{file}"
-        File.delete(file_path_dir) if File.exists?(file_path)
+        File.delete(file_path_dir) if File.exists?(file_path_dir)
         File.delete(file_path_org_dir) if File.exists?(file_path_org_dir)
       end
     end

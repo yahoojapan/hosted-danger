@@ -11,10 +11,6 @@ module HostedDanger
       return nil
     end
 
-    def self.create(yaml : String) : Config
-      Config.from_yaml(yaml)
-    end
-
     alias Events = Array(String)
 
     YAML.mapping(
