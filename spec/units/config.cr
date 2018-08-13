@@ -14,6 +14,8 @@ describe HostedDanger::Config do
     config.bundler.not_nil!.should be_true
     config.npm.not_nil!.should be_true
     config.yarn.not_nil!.should be_true
+    config.no_fetch.not_nil!.enable.not_nil!.should be_true
+    config.no_fetch.not_nil!.files.not_nil!.should eq(["file1", "file2"])
   end
 
   it "return nil except specified dangerfile" do

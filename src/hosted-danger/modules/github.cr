@@ -139,10 +139,13 @@ module HostedDanger
       dir : String
     ) : String?
       #
-      # TODO !!!
-      # partner は raw のURLが違うかもしれない！
+      # partner.git.corp だけ raw の url が異なるので注意
       #
-      url = "https://raw.#{git_host}/#{org}/#{repo}/#{sha}/#{file}"
+      url = if git_host == "partner.git.corp.yahoo.co.jp"
+              "https://partner.git.corp.yahoo.co.jp/raw/#{org}/#{repo}/#{sha}/#{file}?token=#{access_token}"
+            else
+              "https://raw.#{git_host}/#{org}/#{repo}/#{sha}/#{file}"
+            end
 
       L.info "fetching file on #{org}/#{repo}/#{file}"
 

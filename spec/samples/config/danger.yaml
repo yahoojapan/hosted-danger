@@ -11,3 +11,9 @@ events:
 bundler: true
 npm: true
 yarn: true
+
+no_fetch:
+  enable: true
+  files:
+    - file1
+    - file2
