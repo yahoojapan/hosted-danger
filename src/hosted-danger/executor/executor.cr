@@ -404,7 +404,7 @@ module HostedDanger
     end
 
     def fetch_file_org(file : String) : String?
-      fetch_file(git_host, org, "danger", sha, file, access_token, org_dir)
+      fetch_file(git_host, org, "danger", "master", file, access_token, org_dir)
     end
 
     def fetch_files_repo
