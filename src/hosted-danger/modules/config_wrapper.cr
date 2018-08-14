@@ -167,7 +167,7 @@ module HostedDanger
       return DEFAULT_FETCH_FILES unless no_fetch = config.no_fetch
       return DEFAULT_FETCH_FILES unless files = no_fetch.files
 
-      files
+      DEFAULT_FETCH_FILES.concat(files).uniq
     end
   end
 end
