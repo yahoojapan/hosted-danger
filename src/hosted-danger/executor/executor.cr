@@ -112,9 +112,9 @@ module HostedDanger
         else
           #
           # orgを利用しno_fetchを実行
+          # orgは小さいため、depth=1で`git fetch`する
           #
-          fetch_files_org
-          copy_config
+          copy_config if git_fetch_org_config?
         end
 
         config_wrapper.load
@@ -435,16 +435,6 @@ module HostedDanger
         #
         next if PREFETCH_FILES.includes?(file)
         fetch_file_repo(file)
-      end
-    end
-
-    def fetch_files_org
-      config_wrapper.no_fetch_files.each do |file|
-        #
-        # prefetch したファイルは fetch しない
-        #
-        next if PREFETCH_FILES.includes?(file)
-        fetch_file_org(file)
       end
     end
 
