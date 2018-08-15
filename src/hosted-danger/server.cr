@@ -12,6 +12,7 @@ module HostedDanger
       @git_proxy = GitProxy.new
       @sd_proxy = SDProxy.new
       @metrics_printer = MetricsPrinter.new
+      @exec_openpr = ExecOpenPr.new
     end
 
     def draw_routes
@@ -35,6 +36,7 @@ module HostedDanger
 
       # Metrics for Prometheus
       get "/metrics" { |context, params| @metrics_printer.print(context, params) }
+      post "/exec" { |context, params| @exec_openpr.exec(context, params) }
     end
 
     def run
