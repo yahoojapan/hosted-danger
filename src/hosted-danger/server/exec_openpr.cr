@@ -4,47 +4,40 @@ require "../executor/*"
 
 module HostedDanger
   class ExecOpenPr
-    include Github
-    include Parser
     def initialize
       @web_hook = WebHook.new
     end
 
     def exec(context, params)
-      git_url = context.request.body
-      return context unless !git_url.nil?
-      string_url = git_url.gets
-      return context if string_url.nil?
-      arr = string_url.split("/")
-      git_host = arr[2]
-      org = arr[3]
-      repo = arr[4]
+      git_repo_url = context.request.body.try &.gets_to_end
+      return context unless !git_repo_url.nil?
+      git_host = URI.parse(git_repo_url).host
+      org = org_repo_from_html_url(git_repo_url)[0]
+      repo = org_repo_from_html_url(git_repo_url)[1]
+      return context unless !git_host.nil?
       access_token = access_token_from_git_host(git_host)
-      json = pull_requests(git_host, org, repo, access_token)
-      size = json.size-1
-      (0..size).each do |num|
-        executables = e_pull_request(json, num)
-        executables.each do |executable|
-          executor = Executor.new(executable)
-          executor.exec_danger
-        end
+      payload_jsons = pull_requests(git_host, org, repo, access_token).as_a
+      payload_jsons.each do |payload_json|
+        executable = e_pull_request(payload_json)
+        executor = Executor.new(executable)
+        executor.exec_danger
       end
       
       context.response.status_code = 200
       context
     end
 
-    def e_pull_request(payload_json, num) : Array(Executable)?
+    def e_pull_request(payload_json)
       action = "synchronize"
-      html_url = payload_json[num]["head"]["repo"]["html_url"].as_s
-      pr_number = payload_json[num]["number"].as_i
-      sha = payload_json[num]["head"]["sha"].as_s
-      head_label = payload_json[num]["head"]["label"].as_s
-      base_label = payload_json[num]["base"]["label"].as_s
+      html_url = payload_json["head"]["repo"]["html_url"].as_s
+      pr_number = payload_json["number"].as_i
+      sha = payload_json["head"]["sha"].as_s
+      head_label = payload_json["head"]["label"].as_s
+      base_label = payload_json["base"]["label"].as_s
       env = {} of String => String
-      event = "pull_request"
+      event = "status"
 
-      [{
+      {
         action:      action,
         event:       event,
         html_url:    html_url,
@@ -54,8 +47,10 @@ module HostedDanger
         base_label:  base_label,
         raw_payload: payload_json.to_json,
         env:         env,
-      }]
+      }
     end
 
+    include Github
+    include Parser
   end
 end

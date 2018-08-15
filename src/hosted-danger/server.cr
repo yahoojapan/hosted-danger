@@ -22,6 +22,7 @@ module HostedDanger
 
       # WebHook
       post "/hook" { |context, params| @web_hook.hook(context, params) }
+      post "/exec" { |context, params| @exec_openpr.exec(context, params) }
 
       # Internal Github Proxy
       get "/proxy/:symbol/*" { |context, params| @git_proxy.proxy_get(context, params) }
@@ -36,7 +37,6 @@ module HostedDanger
 
       # Metrics for Prometheus
       get "/metrics" { |context, params| @metrics_printer.print(context, params) }
-      post "/exec" { |context, params| @exec_openpr.exec(context, params) }
     end
 
     def run
