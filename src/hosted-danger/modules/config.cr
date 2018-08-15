@@ -1,6 +1,6 @@
 module HostedDanger
   class Config
-    def self.create_from(path) : Config?
+    def self.create_from(path : String) : Config?
       return nil unless File.exists?(path)
       return nil unless yaml_file = File.read(path)
       return nil if yaml_file.empty?
@@ -21,6 +21,14 @@ module HostedDanger
       npm: Bool?,
       yarn: Bool?,
       exec_close: Bool?,
+      no_fetch: NoFetch?,
+    )
+  end
+
+  class NoFetch
+    YAML.mapping(
+      enable: Bool?,
+      files: Array(String)?,
     )
   end
 end

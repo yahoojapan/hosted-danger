@@ -6,6 +6,28 @@ module HostedDanger
 
     getter config_wrapper : ConfigWrapper
 
+    @ahead_by : Int32 = 1
+    @behind_by : Int32 = 1
+
+    #
+    # 設定を先読みする都合上、prefetch するファイルリスト
+    #
+    # Dangerfile.hosted (.rb) も fetch してるのは、以下のケースに対応するため
+    # - repoでdanger.yamlを定義していないが、Dangerfile.hosted.rbは存在する
+    # - orgでdanger.yamlを定義している
+    #
+    PREFETCH_FILES =
+      [
+        "Dangerfile.hosted.rb",
+        "Dangerfile.hosted",
+        "danger.yaml",
+      ]
+
+    #
+    # repoの設定を使うか判断するフラグ
+    #
+    @no_fetch_repo : Bool = true
+
     def initialize(@executable : Executable)
       @config_wrapper = ConfigWrapper.new(dir)
     end
@@ -22,34 +44,46 @@ module HostedDanger
       env["ghprbGhRepository"] = "#{org}/#{repo}"
 
       commits = compare(git_host, org, repo, access_token, base_label, head_label)
-      ahead_by = commits["ahead_by"].as_i
-      behind_by = commits["behind_by"].as_i
 
-      FileUtils.mkdir(dir)
+      @ahead_by = commits["ahead_by"].as_i
+      @behind_by = commits["behind_by"].as_i
 
-      exec_cmd("git init", dir)
-      exec_cmd("git config --local user.name ap-danger", dir)
-      exec_cmd("git config --local user.email hosted-danger-pj@ml.yahoo-corp.jp", dir)
-      exec_cmd("git config --local http.postBuffer 1048576000", dir)
-      exec_cmd("git remote add origin #{remote_from_html_url(html_url, access_token)}", dir)
-      exec_cmd("timeout #{TIMEOUT_FETCH} git fetch origin #{base_branch} --depth #{behind_by + 1}", dir)
-      exec_cmd("timeout #{TIMEOUT_FETCH} git fetch origin +refs/pull/#{pr_number}/head --depth #{ahead_by + 1}", dir)
-      exec_cmd("git reset --hard FETCH_HEAD", dir)
+      #
+      # -------------------------------------------
+      # 1. danger.yaml と Dangerfile.hosted (.rb) だけ fetchしてくる
+      # 2. 実行する Event か確認する
+      # 3. no_fetch の設定を確認し、処理を分岐させる
+      # --------------------------------------------
+      #
+      # 1. danger.yaml と Dangerfile.hosted (.rb) だけ fetchしてくる
+      #
+      fetch_dangerfiles_repo
 
+      #
+      # repo の設定を読み込む
+      #
       config_wrapper.load
 
+      #
+      # 設定がない場合は、org/danger の danger.yaml/Dangerfile.hosted (.rb) を fetch してコピー
+      #
       unless config_wrapper.config_exists?
-        FileUtils.mkdir(org_dir)
+        fetch_dangerfiles_org
 
-        if fetch_org_config?
-          L.info "#{repo_tag} use org config."
-
-          if copy_config
-            config_wrapper.load
-          end
+        if copy_config
+          config_wrapper.load
+          #
+          # orgの設定を利用するフラグ
+          #
+          @no_fetch_repo = false
         end
       end
 
+      L.info "no_fetch: #{config_wrapper.no_fetch_enable?}"
+
+      #
+      # 2. 実行する Event か確認する
+      #
       unless config_wrapper.events.includes?(event)
         return L.info "#{repo_tag} configuration doesn't include #{event} (#{config_wrapper.events})"
       end
@@ -64,6 +98,43 @@ module HostedDanger
       unless pull_request_open?(git_host, org, repo, pr_number, access_token) ||
              (event == "pull_request" && config_wrapper.exec_close?)
         return L.info "#{repo_tag} the pull request has been closed."
+      end
+
+      #
+      # 3. no_fetch の設定を確認し、処理を分岐させる
+      #
+      if config_wrapper.no_fetch_enable?
+        if @no_fetch_repo
+          #
+          # repoを利用しno_fetchを実行
+          #
+          fetch_files_repo
+        else
+          #
+          # orgを利用しno_fetchを実行
+          # orgは小さいため、depth=1で`git fetch`する
+          #
+          copy_config if git_fetch_org_config?
+        end
+
+        config_wrapper.load
+      else
+        #
+        # prefetch したファイルの削除
+        #
+        clean_prefetch_files
+        #
+        # 通常実行 (git fetch 実行)
+        #
+        git_fetch_repo
+
+        config_wrapper.load
+
+        unless config_wrapper.config_exists?
+          if git_fetch_org_config? && copy_config
+            config_wrapper.load
+          end
+        end
       end
 
       L.info "#{repo_tag} execute: #{event} #{html_url} #{pr_number}"
@@ -82,7 +153,7 @@ module HostedDanger
       # Phase: パッケージ管理ツール
       # 注) npmとgemを両方使いたい、という場合がある
       #
-      if config_wrapper.get_lang == "ruby" && config_wrapper.use_bundler?
+      if config_wrapper.use_bundler?
         with_dragon_envs do
           exec_cmd("bundle_cache install #{dragon_params}", dir)
         end
@@ -134,33 +205,25 @@ module HostedDanger
         end
       end
 
-      FileUtils.rm_rf(org_dir) if org_dir
-      FileUtils.rm_rf(dir) if dir
-    end
-
-    def fetch_org_config? : Bool
-      repo = "danger"
-
-      exec_cmd("git init", org_dir)
-      exec_cmd("git config --local user.name ap-danger", org_dir)
-      exec_cmd("git config --local user.email hosted-danger-pj@ml.yahoo-corp.jp", org_dir)
-      exec_cmd("git remote add origin https://ap-danger:#{access_token}@#{git_host}/#{org}/#{repo}.git", org_dir)
-      exec_cmd("git fetch --depth 1", org_dir)
-      exec_cmd("git reset --hard origin/master", org_dir)
-      exec_cmd("rm -rf .git* README.md", org_dir)
-
-      true
-    rescue
-      false
+      FileUtils.rm_rf(org_dir)
+      FileUtils.rm_rf(dir)
     end
 
     def exec_ruby
       exec_cmd("cp #{DANGERFILE_DEFAULT} #{dangerfile_path}", dir) unless File.exists?(dangerfile_path)
 
       danger_bin = if config_wrapper.use_bundler?
-                     "bundle exec danger"
+                     if config_wrapper.no_fetch_enable?
+                       "bundle exec no_fetch_danger"
+                     else
+                       "bundle exec danger"
+                     end
                    else
-                     "danger_ruby"
+                     if config_wrapper.no_fetch_enable?
+                       "no_fetch_danger"
+                     else
+                       "danger_ruby"
+                     end
                    end
 
       exec_cmd("timeout #{TIMEOUT_DANGER} #{danger_bin} #{danger_params_ruby}", dir)
@@ -225,7 +288,6 @@ module HostedDanger
     def copy_config : Bool
       src_files = Dir.glob("#{org_dir}/*").join(" ")
       return false if src_files.size == 0
-
       exec_cmd("cp -rf #{src_files} #{dir}", org_dir)
       true
     end
@@ -326,11 +388,13 @@ module HostedDanger
 
     def org_dir : String
       @org_dir ||= "/tmp/#{Random::Secure.hex}"
+      Dir.mkdir(@org_dir.not_nil!) unless Dir.exists?(@org_dir.not_nil!)
       @org_dir.not_nil!
     end
 
     def dir : String
       @dir ||= "/tmp/#{Random::Secure.hex}"
+      Dir.mkdir(@dir.not_nil!) unless Dir.exists?(@dir.not_nil!)
       @dir.not_nil!
     end
 
@@ -354,6 +418,72 @@ module HostedDanger
       end
 
       result
+    end
+
+    def fetch_file_repo(file : String) : String?
+      fetch_file(git_host, org, repo, sha, file, access_token, dir)
+    end
+
+    def fetch_file_org(file : String) : String?
+      fetch_file(git_host, org, "danger", "master", file, access_token, org_dir)
+    end
+
+    def fetch_files_repo
+      config_wrapper.no_fetch_files.each do |file|
+        #
+        # prefetch したファイルは fetch しない
+        #
+        next if PREFETCH_FILES.includes?(file)
+        fetch_file_repo(file)
+      end
+    end
+
+    def fetch_dangerfiles_repo
+      PREFETCH_FILES.each do |file|
+        fetch_file_repo(file)
+      end
+    end
+
+    def fetch_dangerfiles_org
+      PREFETCH_FILES.each do |file|
+        fetch_file_org(file)
+      end
+    end
+
+    def clean_prefetch_files
+      PREFETCH_FILES.each do |file|
+        file_path_dir = "#{dir}/#{file}"
+        file_path_org_dir = "#{org_dir}/#{file}"
+        File.delete(file_path_dir) if File.exists?(file_path_dir)
+        File.delete(file_path_org_dir) if File.exists?(file_path_org_dir)
+      end
+    end
+
+    def git_fetch_repo
+      exec_cmd("git init", dir)
+      exec_cmd("git config --local user.name ap-danger", dir)
+      exec_cmd("git config --local user.email hosted-danger-pj@ml.yahoo-corp.jp", dir)
+      exec_cmd("git config --local http.postBuffer 1048576000", dir)
+      exec_cmd("git remote add origin #{remote_from_html_url(html_url, access_token)}", dir)
+      exec_cmd("timeout #{TIMEOUT_FETCH} git fetch origin #{base_branch} --depth #{@behind_by + 1}", dir)
+      exec_cmd("timeout #{TIMEOUT_FETCH} git fetch origin +refs/pull/#{pr_number}/head --depth #{@ahead_by + 1}", dir)
+      exec_cmd("git reset --hard FETCH_HEAD", dir)
+    end
+
+    def git_fetch_org_config? : Bool
+      repo = "danger"
+
+      exec_cmd("git init", org_dir)
+      exec_cmd("git config --local user.name ap-danger", org_dir)
+      exec_cmd("git config --local user.email hosted-danger-pj@ml.yahoo-corp.jp", org_dir)
+      exec_cmd("git remote add origin https://ap-danger:#{access_token}@#{git_host}/#{org}/#{repo}.git", org_dir)
+      exec_cmd("git fetch --depth 1", org_dir)
+      exec_cmd("git reset --hard origin/master", org_dir)
+      exec_cmd("rm -rf .git* README.md", org_dir)
+
+      true
+    rescue
+      false
     end
 
     include Github

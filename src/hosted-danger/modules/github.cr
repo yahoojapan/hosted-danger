@@ -129,6 +129,42 @@ module HostedDanger
       JSON.parse(res.body)
     end
 
+    def fetch_file(
+      git_host : String,
+      org : String,
+      repo : String,
+      sha : String,
+      file : String,
+      access_token : String,
+      dir : String
+    ) : String?
+      #
+      # partner.git.corp だけ raw の url が異なるので注意
+      #
+      url = if git_host == "partner.git.corp.yahoo.co.jp"
+              "https://partner.git.corp.yahoo.co.jp/raw/#{org}/#{repo}/#{sha}/#{file}?token=#{access_token}"
+            else
+              "https://raw.#{git_host}/#{org}/#{repo}/#{sha}/#{file}"
+            end
+
+      L.info "fetching file on #{org}/#{repo}/#{file}"
+
+      headers = HTTP::Headers.new
+      headers["Authorization"] = "token #{access_token}"
+
+      res = HTTP::Client.get(url, headers)
+
+      return nil if res.status_code == 404
+
+      L.info "---> fetched!"
+
+      file_content = res.body.to_s
+
+      File.write("#{dir}/#{file}", file_content)
+
+      file_content
+    end
+
     def compare(git_host : String, org : String, repo : String, access_token : String, base_label : String, head_label : String) : JSON::Any
       url = "https://#{git_host}/api/v3/repos/#{org}/#{repo}/compare/#{URI.escape(base_label)}...#{URI.escape(head_label)}"
 

@@ -25,6 +25,10 @@ COPY Gemfile.lock /tmp/gem
 RUN cd /tmp/gem && /bin/bash -l -c "bundle install --system"
 RUN mv /usr/local/bin/danger /usr/local/bin/danger_ruby
 RUN ls -la /usr/local/bin
+#
+# no_fetch_danger を修正した場合は、こちらのバージョンを修正
+#
+RUN gem install no_fetch_danger -v 5.6.5 -s http://rubygems.corp.yahoo.co.jp:8000/apj-rubygems
 
 # js
 RUN apt-get install -y nodejs npm

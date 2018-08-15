@@ -97,6 +97,7 @@ module HostedDanger
       gemfile_exists? = File.exists?("#{@directory}/Gemfile")
       return false unless gemfile_exists?
       return true if File.read("#{@directory}/Gemfile") =~ /(gem\s*?'danger')/
+      return true if File.read("#{@directory}/Gemfile") =~ /(gem\s*?'no_fetch_danger')/
 
       false
     end
@@ -135,6 +136,35 @@ module HostedDanger
       end
 
       false
+    end
+
+    def no_fetch_enable? : Bool
+      return false unless config = @config
+      return false unless no_fetch = config.no_fetch
+      return false unless enable = no_fetch.enable
+
+      enable
+    end
+
+    #
+    # `no_fetch.enable: true`時にデフォルトで fetch するファイル
+    # fetchするファイルを変更する場合は、`no_fetch.files`を使う
+    #
+    DEFAULT_FETCH_FILES =
+      [
+        "Dangerfile.hosted",
+        "Dangerfile.hosted.rb",
+        "danger.yaml",
+        "Gemfile",
+        "Gemfile.lock",
+      ]
+
+    def no_fetch_files : Array(String)
+      return DEFAULT_FETCH_FILES unless config = @config
+      return DEFAULT_FETCH_FILES unless no_fetch = config.no_fetch
+      return DEFAULT_FETCH_FILES unless files = no_fetch.files
+
+      DEFAULT_FETCH_FILES.concat(files).uniq
     end
   end
 end
