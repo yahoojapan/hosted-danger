@@ -159,7 +159,7 @@ module HostedDanger
         "Gemfile.lock",
         "package.json",
         "package-lock.json",
-        ".textlintrb",
+        ".textlintrc",
       ]
 
     def no_fetch_files : Array(String)
