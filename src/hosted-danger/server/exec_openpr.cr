@@ -1,6 +1,7 @@
 require "uri"
 require "json"
 require "../executor/*"
+require "./web_hook"
 
 module HostedDanger
   class ExecOpenPr
@@ -9,12 +10,10 @@ module HostedDanger
     end
 
     def exec(context, params)
-      git_repo_url = context.request.body.try &.gets_to_end
-      return context unless !git_repo_url.nil?
-      git_host = URI.parse(git_repo_url).host
-      org = org_repo_from_html_url(git_repo_url)[0]
-      repo = org_repo_from_html_url(git_repo_url)[1]
-      return context unless !git_host.nil?
+      url_payload = @web_hook.create_payload_json(context)
+      git_repo_url = url_payload["url"].as_s
+      git_host = git_host_from_html_url(git_repo_url)
+      org, repo = org_repo_from_html_url(git_repo_url)
       access_token = access_token_from_git_host(git_host)
       payload_jsons = pull_requests(git_host, org, repo, access_token).as_a
       payload_jsons.each do |payload_json|
@@ -24,6 +23,7 @@ module HostedDanger
       end
       
       context.response.status_code = 200
+      context.response.print "ok"
       context
     end
 
@@ -35,7 +35,7 @@ module HostedDanger
       head_label = payload_json["head"]["label"].as_s
       base_label = payload_json["base"]["label"].as_s
       env = {} of String => String
-      event = "status"
+      event = "exec_openpr"
 
       {
         action:      action,
