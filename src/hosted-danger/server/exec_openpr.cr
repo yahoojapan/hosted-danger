@@ -37,7 +37,7 @@ module HostedDanger
         head_label = payload_json["head"]["label"].as_s
         base_label = payload_json["base"]["label"].as_s
         env = {} of String => String
-        event = "exec_openpr"
+        event = "build_periodcally"
 
         {
           action:      action,
