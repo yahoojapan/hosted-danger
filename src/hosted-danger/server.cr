@@ -1,5 +1,6 @@
 require "router"
 require "json"
+require "./server/web_hook"
 require "./server/*"
 
 module HostedDanger
@@ -12,6 +13,7 @@ module HostedDanger
       @git_proxy = GitProxy.new
       @sd_proxy = SDProxy.new
       @metrics_printer = MetricsPrinter.new
+      @exec_openpr = ExecOpenPr.new
     end
 
     def draw_routes
@@ -21,6 +23,7 @@ module HostedDanger
 
       # WebHook
       post "/hook" { |context, params| @web_hook.hook(context, params) }
+      post "/exec" { |context, params| @exec_openpr.exec(context, params) }
 
       # Internal Github Proxy
       get "/proxy/:symbol/*" { |context, params| @git_proxy.proxy_get(context, params) }
