@@ -1,8 +1,3 @@
-require "uri"
-require "json"
-require "../executor/*"
-require "./web_hook"
-
 module HostedDanger
   class ExecOpenPr
     def initialize

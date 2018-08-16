@@ -1,5 +1,6 @@
 require "router"
 require "json"
+require "./server/web_hook"
 require "./server/*"
 
 module HostedDanger
