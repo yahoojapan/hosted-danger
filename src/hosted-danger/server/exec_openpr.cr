@@ -13,11 +13,13 @@ module HostedDanger
 
       payload_jsons = pull_requests(git_host, org, repo, access_token).as_a
       executables = create_executables(payload_jsons)
-      executables.each do |executable|
-        executor = Executor.new(executable)
-        executor.exec_danger
+      spawn do
+        executables.each do |executable|
+          executor = Executor.new(executable)
+          executor.exec_danger
+        end
       end
-      
+
       context.response.status_code = 200
       context.response.print "ok"
       context
