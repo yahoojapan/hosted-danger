@@ -1,16 +1,8 @@
 module HostedDanger
   module Parser
     def git_host_from_html_url(html_url) : String
-      if html_url =~ /https:\/\/(.*?)\/.*/
-        return $1
-      end
-
-      if html_url =~ /git@(.*?):.*\/.*/
-        return $1
-      end
-
-      if html_url =~ /https:\/\/.*@(.*?)\/.*/
-        return $1
+      if html_url =~ /(https:\/\/(.*@|)|git@|)(.*?)(:|\/).*/
+        return $3
       end
 
       raise "failed to parse the html url: #{html_url} @git_host_from_html_url"
@@ -30,12 +22,8 @@ module HostedDanger
     end
 
     def org_repo_from_html_url(html_url) : Array(String)
-      if html_url =~ /https:\/\/.*?\/(.*?)\/(.*)/
-        return [$1.to_s, $2.to_s]
-      end
-
-      if html_url =~ /git@.*?:(.*?)\/(.*)/
-        return [$1.to_s, $2.to_s]
+      if html_url =~ /(https:\/\/.*?\/|git@.*?:)(.*?)\/(.*)/
+        return [$2.to_s, $3.to_s]
       end
 
       raise "failed to parse the html url: #{html_url} @org_repo_from_html_url"
