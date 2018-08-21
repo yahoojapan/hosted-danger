@@ -4,6 +4,8 @@ describe HostedDanger::Parser do
   html_url_ghe = "https://ghe.corp.yahoo.co.jp/hosted-danger/docs"
   html_url_partner = "https://partner.git.corp.yahoo.co.jp/hosted-danger/docs"
   html_url_git = "https://git.corp.yahoo.co.jp/hosted-danger/docs"
+  html_url_ssh = "git@ghe.corp.yahoo.co.jp:hosted-danger/docs"
+  html_url_scm = "https://SCM_USERNAME:SCM_ACCESS_TOKEN@ghe.corp.yahoo.co.jp/hosted-danger/docs"
 
   ghe = "ghe.corp.yahoo.co.jp"
   partner = "partner.git.corp.yahoo.co.jp"
@@ -13,6 +15,8 @@ describe HostedDanger::Parser do
     git_host_from_html_url(html_url_ghe).should eq(ghe)
     git_host_from_html_url(html_url_partner).should eq(partner)
     git_host_from_html_url(html_url_git).should eq(git)
+    git_host_from_html_url(html_url_ssh).should eq(ghe)
+    git_host_from_html_url(html_url_scm).should eq(ghe)
   end
 
   it "access_token_from_git_host (dev)" do
@@ -35,6 +39,8 @@ describe HostedDanger::Parser do
     org_repo_from_html_url(html_url_ghe).should eq(["hosted-danger", "docs"])
     org_repo_from_html_url(html_url_partner).should eq(["hosted-danger", "docs"])
     org_repo_from_html_url(html_url_git).should eq(["hosted-danger", "docs"])
+    org_repo_from_html_url(html_url_ssh).should eq(["hosted-danger", "docs"])
+    org_repo_from_html_url(html_url_scm).should eq(["hosted-danger", "docs"])
   end
 
   it "remote_from_html_url" do
