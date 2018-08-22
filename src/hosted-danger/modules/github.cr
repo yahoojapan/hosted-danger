@@ -13,23 +13,36 @@ module HostedDanger
       property res : HTTP::Client::Response?
     end
 
-    def all_repos(git_host : String, org : String, access_token : String) : JSON::Any
+    def usr_all_repos(git_host : String, org : String, access_token : String) : JSON::Any
+      url = "https://#{git_host}/api/v3/users/#{org}/repos"
+
+      headers = HTTP::Headers.new
+      headers["Authorization"] = "token #{access_token}"
+
+      res = HTTP::Client.get(url, headers)
+      github_result(res, url, "GET")
+
+      JSON.parse(res.body)
+    end
+
+    def org_all_repos(git_host : String, org : String, access_token : String) : JSON::Any
       url = "https://#{git_host}/api/v3/orgs/#{org}/repos"
 
       headers = HTTP::Headers.new
       headers["Authorization"] = "token #{access_token}"
 
       res = HTTP::Client.get(url, headers)
-
-      if res.status_code == 404
-        url = "https://#{git_host}/api/v3/users/#{org}/repos"
-        res = HTTP::Client.get(url, headers)
-      end
-
       github_result(res, url, "GET")
 
       JSON.parse(res.body)
     end
+
+    def all_repos(git_host : String, org : String, access_token : String) : JSON::Any
+      org_all_repos(git_host, org, access_token)
+      rescue
+        usr_all_repos(git_host, org, access_token)
+    end
+
 
     def pull_request_open?(git_host : String, org : String, repo : String, pr_number : Int32, access_token : String) : Bool
       pull_json = pull_request(git_host, org, repo, pr_number, access_token)
@@ -181,7 +194,7 @@ module HostedDanger
         github_exception = GithubException.new(message)
         github_exception.res = res
 
-        raise github_exception
+        raise "not org"
       end
     end
 
