@@ -194,7 +194,7 @@ module HostedDanger
         github_exception = GithubException.new(message)
         github_exception.res = res
 
-        raise "not org"
+        raise github_exception
       end
     end
 
