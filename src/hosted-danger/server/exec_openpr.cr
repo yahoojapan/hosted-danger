@@ -11,13 +11,16 @@ module HostedDanger
       org, repo = org_repo_from_html_url(git_repo_url)
       access_token = access_token_from_git_host(git_host)
 
-      payload_jsons = pull_requests(git_host, org, repo, access_token).as_a
-      executables = create_executables(payload_jsons)
-      spawn do
-        executables.each do |executable|
-          executor = Executor.new(executable)
-          executor.exec_danger
+      if repo == "danger"
+        repo_jsons = all_repos(git_host, org, access_token).as_a
+        repos = create_repos(repo_jsons)
+        spawn do
+          repos.each do |repo|
+            exec_pull_requests(git_host, org, repo, access_token)
+          end
         end
+      else 
+        exec_pull_requests(git_host, org, repo, access_token)
       end
 
       context.response.status_code = 200
@@ -47,6 +50,23 @@ module HostedDanger
           raw_payload: payload_json.to_json,
           env:         env,
         }
+      }
+    end
+
+    def exec_pull_requests(git_host : String, org : String, repo : String, access_token : String)
+      payload_jsons = pull_requests(git_host, org, repo, access_token).as_a
+      executables = create_executables(payload_jsons)
+      spawn do
+        executables.each do |executable|
+          executor = Executor.new(executable)
+          executor.exec_danger
+        end
+      end
+    end
+
+    def create_repos(repo_jsons)
+      repo_jsons.map{ |repo_json|
+        repo = repo_json["name"].as_s
       }
     end
 

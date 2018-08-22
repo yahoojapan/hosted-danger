@@ -13,6 +13,24 @@ module HostedDanger
       property res : HTTP::Client::Response?
     end
 
+    def all_repos(git_host : String, org : String, access_token : String) : JSON::Any
+      url = "https://#{git_host}/api/v3/orgs/#{org}/repos"
+
+      headers = HTTP::Headers.new
+      headers["Authorization"] = "token #{access_token}"
+
+      res = HTTP::Client.get(url, headers)
+
+      if res.status_code == 404
+        url = "https://#{git_host}/api/v3/users/#{org}/repos"
+        res = HTTP::Client.get(url, headers)
+      end
+
+      github_result(res, url, "GET")
+
+      JSON.parse(res.body)
+    end
+
     def pull_request_open?(git_host : String, org : String, repo : String, pr_number : Int32, access_token : String) : Bool
       pull_json = pull_request(git_host, org, repo, pr_number, access_token)
       pull_json["state"].as_s == "open"
