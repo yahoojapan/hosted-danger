@@ -38,9 +38,11 @@ module HostedDanger
     end
 
     def all_repos(git_host : String, org : String, access_token : String) : JSON::Any
+    begin
       org_all_repos(git_host, org, access_token)
     rescue e : GithubException
       usr_all_repos(git_host, org, access_token)
+    end
     rescue e : GithubException
       raise "error #{git_host}, #{org}"
     end
@@ -180,7 +182,11 @@ module HostedDanger
       # repository without ap-danger as collaborator or the ap-danger doesn't have write role
       #
       if res.status_code == 404
-        message = "Github API returns 404 ( #{git_url_from_api_url(url)} )\n"
+        message = begin
+                    "Github API returns 404 ( #{git_url_from_api_url(url)} )\n"
+                  rescue
+                    "Github API returns 404 ( API: #{url})\n"
+                  end
 
         if method == "GET"
           message += "Reason: **private repository without ap-danger collaborator**\n"
