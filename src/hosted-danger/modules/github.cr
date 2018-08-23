@@ -42,7 +42,7 @@ module HostedDanger
     rescue e : GithubException
       usr_all_repos(git_host, org, access_token)
     rescue e : GithubException
-      raise "error #{git_host}, #{org}, #{access_token}"
+      raise "error #{git_host}, #{org}"
     end
 
 
