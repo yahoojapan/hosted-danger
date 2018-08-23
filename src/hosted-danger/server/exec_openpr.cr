@@ -35,6 +35,11 @@ module HostedDanger
       context.response.status_code = 200
       context.response.print "ok"
       context
+
+    rescue e : Exception
+      L.error e, e.message
+
+      @web_hook.bad_request(context)
     end
 
     def create_executables(payload_jsons)

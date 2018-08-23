@@ -39,8 +39,10 @@ module HostedDanger
 
     def all_repos(git_host : String, org : String, access_token : String) : JSON::Any
       org_all_repos(git_host, org, access_token)
-      rescue
-        usr_all_repos(git_host, org, access_token)
+    rescue e : GithubException
+      usr_all_repos(git_host, org, access_token)
+    rescue e : GithubException
+      raise "error #{git_host}, #{org}, #{access_token}"
     end
 
 
