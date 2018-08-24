@@ -135,12 +135,13 @@ describe HostedDanger::ConfigWrapper do
       config_wrapper = HostedDanger::ConfigWrapper.new("#{sample_root}/empty")
 
       events = config_wrapper.events
-      events.size.should eq(5)
+      events.size.should eq(6)
       events.includes?("pull_request").should be_true
       events.includes?("pull_request_review").should be_true
       events.includes?("pull_request_review_comment").should be_true
       events.includes?("issue_comment").should be_true
       events.includes?("issues").should be_true
+      events.includes?("build_periodcally").should be_true
       events.includes?("status").should be_false
     end
   end

@@ -13,6 +13,40 @@ module HostedDanger
       property res : HTTP::Client::Response?
     end
 
+    def usr_all_repos(git_host : String, org : String, access_token : String) : JSON::Any
+      url = "https://#{git_host}/api/v3/users/#{org}/repos"
+
+      headers = HTTP::Headers.new
+      headers["Authorization"] = "token #{access_token}"
+
+      res = HTTP::Client.get(url, headers)
+      github_result(res, url, "GET")
+
+      JSON.parse(res.body)
+    end
+
+    def org_all_repos(git_host : String, org : String, access_token : String) : JSON::Any
+      url = "https://#{git_host}/api/v3/orgs/#{org}/repos"
+
+      headers = HTTP::Headers.new
+      headers["Authorization"] = "token #{access_token}"
+
+      res = HTTP::Client.get(url, headers)
+      github_result(res, url, "GET")
+
+      JSON.parse(res.body)
+    end
+
+    def all_repos(git_host : String, org : String, access_token : String) : JSON::Any
+      begin
+        org_all_repos(git_host, org, access_token)
+      rescue e : GithubException
+        usr_all_repos(git_host, org, access_token)
+      end
+    rescue e : GithubException
+      raise "Tried to fetch all repos but it's failed. \n- https://#{git_host}/api/v3/orgs/#{org}/repo\n- https://#{git_host}/api/v3/users/#{org}/repos"
+    end
+
     def pull_request_open?(git_host : String, org : String, repo : String, pr_number : Int32, access_token : String) : Bool
       pull_json = pull_request(git_host, org, repo, pr_number, access_token)
       pull_json["state"].as_s == "open"
@@ -183,7 +217,11 @@ module HostedDanger
       # repository without ap-danger as collaborator or the ap-danger doesn't have write role
       #
       if res.status_code == 404
-        message = "Github API returns 404 ( #{git_url_from_api_url(url)} )\n"
+        message = begin
+                    "Github API returns 404 ( #{git_url_from_api_url(url)} )\n"
+                  rescue
+                    "Github API returns 404 ( API: #{url} )\n"
+                  end
 
         if method == "GET"
           message += "Reason: **private repository without ap-danger collaborator**\n"
