@@ -38,15 +38,14 @@ module HostedDanger
     end
 
     def all_repos(git_host : String, org : String, access_token : String) : JSON::Any
-    begin
-      org_all_repos(git_host, org, access_token)
+      begin
+        org_all_repos(git_host, org, access_token)
+      rescue e : GithubException
+        usr_all_repos(git_host, org, access_token)
+      end
     rescue e : GithubException
-      usr_all_repos(git_host, org, access_token)
+      raise "Tried to fetch all repos but it's failed. \n- https://#{git_host}/api/v3/orgs/#{org}/repo\n- https://#{git_host}/api/v3/users/#{org}/repos"
     end
-    rescue e : GithubException
-      raise "Tried to fetch all repos but it's failed. \n https://#{git_host}/api/v3/orgs/#{org}/repo \n https://#{git_host}/api/v3/users/#{org}/repos"
-    end
-
 
     def pull_request_open?(git_host : String, org : String, repo : String, pr_number : Int32, access_token : String) : Bool
       pull_json = pull_request(git_host, org, repo, pr_number, access_token)
