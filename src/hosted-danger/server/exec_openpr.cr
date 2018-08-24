@@ -2,7 +2,7 @@ module HostedDanger
   class ExecOpenPr
     def initialize
       @web_hook = WebHook.new
-      @channel = Channel(Array(NamedTuple(action: String, event: String, html_url: String, pr_number: Int32, sha: String, head_label: String, base_label: String, raw_payload: String, env: Hash(String, String)))).new
+      @channel = Channel(Array(Executable)).new
     end
 
     def exec(context, params)
@@ -11,11 +11,11 @@ module HostedDanger
       git_host = git_host_from_html_url(git_repo_url)
       org, repo = org_repo_from_html_url(git_repo_url)
       access_token = access_token_from_git_host(git_host)
-      executables = Array(NamedTuple(action: String, event: String, html_url: String, pr_number: Int32, sha: String, head_label: String, base_label: String, raw_payload: String, env: Hash(String, String))).new
+      executables = Array(Executable).new
 
       if repo == "danger"
-        repo_jsons = all_repos(git_host, org, access_token).as_a
-        repos = create_repos(repo_jsons)
+        repos_jsons = all_repos(git_host, org, access_token).as_a
+        repos = create_repos(repos_jsons)
         spawn do
           repos.each do |repo|
             payload_jsons = pull_requests(git_host, org, repo, access_token).as_a

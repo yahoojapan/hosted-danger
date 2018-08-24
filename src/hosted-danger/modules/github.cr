@@ -44,7 +44,7 @@ module HostedDanger
       usr_all_repos(git_host, org, access_token)
     end
     rescue e : GithubException
-      raise "error #{git_host}, #{org}"
+      raise "Tried to fetch all repos but it's failed. \n https://#{git_host}/api/v3/orgs/#{org}/repo \n https://#{git_host}/api/v3/users/#{org}/repos"
     end
 
 
@@ -185,7 +185,7 @@ module HostedDanger
         message = begin
                     "Github API returns 404 ( #{git_url_from_api_url(url)} )\n"
                   rescue
-                    "Github API returns 404 ( API: #{url})\n"
+                    "Github API returns 404 ( API: #{url} )\n"
                   end
 
         if method == "GET"
