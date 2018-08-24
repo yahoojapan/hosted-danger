@@ -2,6 +2,7 @@ module HostedDanger
   class ExecOpenPr
     def initialize
       @web_hook = WebHook.new
+      @channel = Channel(Array(NamedTuple(action: String, event: String, html_url: String, pr_number: Int32, sha: String, head_label: String, base_label: String, raw_payload: String, env: Hash(String, String)))).new
     end
 
     def exec(context, params)
@@ -10,9 +11,7 @@ module HostedDanger
       git_host = git_host_from_html_url(git_repo_url)
       org, repo = org_repo_from_html_url(git_repo_url)
       access_token = access_token_from_git_host(git_host)
-
-      payload_jsons = pull_requests(git_host, org, repo, access_token).as_a
-      executables = create_executables(payload_jsons)
+      executables = Array(NamedTuple(action: String, event: String, html_url: String, pr_number: Int32, sha: String, head_label: String, base_label: String, raw_payload: String, env: Hash(String, String))).new
 
       if repo == "danger"
         repo_jsons = all_repos(git_host, org, access_token).as_a
@@ -20,9 +19,15 @@ module HostedDanger
         spawn do
           repos.each do |repo|
             payload_jsons = pull_requests(git_host, org, repo, access_token).as_a
-            executables.concat(create_executables(payload_jsons))
+            @channel.send(create_executables(payload_jsons))
           end
         end
+        repos.each do
+          executables.concat(@channel.receive)
+        end
+      else
+        payload_jsons = pull_requests(git_host, org, repo, access_token).as_a
+        executables = create_executables(payload_jsons)
       end
 
       spawn do
