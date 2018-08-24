@@ -2,6 +2,7 @@ module HostedDanger
   class ExecOpenPr
     def initialize
       @web_hook = WebHook.new
+      @channel = Channel(Array(Executable)).new
     end
 
     def exec(context, params)
@@ -11,8 +12,27 @@ module HostedDanger
       org, repo = org_repo_from_html_url(git_repo_url)
       access_token = access_token_from_git_host(git_host)
 
-      payload_jsons = pull_requests(git_host, org, repo, access_token).as_a
-      executables = create_executables(payload_jsons)
+      executables = Array(Executable).new
+
+      if repo == "danger"
+        repos_json = all_repos(git_host, org, access_token).as_a
+        repos = create_repos(repos_json)
+
+        spawn do
+          repos.each do |repo|
+            payload_jsons = pull_requests(git_host, org, repo, access_token).as_a
+            @channel.send(create_executables(payload_jsons))
+          end
+        end
+
+        repos.each do
+          executables.concat(@channel.receive)
+        end
+      else
+        payload_jsons = pull_requests(git_host, org, repo, access_token).as_a
+        executables = create_executables(payload_jsons)
+      end
+
       spawn do
         executables.each do |executable|
           executor = Executor.new(executable)
@@ -23,6 +43,10 @@ module HostedDanger
       context.response.status_code = 200
       context.response.print "ok"
       context
+    rescue e : Exception
+      L.error e, e.message
+
+      @web_hook.bad_request(context)
     end
 
     def create_executables(payload_jsons)
@@ -48,6 +72,10 @@ module HostedDanger
           env:         env,
         }
       }
+    end
+
+    def create_repos(repo_jsons)
+      repo_jsons.map{ |repo_json| repo = repo_json["name"].as_s }
     end
 
     include Github
