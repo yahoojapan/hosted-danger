@@ -6,9 +6,6 @@ module HostedDanger
 
     getter config_wrapper : ConfigWrapper
 
-    @ahead_by : Int32 = 1
-    @behind_by : Int32 = 1
-
     #
     # 設定を先読みする都合上、prefetch するファイルリスト
     #
