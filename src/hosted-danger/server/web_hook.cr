@@ -86,6 +86,7 @@ module HostedDanger
 
     def e_pull_request(event, payload_json, query_params) : Array(Executable)?
       return L.info "#{event} skip: sender is ap-danger" if payload_json["sender"]["login"] == "ap-danger"
+      return L.info "#{event} skip: action is unlabeled" if payload_json["action"] == "unlabeled"
 
       new_request(event)
 
