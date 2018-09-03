@@ -75,7 +75,7 @@ module HostedDanger
     end
 
     def create_repos(repo_jsons)
-      repo_jsons.map { |repo_json| repo = repo_json["name"].as_s }
+      repo_jsons.map{ |repo_json| repo = repo_json["name"].as_s }
     end
 
     include Github
