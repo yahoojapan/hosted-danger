@@ -218,10 +218,10 @@ module HostedDanger
       #
       if res.status_code == 404
         message = begin
-                    "Github API returns 404 ( #{git_url_from_api_url(url)} )\n"
-                  rescue
-                    "Github API returns 404 ( API: #{url} )\n"
-                  end
+          "Github API returns 404 ( #{git_url_from_api_url(url)} )\n"
+        rescue
+          "Github API returns 404 ( API: #{url} )\n"
+        end
 
         if method == "GET"
           message += "Reason: **private repository without ap-danger collaborator**\n"
