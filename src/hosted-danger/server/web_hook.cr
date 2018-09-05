@@ -27,6 +27,10 @@ module HostedDanger
       retry_count = 3
       retry_count.times do |i|
         yield
+        #
+        # 成功したら終了
+        #
+        break
       rescue e : Exception
         #
         # getaddrinfo 系のエラーではない or retry してもダメなら raise する

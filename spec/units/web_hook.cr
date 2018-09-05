@@ -206,13 +206,23 @@ describe HostedDanger::WebHook do
     end
 
     #
-    # retry中成功したものはraiseしない
+    # retry中に成功したものはraiseしない
     #
     e = 0
     web_hook.retriable do
       e += 1
       raise MyException.new("getaddrinfo") if e <= 2
     end
+
+    #
+    # 成功したら正常終了
+    #
+    e = 0
+    web_hook.retriable do
+      e += 1
+    end
+
+    e.should eq(1)
 
     #
     # getaddrinfo以外のエラーはretryしない
