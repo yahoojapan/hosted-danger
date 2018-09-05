@@ -19,6 +19,8 @@ def query_params_nil
   HTTP::Params.parse("")
 end
 
+class MyException < Exception; end
+
 describe HostedDanger::WebHook do
   payloads_root = File.expand_path("../../payloads", __FILE__)
 
@@ -186,5 +188,41 @@ describe HostedDanger::WebHook do
     executable[:base_label].should eq("master")
     executable[:raw_payload].should eq(payload_json.to_json)
     executable[:env].should eq({"HOGE" => "true"})
+  end
+
+  it "retriable" do
+    web_hook = HostedDangerMocks::WebHook.new
+
+    #
+    # 常にraiseするものは、そのエラーをraiseする
+    #
+    e = 0
+
+    expect_raises(MyException) do
+      web_hook.retriable do
+        e += 1
+        raise MyException.new("getaddrinfo") if e <= 3
+      end
+    end
+
+    #
+    # retry中成功したものはraiseしない
+    #
+    e = 0
+    web_hook.retriable do
+      e += 1
+      raise MyException.new("getaddrinfo") if e <= 2
+    end
+
+    #
+    # getaddrinfo以外のエラーはretryしない
+    #
+    e = 0
+    expect_raises(MyException) do
+      web_hook.retriable do
+        e += 1
+        raise MyException.new("hogehoge") if e == 1
+      end
+    end
   end
 end
