@@ -20,6 +20,33 @@ module HostedDanger
       Metrics.increment("event_#{event}")
     end
 
+    #
+    # 3回まで retry する
+    #
+    def retriable(&block)
+      retry_count = 3
+      retry_count.times do |i|
+        yield
+        #
+        # 成功したら終了
+        #
+        break
+      rescue e : Exception
+        #
+        # getaddrinfo 系のエラーではない or retry してもダメなら raise する
+        #
+        raise e if !retry?(e) || i >= retry_count - 1
+        sleep 0.1
+      end
+    end
+
+    def retry?(e : Exception)
+      m = e.message || ""
+      b = (e.backtrace || [] of String).join("")
+
+      (m + b).includes?("getaddrinfo")
+    end
+
     def hook(context, params)
       payload_json = create_payload_json(context)
 
@@ -27,8 +54,10 @@ module HostedDanger
 
       if executables = executables?
         executables.each do |executable|
-          executor = Executor.new(executable)
-          executor.exec_danger
+          retriable do
+            executor = Executor.new(executable)
+            executor.exec_danger
+          end
         end
       end
 
