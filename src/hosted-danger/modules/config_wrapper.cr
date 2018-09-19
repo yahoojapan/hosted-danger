@@ -85,8 +85,7 @@ module HostedDanger
         "issue_comment",
         "issues",
         "build_periodcally",
-        # https://ghe.corp.yahoo.co.jp/hosted-danger/hosted-danger/issues/99
-        # "status",
+        "status",
       ]
     end
 
