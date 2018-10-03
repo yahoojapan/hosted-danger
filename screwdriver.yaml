@@ -69,6 +69,8 @@ jobs:
       - deployment: |
           echo "Start deployment"
 
+          git clone https://ghe.corp.yahoo.co.jp/hosted-danger/ops
+
           sed -e "s@IMAGE@"`meta get fixed_docker_image`"@g" ops/kube/deployment.yaml.tmpl > deployment.yaml
 
           sed -e "s@ACCESS_TOKEN_GHE@"`echo -n $ACCESS_TOKEN_GHE | base64`"@g" ops/kube/secrets.yaml.tmpl | \
