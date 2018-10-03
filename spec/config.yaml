@@ -1,22 +1,16 @@
 githubs:
 
-  - host: ghe.corp.yahoo.co.jp
-    env: ACCESS_TOKEN_GHE
-    symbol: ghe
-    api_base: https://ghe.corp.yahoo.co.jp/api/v3
-    raw_base: https://raw.ghe.corp.yahoo.co.jp
+  - host: github.com
+    env: ACCESS_TOKEN_GITHUB
+    symbol: g1
+    api_base: https://api.github.com
+    raw_base: https://raw.github.com
 
-  - host: git.corp.yahoo.co.jp
-    env: ACCESS_TOKEN_GIT
-    symbol: git
-    api_base: https://git.corp.yahoo.co.jp/api/v3
-    raw_base: https://raw.git.corp.yahoo.co.jp
-
-  - host: partner.git.corp.yahoo.co.jp
-    env: ACCESS_TOKEN_PARTNER
-    symbol: partner
-    api_base: https://partner.git.corp.yahoo.co.jp/api/v3
-    raw_base: https://partner.git.corp.yahoo.co.jp/raw
+  - host: github2.com
+    env: ACCESS_TOKEN_TWO
+    symbol: g2
+    api_base: https://github2.com/api/v3
+    raw_base: https://github2.com/raw
 
 secrets:
   - name: sd_user_token_cd

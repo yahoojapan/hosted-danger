@@ -1,7 +1,6 @@
-def setup_envs_prod(&block)
-  ENV["ACCESS_TOKEN_GHE"] = "dummy_ghe"
-  ENV["ACCESS_TOKEN_PARTNER"] = "dummy_partner"
-  ENV["ACCESS_TOKEN_GIT"] = "dummy_git"
+def setup_envs(&block)
+  ENV["ACCESS_TOKEN_GITHUB"] = "dummy_token"
+  ENV["ACCESS_TOKEN_TWO"] = "dummy_token_two"
   ENV["DRAGON_ACCESS_KEY"] = "dragon_key"
   ENV["DRAGON_SECRET_ACCESS_KEY"] = "dragon_secret_key"
   ENV["SD_USER_TOKEN_CD"] = "sd_user_token_cd"
@@ -9,9 +8,8 @@ def setup_envs_prod(&block)
 
   yield
 
-  ENV.delete("ACCESS_TOKEN_GHE")
-  ENV.delete("ACCESS_TOKEN_PARTNER")
-  ENV.delete("ACCESS_TOKEN_GIT")
+  ENV.delete("ACCESS_TOKEN_GITHUB")
+  ENV.delete("ACCESS_TOKEN_TWO")
   ENV.delete("DRAGON_ACCESS_KEY")
   ENV.delete("DRAGON_SECRET_ACCESS_KEY")
   ENV.delete("SD_USER_TOKEN_CD")

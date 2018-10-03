@@ -2,7 +2,7 @@ def mock_executable : HostedDanger::Executable
   {
     action:      "action",
     event:       "event",
-    html_url:    "https://ghe.corp.yahoo.co.jp/hosted-danger/hosted-danger",
+    html_url:    "https://github.com/yahoojapan/hosted-danger",
     pr_number:   1,
     sha:         "abcdefghijklmnop",
     head_label:  "myorg:fugauga",
@@ -14,7 +14,7 @@ end
 
 describe HostedDanger::Executor do
   it "with_dragon_envs" do
-    setup_envs_prod do
+    setup_envs do
       executable = mock_executable
       executable[:env]["hoge"] = "test"
 

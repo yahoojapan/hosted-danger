@@ -1,43 +1,30 @@
 include HostedDanger::Parser
 
 describe HostedDanger::Parser do
-  html_url_ghe = "https://ghe.corp.yahoo.co.jp/hosted-danger/docs"
-  html_url_partner = "https://partner.git.corp.yahoo.co.jp/hosted-danger/docs"
-  html_url_git = "https://git.corp.yahoo.co.jp/hosted-danger/docs"
-  html_url_ssh = "git@ghe.corp.yahoo.co.jp:hosted-danger/docs"
-  html_url_scm = "https://SCM_USERNAME:SCM_ACCESS_TOKEN@ghe.corp.yahoo.co.jp/hosted-danger/docs"
-
-  ghe = "ghe.corp.yahoo.co.jp"
-  partner = "partner.git.corp.yahoo.co.jp"
-  git = "git.corp.yahoo.co.jp"
+  html_url_url = "https://github.com/yahoojapan/hosted-danger"
+  html_url_ssh = "git@github.com:yahoojapan/hosted-danger"
+  html_url_scm = "https://SCM_USERNAME:SCM_ACCESS_TOKEN@github.com/yahoojapan/hosted-danger"
 
   it "git_host_from_html_url" do
-    git_host_from_html_url(html_url_ghe).should eq(ghe)
-    git_host_from_html_url(html_url_partner).should eq(partner)
-    git_host_from_html_url(html_url_git).should eq(git)
-    git_host_from_html_url(html_url_ssh).should eq(ghe)
-    git_host_from_html_url(html_url_scm).should eq(ghe)
+    git_host_from_html_url(html_url_url).should eq("github.com")
+    git_host_from_html_url(html_url_ssh).should eq("github.com")
+    git_host_from_html_url(html_url_scm).should eq("github.com")
   end
 
   it "access_token_from_git_host" do
-    setup_envs_prod do
-      access_token_from_git_host(ghe).should eq("dummy_ghe")
-      access_token_from_git_host(partner).should eq("dummy_partner")
-      access_token_from_git_host(git).should eq("dummy_git")
+    setup_envs do
+      access_token_from_git_host("github.com").should eq("dummy_token")
+      access_token_from_git_host("github2.com").should eq("dummy_token_two")
     end
   end
 
   it "org_repo_from_html_url" do
-    org_repo_from_html_url(html_url_ghe).should eq(["hosted-danger", "docs"])
-    org_repo_from_html_url(html_url_partner).should eq(["hosted-danger", "docs"])
-    org_repo_from_html_url(html_url_git).should eq(["hosted-danger", "docs"])
-    org_repo_from_html_url(html_url_ssh).should eq(["hosted-danger", "docs"])
-    org_repo_from_html_url(html_url_scm).should eq(["hosted-danger", "docs"])
+    org_repo_from_html_url(html_url_url).should eq(["yahoojapan", "hosted-danger"])
+    org_repo_from_html_url(html_url_ssh).should eq(["yahoojapan", "hosted-danger"])
+    org_repo_from_html_url(html_url_scm).should eq(["yahoojapan", "hosted-danger"])
   end
 
   it "remote_from_html_url" do
-    remote_from_html_url(html_url_ghe, "abc").should eq("https://ap-danger:abc@ghe.corp.yahoo.co.jp/hosted-danger/docs")
-    remote_from_html_url(html_url_partner, "def").should eq("https://ap-danger:def@partner.git.corp.yahoo.co.jp/hosted-danger/docs")
-    remote_from_html_url(html_url_git, "ghi").should eq("https://ap-danger:ghi@git.corp.yahoo.co.jp/hosted-danger/docs")
+    remote_from_html_url(html_url_url, "abc").should eq("https://ap-danger:abc@github.com/yahoojapan/hosted-danger")
   end
 end
