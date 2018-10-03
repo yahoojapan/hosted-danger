@@ -1,0 +1,6 @@
+push:
+  - 'screwdrivercd:33792'
+  - 'screwdrivercd:33792pr'
+fetch:
+  - 'screwdrivercd:33792'
+  - 'screwdrivercd:33792pr'
