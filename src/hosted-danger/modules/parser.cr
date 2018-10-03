@@ -10,16 +10,6 @@ module HostedDanger
 
     def access_token_from_git_host(git_host : String) : String
       ServerConfig.access_token_of(git_host)
-      # case git_host
-      # when "ghe.corp.yahoo.co.jp"
-      #   return Envs.get("access_token_ghe")
-      # when "partner.git.corp.yahoo.co.jp"
-      #   return Envs.get("access_token_partner")
-      # when "git.corp.yahoo.co.jp"
-      #   return Envs.get("access_token_git")
-      # end
-      #
-      # raise "failed to find an access_token for #{git_host}"
     end
 
     def org_repo_from_html_url(html_url) : Array(String)
