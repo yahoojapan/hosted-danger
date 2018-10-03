@@ -172,14 +172,7 @@ module HostedDanger
       access_token : String,
       dir : String
     ) : String?
-      #
-      # partner.git.corp だけ raw の url が異なるので注意
-      #
-      url = if git_host == "partner.git.corp.yahoo.co.jp"
-              "https://partner.git.corp.yahoo.co.jp/raw/#{org}/#{repo}/#{sha}/#{file}?token=#{access_token}"
-            else
-              "https://raw.#{git_host}/#{org}/#{repo}/#{sha}/#{file}"
-            end
+      url = "#{ServerConfig.raw_base_of(git_host)}/#{org}/#{repo}/#{sha}/#{file}?token=#{access_token}"
 
       L.info "fetching file on #{org}/#{repo}/#{file}"
 
