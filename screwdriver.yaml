@@ -89,6 +89,7 @@ jobs:
           #
           kubectl delete secret secret-envs --kubeconfig config --namespace=default || true
           kubectl apply -f secrets.yaml --kubeconfig config --namespace=default
+          kubectl apply -f ops/kube/configmap.yaml --kubeconfig config --namespace=default
           kubectl apply -f deployment.yaml --kubeconfig config --namespace=default
           kubectl apply -f ops/kube/service.yaml --kubeconfig config --namespace=default
           kubectl apply -f ops/kube/admin-user-role.yaml --kubeconfig config --namespace=default
