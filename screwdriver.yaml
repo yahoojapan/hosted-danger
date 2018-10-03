@@ -36,7 +36,6 @@ jobs:
     requires: [~pr]
     steps:
       - prebuild_image: |
-          sed -i -e s@"ADD envs.json /tmp/hd/envs.json"@""@g Dockerfile
           cat Dockerfile
 
   commit:
@@ -56,7 +55,6 @@ jobs:
     requires: [commit]
     steps:
       - prebuild_image: |
-          sed -i -e s@"ADD envs.json /tmp/hd/envs.json"@""@g Dockerfile
           cat Dockerfile
 
   deployment:
