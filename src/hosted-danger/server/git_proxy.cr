@@ -155,18 +155,7 @@ module HostedDanger
 
     def get_git_context(params : Hash(String, String)) : GitContext
       symbol = params["symbol"]
-
-      git_host = case symbol
-                 when "ghe"
-                   "ghe.corp.yahoo.co.jp"
-                 when "partner"
-                   "partner.git.corp.yahoo.co.jp"
-                 when "git"
-                   "git.corp.yahoo.co.jp"
-                 else
-                   raise "Invalid symbol @get_git_context: #{symbol}"
-                 end
-
+      git_host = ServerConfig.symbol_to_git_host(symbol)
       access_token = access_token_from_git_host(git_host)
 
       {

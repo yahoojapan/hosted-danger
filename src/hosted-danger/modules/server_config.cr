@@ -9,6 +9,7 @@ module HostedDanger
       YAML.mapping(
         host: String,
         env: String,
+        symbol: String,
         api_base: String,
         raw_base: String,
       )
@@ -35,6 +36,10 @@ module HostedDanger
 
     def self.api_base_of(git_host : String) : String
       @@server_config_internal.not_nil!.githubs.find { |g| g.host == git_host }.not_nil!.api_base
+    end
+
+    def self.symbol_to_git_host(symbol : String) : String
+      @@server_config_internal.not_nil!.githubs.find { |g| g.symbol == symbol }.not_nil!.host
     end
 
     def self.raw_base_of(git_host : String) : String

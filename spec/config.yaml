@@ -2,16 +2,19 @@ githubs:
 
   - host: ghe.corp.yahoo.co.jp
     env: ACCESS_TOKEN_GHE
+    symbol: ghe
     api_base: https://ghe.corp.yahoo.co.jp/api/v3
     raw_base: https://raw.ghe.corp.yahoo.co.jp
 
   - host: git.corp.yahoo.co.jp
     env: ACCESS_TOKEN_GIT
+    symbol: git
     api_base: https://git.corp.yahoo.co.jp/api/v3
     raw_base: https://raw.git.corp.yahoo.co.jp
 
   - host: partner.git.corp.yahoo.co.jp
     env: ACCESS_TOKEN_PARTNER
+    symbol: partner
     api_base: https://partner.git.corp.yahoo.co.jp/api/v3
     raw_base: https://partner.git.corp.yahoo.co.jp/raw
 
