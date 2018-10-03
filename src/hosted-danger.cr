@@ -14,7 +14,9 @@ module HostedDanger
   )
 
   def self.run
-    Envs.setup
+    # Envs.setup
+    # todo: optionize
+    ServerConfig.setup(File.expand_path("../../../../config.yaml", __FILE__))
 
     server = Server.new
     server.draw_routes
