@@ -8,8 +8,3 @@
 /.bundle
 
 !.gitkeep
-
-envs.json
-repos.json
-
-testd
