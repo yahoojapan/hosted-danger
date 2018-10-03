@@ -40,14 +40,17 @@ module HostedDanger
       get "/metrics" { |context, params| @metrics_printer.print(context, params) }
     end
 
-    def run
+    def run(host, port)
       server = HTTP::Server.new([
         MetricsHandler.new,
         LogHandler.new,
         HTTP::ErrorHandler.new,
         route_handler,
       ])
-      server.bind_tcp("0.0.0.0", 80)
+
+      L.info "Start listening on #{host}:#{port}"
+
+      server.bind_tcp(host, port)
       server.listen
     end
   end

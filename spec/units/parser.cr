@@ -19,15 +19,7 @@ describe HostedDanger::Parser do
     git_host_from_html_url(html_url_scm).should eq(ghe)
   end
 
-  it "access_token_from_git_host (dev)" do
-    setup_envs_dev do
-      access_token_from_git_host(ghe).should eq("dummy_ghe")
-      access_token_from_git_host(partner).should eq("dummy_partner")
-      access_token_from_git_host(git).should eq("dummy_git")
-    end
-  end
-
-  it "access_token_from_git_host (prod)" do
+  it "access_token_from_git_host" do
     setup_envs_prod do
       access_token_from_git_host(ghe).should eq("dummy_ghe")
       access_token_from_git_host(partner).should eq("dummy_partner")

@@ -48,7 +48,7 @@ RUN danger_js --version
 # hd
 RUN mkdir -p /tmp/hd
 
-ADD envs.json /tmp/hd/envs.json
+ADD config.yaml /tmp/hd/config.yaml
 COPY shard.yml shard.lock /tmp/hd/
 
 EXPOSE 80

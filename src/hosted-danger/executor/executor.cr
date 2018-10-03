@@ -285,8 +285,8 @@ module HostedDanger
     end
 
     def with_dragon_envs(&block)
-      env["DRAGON_ACCESS_KEY"] = Envs.get("dragon_access_key")
-      env["DRAGON_SECRET_ACCESS_KEY"] = Envs.get("dragon_secret_access_key")
+      env["DRAGON_ACCESS_KEY"] = ServerConfig.secret("dragon_access_key")
+      env["DRAGON_SECRET_ACCESS_KEY"] = ServerConfig.secret("dragon_secret_access_key")
 
       yield
 
