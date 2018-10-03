@@ -66,10 +66,11 @@ jobs:
       - confirmation: |
           echo "Deploying image: "
           echo `meta get fixed_docker_image`
+      - ready: |
+          git clone https://ghe.corp.yahoo.co.jp/hosted-danger/ops
+          git clone https://ghe.corp.yahoo.co.jp/hosted-danger/tools
       - deployment: |
           echo "Start deployment"
-
-          git clone https://ghe.corp.yahoo.co.jp/hosted-danger/ops
 
           sed -e "s@IMAGE@"`meta get fixed_docker_image`"@g" ops/kube/deployment.yaml.tmpl > deployment.yaml
 
@@ -106,5 +107,7 @@ jobs:
     image: cd.docker-registry.corp.yahoo.co.jp:4443/hosted-danger/sd-image:latest
     requires: [deployment]
     steps:
+      - ready: |
+          git clone https://ghe.corp.yahoo.co.jp/hosted-danger/tools
       - tests: |
           ./tools/acceptance-tests
