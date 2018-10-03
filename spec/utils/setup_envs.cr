@@ -1,5 +1,4 @@
 def setup_envs_prod(&block)
-  # todo: spec用のconfigを用意してやる
   ENV["ACCESS_TOKEN_GHE"] = "dummy_ghe"
   ENV["ACCESS_TOKEN_PARTNER"] = "dummy_partner"
   ENV["ACCESS_TOKEN_GIT"] = "dummy_git"
