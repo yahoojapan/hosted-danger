@@ -50,24 +50,16 @@ module HostedDanger
         return config.dangerfile.not_nil! if config.dangerfile
       end
 
-      # ここにくるのは
-      # 1. 設定でjsとした場合
-      # 2. ファイルの存在で、システムがjsと判断した場合
       if get_lang == "js"
         if File.exists?("#{@directory}/dangerfile.hosted.js")
           return "dangerfile.hosted.js"
         elsif File.exists?("#{@directory}/dangerfile.hosted.ts")
           return "dangerfile.hosted.ts"
         else
-          # 設定でjsにしているのに該当するファイルがない場合にここに来る
           raise "dangerfile.hosted.[js|ts] not found"
         end
       end
 
-      # ここにくるのは
-      # 1. 設定でrubyとした場合
-      # 2. ファイルの存在で、システムがrubyと判断した場合
-      # 3. 設定もファイルも存在しておらず、デフォルトのDangerfile.hostedを使用する場合
       return "Dangerfile.hosted.rb" if File.exists?("#{@directory}/Dangerfile.hosted.rb")
 
       "Dangerfile.hosted"
@@ -146,10 +138,6 @@ module HostedDanger
       enable
     end
 
-    #
-    # `no_fetch.enable: true`時にデフォルトで fetch するファイル
-    # fetchするファイルを変更する場合は、`no_fetch.files`を使う
-    #
     DEFAULT_FETCH_FILES =
       [
         "Dangerfile.hosted",

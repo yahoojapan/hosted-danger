@@ -7,11 +7,7 @@ module HostedDanger
     getter config_wrapper : ConfigWrapper
 
     #
-    # 設定を先読みする都合上、prefetch するファイルリスト
-    #
-    # Dangerfile.hosted (.rb) も fetch してるのは、以下のケースに対応するため
-    # - repoでdanger.yamlを定義していないが、Dangerfile.hosted.rbは存在する
-    # - orgでdanger.yamlを定義している
+    # Pre-fetched file list for no_fetch execution.
     #
     PREFETCH_FILES =
       [
@@ -21,7 +17,7 @@ module HostedDanger
       ]
 
     #
-    # repoの設定を使うか判断するフラグ
+    # Flag for no_fetch mode
     #
     @no_fetch_repo : Bool = true
 
@@ -42,22 +38,22 @@ module HostedDanger
 
       #
       # -------------------------------------------
-      # 1. danger.yaml と Dangerfile.hosted (.rb) だけ fetchしてくる
-      # 2. 実行する Event か確認する
-      # 3. no_fetch の設定を確認し、処理を分岐させる
+      # 1. Fetch danger.yaml and Dangerfile.hosted (.rb)
+      # 2. Check the event
+      # 3. Check the no_fetch mode
       # --------------------------------------------
       #
-      # 1. danger.yaml と Dangerfile.hosted (.rb) だけ fetchしてくる
+      # 1. Fetch danger.yaml and Dangerfile.hosted (.rb)
       #
       fetch_dangerfiles_repo
 
       #
-      # repo の設定を読み込む
+      # load repo config
       #
       config_wrapper.load
 
       #
-      # 設定がない場合は、org/danger の danger.yaml/Dangerfile.hosted (.rb) を fetch してコピー
+      # If there is no config, fetch org/danger additionally
       #
       unless config_wrapper.config_exists?
         fetch_dangerfiles_org
@@ -65,7 +61,7 @@ module HostedDanger
         if copy_config
           config_wrapper.load
           #
-          # orgの設定を利用するフラグ
+          # Put the no_fetch flag on
           #
           @no_fetch_repo = false
         end
@@ -74,18 +70,18 @@ module HostedDanger
       L.info "no_fetch: #{config_wrapper.no_fetch_enable?}"
 
       #
-      # 2. 実行する Event か確認する
+      # 2. Check the event
       #
       unless config_wrapper.events.includes?(event)
         return L.info "#{repo_tag} configuration doesn't include #{event} (#{config_wrapper.events})"
       end
 
       #
-      # 以下の場合は実行しない
+      # The below case will not be triggered
       #
-      # - Pull Requestがcloseしている
-      #   - event が pull_request ではない
-      #   - danger.yamlで`exec_close: true`ではない
+      # - Pull Request is closed
+      #   - event is not "pull_request"
+      #   - `exec_close: true` is not set on danger.yaml
       #
       unless pull_request_open?(git_host, org, repo, pr_number, access_token) ||
              (event == "pull_request" && config_wrapper.exec_close?)
@@ -93,18 +89,17 @@ module HostedDanger
       end
 
       #
-      # 3. no_fetch の設定を確認し、処理を分岐させる
+      # 3. Check the not_fetch mode
       #
       if config_wrapper.no_fetch_enable?
         if @no_fetch_repo
           #
-          # repoを利用しno_fetchを実行
+          # Execute no_fetch on repo config
           #
           fetch_files_repo
         else
           #
-          # orgを利用しno_fetchを実行
-          # orgは小さいため、depth=1で`git fetch`する
+          # Execute no_fetch on org config
           #
           copy_config if git_fetch_org_config?
         end
@@ -112,11 +107,11 @@ module HostedDanger
         config_wrapper.load
       else
         #
-        # prefetch したファイルの削除
+        # Delete pre-fetched files
         #
         clean_prefetch_files
         #
-        # 通常実行 (git fetch 実行)
+        # Execute normally (without no_fetch danger)
         #
         git_fetch_repo
 
@@ -142,8 +137,8 @@ module HostedDanger
       )
 
       #
-      # Phase: パッケージ管理ツール
-      # 注) npmとgemを両方使いたい、という場合がある
+      # Phase: package management tools
+      # Note that some user would like to use both of gem and npm. (e.g. for textlint)
       #
       if config_wrapper.use_bundler?
         with_dragon_envs do
@@ -163,7 +158,7 @@ module HostedDanger
       end
 
       #
-      #  Phase: 実行
+      #  Phase: Execution
       #
       case config_wrapper.get_lang
       when "ruby"
@@ -186,8 +181,8 @@ module HostedDanger
 
       raise e
     ensure
-      # jsではstatusがsuccessにならない問題がある(danger側の問題かこちら側の問題かは不明)
-      # そこで、pendingのstatusを最後にsuccessにする必要がある
+      # dangerjs doesn't put success status on CI statuses.
+      # So put success status on it manually.
       if config_wrapper.get_lang == "js"
         status = build_state_of(git_host, org, repo, sha, access_token)
         status.as_a.each do |state|
@@ -423,7 +418,7 @@ module HostedDanger
     def fetch_files_repo
       config_wrapper.no_fetch_files.each do |file|
         #
-        # prefetch したファイルは fetch しない
+        # Except pre-fetched files
         #
         next if PREFETCH_FILES.includes?(file)
         fetch_file_repo(file)

@@ -22,8 +22,6 @@ module HostedDanger
       body_json = JSON.parse(body)
 
       #
-      # RubyのDangerがここで直接 _links -> issue -> href を参照しているため
-      # ここだけproxyのURLに置き換える
       # https://github.com/danger/danger/blob/250988a1ac5e93b8c3c9b6da5bd0fb5e737348a4/lib/danger/request_sources/github/github.rb#L131
       #
       if body_json.as_h? &&
@@ -40,9 +38,8 @@ module HostedDanger
 
       body_json.to_json
     rescue e : JSON::ParseException
-      # Json形式でない時もある
-      # エラー扱いにはしない
-      # 例: Content-Type: application/vnd.github.v3.diff
+      # The payload might not be json structure.
+      # For example: Content-Type: application/vnd.github.v3.diff
       _body
     rescue e : Exception
       error_message = "Error at @convert_body"
@@ -57,8 +54,8 @@ module HostedDanger
       response.headers.each do |k, v|
         if k == "Link"
           #
-          # HeaderのLinkは参照されているので、Proxyに書き換える
-          # https://mym.corp.yahoo.co.jp/#!/HostedDanger/2018/04/26/12:29:18
+          # Replace the urls in header into proxy.
+          # The urls are refered from danger.
           #
           context.response.headers[k] = if v.is_a?(Array)
                                           v.map { |_v| _v.gsub("https://#{git_context[:git_host]}/api/v3", "http://localhost/proxy/#{git_context[:symbol]}") }
