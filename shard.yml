@@ -2,13 +2,13 @@ name: hosted-danger
 version: 0.1.0
 
 authors:
-  - taicsuzu <taicsuzu@yahoo-corp.jp>
+  - Taichiro Suzuki <taicsuzu@yahoo-corp.jp>
 
 targets:
   hosted-danger:
     main: src/main.cr
 
-crystal: 0.25.0
+crystal: 0.26.1
 
 license: MIT
 
