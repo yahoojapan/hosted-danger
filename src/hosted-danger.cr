@@ -23,15 +23,15 @@ module HostedDanger
     OptionParser.parse! do |parser|
       parser.banner = "Usage: hosted-danger [Options]"
 
-      parser.on("-h HOST", "--host=HOST", "Binding host") do |_host|
+      parser.on("-h HOST", "--host=HOST", "Binding host (Default is 0.0.0.0)") do |_host|
         host = _host
       end
 
-      parser.on("-p PORT", "--port=PORT", "Binding port") do |_port|
+      parser.on("-p PORT", "--port=PORT", "Binding port (Default is 80)") do |_port|
         port = _port.to_i
       end
 
-      parser.on("-c CONFIG", "--config=CONFIG", "Path to the server config yaml") do |_config|
+      parser.on("-c CONFIG", "--config=CONFIG", "Path to the server config yaml (Default is #{config})") do |_config|
         config = _config
       end
 
