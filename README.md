@@ -32,7 +32,7 @@ The assigning reviewers, checking CI statuses and merging pull requet is done by
 As you can see that the coder just write codes and push it and reviewers just do review.
 So Hosted Danger create free times for developers to do some stuffs.
 
-## Compare with CI danger
+## Comparison with CI danger
 
 Here we show the comparison of Hosted Danger and CI danger.
 
