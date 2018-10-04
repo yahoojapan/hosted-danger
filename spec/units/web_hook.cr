@@ -193,9 +193,6 @@ describe HostedDanger::WebHook do
   it "retriable" do
     web_hook = HostedDangerMocks::WebHook.new
 
-    #
-    # 常にraiseするものは、そのエラーをraiseする
-    #
     e = 0
 
     expect_raises(MyException) do
@@ -205,18 +202,12 @@ describe HostedDanger::WebHook do
       end
     end
 
-    #
-    # retry中に成功したものはraiseしない
-    #
     e = 0
     web_hook.retriable do
       e += 1
       raise MyException.new("getaddrinfo") if e <= 2
     end
 
-    #
-    # 成功したら正常終了
-    #
     e = 0
     web_hook.retriable do
       e += 1
@@ -224,9 +215,6 @@ describe HostedDanger::WebHook do
 
     e.should eq(1)
 
-    #
-    # getaddrinfo以外のエラーはretryしない
-    #
     e = 0
     expect_raises(MyException) do
       web_hook.retriable do

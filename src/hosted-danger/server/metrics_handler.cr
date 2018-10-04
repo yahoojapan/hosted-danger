@@ -18,9 +18,6 @@ module HostedDanger
     def new_request
       time_now = Time.now
 
-      #
-      # 90秒以上たったリクエストはいらないので捨てる
-      #
       @requests.reject! { |t| (time_now - t).to_i > 90 }
       @requests << time_now
 

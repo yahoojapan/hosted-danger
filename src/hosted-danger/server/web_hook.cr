@@ -1,9 +1,6 @@
 module HostedDanger
   class WebHook
     def initialize
-      #
-      # Metrics を収集するEventを登録しておく
-      #
       [
         "pull_request",
         "pull_request_review",
@@ -20,21 +17,12 @@ module HostedDanger
       Metrics.increment("event_#{event}")
     end
 
-    #
-    # 3回まで retry する
-    #
     def retriable(&block)
       retry_count = 3
       retry_count.times do |i|
         yield
-        #
-        # 成功したら終了
-        #
         break
       rescue e : Exception
-        #
-        # getaddrinfo 系のエラーではない or retry してもダメなら raise する
-        #
         raise e if !retry?(e) || i >= retry_count - 1
         sleep 0.1
       end

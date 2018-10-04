@@ -8,9 +8,9 @@ module HostedDanger
     event: String,
     html_url: String,
     pr_number: Int32,
-    sha: String,        # build status の変更に使用
-    head_label: String, # commitを数えるのに使用
-    base_label: String, # commitを数えるのに使用
+    sha: String,
+    head_label: String,
+    base_label: String,
     raw_payload: String,
     env: Hash(String, String),
   )
@@ -23,15 +23,15 @@ module HostedDanger
     OptionParser.parse! do |parser|
       parser.banner = "Usage: hosted-danger [Options]"
 
-      parser.on("-h HOST", "--host=HOST", "Binding host") do |_host|
+      parser.on("-h HOST", "--host=HOST", "Binding host (Default is 0.0.0.0)") do |_host|
         host = _host
       end
 
-      parser.on("-p PORT", "--port=PORT", "Binding port") do |_port|
+      parser.on("-p PORT", "--port=PORT", "Binding port (Default is 80)") do |_port|
         port = _port.to_i
       end
 
-      parser.on("-c CONFIG", "--config=CONFIG", "Path to the server config yaml") do |_config|
+      parser.on("-c CONFIG", "--config=CONFIG", "Path to the server config yaml (Default is #{config})") do |_config|
         config = _config
       end
 
@@ -40,6 +40,7 @@ module HostedDanger
         exit 0
       end
     end
+
     ServerConfig.setup(config)
 
     server = Server.new
