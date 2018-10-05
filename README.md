@@ -6,8 +6,8 @@ Hosted Danger helps agressive automations for your Pull Requests especially for 
 Hosted Danger hosts [danger](https://github.com/danger/danger), so it executes danger internally.
 The difference is "when" and "what" to be executed.
 
-- **when**: Hosted Danger is detached from CI process. So danger can be executed interactively. (It's reacted for Github Webhooks.)
-- **what**: Since it's detached from CI, it cannot refer the source codes and build products. It's specialized for Pull Requests automations, not for showing results of lints, tests or coverages.
+- **When**: Hosted Danger is detached from CI process. So danger can be executed interactively. (It's reacted for Github Webhooks.)
+- **What**: Since it's detached from CI, it cannot refer the source codes and build products basically. It's specialized for Pull Requests automations, not for showing results of lints, tests or coverages.
 
 The Hosted Danger is activated on **more than 1500 repositoies** in Yahoo! JAPAN.
 
