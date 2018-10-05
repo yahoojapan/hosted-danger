@@ -1,6 +1,8 @@
 # Hosted Danger
 
-<i>Accelerate your pull requests by automations</i>
+<p align="center">
+  <i>Accelerate your pull requests by automations</i>
+</p>
 
 Hosted Danger helps agressive automations for your Pull Requests especially for assigning reviewers, checking CI statuses and merging pull requests.
 Hosted Danger hosts [danger](https://github.com/danger/danger), so it executes danger internally.
@@ -12,8 +14,8 @@ The difference is "when" and "what" to be executed.
 The Hosted Danger is activated on **more than 1500 repositoies** in Yahoo! JAPAN.
 
 ## Indices
-- [Quick Start](/quick_start.md)
-- [Use Cases](/basic_examples.md)
+- [Quick Start](/docs/quick_start.md)
+- [Use Cases](/docs/basic_examples.md)
 
 ## Details of Cencept
 
