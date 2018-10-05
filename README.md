@@ -11,11 +11,11 @@ The difference is "when" and "what" to be executed.
 
 The Hosted Danger is activated on **more than 1500 repositoies** in Yahoo! JAPAN.
 
-## Quick start
+## Indices
+- [Quick Start](/quick_start.md)
+- [Use Cases](/basic_examples.md)
 
-TBD
-
-## More Detail
+## Details of Cencept
 
 ### An Example of Legacy Pull Request Flow
 <img src="https://user-images.githubusercontent.com/3483230/46455263-2b23ba00-c7e5-11e8-842d-180ac8503799.png" />
@@ -40,4 +40,3 @@ Here we show the comparison of Hosted Danger and CI danger.
 |---------------|-----------------------|----------------------------------------------|
 | Hosted Danger | Interactively         | Limited                                      |
 | CI danger     | End of the CI process | Full access                                  |
-
