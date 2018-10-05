@@ -2,59 +2,41 @@ FROM crystallang/crystal:0.26.1
 
 # base
 RUN apt-get clean -y && apt-get update -y
-RUN apt-get install curl libcurl3 libcurl3-gnutls libcurl4-openssl-dev wget dnsutils locales locales-all -y
+RUN apt-get install curl libcurl3 \
+            libcurl3-gnutls libcurl4-openssl-dev wget \
+            dnsutils locales locales-all nodejs npm -y
 
 ENV LANG ja_JP.UTF-8
 ENV LANGUAGE ja_JP.UTF-8
 ENV LC_ALL ja_JP.UTF-8
 
-# crystal
-RUN crystal --version
-RUN shards --version
-
 # ruby
 RUN apt-get install ruby ruby-dev -y
-RUN ruby --version
 RUN gem install bundler --no-ri --no-rdoc
 RUN gem install specific_install --no-ri --no-rdoc
 
+WORKDIR /opt/hd
+
+COPY . .
+
 # gems
-RUN mkdir /tmp/gem
-COPY Gemfile /tmp/gem
-COPY Gemfile.lock /tmp/gem
-RUN cd /tmp/gem && /bin/bash -l -c "bundle install --system"
+RUN /bin/bash -l -c "bundle install --system"
 RUN mv /usr/local/bin/danger /usr/local/bin/danger_ruby
-RUN ls -la /usr/local/bin
-#
-# no_fetch_danger を修正した場合は、こちらのバージョンを修正
-#
+# no_fetch_danger
 RUN gem install no_fetch_danger -v 5.6.8 -s http://rubygems.corp.yahoo.co.jp:8000/apj-rubygems
 
 # js
-RUN apt-get install -y nodejs npm
 RUN npm cache clean && npm install n -g
-RUN n --latest && n --stable
 RUN n stable
 RUN apt-get purge -y nodejs npm
 RUN npm install -g yarn
-RUN node -v && npm -v && yarn -v
 RUN yarn global add danger
 RUN ln -s /usr/local/bin/danger /usr/local/bin/danger_js
 
-RUN ls -la /usr/local/bin
-RUN danger_ruby --version
-RUN danger_js --version
-
 # hd
-RUN mkdir -p /tmp/hd
-
-COPY shard.yml shard.lock /tmp/hd/
-
 EXPOSE 80
 
-COPY Dangerfile.default /tmp/hd/Dangerfile.default
-COPY src /tmp/hd/src
+RUN shards build --release
+ENV PATH $PATH:/opt/hd/bin
 
-RUN cd /tmp/hd && shards build
-
-CMD /tmp/hd/bin/hosted-danger
+CMD hosted-danger
