@@ -36,7 +36,7 @@ RUN ln -s /usr/local/bin/danger /usr/local/bin/danger_js
 # hd
 EXPOSE 80
 
-COPY Dangerfile.default shard.yml shard.lcok ./
+COPY Dangerfile.default shard.yml shard.lock ./
 COPY src ./src
 
 RUN shards build --release
