@@ -17,7 +17,7 @@ RUN gem install specific_install --no-ri --no-rdoc
 
 WORKDIR /opt/hd
 
-COPY . .
+COPY Gemfile Gemfile.lock ./
 
 # gems
 RUN /bin/bash -l -c "bundle install --system"
@@ -35,6 +35,9 @@ RUN ln -s /usr/local/bin/danger /usr/local/bin/danger_js
 
 # hd
 EXPOSE 80
+
+COPY Dangerfile.default shard.yml shard.lock ./
+COPY src ./src
 
 RUN shards build --release
 ENV PATH $PATH:/opt/hd/bin
