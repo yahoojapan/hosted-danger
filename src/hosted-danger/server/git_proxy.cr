@@ -7,7 +7,9 @@ module HostedDanger
       override_headers["Host"] = git_context[:git_host]
       override_headers["Authorization"] = "token #{git_context[:access_token]}"
 
-      context.request.headers.merge!(override_headers)
+      h = context.request.headers.merge!(override_headers)
+      h.delete("Accept-Encoding")
+      h
     end
 
     def rewrite_resource(context, git_context : GitContext) : String
@@ -62,6 +64,8 @@ module HostedDanger
                                         else
                                           v.as(String).gsub("https://#{git_context[:git_host]}/api/v3", "http://localhost/proxy/#{git_context[:symbol]}")
                                         end
+        elsif k == "Content-Encoding" || k == "Transfer-Encoding"
+          next
         else
           context.response.headers[k] = v
         end
