@@ -14,23 +14,21 @@ end
 
 describe HostedDanger::Executor do
   it "with_dragon_envs" do
-    setup_envs do
-      executable = mock_executable
-      executable[:env]["hoge"] = "test"
+    executable = mock_executable
+    executable[:env]["hoge"] = "test"
 
-      executor = HostedDanger::Executor.new(executable)
-      executor.env["DRAGON_ACCESS_KEY"]?.should be_nil
-      executor.env["DRAGON_SECRET_ACCESS_KEY"]?.should be_nil
+    executor = HostedDanger::Executor.new(executable)
+    executor.env["DRAGON_ACCESS_KEY"]?.should be_nil
+    executor.env["DRAGON_SECRET_ACCESS_KEY"]?.should be_nil
 
-      executor.with_dragon_envs do
-        executor.env["DRAGON_ACCESS_KEY"].should eq("dragon_key")
-        executor.env["DRAGON_SECRET_ACCESS_KEY"].should eq("dragon_secret_key")
-        executor.env["hoge"].should eq("test")
-      end
-
-      executor.env["DRAGON_ACCESS_KEY"]?.should be_nil
-      executor.env["DRAGON_SECRET_ACCESS_KEY"]?.should be_nil
+    executor.with_dragon_envs do
+      executor.env["DRAGON_ACCESS_KEY"].should eq("dg_dummy")
+      executor.env["DRAGON_SECRET_ACCESS_KEY"].should eq("dg_dummy_sec")
+      executor.env["hoge"].should eq("test")
     end
+
+    executor.env["DRAGON_ACCESS_KEY"]?.should be_nil
+    executor.env["DRAGON_SECRET_ACCESS_KEY"]?.should be_nil
   end
 
   it "dir of Executor is always same" do
