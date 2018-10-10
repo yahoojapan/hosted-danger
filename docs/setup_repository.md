@@ -8,7 +8,6 @@ Add webhook to the target repository.
 Go the repository's Settings page, select Webhooks tab and add webhook as below.
 
 | Payload URL                                          | http(s)://your_hosted_danger_instance.com/hook |
-|------------------------------------------------------|------------------------------------------------|
 | Content type                                         | application/json                               |
 | Secret                                               | None                                           |
 | Which events would you like to trigger this webhook? | Send me everything.                            |

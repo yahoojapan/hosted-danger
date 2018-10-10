@@ -23,3 +23,6 @@ Here we show the comparison of Hosted Danger and CI danger.
 |---------------|-----------------------|----------------------------------------------|
 | Hosted Danger | Interactively         | Limited                                      |
 | CI danger     | End of the CI process | Full access                                  |
+
+## Next Step
+- [Launch Server](/docs/launch_server.md)
