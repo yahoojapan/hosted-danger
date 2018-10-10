@@ -12,10 +12,8 @@ describe HostedDanger::Parser do
   end
 
   it "access_token_from_git_host" do
-    setup_envs do
-      access_token_from_git_host("github.com").should eq("dummy_token")
-      access_token_from_git_host("github2.com").should eq("dummy_token_two")
-    end
+    access_token_from_git_host("github.com").should eq("dummy")
+    access_token_from_git_host("github2.com").should eq("dummy2")
   end
 
   it "org_repo_from_html_url" do
