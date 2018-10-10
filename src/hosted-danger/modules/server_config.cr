@@ -3,11 +3,13 @@ module HostedDanger
     YAML.mapping(
       githubs: Array(GithubConfig),
       secrets: Array(Secret)?,
+      ignores: Array(Ignore)?,
     )
 
     class GithubConfig
       YAML.mapping(
         host: String,
+        user: String,
         env: String,
         symbol: String,
         api_base: String,
@@ -19,6 +21,13 @@ module HostedDanger
       YAML.mapping(
         name: String,
         env: String,
+      )
+    end
+
+    class Ignore
+      YAML.mapping(
+        user: String,
+        events: Array(String),
       )
     end
 
@@ -61,6 +70,19 @@ module HostedDanger
 
     def self.secret(name : String) : String
       @@env_internal[@@server_config_internal.not_nil!.secrets.not_nil!.find { |s| s.name == name }.not_nil!.env]
+    end
+
+    def self.ignore?(user : String, event : String) : Bool
+      app_users = @@server_config_internal.not_nil!.githubs.map { |g| g.user }
+      return true if app_users.includes?(user)
+
+      if ignores = @@server_config_internal.not_nil!.ignores
+        if ignored_user = ignores.find { |i| i.user == user }
+          return ignored_user.events.includes?(event)
+        end
+      end
+
+      false
     end
   end
 end
