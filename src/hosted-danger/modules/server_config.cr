@@ -23,15 +23,28 @@ module HostedDanger
     end
 
     @@server_config_internal : ServerConfig? = nil
+    @@env_internal : Hash(String, String) = {} of String => String
 
     def self.setup(path : String)
       ENV["JENKINS_URL"] = "I'm jenkins! :)"
 
       @@server_config_internal = ServerConfig.from_yaml(File.read(path))
+
+      @@server_config_internal.not_nil!.githubs.each do |g|
+        @@env_internal[g.env] = ENV[g.env]
+        ENV.delete(g.env)
+      end
+
+      if secrets = @@server_config_internal.not_nil!.secrets
+        secrets.each do |s|
+          @@env_internal[s.env] = ENV[s.env]
+          ENV.delete(s.env)
+        end
+      end
     end
 
     def self.access_token_of(git_host : String) : String
-      ENV[@@server_config_internal.not_nil!.githubs.find { |g| g.host == git_host }.not_nil!.env]
+      @@env_internal[@@server_config_internal.not_nil!.githubs.find { |g| g.host == git_host }.not_nil!.env]
     end
 
     def self.api_base_of(git_host : String) : String
@@ -47,7 +60,7 @@ module HostedDanger
     end
 
     def self.secret(name : String) : String
-      ENV[@@server_config_internal.not_nil!.secrets.not_nil!.find { |s| s.name == name }.not_nil!.env]
+      @@env_internal[@@server_config_internal.not_nil!.secrets.not_nil!.find { |s| s.name == name }.not_nil!.env]
     end
   end
 end
