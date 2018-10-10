@@ -1,44 +1,26 @@
 # Hosted Danger
 
 <p align="center">
-  <i>Accelerate your pull requests by automations</i>
+  <i>:zap: Accelerate your pull requests by automations :zap:</i>
 </p>
 
 Hosted Danger helps agressive automations for your Pull Requests especially for assigning reviewers, checking CI statuses and merging pull requests.
 Hosted Danger hosts [danger](https://github.com/danger/danger), so it executes danger internally.
 The difference is "when" and "what" to be executed.
 
-- **When**: Hosted Danger is detached from CI process. So danger can be executed interactively. (It's reacted for Github Webhooks.)
-- **What**: Since it's detached from CI, it cannot refer the source codes and build products basically. It's specialized for Pull Requests automations, not for showing results of lints, tests or coverages.
+- :heavy_check_mark: **When**: Hosted Danger is detached from CI process. So danger can be executed interactively. (It's reacted for Github Webhooks.)
+- :heavy_check_mark: **What**: Since it's detached from CI, it cannot refer the source codes and build products basically. It's specialized for Pull Requests automations, not for showing results of lints, tests or coverages.
 
-The Hosted Danger is activated on **more than 1500 repositoies** in Yahoo! JAPAN.
+The Hosted Danger is activated on **more than 1500 repositoies** in Yahoo! JAPAN. :rocket:
 
-## Indices
-- [Quick Start](/docs/quick_start.md)
-- [Use Cases](/docs/basic_examples.md)
+## Docs
+- [Concept](/docs/concept.md)
+- [Launch Server](/docs/launch_server.md)
+- [Setup Repository](/docs/setup_repository.md)
+- [Examples of Dangerfile](/docs/example_of_dangerfile.md)
 
-## Details of Cencept
+## Contribution
 
-### An Example of Legacy Pull Request Flow
-<img src="https://user-images.githubusercontent.com/3483230/46455263-2b23ba00-c7e5-11e8-842d-180ac8503799.png" />
+This project requires contributors to agree to a [CLA (Contributor License Agreement)](https://gist.github.com/ydnjp/3095832f100d5c3d2592).
 
-In this flow, the coder have to assign reviewers and merge pull request by self.
-Also the coder have to wait completion of CI processes to check these statuses.
-Even if there is notification for it, the coder have to go back to the pull request page at least.
-
-### With Hosted Danger
-<img src="https://user-images.githubusercontent.com/3483230/46455255-252dd900-c7e5-11e8-8b63-cd31e00c69dc.png" />
-
-The assigning reviewers, checking CI statuses and merging pull requet is done by Hosted Danger.
-As you can see the coder and the reviewer just do what they should do.
-The other boring stuffs (assigning reviewers, checking CI statuses, merging pull request) is done by Hosted Danger.
-Hosted Danger create free times for developers to do their tasks.
-
-## Comparison with CI danger
-
-Here we show the comparison of Hosted Danger and CI danger.
-
-|               | Timing of execution   | Access to the source code and build products |
-|---------------|-----------------------|----------------------------------------------|
-| Hosted Danger | Interactively         | Limited                                      |
-| CI danger     | End of the CI process | Full access                                  |
+Note that only for contributions to the Hosted Danger repository on the GitHub (https://github.com/yahoojapan/hosted-danger), the contributors of them shall be deemed to have agreed to the CLA without individual written agreements.
