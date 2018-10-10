@@ -1,3 +1,8 @@
+# Example of Dangerfile
+
+```ruby
+```
+
 # More Use Cases
 
 Use can use danger as usual unless it accesses to the source codes or build products.
@@ -30,6 +35,9 @@ end
 #
 message("Hi I'm Hosted Danger! :heart:")
 
+#
+# Classify the pull requests for avoiding auto merging
+#
 warn "PR is classed as Work in Progress" if wip?
 warn "PR is classed as Do Not Merge" if dnm?
 warn "PR is classed as Test" if test?
@@ -41,8 +49,9 @@ has_milestone = github.pr_json['milestone'] != nil
 warn('Milestone is not set') unless has_milestone
 
 #
-# Show a warn message when there is unchecked tasks in the description
+# Show a warn message when there are unchecked tasks in the description
 #
 has_unchecked_tasks = github.pr_body =~ /^\s*- \[ \] /
 warn 'There are unchecked tasks. :white_medium_square:' if has_unchecked_tasks
 ```
+

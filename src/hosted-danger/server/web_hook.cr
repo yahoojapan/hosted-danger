@@ -102,7 +102,7 @@ module HostedDanger
     end
 
     def e_pull_request(event, payload_json, query_params) : Array(Executable)?
-      return L.info "#{event} skip: sender is ap-danger" if payload_json["sender"]["login"] == "ap-danger"
+      return nil if ignore?(payload_json["sender"]["login"].as_s, event)
 
       new_request(event)
 
@@ -128,8 +128,7 @@ module HostedDanger
     end
 
     def e_pull_request_review(event, payload_json, query_params) : Array(Executable)?
-      return L.info "#{event} skip: sender is ap-danger" if payload_json["sender"]["login"] == "ap-danger"
-      return L.info "#{event} skip: sender is ap-approduce" if payload_json["sender"]["login"] == "ap-approduce"
+      return nil if ignore?(payload_json["sender"]["login"].as_s, event)
       return L.info "#{event} skip: dismissed" if payload_json["action"] == "dismissed"
 
       new_request(event)
@@ -156,8 +155,7 @@ module HostedDanger
     end
 
     def e_pull_request_review_comment(event, payload_json, query_params) : Array(Executable)?
-      return L.info "#{event} skip: sender is ap-danger" if payload_json["sender"]["login"] == "ap-danger"
-      return L.info "#{event} skip: sender is ap-approduce" if payload_json["sender"]["login"] == "ap-approduce"
+      return nil if ignore?(payload_json["sender"]["login"].as_s, event)
       return L.info "#{event} skip: deleted" if payload_json["action"] == "deleted"
 
       new_request(event)
@@ -184,8 +182,7 @@ module HostedDanger
     end
 
     def e_issue_comment(event, payload_json, query_params) : Array(Executable)?
-      return L.info "#{event} skip: sender is ap-danger" if payload_json["sender"]["login"] == "ap-danger"
-      return L.info "#{event} skip: sender is ap-approduce" if payload_json["sender"]["login"] == "ap-approduce"
+      return nil if ignore?(payload_json["sender"]["login"].as_s, event)
       return L.info "#{event} skip: deleted" if payload_json["action"] == "deleted"
 
       if payload_json["issue"]["html_url"].as_s =~ /(.*)\/pull\/(.*)/
@@ -221,7 +218,7 @@ module HostedDanger
     end
 
     def e_issues(event, payload_json, query_params) : Array(Executable)?
-      return L.info "#{event} skip: sender is ap-danger" if payload_json["sender"]["login"] == "ap-danger"
+      return nil if ignore?(payload_json["sender"]["login"].as_s, event)
       return L.info "#{event} skip: closed" if payload_json["action"] == "closed"
 
       if payload_json["issue"]["html_url"].as_s =~ /(.*)\/pull\/(.*)/
@@ -253,7 +250,7 @@ module HostedDanger
     end
 
     def e_status(event, payload_json, query_params) : Array(Executable)?
-      return L.info "#{event} skip: sender is ap-danger" if payload_json["sender"]["login"] == "ap-danger"
+      return nil if ignore?(payload_json["sender"]["login"].as_s, event)
 
       new_request(event)
 
@@ -285,6 +282,15 @@ module HostedDanger
       end
 
       executables
+    end
+
+    def ignore?(user : String, event : String) : Bool
+      if ServerConfig.ignore?(user, event)
+        L.info "#{event} skip: sernder is #{user}"
+        return true
+      end
+
+      false
     end
 
     include Github
