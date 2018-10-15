@@ -30,7 +30,7 @@ module HostedDanger
 
     def retry?(e : Exception)
       m = e.message || ""
-      b = (e.backtrace || [] of String).join("")
+      b = (e.backtrace? || [] of String).join("") rescue ""
 
       (m + b).includes?("getaddrinfo")
     end

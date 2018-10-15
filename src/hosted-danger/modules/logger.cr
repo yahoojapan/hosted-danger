@@ -25,11 +25,7 @@ module HostedDanger
         "No message"
       end
 
-      backtrace : String = if _backtrace = e.backtrace?
-        _backtrace.join("\n")
-      else
-        "No backtrace"
-      end
+      backtrace = (e.backtrace? || [] of String).join("\n") rescue ""
 
       paster_url = if _payload = payload
                      upload_text(_payload)
