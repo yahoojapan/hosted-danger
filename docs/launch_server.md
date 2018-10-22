@@ -1,10 +1,10 @@
 # Launch Server
 
-These are required to start Hosted Danger
+These are required to start Hosted Danger.
 - At least an instance (server) is needed which can communicate with your Github in TCP.
   - Docker environment in the instance.
 - Application account on Github.
-  - Create an account for Hosted Danger. You cannot reuse your main account for it.
+  - Create an account for Hosted Danger. You **cannot** reuse your main account for it.
 - An access token of the application account with repo scope.
   - Create it in your github settings page. (Settings => Developer settings => Personal access tokens)
 

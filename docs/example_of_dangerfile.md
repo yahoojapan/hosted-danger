@@ -1,6 +1,32 @@
+# Basic Usage
+- Hosted Danger recognizes **Dangerfile.hosted.rb** or **Dangerfile.hosted** as a Dangerfile to be executed.
+  - So put **Dangerfile.hosted.rb** at root of you project.
+  - Which means you can use both of Hosted Danger and CI danger.
+
 # Example of Dangerfile
 
+We have [useful plugins](/dangerfile) that realize basic behaviors of Hosted Danger.
+
 ```ruby
+# In your "Dangerfile.hosted.rb".
+# First, import our plugins by
+
+# Assigning reviewers automatically when it should be.
+# It checks below conditions to decide the pull request is assignable or not.
+# - The pull request is not closed.
+# - No errors and warnings.
+# - It's not WIP. (The title doesn't contain "WIP")
+# - There is no assigned reviewers.
+# - There is no reviews.
+
+# Automatically merge pull request when it should be.
+# It checks below conditions to decide the pull request is mergeable or not.
+# - The pull request is not conflicted.
+# - It's not WIP and DNM. (The title doesn't contain "WIP" and "DNM")
+# - Danger doesn't report any errors or warnings.
+# - Enough number of approves.
+# - Every CI statuses are success.
+
 ```
 
 # More Use Cases

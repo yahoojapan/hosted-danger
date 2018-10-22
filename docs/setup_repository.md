@@ -1,8 +1,8 @@
 # Setup Repository
 
-In this doc, we assume that you already have a Hosted Danger server. ([Launch Server](/docs/launch_server.md))
+In this doc, we assume that you already have a Hosted Danger server. (If not, please refer [here](/docs/launch_server.md))
 
-## Setting Webhook
+## Setting Webhooks
 
 Add webhook to the target repository.
 Go the repository's Settings page, select Webhooks tab and add webhook as below.
@@ -13,13 +13,13 @@ Go the repository's Settings page, select Webhooks tab and add webhook as below.
 | Which events would you like to trigger this webhook? | Send me everything.                            |
 | Active                                               | On (Active)                                    |
 
-Note that if you set the webhook to the organization, all repositories belong to it are activated.
+Note that if you set the webhook to the organization, all repositories are activated.
 
 ## Application account
 
 Add your application account to the repository as a collaborator.
 
-Note that if you add the application account to the organization with writable role, all repositories belong to it are activated.
+Note that if you add the application account to the organization with writable role, all repositories are activated.
 
 ## Testing
 
