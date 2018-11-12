@@ -1,6 +1,6 @@
 # Basic Usage
 - Hosted Danger recognizes **Dangerfile.hosted.rb** or **Dangerfile.hosted** as a Dangerfile to be executed.
-  - So put **Dangerfile.hosted.rb** at root of you project.
+  - Put **Dangerfile.hosted.rb** at root of you project.
   - Which means you can use both of Hosted Danger and CI danger.
 
 # Example of Dangerfile
@@ -31,7 +31,7 @@ We have [useful plugins](/dangerfile) that realize basic behaviors of Hosted Dan
 
 # More Use Cases
 
-Use can use danger as usual unless it accesses to the source codes or build products.
+You can use danger as usual unless it accesses to the source codes or build products.
 Here we show some examples of other use cases.
 
 The reference of original danger is [here](https://danger.systems/reference.html).
@@ -80,4 +80,3 @@ warn('Milestone is not set') unless has_milestone
 has_unchecked_tasks = github.pr_body =~ /^\s*- \[ \] /
 warn 'There are unchecked tasks. :white_medium_square:' if has_unchecked_tasks
 ```
-

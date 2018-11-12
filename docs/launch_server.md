@@ -2,7 +2,7 @@
 
 These are required to start Hosted Danger.
 - At least an instance (server) is needed which can communicate with your Github in TCP.
-  - Docker environment in the instance.
+  - Docker environment in it.
 - Application account on Github.
   - Create an account for Hosted Danger. You **cannot** reuse your main account for it.
 - An access token of the application account with repo scope.
@@ -10,9 +10,10 @@ These are required to start Hosted Danger.
 
 In the following example, it's assumed that you are using github.com.
 
-In the instance, pull a Hosted Danger's docker image from hub.docker.com.
+In the instance, build a Hosted Danger's docker image from hub.docker.com.
 ```bash
-TBD
+git clone https://github.com/yahoojapan/hosted-danger
+cd hosted-danger && docker build -t hosted-danger .
 ```
 
 Create a configuration file and save it as config.yaml. It looks like this.
