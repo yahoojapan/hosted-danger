@@ -55,7 +55,7 @@ module HostedDanger
     rescue e : Exception
       case e
       when Github::GithubException
-        L.error e, e.res.inspect, false
+        L.error e, e.res.inspect, false, false
       else
         L.error e, payload_json.to_json
       end

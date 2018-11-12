@@ -11,6 +11,7 @@ module HostedDanger
       @health_check = HealthCheck.new
       @web_hook = WebHook.new
       @git_proxy = GitProxy.new
+      @sd_proxy = SDProxy.new
       @metrics_printer = MetricsPrinter.new
       @exec_openpr = ExecOpenPr.new
     end
@@ -30,6 +31,10 @@ module HostedDanger
       put "/proxy/:symbol/*" { |context, params| @git_proxy.proxy_put(context, params) }
       patch "/proxy/:symbol/*" { |context, params| @git_proxy.proxy_patch(context, params) }
       delete "/proxy/:symbol/*" { |context, params| @git_proxy.proxy_delete(context, params) }
+
+      # Internal Screwdriver.cd Proxy
+      get "/sdproxy/auth" { |context, params| @sd_proxy.auth(context, params) }
+      get "/sdproxy/auth/next" { |context, params| @sd_proxy.auth_next(context, params) }
 
       # Metrics for Prometheus
       get "/metrics" { |context, params| @metrics_printer.print(context, params) }

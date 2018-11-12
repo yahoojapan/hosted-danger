@@ -1,3 +1,3 @@
-danger.import_dangerfile(github: "yahoojapan/hosted-danger")
+danger.import_dangerfile(github: "hosted-danger/dangerfile")
 
-message "Hello from Hosted Danger! :tada:"
+common_rule.check
