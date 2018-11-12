@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="rspec" tests="48" failures="1" errors="0" time="1.485178" timestamp="2016-08-06T20:02:41-04:00">
+  <!-- Randomized with seed 55363 -->
+  <properties/>
+  <testcase classname="spec.lib.danger.ci_sources.buildkite_spec" name="Danger::Buildkite validates when buildkite all env vars is found" file="./spec/lib/danger/ci_sources/buildkite_spec.rb" time="0.000594"/>
+  <testcase classname="spec.lib.danger.ci_sources.buildkite_spec" name="Danger::Buildkite doesnt validate when buildkite is not found" file="./spec/lib/danger/ci_sources/buildkite_spec.rb" time="0.000111"/>
+  <testcase classname="spec.lib.danger.ci_sources.buildkite_spec" name="Danger::Buildkite gets out a repo slug from a git+ssh repo and pull request number" file="./spec/lib/danger/ci_sources/buildkite_spec.rb" time="0.000425"/>
+  <testcase classname="spec.lib.danger.ci_sources.buildkite_spec" name="Danger::Buildkite gets out a repo slug from a https repo and pull request number" file="./spec/lib/danger/ci_sources/buildkite_spec.rb" time="0.000091"/>
+  <testcase classname="spec.lib.danger.ci_sources.buildkite_spec" name="Danger::Buildkite doesn't continue when the build is not a pull request" file="./spec/lib/danger/ci_sources/buildkite_spec.rb" time="0.000103"/>
+  <testcase classname="spec.lib.danger.ci_sources.circle_api_spec" name="Danger::CircleAPI has a nil token as default" file="./spec/lib/danger/ci_sources/circle_api_spec.rb" time="0.000734"/>
+  <testcase classname="spec.lib.danger.ci_sources.circle_api_spec" name="Danger::CircleAPI sets the token on initialize" file="./spec/lib/danger/ci_sources/circle_api_spec.rb" time="0.000578"/>
+  <testcase classname="spec.lib.danger.ci_sources.circle_api_spec" name="Danger::CircleAPI creates a client with the correct base url" file="./spec/lib/danger/ci_sources/circle_api_spec.rb" time="0.001214"/>
+  <testcase classname="spec.lib.danger.ci_sources.circle_api_spec" name="Danger::CircleAPI fetches the build info without token" file="./spec/lib/danger/ci_sources/circle_api_spec.rb" time="0.006071"/>
+  <testcase classname="spec.lib.danger.ci_sources.circle_api_spec" name="Danger::CircleAPI fetches the build info with token" file="./spec/lib/danger/ci_sources/circle_api_spec.rb" time="0.001416"/>
+  <testcase classname="spec.lib.danger.ci_sources.circle_spec" name="Danger::CircleCI validates when circle all env vars are set" file="./spec/lib/danger/ci_sources/circle_spec.rb" time="0.000105"/>
+  <testcase classname="spec.lib.danger.ci_sources.circle_spec" name="Danger::CircleCI validates when circle env var is found and it has a bad PR url" file="./spec/lib/danger/ci_sources/circle_spec.rb" time="0.000091"/>
+  <testcase classname="spec.lib.danger.ci_sources.circle_spec" name="Danger::CircleCI doesnt get a PR id when it has a bad PR url" file="./spec/lib/danger/ci_sources/circle_spec.rb" time="0.009006"/>
+  <testcase classname="spec.lib.danger.ci_sources.circle_spec" name="Danger::CircleCI does validate when circle env var is found and it has no PR url" file="./spec/lib/danger/ci_sources/circle_spec.rb" time="0.000128"/>
+  <testcase classname="spec.lib.danger.ci_sources.circle_spec" name="Danger::CircleCI doesnt validate when circle ci is not found" file="./spec/lib/danger/ci_sources/circle_spec.rb" time="0.000095"/>
+  <testcase classname="spec.lib.danger.ci_sources.circle_spec" name="Danger::CircleCI gets out a repo slug and pull request number" file="./spec/lib/danger/ci_sources/circle_spec.rb" time="0.009844"/>
+  <testcase classname="spec.lib.danger.ci_sources.circle_spec" name="Danger::CircleCI gets out a repo slug, pull request number and commit refs when PR url is not found" file="./spec/lib/danger/ci_sources/circle_spec.rb" time="0.012487"/>
+  <testcase classname="spec.lib.danger.ci_sources.circle_spec" name="Danger::CircleCI uses Circle CI API token if available" file="./spec/lib/danger/ci_sources/circle_spec.rb" time="0.010687"/>
+  <testcase classname="spec.lib.danger.ci_sources.drone_spec" name="Danger::Drone validates when DRONE variable is set" file="./spec/lib/danger/ci_sources/drone_spec.rb" time="0.000145"/>
+  <testcase classname="spec.lib.danger.ci_sources.drone_spec" name="Danger::Drone does not validate when DRONE is not set" file="./spec/lib/danger/ci_sources/drone_spec.rb" time="0.000126"/>
+  <testcase classname="spec.lib.danger.ci_sources.drone_spec" name="Danger::Drone does not validate PR when DRONE_PULL_REQUEST is set to non int value" file="./spec/lib/danger/ci_sources/drone_spec.rb" time="0.000402"/>
+  <testcase classname="spec.lib.danger.ci_sources.drone_spec" name="Danger::Drone does not validate  PRwhen DRONE_PULL_REQUEST is set to non positive int value" file="./spec/lib/danger/ci_sources/drone_spec.rb" time="0.000116"/>
+  <testcase classname="spec.lib.danger.ci_sources.drone_spec" name="Danger::Drone gets the pull request ID" file="./spec/lib/danger/ci_sources/drone_spec.rb" time="0.008783"/>
+  <testcase classname="spec.lib.danger.ci_sources.drone_spec" name="Danger::Drone gets the repo address" file="./spec/lib/danger/ci_sources/drone_spec.rb" time="0.008404"/>
+  <testcase classname="spec.lib.danger.ci_sources.drone_spec" name="Danger::Drone gets out a repo slug and pull request number" file="./spec/lib/danger/ci_sources/drone_spec.rb" time="0.011970"/>
+  <testcase classname="spec.lib.danger.ci_sources.git_spec" name="Danger::GitRepo Return Types #modified_files returns a FileList object" file="./spec/lib/danger/ci_sources/git_spec.rb" time="0.079570"/>
+  <testcase classname="spec.lib.danger.ci_sources.git_spec" name="Danger::GitRepo Return Types #added_files returns a FileList object" file="./spec/lib/danger/ci_sources/git_spec.rb" time="0.080882"/>
+  <testcase classname="spec.lib.danger.ci_sources.git_spec" name="Danger::GitRepo Return Types #deleted_files returns a FileList object" file="./spec/lib/danger/ci_sources/git_spec.rb" time="0.081833"/>
+  <testcase classname="spec.lib.danger.ci_sources.git_spec" name="Danger::GitRepo with files handles adding a new file to a git repo" file="./spec/lib/danger/ci_sources/git_spec.rb" time="0.093674"/>
+  <testcase classname="spec.lib.danger.ci_sources.git_spec" name="Danger::GitRepo with files handles file deletions as expected" file="./spec/lib/danger/ci_sources/git_spec.rb" time="0.095147"/>
+  <testcase classname="spec.lib.danger.ci_sources.git_spec" name="Danger::GitRepo with files handles modified as expected" file="./spec/lib/danger/ci_sources/git_spec.rb" time="0.082327"/>
+  <testcase classname="spec.lib.danger.ci_sources.git_spec" name="Danger::GitRepo lines of code handles code insertions as expected" file="./spec/lib/danger/ci_sources/git_spec.rb" time="0.085685"/>
+  <testcase classname="spec.lib.danger.ci_sources.git_spec" name="Danger::GitRepo lines of code handles code deletions as expected" file="./spec/lib/danger/ci_sources/git_spec.rb" time="0.091486"/>
+  <testcase classname="spec.lib.danger.ci_sources.git_spec" name="Danger::GitRepo lines of code #commits returns the commits" file="./spec/lib/danger/ci_sources/git_spec.rb" time="0.082046"/>
+  <testcase classname="spec.lib.danger.ci_sources.jenkins_spec" name="Danger::Jenkins validates when jenkins env var is found" file="./spec/lib/danger/ci_sources/jenkins_spec.rb" time="0.000128"/>
+  <testcase classname="spec.lib.danger.ci_sources.jenkins_spec" name="Danger::Jenkins doesnt validate when jenkins is not found" file="./spec/lib/danger/ci_sources/jenkins_spec.rb" time="0.000082"/>
+  <testcase classname="spec.lib.danger.ci_sources.jenkins_spec" name="Danger::Jenkins gets out a repo slug from a git+ssh repo and pull request number" file="./spec/lib/danger/ci_sources/jenkins_spec.rb" time="0.000155"/>
+  <testcase classname="spec.lib.danger.ci_sources.jenkins_spec" name="Danger::Jenkins gets out a repo slug from a https repo and pull request number" file="./spec/lib/danger/ci_sources/jenkins_spec.rb" time="0.000093"/>
+  <testcase classname="spec.lib.danger.ci_sources.jenkins_spec" name="Danger::Jenkins Is classed as a PR when ghprbPullId exists" file="./spec/lib/danger/ci_sources/jenkins_spec.rb" time="0.000138"/>
+  <testcase classname="spec.lib.danger.ci_sources.local_git_repo_spec" name="Danger::LocalGitRepo validates when run by danger local" file="./spec/lib/danger/ci_sources/local_git_repo_spec.rb" time="0.000082"/>
+  <testcase classname="spec.lib.danger.ci_sources.local_git_repo_spec" name="Danger::LocalGitRepo doesnt validate when the local git flag is missing" file="./spec/lib/danger/ci_sources/local_git_repo_spec.rb" time="0.000117"/>
+  <testcase classname="spec.lib.danger.ci_sources.local_git_repo_spec" name="Danger::LocalGitRepo gets the pull request ID" file="./spec/lib/danger/ci_sources/local_git_repo_spec.rb" time="0.099535"/>
+  <testcase classname="spec.lib.danger.ci_sources.local_git_repo_spec" name="Danger::LocalGitRepo github repos gets the repo address when it uses https" file="./spec/lib/danger/ci_sources/local_git_repo_spec.rb" time="0.000019">
+    <skipped/>
+  </testcase>
+  <testcase classname="spec.lib.danger.ci_sources.local_git_repo_spec" name="Danger::LocalGitRepo github repos gets the repo address when it uses git@" file="./spec/lib/danger/ci_sources/local_git_repo_spec.rb" time="0.110539"/>
+  <testcase classname="spec.lib.danger.ci_sources.local_git_repo_spec" name="Danger::LocalGitRepo github repos gets the repo address when it contains .git" file="./spec/lib/danger/ci_sources/local_git_repo_spec.rb" time="0.103677"/>
+  <testcase classname="spec.lib.danger.ci_sources.local_git_repo_spec" name="Danger::LocalGitRepo github repos gets the repo address when it starts with git://" file="./spec/lib/danger/ci_sources/local_git_repo_spec.rb" time="0.110886"/>
+  <testcase classname="spec.lib.danger.ci_sources.local_git_repo_spec" name="Danger::LocalGitRepo github repos gets the repo address when it starts with git://git@" file="./spec/lib/danger/ci_sources/local_git_repo_spec.rb" time="0.098927"/>
+  <testcase classname="spec.lib.danger.ci_sources.local_git_repo_spec" name="Danger::LocalGitRepo github repos does not set a repo_slug if the repo has a non-gh remote" file="./spec/spec_helper.rb" time="0.095487">
+    <failure message="undefined method `split' for nil:NilClass" type="NoMethodError">
+      <![CDATA[undefined method `split' for nil:NilClass
+./lib/danger/ci_source/local_git_repo.rb:31:in `initialize'
+./spec/lib/danger/ci_sources/local_git_repo_spec.rb:91:in `new'
+./spec/lib/danger/ci_sources/local_git_repo_spec.rb:91:in `block (4 levels) in <top (required)>'
+./spec/lib/danger/ci_sources/local_git_repo_spec.rb:17:in `block (2 levels) in run_in_repo'
+./spec/lib/danger/ci_sources/local_git_repo_spec.rb:6:in `chdir'
+./spec/lib/danger/ci_sources/local_git_repo_spec.rb:6:in `block in run_in_repo'
+./spec/lib/danger/ci_sources/local_git_repo_spec.rb:5:in `run_in_repo'
+./spec/lib/danger/ci_sources/local_git_repo_spec.rb:88:in `block (3 levels) in <top (required)>']]>
+    </failure>
+  </testcase>
+</testsuite>

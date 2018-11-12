@@ -1,0 +1,1388 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<testsuites tests='1111' failures='2'>
+  <testsuite name='ARAnimatedTickViewSpec' tests='5' failures='0'>
+    <testcase classname='ARAnimatedTickViewSpec' name='test_initWithSelection__inits_with_selected' time='0.015'/>
+    <testcase classname='ARAnimatedTickViewSpec' name='test_initWithSelection__inits_with_deselected' time='0.002'/>
+    <testcase classname='ARAnimatedTickViewSpec' name='test_set_selected__changes_deselected_to_selected' time='0.001'/>
+    <testcase classname='ARAnimatedTickViewSpec' name='test_set_selected__changes_selected_to_deselected' time='0.001'/>
+    <testcase classname='ARAnimatedTickViewSpec' name='test_ARTickViewFrontLayer_layer__returns_an_instance_of_ARTickViewFrontlayer' time='0.000'/>
+  </testsuite>
+  <testsuite name='ARAnnotatedMapViewSpec' tests='4' failures='0'>
+    <testcase classname='ARAnnotatedMapViewSpec' name='test_sets_default_zoomStep' time='0.001'/>
+    <testcase classname='ARAnnotatedMapViewSpec' name='test_nextZoomScale__gives_value_necessary_to_show_annotations' time='0.001'/>
+    <testcase classname='ARAnnotatedMapViewSpec' name='test_nextZoomScale__doesnt_let_you_exceed_the_maxZoomScale' time='0.001'/>
+    <testcase classname='ARAnnotatedMapViewSpec' name='test_nextZoomScale__otherwise_multiplies_the_scale_by_the_zoom_step' time='0.006'/>
+  </testsuite>
+  <testsuite name='ARAppActivityContinuationDelegateSpec' tests='6' failures='0'>
+    <testcase classname='ARAppActivityContinuationDelegateSpec' name='test_does_not_accept_unsupported_activities' time='0.000'/>
+    <testcase classname='ARAppActivityContinuationDelegateSpec' name='test_accepts_Safari_Handoff' time='0.000'/>
+    <testcase classname='ARAppActivityContinuationDelegateSpec' name='test_accepts_Spotlight_Handoff' time='0.001'/>
+    <testcase classname='ARAppActivityContinuationDelegateSpec' name='test_accepts_any_user_activity_with_the_Artsy_prefix' time='0.001'/>
+    <testcase classname='ARAppActivityContinuationDelegateSpec' name='test_concerning_loading_a_view_controller__routes_the_WebBrowsing_link_to_the_appropriate_view_controller_and_shows_it' time='0.046'/>
+    <testcase classname='ARAppActivityContinuationDelegateSpec' name='test_concerning_loading_a_view_controller__routes_the_Spotlight_link_to_the_appropriate_view_controller_and_shows_it' time='0.021'/>
+  </testsuite>
+  <testsuite name='ARAppNotificationsDelegateSpec' tests='11' failures='0'>
+    <testcase classname='ARAppNotificationsDelegateSpec' name='test_receiveRemoteNotification__while_running_in_the_background__when_receiving_a_notification__triggers_an_analytics_event_for_receiving_a_notification' time='0.012'/>
+    <testcase classname='ARAppNotificationsDelegateSpec' name='test_receiveRemoteNotification__while_running_in_the_background__when_receiving_a_notification__preloads_the_worksforyou_controller' time='0.009'/>
+    <testcase classname='ARAppNotificationsDelegateSpec' name='test_receiveRemoteNotification__brought_back_from_the_background__updates_the_badge_count' time='0.008'/>
+    <testcase classname='ARAppNotificationsDelegateSpec' name='test_receiveRemoteNotification__brought_back_from_the_background__with_stubbed_top_menu_VC__navigates_to_the_url_provided' time='0.007'/>
+    <testcase classname='ARAppNotificationsDelegateSpec' name='test_receiveRemoteNotification__brought_back_from_the_background__with_stubbed_top_menu_VC__triggers_an_analytics_event_when_a_notification_has_been_tapped' time='0.010'/>
+    <testcase classname='ARAppNotificationsDelegateSpec' name='test_receiveRemoteNotification__brought_back_from_the_background__with_stubbed_top_menu_VC__does_not_display_the_message_in_apsalert' time='0.012'/>
+    <testcase classname='ARAppNotificationsDelegateSpec' name='test_receiveRemoteNotification__running_in_the_foreground__when_receiving_a_notification__triggers_an_analytics_event_for_receiving_a_notification' time='0.013'/>
+    <testcase classname='ARAppNotificationsDelegateSpec' name='test_receiveRemoteNotification__running_in_the_foreground__when_receiving_a_notification__preloads_the_worksforyou_controller' time='0.011'/>
+    <testcase classname='ARAppNotificationsDelegateSpec' name='test_receiveRemoteNotification__running_in_the_foreground__displays_a_notification' time='0.013'/>
+    <testcase classname='ARAppNotificationsDelegateSpec' name='test_receiveRemoteNotification__running_in_the_foreground__triggers_an_analytics_event_when_a_notification_has_been_tapped' time='0.012'/>
+    <testcase classname='ARAppNotificationsDelegateSpec' name='test_receiveRemoteNotification__running_in_the_foreground__defaults_message_to_url' time='0.012'/>
+  </testsuite>
+  <testsuite name='ARAppSearchViewControllerSpec' tests='8' failures='0'>
+    <testcase classname='ARAppSearchViewControllerSpec' name='test_as_iphone' time='0.051'/>
+    <testcase classname='ARAppSearchViewControllerSpec' name='test_as_ipad' time='0.072'/>
+    <testcase classname='ARAppSearchViewControllerSpec' name='test_searching__with_results__as_iphone' time='0.083'/>
+    <testcase classname='ARAppSearchViewControllerSpec' name='test_searching__with_results__as_ipad' time='0.103'/>
+    <testcase classname='ARAppSearchViewControllerSpec' name='test_searching__with_no_results__as_iphone' time='0.051'/>
+    <testcase classname='ARAppSearchViewControllerSpec' name='test_searching__with_no_results__as_ipad' time='0.090'/>
+    <testcase classname='ARAppSearchViewControllerSpec' name='test_clears_search' time='0.013'/>
+    <testcase classname='ARAppSearchViewControllerSpec' name='test_closes_search' time='0.019'/>
+  </testsuite>
+  <testsuite name='ARArtistViewControllerSpec' tests='14' failures='0'>
+    <testcase classname='ARArtistViewControllerSpec' name='test_as_iphone' time='0.104'/>
+    <testcase classname='ARArtistViewControllerSpec' name='test_as_ipad' time='0.097'/>
+    <testcase classname='ARArtistViewControllerSpec' name='test_as_iphone_2' time='0.077'/>
+    <testcase classname='ARArtistViewControllerSpec' name='test_as_ipad_2' time='0.098'/>
+    <testcase classname='ARArtistViewControllerSpec' name='test_as_iphone_3' time='0.062'/>
+    <testcase classname='ARArtistViewControllerSpec' name='test_as_ipad_3' time='0.095'/>
+    <testcase classname='ARArtistViewControllerSpec' name='test_as_iphone_4' time='0.068'/>
+    <testcase classname='ARArtistViewControllerSpec' name='test_as_ipad_4' time='0.111'/>
+    <testcase classname='ARArtistViewControllerSpec' name='test_as_iphone_5' time='0.068'/>
+    <testcase classname='ARArtistViewControllerSpec' name='test_as_ipad_5' time='0.100'/>
+    <testcase classname='ARArtistViewControllerSpec' name='test_with_a_bio' time='0.001'/>
+    <testcase classname='ARArtistViewControllerSpec' name='test_tries_to_load_more_artworks_if_the_artworks_view_isnt_full' time='0.001'/>
+    <testcase classname='ARArtistViewControllerSpec' name='test_does_not_try_to_load_more_artworks_if_the_artworks_view_is_full' time='0.001'/>
+    <testcase classname='ARArtistViewControllerSpec' name='test_creates_an_NSUserActivity' time='0.020'/>
+  </testsuite>
+  <testsuite name='ARArtworkActionsViewSpec' tests='31' failures='0'>
+    <testcase classname='ARArtworkActionsViewSpec' name='test_displays_contact_gallery_for_a_for_sale_artwork' time='0.016'/>
+    <testcase classname='ARArtworkActionsViewSpec' name='test_does_not_display_contact_gallery_for_an_uninquireable_for_sale_artwork' time='0.009'/>
+    <testcase classname='ARArtworkActionsViewSpec' name='test_displays_buy_now_for_an_acquireable_work_with_pricing' time='0.010'/>
+    <testcase classname='ARArtworkActionsViewSpec' name='test_hides_contact_button_if_inquirable_but_artwork_is_not_for_sale' time='0.014'/>
+    <testcase classname='ARArtworkActionsViewSpec' name='test_displays_contact_seller_when_the_partner_is_not_a_gallery' time='0.009'/>
+    <testcase classname='ARArtworkActionsViewSpec' name='test_does_not_display_contact_when_artwork_is_in_auction' time='0.035'/>
+    <testcase classname='ARArtworkActionsViewSpec' name='test_displays_both_bid_and_buy_when_artwork_is_in_auction_and_is_acquireable' time='0.033'/>
+    <testcase classname='ARArtworkActionsViewSpec' name='test_shows_a_buyers_premium_notice' time='0.029'/>
+    <testcase classname='ARArtworkActionsViewSpec' name='test_displays_sold_when_artwork_is_in_auction_and_has_been_acquired' time='0.017'/>
+    <testcase classname='ARArtworkActionsViewSpec' name='test_bidderStatus__high_bidder' time='0.004'/>
+    <testcase classname='ARArtworkActionsViewSpec' name='test_bidderStatus__outbid' time='0.003'/>
+    <testcase classname='ARArtworkActionsViewSpec' name='test_price_view__not_at_auction__price' time='0.008'/>
+    <testcase classname='ARArtworkActionsViewSpec' name='test_price_view__not_at_auction__sold' time='0.006'/>
+    <testcase classname='ARArtworkActionsViewSpec' name='test_price_view__not_at_auction__sold_but_inquireable' time='0.000'/>
+    <testcase classname='ARArtworkActionsViewSpec' name='test_price_view__not_at_auction__contact_for_price' time='0.009'/>
+    <testcase classname='ARArtworkActionsViewSpec' name='test_price_view__not_at_auction__contact_for_price_with_no_price' time='0.009'/>
+    <testcase classname='ARArtworkActionsViewSpec' name='test_price_view__not_at_auction__not_for_sale' time='0.006'/>
+    <testcase classname='ARArtworkActionsViewSpec' name='test_price_view__not_at_auction__not_for_sale_but_has_a_price_to_show' time='0.008'/>
+    <testcase classname='ARArtworkActionsViewSpec' name='test_price_view__at_auction__no_bids' time='0.011'/>
+    <testcase classname='ARArtworkActionsViewSpec' name='test_price_view__at_auction__has_bids' time='0.011'/>
+    <testcase classname='ARArtworkActionsViewSpec' name='test_price_view__at_auction__reserve_met_and_has_bids' time='0.012'/>
+    <testcase classname='ARArtworkActionsViewSpec' name='test_price_view__at_auction__current_auction_reserve_not_met_and_has_bids' time='0.014'/>
+    <testcase classname='ARArtworkActionsViewSpec' name='test_price_view__at_auction__reserve_not_met_and_has_no_bids' time='0.013'/>
+    <testcase classname='ARArtworkActionsViewSpec' name='test_mocked_artwork_promises__forwards_contact_gallery_to_delegate' time='0.001'/>
+    <testcase classname='ARArtworkActionsViewSpec' name='test_mocked_artwork_promises__forwards_auction_info_to_delegate' time='0.001'/>
+    <testcase classname='ARArtworkActionsViewSpec' name='test_mocked_artwork_promises__forwards_conditions_of_sale_to_delegate' time='0.001'/>
+    <testcase classname='ARArtworkActionsViewSpec' name='test_mocked_artwork_promises__forwards_bid_button_to_delegate' time='0.001'/>
+    <testcase classname='ARArtworkActionsViewSpec' name='test_mocked_artwork_promises__forwards_buyers_premium_to_delegate' time='0.001'/>
+    <testcase classname='ARArtworkActionsViewSpec' name='test_mocked_artwork_promises__forwards_buy_button_to_delegate' time='0.001'/>
+    <testcase classname='ARArtworkActionsViewSpec' name='test_mocked_artwork_promises__forwards_auction_results_to_delegate' time='0.001'/>
+    <testcase classname='ARArtworkActionsViewSpec' name='test_mocked_artwork_promises__forwards_more_info_to_delegate' time='0.001'/>
+  </testsuite>
+  <testsuite name='ARArtworkDetailViewSpec' tests='2' failures='0'>
+    <testcase classname='ARArtworkDetailViewSpec' name='test_displays_both_cm_and_in_dimensions' time='0.006'/>
+    <testcase classname='ARArtworkDetailViewSpec' name='test_shows_auction_data' time='0.013'/>
+  </testsuite>
+  <testsuite name='ARArtworkFavoritesNetworkModelSpec' tests='8' failures='0'>
+    <testcase classname='ARArtworkFavoritesNetworkModelSpec' name='test_init__sets_currentPage_to_1' time='0.035'/>
+    <testcase classname='ARArtworkFavoritesNetworkModelSpec' name='test_getFavorites__does_not_make_request_if_another_request_is_in_progress' time='0.001'/>
+    <testcase classname='ARArtworkFavoritesNetworkModelSpec' name='test_getFavorites__makes_request_if_no_request_is_in_progress' time='0.001'/>
+    <testcase classname='ARArtworkFavoritesNetworkModelSpec' name='test_getFavorites__success_with_artworks__increments_currentPage' time='0.001'/>
+    <testcase classname='ARArtworkFavoritesNetworkModelSpec' name='test_getFavorites__success_with_artworks__does_not_set_allDownloaded' time='0.001'/>
+    <testcase classname='ARArtworkFavoritesNetworkModelSpec' name='test_getFavorites__failure__sets_allDownloaded' time='0.001'/>
+    <testcase classname='ARArtworkFavoritesNetworkModelSpec' name='test_getFavorites__useSampleFavorites__uses_sample_user_id_if_YES' time='0.007'/>
+    <testcase classname='ARArtworkFavoritesNetworkModelSpec' name='test_getFavorites__useSampleFavorites__uses_current_user_id_by_default' time='0.013'/>
+  </testsuite>
+  <testsuite name='ARArtworkInfoViewControllerSpec' tests='3' failures='0'>
+    <testcase classname='ARArtworkInfoViewControllerSpec' name='test_more_info__displays_correctly' time='0.354'/>
+    <testcase classname='ARArtworkInfoViewControllerSpec' name='test_more_info__displays_correctly_when_missing_section' time='0.067'/>
+    <testcase classname='ARArtworkInfoViewControllerSpec' name='test_more_info__opens_a_link_in_the_browser' time='0.047'/>
+  </testsuite>
+  <testsuite name='ARArtworkPreviewActionsViewSpec' tests='4' failures='0'>
+    <testcase classname='ARArtworkPreviewActionsViewSpec' name='test_with_a_delegate_set__invokes_delegate_for_when_favourite_button_is_tapped' time='0.001'/>
+    <testcase classname='ARArtworkPreviewActionsViewSpec' name='test_with_a_delegate_set__invokes_delegate_for_when_share_button_is_tapped' time='0.000'/>
+    <testcase classname='ARArtworkPreviewActionsViewSpec' name='test_with_a_delegate_set__invokes_delegate_for_when_view_in_room_button_is_tapped' time='0.000'/>
+    <testcase classname='ARArtworkPreviewActionsViewSpec' name='test_with_a_delegate_set__invokes_delegate_for_when_view_in_map_button_is_tapped' time='0.000'/>
+  </testsuite>
+  <testsuite name='ARArtworkRelatedArtworksViewSpec' tests='13' failures='0'>
+    <testcase classname='ARArtworkRelatedArtworksViewSpec' name='test_falls_back_to_a_section_with_any_related_artworks' time='0.010'/>
+    <testcase classname='ARArtworkRelatedArtworksViewSpec' name='test_does_not_add_a_section_when_there_are_no_artworks_for_that_section' time='0.002'/>
+    <testcase classname='ARArtworkRelatedArtworksViewSpec' name='test_concerning_an_artwork_at_a_fair__adds_a_section_with_other_works_in_the_same_show_booth' time='0.043'/>
+    <testcase classname='ARArtworkRelatedArtworksViewSpec' name='test_concerning_an_artwork_at_a_fair__adds_a_section_with_related_works_at_the_fair' time='0.036'/>
+    <testcase classname='ARArtworkRelatedArtworksViewSpec' name='test_concerning_an_artwork_at_an_auction__adds_a_section_with_other_works_in_the_same_auction' time='0.006'/>
+    <testcase classname='ARArtworkRelatedArtworksViewSpec' name='test_concerning_an_artwork_at_a_show__does_not_add_a_section_with_other_works_by_the_same_artist_if_the_artwork_has_no_associated_artist' time='0.036'/>
+    <testcase classname='ARArtworkRelatedArtworksViewSpec' name='test_concerning_an_artwork_at_a_show__with_artwork_metadata__adds_a_section_with_other_works_in_the_same_show' time='0.042'/>
+    <testcase classname='ARArtworkRelatedArtworksViewSpec' name='test_concerning_an_artwork_at_a_show__with_artwork_metadata__adds_a_section_with_other_works_by_the_same_artist' time='0.042'/>
+    <testcase classname='ARArtworkRelatedArtworksViewSpec' name='test_concerning_an_artwork_at_a_show__with_artwork_metadata__adds_a_section_with_related_works' time='0.049'/>
+    <testcase classname='ARArtworkRelatedArtworksViewSpec' name='test_concerning_layout__iPhone__initializes_module_with_correct_layout' time='0.008'/>
+    <testcase classname='ARArtworkRelatedArtworksViewSpec' name='test_concerning_layout__iPhone__returns_correct_layout_for_orientation' time='0.008'/>
+    <testcase classname='ARArtworkRelatedArtworksViewSpec' name='test_concerning_layout__iPad__initializes_the_module_with_correct_layout' time='0.023'/>
+    <testcase classname='ARArtworkRelatedArtworksViewSpec' name='test_concerning_layout__iPad__returns_correct_layout_for_orientation' time='0.014'/>
+  </testsuite>
+  <testsuite name='ARArtworkSetViewControllerSpec' tests='2' failures='0'>
+    <testcase classname='ARArtworkSetViewControllerSpec' name='test_setting_the_index__can_deal_with_an_out_of_bound_index_on_init' time='0.002'/>
+    <testcase classname='ARArtworkSetViewControllerSpec' name='test_setting_the_index__sets_the_index_correctly' time='0.002'/>
+  </testsuite>
+  <testsuite name='ARArtworkViewControllerBuyButtonSpec' tests='4' failures='0'>
+    <testcase classname='ARArtworkViewControllerBuyButtonSpec' name='test_buy_button__posts_order_if_artwork_has_no_edition_sets' time='0.037'/>
+    <testcase classname='ARArtworkViewControllerBuyButtonSpec' name='test_buy_button__posts_order_if_artwork_has_1_edition_set' time='0.028'/>
+    <testcase classname='ARArtworkViewControllerBuyButtonSpec' name='test_buy_button__displays_inquiry_form_if_artwork_has_multiple_sets' time='0.028'/>
+    <testcase classname='ARArtworkViewControllerBuyButtonSpec' name='test_buy_button__displays_inquiry_form_if_request_fails' time='0.027'/>
+  </testsuite>
+  <testsuite name='ARArtworkViewControllerSpec' tests='10' failures='0'>
+    <testcase classname='ARArtworkViewControllerSpec' name='test_no_related_data__shows_artwork_on_iPhone' time='0.149'/>
+    <testcase classname='ARArtworkViewControllerSpec' name='test_no_related_data__shows_artwork_on_iPad' time='0.147'/>
+    <testcase classname='ARArtworkViewControllerSpec' name='test_with_related_artworks__shows_the_price_when_applicable' time='0.096'/>
+    <testcase classname='ARArtworkViewControllerSpec' name='test_with_related_artworks__iPhone__related_artworks_view_looks_correct' time='0.082'/>
+    <testcase classname='ARArtworkViewControllerSpec' name='test_with_related_artworks__iPad__related_artworks_view_looks_correct' time='0.127'/>
+    <testcase classname='ARArtworkViewControllerSpec' name='test_shows_an_upublished_banner' time='0.094'/>
+    <testcase classname='ARArtworkViewControllerSpec' name='test_at_a_closed_auction__displays_artwork_on_iPhone' time='0.122'/>
+    <testcase classname='ARArtworkViewControllerSpec' name='test_at_a_closed_auction__displays_artwork_on_iPad' time='0.147'/>
+    <testcase classname='ARArtworkViewControllerSpec' name='test_creates_an_NSUserActivity' time='0.045'/>
+    <testcase classname='ARArtworkViewControllerSpec' name='test_at_a_fair' time='0.000'/>
+  </testsuite>
+  <testsuite name='ARAspectRatioImageViewSpec' tests='2' failures='0'>
+    <testcase classname='ARAspectRatioImageViewSpec' name='test_intrinsicContentSize__without_an_image__returns_no_metric' time='0.001'/>
+    <testcase classname='ARAspectRatioImageViewSpec' name='test_intrinsicContentSize__with_an_image__returns_image_size' time='0.001'/>
+  </testsuite>
+  <testsuite name='ARAuctionArtworkResultsViewControllerSpec' tests='3' failures='0'>
+    <testcase classname='ARAuctionArtworkResultsViewControllerSpec' name='test_shows_a_loading_screen' time='0.029'/>
+    <testcase classname='ARAuctionArtworkResultsViewControllerSpec' name='test_as_iphone' time='0.040'/>
+    <testcase classname='ARAuctionArtworkResultsViewControllerSpec' name='test_as_ipad' time='0.071'/>
+  </testsuite>
+  <testsuite name='ARAuctionWebViewControllerSpec' tests='7' failures='0'>
+    <testcase classname='ARAuctionWebViewControllerSpec' name='test_parses_the_autionlot_IDs_from_the_URL' time='0.002'/>
+    <testcase classname='ARAuctionWebViewControllerSpec' name='test_with_an_artwork__listens_for_a_bid_to_be_confirmed' time='0.001'/>
+    <testcase classname='ARAuctionWebViewControllerSpec' name='test_with_an_artwork__once_a_bid_has_been_confirmed__posts_a_updated_notification' time='0.001'/>
+    <testcase classname='ARAuctionWebViewControllerSpec' name='test_with_an_artwork__once_a_bid_has_been_confirmed__pops_the_VC_from_the_stack_once_a_bid_has_been_confirmed' time='0.028'/>
+    <testcase classname='ARAuctionWebViewControllerSpec' name='test_with_an_artwork__once_a_bid_has_been_confirmed__inserts_an_artwork_view_controller_underneath_the_webview_if_there_is_none' time='0.019'/>
+    <testcase classname='ARAuctionWebViewControllerSpec' name='test_with_an_artwork__reloads_only_if_the_updated_notification_is_about_the_artwork_in_question' time='0.002'/>
+    <testcase classname='ARAuctionWebViewControllerSpec' name='test_with_an_auction__reloads_if_the_artwork_that_the_updated_notification_is_about_is_part_of_the_auction' time='0.001'/>
+  </testsuite>
+  <testsuite name='ARBidButtonSpec' tests='4' failures='0'>
+    <testcase classname='ARBidButtonSpec' name='test_register' time='0.005'/>
+    <testcase classname='ARBidButtonSpec' name='test_registered' time='0.004'/>
+    <testcase classname='ARBidButtonSpec' name='test_bidding_open' time='0.004'/>
+    <testcase classname='ARBidButtonSpec' name='test_bidding_closed' time='0.004'/>
+  </testsuite>
+  <testsuite name='ARBrowseCategoriesViewControllerSpec' tests='3' failures='0'>
+    <testcase classname='ARBrowseCategoriesViewControllerSpec' name='test_presents_featured_categories_and_genes' time='0.013'/>
+    <testcase classname='ARBrowseCategoriesViewControllerSpec' name='test_looks_correct__as_iphone' time='0.074'/>
+    <testcase classname='ARBrowseCategoriesViewControllerSpec' name='test_looks_correct__as_ipad' time='0.116'/>
+  </testsuite>
+  <testsuite name='ARBrowseFeaturedLinksCollectionViewControllerSpec' tests='18' failures='0'>
+    <testcase classname='ARBrowseFeaturedLinksCollectionViewControllerSpec' name='test_appearance__with_ARFeaturedLinkLayoutSingleRow__sets_the_style' time='0.001'/>
+    <testcase classname='ARBrowseFeaturedLinksCollectionViewControllerSpec' name='test_appearance__with_ARFeaturedLinkLayoutSingleRow__general_view_setup__sets_the_layout' time='0.000'/>
+    <testcase classname='ARBrowseFeaturedLinksCollectionViewControllerSpec' name='test_appearance__with_ARFeaturedLinkLayoutSingleRow__general_view_setup__sets_ui_options' time='0.002'/>
+    <testcase classname='ARBrowseFeaturedLinksCollectionViewControllerSpec' name='test_appearance__with_ARFeaturedLinkLayoutSingleRow__general_view_setup__sets_the_dataSource_and_delegate_to_self' time='0.000'/>
+    <testcase classname='ARBrowseFeaturedLinksCollectionViewControllerSpec' name='test_appearance__with_ARFeaturedLinkLayoutSingleRow__as_iphone' time='0.031'/>
+    <testcase classname='ARBrowseFeaturedLinksCollectionViewControllerSpec' name='test_appearance__with_ARFeaturedLinkLayoutSingleRow__as_ipad' time='0.035'/>
+    <testcase classname='ARBrowseFeaturedLinksCollectionViewControllerSpec' name='test_appearance__with_ARFeaturedLinkLayoutDoubleRow__sets_the_style' time='0.003'/>
+    <testcase classname='ARBrowseFeaturedLinksCollectionViewControllerSpec' name='test_appearance__with_ARFeaturedLinkLayoutDoubleRow__as_iphone' time='0.032'/>
+    <testcase classname='ARBrowseFeaturedLinksCollectionViewControllerSpec' name='test_appearance__with_ARFeaturedLinkLayoutDoubleRow__as_ipad' time='0.046'/>
+    <testcase classname='ARBrowseFeaturedLinksCollectionViewControllerSpec' name='test_appearance__with_ARFeaturedLinkLayoutDoubleRow__general_view_setup__sets_the_layout' time='0.001'/>
+    <testcase classname='ARBrowseFeaturedLinksCollectionViewControllerSpec' name='test_appearance__with_ARFeaturedLinkLayoutDoubleRow__general_view_setup__sets_ui_options' time='0.002'/>
+    <testcase classname='ARBrowseFeaturedLinksCollectionViewControllerSpec' name='test_appearance__with_ARFeaturedLinkLayoutDoubleRow__general_view_setup__sets_the_dataSource_and_delegate_to_self' time='0.000'/>
+    <testcase classname='ARBrowseFeaturedLinksCollectionViewControllerSpec' name='test_numberOfItemsInSection__returns_the_number_of_featuredLinks' time='0.003'/>
+    <testcase classname='ARBrowseFeaturedLinksCollectionViewControllerSpec' name='test_cellForItemAtIndexPath__updates_cell_with_link' time='0.003'/>
+    <testcase classname='ARBrowseFeaturedLinksCollectionViewControllerSpec' name='test_cellForItemAtIndexPath__assigns_reuse_identifier' time='0.002'/>
+    <testcase classname='ARBrowseFeaturedLinksCollectionViewControllerSpec' name='test_setFeaturedLinks__sets_featured_links' time='0.001'/>
+    <testcase classname='ARBrowseFeaturedLinksCollectionViewControllerSpec' name='test_didSelectItemAtIndexPath__loads_items_link' time='0.001'/>
+    <testcase classname='ARBrowseFeaturedLinksCollectionViewControllerSpec' name='test_reuseIdentifier__returns_normal_cell' time='0.001'/>
+  </testsuite>
+  <testsuite name='ARBrowseViewControllerSpec' tests='5' failures='0'>
+    <testcase classname='ARBrowseViewControllerSpec' name='test_sets_its_menu_items' time='0.001'/>
+    <testcase classname='ARBrowseViewControllerSpec' name='test_fetches_on_viewDidAppear' time='0.001'/>
+    <testcase classname='ARBrowseViewControllerSpec' name='test_doesnt_fetch_on_viewDidAppear_if_menu_links_present_already' time='0.001'/>
+    <testcase classname='ARBrowseViewControllerSpec' name='test_as_iphone' time='0.035'/>
+    <testcase classname='ARBrowseViewControllerSpec' name='test_as_ipad' time='0.075'/>
+  </testsuite>
+  <testsuite name='ARCollapsableTextViewSpec' tests='4' failures='0'>
+    <testcase classname='ARCollapsableTextViewSpec' name='test_calls_the_callback_block' time='0.008'/>
+    <testcase classname='ARCollapsableTextViewSpec' name='test_when_text_is_shorter_than_collapsed_height__looks_correct' time='0.035'/>
+    <testcase classname='ARCollapsableTextViewSpec' name='test_text_is_taller_than_collapsed_height__before_expansion__looks_correct' time='0.026'/>
+    <testcase classname='ARCollapsableTextViewSpec' name='test_text_is_taller_than_collapsed_height__after_expansion__looks_correct' time='0.025'/>
+  </testsuite>
+  <testsuite name='ARCollectorStatusViewControllerSpec' tests='2' failures='0'>
+    <testcase classname='ARCollectorStatusViewControllerSpec' name='test_as_iphone' time='0.034'/>
+    <testcase classname='ARCollectorStatusViewControllerSpec' name='test_as_ipad' time='0.064'/>
+  </testsuite>
+  <testsuite name='ARCountdownViewSpec' tests='4' failures='0'>
+    <testcase classname='ARCountdownViewSpec' name='test_looks_ok_by_default' time='0.012'/>
+    <testcase classname='ARCountdownViewSpec' name='test_looks_ok_when_configured_with_a_custom_colour' time='0.008'/>
+    <testcase classname='ARCountdownViewSpec' name='test_looks_ok_on_a_regular_size_class' time='0.012'/>
+    <testcase classname='ARCountdownViewSpec' name='test_looks_good_with_a_header' time='0.008'/>
+  </testsuite>
+  <testsuite name='ARCreateAccountViewControllerSpec' tests='4' failures='0'>
+    <testcase classname='ARCreateAccountViewControllerSpec' name='test_warning_view__displays_a_message' time='0.089'/>
+    <testcase classname='ARCreateAccountViewControllerSpec' name='test_warning_view__displays_a_warning_if_password_too_short' time='0.026'/>
+    <testcase classname='ARCreateAccountViewControllerSpec' name='test_warning_view__displays_a_warning_if_email_is_missing' time='0.023'/>
+    <testcase classname='ARCreateAccountViewControllerSpec' name='test_warning_view__displays_only_one_warning_at_a_time' time='0.024'/>
+  </testsuite>
+  <testsuite name='ARCustomEigenLabelsSpec' tests='8' failures='0'>
+    <testcase classname='ARCustomEigenLabelsSpec' name='test_ARArtworkTitleLabel__formats_title_and_date' time='0.001'/>
+    <testcase classname='ARCustomEigenLabelsSpec' name='test_ARArtworkTitleLabel__formats_title_and_nil_date' time='0.001'/>
+    <testcase classname='ARCustomEigenLabelsSpec' name='test_ARArtworkTitleLabel__formats_title_and_emptystring_date' time='0.001'/>
+    <testcase classname='ARCustomEigenLabelsSpec' name='test_ARArtworkTitleLabel__formats_date_and_nil_title' time='0.001'/>
+    <testcase classname='ARCustomEigenLabelsSpec' name='test_ARArtworkTitleLabel__formats_date_and_emptystring_title' time='0.001'/>
+    <testcase classname='ARCustomEigenLabelsSpec' name='test_ARArtworkTitleLabel__is_empty_string_with_nil_title_and_date' time='0.001'/>
+    <testcase classname='ARCustomEigenLabelsSpec' name='test_ARArtworkTitleLabel__is_emptystring_with_emptystring_title' time='0.000'/>
+    <testcase classname='ARCustomEigenLabelsSpec' name='test_ARWarningView__looks_correct' time='0.005'/>
+  </testsuite>
+  <testsuite name='ARDefaultsSpec' tests='1' failures='0'>
+    <testcase classname='ARDefaultsSpec' name='test_resets_user_defaults' time='0.002'/>
+  </testsuite>
+  <testsuite name='ARDeveloperOptionsSpec' tests='1' failures='0'>
+    <testcase classname='ARDeveloperOptionsSpec' name='test_transforms_the_correct_syntax_to_options' time='0.001'/>
+  </testsuite>
+  <testsuite name='AREmbeddedModelPreviewViewControllerSpec' tests='4' failures='0'>
+    <testcase classname='AREmbeddedModelPreviewViewControllerSpec' name='test_iPhone_peek__preview_view_controller_displays_artwork' time='0.018'/>
+    <testcase classname='AREmbeddedModelPreviewViewControllerSpec' name='test_iPhone_peek__shows_only_Share_button_for_trial_user' time='0.002'/>
+    <testcase classname='AREmbeddedModelPreviewViewControllerSpec' name='test_iPhone_peek__shows_favorite_and_follow_buttons_for_logged_in_user' time='0.061'/>
+    <testcase classname='AREmbeddedModelPreviewViewControllerSpec' name='test_iPhone_peek__passes_artwork_to_share_controller' time='0.003'/>
+  </testsuite>
+  <testsuite name='AREmbeddedModelsViewControllerSpec' tests='13' failures='0'>
+    <testcase classname='AREmbeddedModelsViewControllerSpec' name='test_truncates_long_titles' time='0.025'/>
+    <testcase classname='AREmbeddedModelsViewControllerSpec' name='test_registers_artworks_for_peek_pop' time='0.002'/>
+    <testcase classname='AREmbeddedModelsViewControllerSpec' name='test_masonry_layout__with_vertical_columns__allows_a_trailing_entry_to_the_right_to_stick_out_if_it_sticks_out_50_of_its_height' time='0.023'/>
+    <testcase classname='AREmbeddedModelsViewControllerSpec' name='test_masonry_layout__with_vertical_columns__moves_a_trailing_entry_to_the_left_if_it_would_normally_be_at_the_right_and_stick_out_from_the_rest_by_more_than_50_of_its_height' time='0.023'/>
+    <testcase classname='AREmbeddedModelsViewControllerSpec' name='test_masonry_layout__with_vertical_columns__content_overflow_calculations__indicates_that_content_fills_when_it_does' time='0.002'/>
+    <testcase classname='AREmbeddedModelsViewControllerSpec' name='test_masonry_layout__with_vertical_columns__content_overflow_calculations__indicates_that_content_fills_when_it_barely_does' time='0.001'/>
+    <testcase classname='AREmbeddedModelsViewControllerSpec' name='test_masonry_layout__with_vertical_columns__content_overflow_calculations__indicates_that_content_does_not_fill_when_it_does_not' time='0.001'/>
+    <testcase classname='AREmbeddedModelsViewControllerSpec' name='test_masonry_layout__with_horizontal_rows__allows_a_trailing_entry_to_the_right_to_stick_out_if_it_sticks_out_50_of_its_height' time='0.024'/>
+    <testcase classname='AREmbeddedModelsViewControllerSpec' name='test_masonry_layout__with_horizontal_rows__moves_a_trailing_entry_to_the_left_if_it_would_normally_be_at_the_right_and_stick_out_from_the_rest_by_more_than_50_of_its_height' time='0.029'/>
+    <testcase classname='AREmbeddedModelsViewControllerSpec' name='test_masonry_layout__with_horizontal_rows__content_overflow_calculations__indicates_that_content_fills_when_it_does' time='0.003'/>
+    <testcase classname='AREmbeddedModelsViewControllerSpec' name='test_masonry_layout__with_horizontal_rows__content_overflow_calculations__indicates_that_content_fills_when_it_barely_does' time='0.001'/>
+    <testcase classname='AREmbeddedModelsViewControllerSpec' name='test_masonry_layout__with_horizontal_rows__content_overflow_calculations__indicates_that_content_does_not_fill_when_it_does_not' time='0.001'/>
+    <testcase classname='AREmbeddedModelsViewControllerSpec' name='test_resets_items' time='0.002'/>
+  </testsuite>
+  <testsuite name='ARExternalWebBrowserViewControllerSpec' tests='4' failures='0'>
+    <testcase classname='ARExternalWebBrowserViewControllerSpec' name='test_sets_the_scroll_views_delegate' time='0.085'/>
+    <testcase classname='ARExternalWebBrowserViewControllerSpec' name='test_forwards_its_web_views_scroll_view' time='0.005'/>
+    <testcase classname='ARExternalWebBrowserViewControllerSpec' name='test_forwards_scrollViewDidScroll_to_scroll_chief' time='0.004'/>
+    <testcase classname='ARExternalWebBrowserViewControllerSpec' name='test_uses_the_shared_ARWebViewCacheHost_WKWebView_instances' time='0.008'/>
+  </testsuite>
+  <testsuite name='ARFairFavoritesNetworkModelSpec' tests='3' failures='0'>
+    <testcase classname='ARFairFavoritesNetworkModelSpec' name='test_ignores_artworks_without_a_partner' time='0.114'/>
+    <testcase classname='ARFairFavoritesNetworkModelSpec' name='test_when_downloading_exhibitor_data__generates_random_exhibitors_when_no_values_are_returned_from_API' time='0.025'/>
+    <testcase classname='ARFairFavoritesNetworkModelSpec' name='test_when_downloading_exhibitor_data__returns_correct_exhibitors_when_values_are_returned_from_API' time='0.024'/>
+  </testsuite>
+  <testsuite name='ARFairGuideContainerViewControllerSpec' tests='4' failures='0'>
+    <testcase classname='ARFairGuideContainerViewControllerSpec' name='test_has_the_correct_fair' time='0.002'/>
+    <testcase classname='ARFairGuideContainerViewControllerSpec' name='test_a_loaded_view_controller__that_has_appeared__has_a_valid_snapshot' time='0.091'/>
+    <testcase classname='ARFairGuideContainerViewControllerSpec' name='test_a_loaded_view_controller__that_has_appeared__after_uncollapsing_map_it_has_a_valid_snapshot' time='0.002'/>
+    <testcase classname='ARFairGuideContainerViewControllerSpec' name='test_handles_a_changed_user_correct' time='0.068'/>
+  </testsuite>
+  <testsuite name='ARFairGuideViewControllerSpec' tests='4' failures='0'>
+    <testcase classname='ARFairGuideViewControllerSpec' name='test_looks_correct_with_a_logged_in_user' time='0.104'/>
+    <testcase classname='ARFairGuideViewControllerSpec' name='test_looks_correct_with_a_trial_user' time='0.018'/>
+    <testcase classname='ARFairGuideViewControllerSpec' name='test_adds_a_top_border' time='0.024'/>
+    <testcase classname='ARFairGuideViewControllerSpec' name='test_calls_the_appropriate_delegate_method_upon_user_change' time='0.003'/>
+  </testsuite>
+  <testsuite name='ARFairMapAnnotationCallOutViewSpec' tests='5' failures='0'>
+    <testcase classname='ARFairMapAnnotationCallOutViewSpec' name='test_blank' time='0.032'/>
+    <testcase classname='ARFairMapAnnotationCallOutViewSpec' name='test_title' time='0.197'/>
+    <testcase classname='ARFairMapAnnotationCallOutViewSpec' name='test_titleWithSubtitle' time='0.014'/>
+    <testcase classname='ARFairMapAnnotationCallOutViewSpec' name='test_titleWithArrow' time='0.010'/>
+    <testcase classname='ARFairMapAnnotationCallOutViewSpec' name='test_long_title_with_arrow' time='0.012'/>
+  </testsuite>
+  <testsuite name='ARFairMapAnnotationViewSpec' tests='3' failures='0'>
+    <testcase classname='ARFairMapAnnotationViewSpec' name='test_reduceToPoint__hides_the_complete_annotation_on_a_default_feature' time='0.004'/>
+    <testcase classname='ARFairMapAnnotationViewSpec' name='test_reduceToPoint__only_hides_the_annotations_label_on_a_highlighted_feature' time='0.004'/>
+    <testcase classname='ARFairMapAnnotationViewSpec' name='test_expandToFull__always_makes_every_element_visible' time='0.001'/>
+  </testsuite>
+  <testsuite name='ARFairMapViewControllerSpec' tests='18' failures='0'>
+    <testcase classname='ARFairMapViewControllerSpec' name='test_on_init__sets_its_fair' time='0.011'/>
+    <testcase classname='ARFairMapViewControllerSpec' name='test_on_init__hides_screen_contents' time='0.085'/>
+    <testcase classname='ARFairMapViewControllerSpec' name='test_on_init__fair__sets_its_fair' time='0.015'/>
+    <testcase classname='ARFairMapViewControllerSpec' name='test_on_init__fair__displays_search_box' time='0.023'/>
+    <testcase classname='ARFairMapViewControllerSpec' name='test_on_init__fair__maps_features' time='0.008'/>
+    <testcase classname='ARFairMapViewControllerSpec' name='test_on_init__fair__creates_and_sets_its_mapDataSource' time='0.006'/>
+    <testcase classname='ARFairMapViewControllerSpec' name='test_on_init__fair_with_selection__adds_title' time='0.027'/>
+    <testcase classname='ARFairMapViewControllerSpec' name='test_on_init__fair_with_selection__constrains_the_title_correctly_in_a_navigation_controller' time='0.084'/>
+    <testcase classname='ARFairMapViewControllerSpec' name='test_on_init__fair_with_selection__selects_a_show' time='0.000'/>
+    <testcase classname='ARFairMapViewControllerSpec' name='test_on_init__hides_on_screen_contents__when_showing_artists' time='0.019'/>
+    <testcase classname='ARFairMapViewControllerSpec' name='test_on_init__hides_on_screen_contents__when_showing_partner_shows' time='0.033'/>
+    <testcase classname='ARFairMapViewControllerSpec' name='test_on_init__interactions__hides_the_callout_when_tapped' time='0.016'/>
+    <testcase classname='ARFairMapViewControllerSpec' name='test_on_init__calls_api__when_selecting_an_artist' time='0.017'/>
+    <testcase classname='ARFairMapViewControllerSpec' name='test_on_init__calls_api__when_selecting_a_partner_show' time='0.031'/>
+    <testcase classname='ARFairMapViewControllerSpec' name='test_on_init__calling_execute_on_the_returned_command__when_selecting_an_artist__and_API_succeeds' time='0.021'/>
+    <testcase classname='ARFairMapViewControllerSpec' name='test_on_init__calling_execute_on_the_returned_command__when_selecting_an_artist__and_API_fails' time='0.023'/>
+    <testcase classname='ARFairMapViewControllerSpec' name='test_on_init__calling_execute_on_the_returned_command__when_selecting_a_partner_show__and_API_succeeds' time='0.027'/>
+    <testcase classname='ARFairMapViewControllerSpec' name='test_on_init__calling_execute_on_the_returned_command__when_selecting_a_partner_show__and_API_fails' time='0.023'/>
+  </testsuite>
+  <testsuite name='ARFairNetworkModelSpec' tests='7' failures='0'>
+    <testcase classname='ARFairNetworkModelSpec' name='test_getFairInfo__updates_original_fair_instance' time='0.085'/>
+    <testcase classname='ARFairNetworkModelSpec' name='test_getFairInfo__maintains_its_maps' time='0.015'/>
+    <testcase classname='ARFairNetworkModelSpec' name='test_getFairInfoWith_ID__fetches_and_returns_fair' time='0.011'/>
+    <testcase classname='ARFairNetworkModelSpec' name='test_getShowFeedItems__gets_items' time='0.054'/>
+    <testcase classname='ARFairNetworkModelSpec' name='test_getPosts' time='0.001'/>
+    <testcase classname='ARFairNetworkModelSpec' name='test_getOrderedSets__returns_ordered_sets_by_key' time='0.013'/>
+    <testcase classname='ARFairNetworkModelSpec' name='test_getMapInfo__returns_maps_for_fair' time='0.002'/>
+  </testsuite>
+  <testsuite name='ARFairPopupViewControllerSpec' tests='1' failures='0'>
+    <testcase classname='ARFairPopupViewControllerSpec' name='test_visuals__looks_right' time='0.022'/>
+  </testsuite>
+  <testsuite name='ARFairPostsViewControllerSpec' tests='3' failures='0'>
+    <testcase classname='ARFairPostsViewControllerSpec' name='test_sets_fair_and_fetches_posts' time='0.007'/>
+    <testcase classname='ARFairPostsViewControllerSpec' name='test_rendered__displays_posts' time='0.009'/>
+    <testcase classname='ARFairPostsViewControllerSpec' name='test_rendered__navigates_to_the_target_url_when_a_post_is_tapped' time='0.008'/>
+  </testsuite>
+  <testsuite name='ARFairSearchViewControllerSpec' tests='4' failures='0'>
+    <testcase classname='ARFairSearchViewControllerSpec' name='test_init__searchPartners__partner_name_prefix' time='0.010'/>
+    <testcase classname='ARFairSearchViewControllerSpec' name='test_init__searchPartners__case_insensitive' time='0.008'/>
+    <testcase classname='ARFairSearchViewControllerSpec' name='test_init__searchPartners__uses_short_name' time='0.006'/>
+    <testcase classname='ARFairSearchViewControllerSpec' name='test_init__with_search_results__combines_results_from_local_and_remote_search' time='0.039'/>
+  </testsuite>
+  <testsuite name='ARFairViewControllerSpec' tests='11' failures='0'>
+    <testcase classname='ARFairViewControllerSpec' name='test_maps_bindings_correctly' time='0.003'/>
+    <testcase classname='ARFairViewControllerSpec' name='test_without_enough_information_for_a_parallax_header__doesnt_use_a_parallax_header' time='0.002'/>
+    <testcase classname='ARFairViewControllerSpec' name='test_with_some_information__uses_a_parallax_header' time='0.003'/>
+    <testcase classname='ARFairViewControllerSpec' name='test_with_some_information__uses_a_parallax_header_2' time='0.002'/>
+    <testcase classname='ARFairViewControllerSpec' name='test_with_all_available_information__uses_a_parallax_header' time='0.002'/>
+    <testcase classname='ARFairViewControllerSpec' name='test_with_no_map__without_a_profile__sets_fair_title_and_dates' time='0.015'/>
+    <testcase classname='ARFairViewControllerSpec' name='test_with_no_map__view_is_loaded__has_no_map' time='0.016'/>
+    <testcase classname='ARFairViewControllerSpec' name='test_with_a_map__has_a_map' time='0.014'/>
+    <testcase classname='ARFairViewControllerSpec' name='test_with_a_map__has_a_map_button' time='0.012'/>
+    <testcase classname='ARFairViewControllerSpec' name='test_with_a_map__search_view_looks_correct' time='0.045'/>
+    <testcase classname='ARFairViewControllerSpec' name='test_creates_an_NSUserActivity' time='0.011'/>
+  </testsuite>
+  <testsuite name='ARFavoritesViewControllerSpec' tests='19' failures='0'>
+    <testcase classname='ARFavoritesViewControllerSpec' name='test_general__initializes_in_artwork_display_mode' time='0.013'/>
+    <testcase classname='ARFavoritesViewControllerSpec' name='test_general__resets_network_models_on_viewWillAppear' time='0.001'/>
+    <testcase classname='ARFavoritesViewControllerSpec' name='test_artworks__as_iphone' time='0.054'/>
+    <testcase classname='ARFavoritesViewControllerSpec' name='test_artworks__as_ipad' time='0.083'/>
+    <testcase classname='ARFavoritesViewControllerSpec' name='test_artworks__with_artworks__as_iphone' time='0.073'/>
+    <testcase classname='ARFavoritesViewControllerSpec' name='test_artworks__with_artworks__as_ipad' time='0.127'/>
+    <testcase classname='ARFavoritesViewControllerSpec' name='test_artworks__with_artworks__handles_tap' time='0.019'/>
+    <testcase classname='ARFavoritesViewControllerSpec' name='test_artists__initializes_in_artist_display_mode' time='0.018'/>
+    <testcase classname='ARFavoritesViewControllerSpec' name='test_artists__as_iphone' time='0.051'/>
+    <testcase classname='ARFavoritesViewControllerSpec' name='test_artists__as_ipad' time='0.080'/>
+    <testcase classname='ARFavoritesViewControllerSpec' name='test_artists__with_artists__as_iphone' time='0.072'/>
+    <testcase classname='ARFavoritesViewControllerSpec' name='test_artists__with_artists__as_ipad' time='0.115'/>
+    <testcase classname='ARFavoritesViewControllerSpec' name='test_artists__with_artists__handles_tap' time='0.021'/>
+    <testcase classname='ARFavoritesViewControllerSpec' name='test_genes__initializes_in_gene_display_mode' time='0.015'/>
+    <testcase classname='ARFavoritesViewControllerSpec' name='test_genes__as_iphone' time='0.053'/>
+    <testcase classname='ARFavoritesViewControllerSpec' name='test_genes__as_ipad' time='0.080'/>
+    <testcase classname='ARFavoritesViewControllerSpec' name='test_genes__with_genes__as_iphone' time='0.067'/>
+    <testcase classname='ARFavoritesViewControllerSpec' name='test_genes__with_genes__as_ipad' time='0.113'/>
+    <testcase classname='ARFavoritesViewControllerSpec' name='test_genes__with_genes__handles_tap' time='0.047'/>
+  </testsuite>
+  <testsuite name='ARFileUtilsTestsSpec' tests='7' failures='0'>
+    <testcase classname='ARFileUtilsTestsSpec' name='test_caches__cachesFolder' time='0.001'/>
+    <testcase classname='ARFileUtilsTestsSpec' name='test_caches__cachesFolder_creates_a_folder' time='0.001'/>
+    <testcase classname='ARFileUtilsTestsSpec' name='test_logged_out_user_documents_folder__userDocumentsFolder' time='0.010'/>
+    <testcase classname='ARFileUtilsTestsSpec' name='test_logged_in_user_documents_folder__userDocumentsFolder' time='0.034'/>
+    <testcase classname='ARFileUtilsTestsSpec' name='test_logged_in_user_documents_folder__userDocumentsFilename' time='0.016'/>
+    <testcase classname='ARFileUtilsTestsSpec' name='test_logged_in_user_documents_folder__userDocumentsFolderFilename' time='0.013'/>
+    <testcase classname='ARFileUtilsTestsSpec' name='test_application_support' time='0.001'/>
+  </testsuite>
+  <testsuite name='ARFollowableButtonSpec' tests='2' failures='0'>
+    <testcase classname='ARFollowableButtonSpec' name='test_ARFollowableButton__following' time='0.010'/>
+    <testcase classname='ARFollowableButtonSpec' name='test_ARFollowableButton__not_following' time='0.005'/>
+  </testsuite>
+  <testsuite name='ARGeneArtworknetworkModelSpec' tests='7' failures='0'>
+    <testcase classname='ARGeneArtworknetworkModelSpec' name='test_init__sets_the_gene' time='0.001'/>
+    <testcase classname='ARGeneArtworknetworkModelSpec' name='test_networking__does_not_do_networking_once_completed' time='0.000'/>
+    <testcase classname='ARGeneArtworknetworkModelSpec' name='test_networking__does_not_do_networking_if_a_request_is_in_progress' time='0.001'/>
+    <testcase classname='ARGeneArtworknetworkModelSpec' name='test_networking__with_stubbed_networking__asks_the_gene_for_artworks_at_a_page' time='0.002'/>
+    <testcase classname='ARGeneArtworknetworkModelSpec' name='test_networking__with_stubbed_networking__adds_one_to_the_current_page_when_there_is_artworks' time='0.001'/>
+    <testcase classname='ARGeneArtworknetworkModelSpec' name='test_networking__with_stubbed_networking__becomes_complete_when_no_new_artworks_arrive' time='0.001'/>
+    <testcase classname='ARGeneArtworknetworkModelSpec' name='test_networking__with_stubbed_networking__does_not_say_its_complete_if_artworks_arrive' time='0.001'/>
+  </testsuite>
+  <testsuite name='ARGeneViewControllerSpec' tests='2' failures='0'>
+    <testcase classname='ARGeneViewControllerSpec' name='test_creates_an_NSUserActivity' time='0.066'/>
+    <testcase classname='ARGeneViewControllerSpec' name='test_with_long_desciption' time='0.001'/>
+  </testsuite>
+  <testsuite name='ARHeartButtonSpec' tests='7' failures='0'>
+    <testcase classname='ARHeartButtonSpec' name='test_defaults_to_disabled' time='0.009'/>
+    <testcase classname='ARHeartButtonSpec' name='test_not_hearted__becomes_enabled_when_not_hearted' time='0.004'/>
+    <testcase classname='ARHeartButtonSpec' name='test_not_hearted__doesnt_toggle' time='0.003'/>
+    <testcase classname='ARHeartButtonSpec' name='test_not_hearted__toggles' time='0.005'/>
+    <testcase classname='ARHeartButtonSpec' name='test_hearted__becomes_enabled_when_hearted' time='0.004'/>
+    <testcase classname='ARHeartButtonSpec' name='test_hearted__doesnt_toggle' time='0.003'/>
+    <testcase classname='ARHeartButtonSpec' name='test_hearted__toggles' time='0.004'/>
+  </testsuite>
+  <testsuite name='ARHeroUnitViewControllerSpec' tests='23' failures='0'>
+    <testcase classname='ARHeroUnitViewControllerSpec' name='test_with_three_hero_units__handleHeroUnits__is_called_when_feed_updates' time='0.008'/>
+    <testcase classname='ARHeroUnitViewControllerSpec' name='test_with_three_hero_units__handleHeroUnits__updates_the_view' time='0.005'/>
+    <testcase classname='ARHeroUnitViewControllerSpec' name='test_with_three_hero_units__updateViewWithHeroUnits__sets_pageControl' time='0.007'/>
+    <testcase classname='ARHeroUnitViewControllerSpec' name='test_with_three_hero_units__updateViewWithHeroUnits__responds_to_page_control' time='0.018'/>
+    <testcase classname='ARHeroUnitViewControllerSpec' name='test_with_three_hero_units__updateViewWithHeroUnits__sets_the_first_view_controller' time='0.005'/>
+    <testcase classname='ARHeroUnitViewControllerSpec' name='test_with_three_hero_units__updateViewWithHeroUnits__currentViewController_returns_a_vc' time='0.009'/>
+    <testcase classname='ARHeroUnitViewControllerSpec' name='test_with_three_hero_units__startTimer_sets_timer_for_page_turn' time='0.006'/>
+    <testcase classname='ARHeroUnitViewControllerSpec' name='test_with_three_hero_units__as_iphone' time='0.059'/>
+    <testcase classname='ARHeroUnitViewControllerSpec' name='test_with_three_hero_units__as_ipad' time='0.090'/>
+    <testcase classname='ARHeroUnitViewControllerSpec' name='test_with_one_hero_unit__handleHeroUnits__updates_the_view' time='0.007'/>
+    <testcase classname='ARHeroUnitViewControllerSpec' name='test_with_one_hero_unit__updateViewWithHeroUnits__sets_pageControl' time='0.004'/>
+    <testcase classname='ARHeroUnitViewControllerSpec' name='test_with_one_hero_unit__updateViewWithHeroUnits__sets_the_first_view_controller' time='0.004'/>
+    <testcase classname='ARHeroUnitViewControllerSpec' name='test_with_one_hero_unit__startTimer_doesnt_set_timer_for_page_turn' time='0.002'/>
+    <testcase classname='ARHeroUnitViewControllerSpec' name='test_with_one_hero_unit__as_iphone' time='0.034'/>
+    <testcase classname='ARHeroUnitViewControllerSpec' name='test_with_one_hero_unit__as_ipad' time='0.055'/>
+    <testcase classname='ARHeroUnitViewControllerSpec' name='test_with_no_hero_units__updateViewWithHeroUnits__sets_pageControl' time='0.004'/>
+    <testcase classname='ARHeroUnitViewControllerSpec' name='test_with_no_hero_units__updateViewWithHeroUnits__sets_the_first_view_controller' time='0.001'/>
+    <testcase classname='ARHeroUnitViewControllerSpec' name='test_with_no_hero_units__updateViewWithHeroUnits__currentViewController_returns_nil' time='0.002'/>
+    <testcase classname='ARHeroUnitViewControllerSpec' name='test_with_no_hero_units__startTimer_doesnt_set_timer_for_page_turn' time='0.001'/>
+    <testcase classname='ARHeroUnitViewControllerSpec' name='test_with_no_hero_units__as_iphone' time='0.021'/>
+    <testcase classname='ARHeroUnitViewControllerSpec' name='test_with_no_hero_units__as_ipad' time='0.034'/>
+    <testcase classname='ARHeroUnitViewControllerSpec' name='test_alignment_on_iPad__align_left__looks_correct' time='0.055'/>
+    <testcase classname='ARHeroUnitViewControllerSpec' name='test_alignment_on_iPad__align_right__looks_correct' time='0.053'/>
+  </testsuite>
+  <testsuite name='ARHeroUnitsNetworkModelSpec' tests='2' failures='0'>
+    <testcase classname='ARHeroUnitsNetworkModelSpec' name='test_heros__with_stubbed_data__only_retrieves_active_hero_units' time='0.074'/>
+    <testcase classname='ARHeroUnitsNetworkModelSpec' name='test_heros__with_stubbed_data__sets_heroUnits_property_even_if_success_black_is_nil' time='0.009'/>
+  </testsuite>
+  <testsuite name='ARImageItemProviderSpec' tests='3' failures='0'>
+    <testcase classname='ARImageItemProviderSpec' name='test_image_provider_item__returns_nil_for_Twitter' time='0.001'/>
+    <testcase classname='ARImageItemProviderSpec' name='test_image_provider_item__returns_nil_for_Facebook' time='0.001'/>
+    <testcase classname='ARImageItemProviderSpec' name='test_image_provider_item__returns_placeholderItem_for_other_activities' time='0.000'/>
+  </testsuite>
+  <testsuite name='ARInquireForArtworkViewControllerSpec' tests='28' failures='0'>
+    <testcase classname='ARInquireForArtworkViewControllerSpec' name='test_logged_in__as_iphone' time='0.116'/>
+    <testcase classname='ARInquireForArtworkViewControllerSpec' name='test_logged_in__as_ipad' time='0.184'/>
+    <testcase classname='ARInquireForArtworkViewControllerSpec' name='test_logged_in__as_iphone_2' time='0.122'/>
+    <testcase classname='ARInquireForArtworkViewControllerSpec' name='test_logged_in__as_ipad_2' time='0.291'/>
+    <testcase classname='ARInquireForArtworkViewControllerSpec' name='test_logged_in__as_iphone_3' time='0.152'/>
+    <testcase classname='ARInquireForArtworkViewControllerSpec' name='test_logged_in__as_ipad_3' time='0.167'/>
+    <testcase classname='ARInquireForArtworkViewControllerSpec' name='test_as_an_admin__shows_a_warning_in_the_user_signature_about_failing' time='0.033'/>
+    <testcase classname='ARInquireForArtworkViewControllerSpec' name='test_logged_out__contact_information__as_iphone' time='0.089'/>
+    <testcase classname='ARInquireForArtworkViewControllerSpec' name='test_logged_out__contact_information__as_ipad' time='0.159'/>
+    <testcase classname='ARInquireForArtworkViewControllerSpec' name='test_logged_out__contact_information__as_iphone_2' time='0.094'/>
+    <testcase classname='ARInquireForArtworkViewControllerSpec' name='test_logged_out__contact_information__as_ipad_2' time='0.151'/>
+    <testcase classname='ARInquireForArtworkViewControllerSpec' name='test_logged_out__contact_information__as_iphone_3' time='0.084'/>
+    <testcase classname='ARInquireForArtworkViewControllerSpec' name='test_logged_out__contact_information__as_ipad_3' time='0.141'/>
+    <testcase classname='ARInquireForArtworkViewControllerSpec' name='test_logged_out__send_button__as_iphone' time='0.093'/>
+    <testcase classname='ARInquireForArtworkViewControllerSpec' name='test_logged_out__send_button__as_ipad' time='0.163'/>
+    <testcase classname='ARInquireForArtworkViewControllerSpec' name='test_logged_out__send_button__as_iphone_2' time='0.089'/>
+    <testcase classname='ARInquireForArtworkViewControllerSpec' name='test_logged_out__send_button__as_ipad_2' time='0.146'/>
+    <testcase classname='ARInquireForArtworkViewControllerSpec' name='test_logged_out__send_button__as_iphone_3' time='0.089'/>
+    <testcase classname='ARInquireForArtworkViewControllerSpec' name='test_logged_out__send_button__as_ipad_3' time='0.158'/>
+    <testcase classname='ARInquireForArtworkViewControllerSpec' name='test_logged_out__send_button__as_iphone_4' time='0.086'/>
+    <testcase classname='ARInquireForArtworkViewControllerSpec' name='test_logged_out__send_button__as_ipad_4' time='0.143'/>
+    <testcase classname='ARInquireForArtworkViewControllerSpec' name='test_logged_out__send_button__as_iphone_5' time='0.095'/>
+    <testcase classname='ARInquireForArtworkViewControllerSpec' name='test_logged_out__send_button__as_ipad_5' time='0.170'/>
+    <testcase classname='ARInquireForArtworkViewControllerSpec' name='test_sending__displays_sending_message' time='0.051'/>
+    <testcase classname='ARInquireForArtworkViewControllerSpec' name='test_sending__displays_success_message' time='0.062'/>
+    <testcase classname='ARInquireForArtworkViewControllerSpec' name='test_sending__general_failure__displays_failure_message' time='0.058'/>
+    <testcase classname='ARInquireForArtworkViewControllerSpec' name='test_sending__general_failure__can_be_dismissed' time='0.064'/>
+    <testcase classname='ARInquireForArtworkViewControllerSpec' name='test_sending__general_failure__can_resend_request' time='0.068'/>
+  </testsuite>
+  <testsuite name='ARInternalMobileViewControllerSpec' tests='24' failures='0'>
+    <testcase classname='ARInternalMobileViewControllerSpec' name='test_passes_on_fair_context' time='0.006'/>
+    <testcase classname='ARInternalMobileViewControllerSpec' name='test_initWithURL__in_production__rewrites_the_scheme' time='0.003'/>
+    <testcase classname='ARInternalMobileViewControllerSpec' name='test_initWithURL__in_production__with_an_artsynet_url' time='0.002'/>
+    <testcase classname='ARInternalMobileViewControllerSpec' name='test_initWithURL__in_production__with_a_relative_url' time='0.002'/>
+    <testcase classname='ARInternalMobileViewControllerSpec' name='test_initWithURL__in_production__with_an_external_artsynet_url' time='0.002'/>
+    <testcase classname='ARInternalMobileViewControllerSpec' name='test_initWithURL__in_production__with_an_external_url' time='0.002'/>
+    <testcase classname='ARInternalMobileViewControllerSpec' name='test_initWithURL__in_production_on_ipad__with_a_relative_url_on_ipad' time='0.013'/>
+    <testcase classname='ARInternalMobileViewControllerSpec' name='test_initWithURL__in_staging__rewrites_the_scheme' time='0.004'/>
+    <testcase classname='ARInternalMobileViewControllerSpec' name='test_initWithURL__in_staging__with_an_artsynet_url' time='0.002'/>
+    <testcase classname='ARInternalMobileViewControllerSpec' name='test_initWithURL__in_staging__with_a_relative_url' time='0.002'/>
+    <testcase classname='ARInternalMobileViewControllerSpec' name='test_initWithURL__in_staging__with_an_external_artsynet_url' time='0.002'/>
+    <testcase classname='ARInternalMobileViewControllerSpec' name='test_initWithURL__in_staging__with_an_external_url' time='0.002'/>
+    <testcase classname='ARInternalMobileViewControllerSpec' name='test_authenticated__injects_an_XAuthToken_header_in_requests' time='0.229'/>
+    <testcase classname='ARInternalMobileViewControllerSpec' name='test_authenticated__doesnt_leak_XAuthToken_to_nonArtsy_domains' time='0.027'/>
+    <testcase classname='ARInternalMobileViewControllerSpec' name='test_authenticated__shouldStartLoadWithRequestnavigationType__doesnt_show_the_websites_trial_loginsignup_view_on_a_request_to_login' time='0.032'/>
+    <testcase classname='ARInternalMobileViewControllerSpec' name='test_unauthenticated__doesnt_inject_an_XAuthToken_header_in_requests' time='0.004'/>
+    <testcase classname='ARInternalMobileViewControllerSpec' name='test_unauthenticated__shouldStartLoadWithRequestnavigationType__handles_a_nonnative_internal_link_being_clicked' time='0.005'/>
+    <testcase classname='ARInternalMobileViewControllerSpec' name='test_unauthenticated__shouldStartLoadWithRequestnavigationType__handles_an_external_link_being_clicked_via_a_browser' time='0.003'/>
+    <testcase classname='ARInternalMobileViewControllerSpec' name='test_unauthenticated__shouldStartLoadWithRequestnavigationType__doesnt_handle_nonlink_requests' time='0.003'/>
+    <testcase classname='ARInternalMobileViewControllerSpec' name='test_unauthenticated__shouldStartLoadWithRequestnavigationType__doesnt_handle_a_link_with_an_nonhttp_protocol' time='0.007'/>
+    <testcase classname='ARInternalMobileViewControllerSpec' name='test_unauthenticated__shouldStartLoadWithRequestnavigationType__shows_a_trial_loginsignup_view_on_a_request_to_login' time='0.009'/>
+    <testcase classname='ARInternalMobileViewControllerSpec' name='test_unauthenticated__shouldStartLoadWithRequestnavigationType__shows_a_trial_loginsignup_view_on_a_request_to_signup' time='0.009'/>
+    <testcase classname='ARInternalMobileViewControllerSpec' name='test_sharing__redirects_sharing_link_taps_to_the_shareValidator' time='0.010'/>
+    <testcase classname='ARInternalMobileViewControllerSpec' name='test_sharing__returns_NO_when_asked_to_start_loading_sharing_request' time='0.007'/>
+  </testsuite>
+  <testsuite name='ARInternalShareValidatorSpec' tests='9' failures='0'>
+    <testcase classname='ARInternalShareValidatorSpec' name='test_correctly_handles_social_URLs__facebook' time='0.000'/>
+    <testcase classname='ARInternalShareValidatorSpec' name='test_correctly_handles_social_URLs__twitter' time='0.001'/>
+    <testcase classname='ARInternalShareValidatorSpec' name='test_correctly_handles_social_URLs__linkedin' time='0.000'/>
+    <testcase classname='ARInternalShareValidatorSpec' name='test_correctly_pulls_out_the_name__twitter' time='0.064'/>
+    <testcase classname='ARInternalShareValidatorSpec' name='test_correctly_pulls_out_the_name__facebook' time='0.001'/>
+    <testcase classname='ARInternalShareValidatorSpec' name='test_correctly_pulls_out_the_name__linkedin' time='0.018'/>
+    <testcase classname='ARInternalShareValidatorSpec' name='test_correctly_pulls_out_the_address__twitter' time='0.000'/>
+    <testcase classname='ARInternalShareValidatorSpec' name='test_correctly_pulls_out_the_address__facebook' time='0.001'/>
+    <testcase classname='ARInternalShareValidatorSpec' name='test_correctly_pulls_out_the_address__linkedin' time='0.000'/>
+  </testsuite>
+  <testsuite name='ARLoginViewControllerSpec' tests='14' failures='0'>
+    <testcase classname='ARLoginViewControllerSpec' name='test_login_view_controller__snapshots__as_iphone' time='0.069'/>
+    <testcase classname='ARLoginViewControllerSpec' name='test_login_view_controller__snapshots__as_ipad' time='0.095'/>
+    <testcase classname='ARLoginViewControllerSpec' name='test_login_view_controller__snapshots__as_iphone_2' time='0.048'/>
+    <testcase classname='ARLoginViewControllerSpec' name='test_login_view_controller__snapshots__as_ipad_2' time='0.098'/>
+    <testcase classname='ARLoginViewControllerSpec' name='test_login_view_controller__initWithEmail__sets_username_text_field_to_the_value_of_the_email' time='0.011'/>
+    <testcase classname='ARLoginViewControllerSpec' name='test_login_view_controller__login__with_username_and_password__succeeds' time='0.042'/>
+    <testcase classname='ARLoginViewControllerSpec' name='test_login_view_controller__login__with_username_and_password__fails_and_displays_error' time='0.087'/>
+    <testcase classname='ARLoginViewControllerSpec' name='test_login_view_controller__login__with_facebook__succeeds' time='0.049'/>
+    <testcase classname='ARLoginViewControllerSpec' name='test_login_view_controller__login__with_facebook__fails_and_displays_an_error' time='0.021'/>
+    <testcase classname='ARLoginViewControllerSpec' name='test_login_view_controller__login__twitter__succeeds' time='0.034'/>
+    <testcase classname='ARLoginViewControllerSpec' name='test_login_view_controller__login__twitter__fails_and_displays_an_error' time='0.020'/>
+    <testcase classname='ARLoginViewControllerSpec' name='test_login_view_controller__forgot_password__displays_a_password_reset_form' time='0.018'/>
+    <testcase classname='ARLoginViewControllerSpec' name='test_login_view_controller__forgot_password__displays_a_confirmation_after_sending_a_password_reset_email' time='0.030'/>
+    <testcase classname='ARLoginViewControllerSpec' name='test_login_view_controller__forgot_password__displays_an_error_on_failure_to_send_a_reset_password_email' time='0.030'/>
+  </testsuite>
+  <testsuite name='ARMessageItemProviderSpec' tests='8' failures='0'>
+    <testcase classname='ARMessageItemProviderSpec' name='test_message_provider__provider__sets_the_placeholderItem' time='0.001'/>
+    <testcase classname='ARMessageItemProviderSpec' name='test_message_provider__provider__sets_the_path' time='0.000'/>
+    <testcase classname='ARMessageItemProviderSpec' name='test_message_provider__provider__adds_on_Artsy_to_the_message' time='0.000'/>
+    <testcase classname='ARMessageItemProviderSpec' name='test_message_provider__provider__subjectForActivityType__returns_message_for_Mail' time='0.000'/>
+    <testcase classname='ARMessageItemProviderSpec' name='test_message_provider__provider__subjectForActivityType__returns_nil_for_other_activities' time='0.000'/>
+    <testcase classname='ARMessageItemProviderSpec' name='test_message_provider__item__adds_Twitter_handle_for_Twitter' time='0.001'/>
+    <testcase classname='ARMessageItemProviderSpec' name='test_message_provider__item__formats_HTML_for_Mail' time='0.001'/>
+    <testcase classname='ARMessageItemProviderSpec' name='test_message_provider__item__adds_on_Artsy_for_other_activities' time='0.001'/>
+  </testsuite>
+  <testsuite name='ARNavigationButtonSpecSpec' tests='10' failures='2'>
+    <testcase classname='ARNavigationButtonSpecSpec' name='test_ARNavigationButton__default_border__title' time='0.010'/>
+    <testcase classname='ARNavigationButtonSpecSpec' name='test_ARNavigationButton__default_border__title_and_subtitle' time='0.006'/>
+    <testcase classname='ARNavigationButtonSpecSpec' name='test_ARNavigationButton__default_border__really_long_title_and_subtitle' time='0.006'/>
+    <testcase classname='ARNavigationButtonSpecSpec' name='test_ARNavigationButton__thick_border__title' time='0.005'/>
+    <testcase classname='ARNavigationButtonSpecSpec' name='test_ARNavigationButton__thick_border__title_and_subtitle' time='0.005'/>
+    <testcase classname='ARNavigationButtonSpecSpec' name='test_ARNavigationButton__no_border__title' time='0.005'/>
+    <testcase classname='ARNavigationButtonSpecSpec' name='test_ARNavigationButton__no_border__title_and_subtitle' time='0.005'/>
+    <testcase classname='ARNavigationButtonSpecSpec' name='test_ARSerifNavigationButton__title' time='0.005'/>
+    <testcase classname='ARNavigationButtonSpecSpec' name='test_ARSerifNavigationButton__title_and_subtitle'>
+      <failure message='expected a matching snapshot named serifNavigationButtonWithTitleAndSubtitle'>Artsy_Tests/View_Tests/Buttons/ARNavigationButtonTests.m:85</failure>
+    </testcase>
+    <testcase classname='ARNavigationButtonSpecSpec' name='test_ARSerifNavigationButton__really_long_title_and_subtitle'>
+      <failure message='expected a matching snapshot in ARSerifNavigationButton_really_long_title_and_subtitle'>Artsy_Tests/View_Tests/Buttons/ARNavigationButtonTests.m:92</failure>
+    </testcase>
+  </testsuite>
+  <testsuite name='ARNavigationButtonsViewControllerSpec' tests='8' failures='0'>
+    <testcase classname='ARNavigationButtonsViewControllerSpec' name='test_init__should_set_the_button_descriptions' time='0.001'/>
+    <testcase classname='ARNavigationButtonsViewControllerSpec' name='test_init__should_create_buttons_based_on_the_descriptions' time='0.002'/>
+    <testcase classname='ARNavigationButtonsViewControllerSpec' name='test_init__should_call_block_when_tapped' time='0.001'/>
+    <testcase classname='ARNavigationButtonsViewControllerSpec' name='test_creating_buttons__should_default_to_ARNavigationButton_as_the_button_class' time='0.004'/>
+    <testcase classname='ARNavigationButtonsViewControllerSpec' name='test_creating_buttons__should_allow_different_button_classes' time='0.003'/>
+    <testcase classname='ARNavigationButtonsViewControllerSpec' name='test_creating_buttons__should_set_properties_of_the_buttons' time='0.003'/>
+    <testcase classname='ARNavigationButtonsViewControllerSpec' name='test_creating_buttons__should_treat_NSNull_as_nil' time='0.003'/>
+    <testcase classname='ARNavigationButtonsViewControllerSpec' name='test_creating_buttons__should_allow_updates' time='0.006'/>
+  </testsuite>
+  <testsuite name='ARNavigationControllerSpec' tests='15' failures='0'>
+    <testcase classname='ARNavigationControllerSpec' name='test_visuals__should_be_empty_for_a_rootVC' time='0.028'/>
+    <testcase classname='ARNavigationControllerSpec' name='test_visuals__should_be_show_a_back_button_with_2_view_controllers' time='0.023'/>
+    <testcase classname='ARNavigationControllerSpec' name='test_stack_manipulation__removes_a_view_controller_from_anywhere_in_the_stack' time='0.004'/>
+    <testcase classname='ARNavigationControllerSpec' name='test_presenting_pending_operation_layover__should_animate_layover_transitions' time='0.004'/>
+    <testcase classname='ARNavigationControllerSpec' name='test_presenting_pending_operation_layover__should_call_through_to_nil_when_the_message_isnt_included' time='0.005'/>
+    <testcase classname='ARNavigationControllerSpec' name='test_presenting_pending_operation_layover__without_animations__should_present_the_new_view_controller' time='0.009'/>
+    <testcase classname='ARNavigationControllerSpec' name='test_presenting_pending_operation_layover__without_animations__should_dismiss_the_view_controller_once_the_commands_execution_is_completed' time='0.018'/>
+    <testcase classname='ARNavigationControllerSpec' name='test_presenting_pending_operation_layover__without_animations__with_a_message__should_present_the_new_view_controller' time='0.009'/>
+    <testcase classname='ARNavigationControllerSpec' name='test_search__presents_the_search_VC' time='0.006'/>
+    <testcase classname='ARNavigationControllerSpec' name='test_search__removes_the_search_VC_from_the_stack_after_presenting_another_view_controller_on_top_of_it' time='0.003'/>
+    <testcase classname='ARNavigationControllerSpec' name='test_search__removes_the_search_view_controller_from_any_other_stack_before_showing_it' time='0.006'/>
+    <testcase classname='ARNavigationControllerSpec' name='test_back_button__should_hide_back' time='0.004'/>
+    <testcase classname='ARNavigationControllerSpec' name='test_back_button__should_show_back' time='0.004'/>
+    <testcase classname='ARNavigationControllerSpec' name='test_back_button__hidesBackButton_not_implemented__falls_back_to_hidesNavigationButtons_to_show_back_button' time='0.004'/>
+    <testcase classname='ARNavigationControllerSpec' name='test_back_button__hidesBackButton_not_implemented__falls_back_to_hidesNavigationButtons_to_hide_back_button' time='0.004'/>
+  </testsuite>
+  <testsuite name='AROnboardingMoreInfoViewControllerSpec' tests='8' failures='0'>
+    <testcase classname='AROnboardingMoreInfoViewControllerSpec' name='test_facebook__as_iphone' time='0.035'/>
+    <testcase classname='AROnboardingMoreInfoViewControllerSpec' name='test_facebook__as_ipad' time='0.070'/>
+    <testcase classname='AROnboardingMoreInfoViewControllerSpec' name='test_facebook__prefills_name_and_email' time='0.009'/>
+    <testcase classname='AROnboardingMoreInfoViewControllerSpec' name='test_twitter__as_iphone' time='0.043'/>
+    <testcase classname='AROnboardingMoreInfoViewControllerSpec' name='test_twitter__as_ipad' time='0.089'/>
+    <testcase classname='AROnboardingMoreInfoViewControllerSpec' name='test_twitter__prefills_name_and_email' time='0.009'/>
+    <testcase classname='AROnboardingMoreInfoViewControllerSpec' name='test_canSubmit__is_true_if_name_and_email_are_present' time='0.005'/>
+    <testcase classname='AROnboardingMoreInfoViewControllerSpec' name='test_canSubmit__is_false_if_either_is_missing' time='0.002'/>
+  </testsuite>
+  <testsuite name='AROnboardingViewControllerSpec' tests='3' failures='0'>
+    <testcase classname='AROnboardingViewControllerSpec' name='test_signup_splash__signupDone__ipad' time='0.010'/>
+    <testcase classname='AROnboardingViewControllerSpec' name='test_signup_splash__signupDone__not_ipad' time='0.010'/>
+    <testcase classname='AROnboardingViewControllerSpec' name='test_signup_splash__signupDone__when_registering_to_bid__does_not_onboard_on_iPhone' time='0.010'/>
+  </testsuite>
+  <testsuite name='ARParallaxHeaderViewControllerSpec' tests='3' failures='0'>
+    <testcase classname='ARParallaxHeaderViewControllerSpec' name='test_without_an_icon__has_a_valid_snapshot' time='0.039'/>
+    <testcase classname='ARParallaxHeaderViewControllerSpec' name='test_with_an_icon__has_a_valid_snapshot' time='0.031'/>
+    <testcase classname='ARParallaxHeaderViewControllerSpec' name='test_with_new_banner_urls__has_a_valid_snapshot' time='0.030'/>
+  </testsuite>
+  <testsuite name='ARPendingOperationViewControllerSpec' tests='3' failures='0'>
+    <testcase classname='ARPendingOperationViewControllerSpec' name='test_has_a_valid_snapshot' time='0.024'/>
+    <testcase classname='ARPendingOperationViewControllerSpec' name='test_has_a_default_message' time='0.001'/>
+    <testcase classname='ARPendingOperationViewControllerSpec' name='test_binds_message_to_the_labels_text' time='0.002'/>
+  </testsuite>
+  <testsuite name='ARPersonalizeWebViewControllerSpec' tests='2' failures='0'>
+    <testcase classname='ARPersonalizeWebViewControllerSpec' name='test_allows_google_urls_to_pass' time='0.001'/>
+    <testcase classname='ARPersonalizeWebViewControllerSpec' name='test_is_positioned_correctly' time='0.084'/>
+  </testsuite>
+  <testsuite name='ARPostFeedItemLinkViewSpec' tests='1' failures='0'>
+    <testcase classname='ARPostFeedItemLinkViewSpec' name='test_targetURL' time='0.011'/>
+  </testsuite>
+  <testsuite name='ARProfileViewControllerSpec' tests='12' failures='0'>
+    <testcase classname='ARProfileViewControllerSpec' name='test_initializer__initializes_with_the_correct_profile_ID' time='0.001'/>
+    <testcase classname='ARProfileViewControllerSpec' name='test_viewDidLoad__Sets_up_viewDidAppear_to_call_loadProfile' time='0.002'/>
+    <testcase classname='ARProfileViewControllerSpec' name='test_viewDidLoad__Only_calls_loadProfile_the_first_time_viewDidAppear_is_called' time='0.001'/>
+    <testcase classname='ARProfileViewControllerSpec' name='test_loadProfile__calls_getProfileForProfileID' time='0.010'/>
+    <testcase classname='ARProfileViewControllerSpec' name='test_loadProfile__loads_martsy_view_on_failure' time='0.002'/>
+    <testcase classname='ARProfileViewControllerSpec' name='test_loadProfile__fair__loads_a_fairvc_on_iphone_with_a_fair_organizer' time='0.015'/>
+    <testcase classname='ARProfileViewControllerSpec' name='test_loadProfile__fair__loads_a_fairvc_on_iphone_with_a_fair' time='0.030'/>
+    <testcase classname='ARProfileViewControllerSpec' name='test_loadProfile__fair__loads_martsy_on_ipad' time='0.016'/>
+    <testcase classname='ARProfileViewControllerSpec' name='test_loadProfile__loads_martsy_when_a_profiles_owner_is_anything_but_a_fair_or_organizer' time='0.009'/>
+    <testcase classname='ARProfileViewControllerSpec' name='test_loadMartsyView__creates_and_shows_an_internal_mobile_web_browser' time='0.003'/>
+    <testcase classname='ARProfileViewControllerSpec' name='test_showViewController__adds_as_a_child_view_controller' time='0.003'/>
+    <testcase classname='ARProfileViewControllerSpec' name='test_showViewController__Creates_an_alignment_based_on_the_top_layout_guide' time='0.001'/>
+  </testsuite>
+  <testsuite name='ARRouterSpec' tests='26' failures='0'>
+    <testcase classname='ARRouterSpec' name='test_requestForURL__with_auth_token__sets_router_auth_token_for_Artsy_URLs' time='0.001'/>
+    <testcase classname='ARRouterSpec' name='test_requestForURL__with_auth_token__doesnt_set_auth_token_for_external_URLs' time='0.002'/>
+    <testcase classname='ARRouterSpec' name='test_requestForURL__with_xapp_token__sets_router_xapp_token_for_Artsy_URLs' time='0.001'/>
+    <testcase classname='ARRouterSpec' name='test_requestForURL__with_xapp_token__doesnt_set_xapp_token_for_external_URLs' time='0.001'/>
+    <testcase classname='ARRouterSpec' name='test_isInternalURL__returns_true_with_a_touch_link' time='0.001'/>
+    <testcase classname='ARRouterSpec' name='test_isInternalURL__returns_true_with_an_artsy_link' time='0.001'/>
+    <testcase classname='ARRouterSpec' name='test_isInternalURL__returns_true_with_an_artsy_www' time='0.001'/>
+    <testcase classname='ARRouterSpec' name='test_isInternalURL__returns_true_for_every_artsy_url' time='0.001'/>
+    <testcase classname='ARRouterSpec' name='test_isInternalURL__returns_true_for_artsy_subdomains' time='0.001'/>
+    <testcase classname='ARRouterSpec' name='test_isInternalURL__returns_false_for_external_urls' time='0.000'/>
+    <testcase classname='ARRouterSpec' name='test_isInternalURL__returns_true_for_relative_urls' time='0.001'/>
+    <testcase classname='ARRouterSpec' name='test_isWebURL__returns_true_with_a_http_link' time='0.000'/>
+    <testcase classname='ARRouterSpec' name='test_isWebURL__returns_true_with_a_link_without_a_scheme' time='0.000'/>
+    <testcase classname='ARRouterSpec' name='test_isWebURL__returns_true_with_a_https_link' time='0.000'/>
+    <testcase classname='ARRouterSpec' name='test_isWebURL__returns_false_for_mailto_urls' time='0.001'/>
+    <testcase classname='ARRouterSpec' name='test_UserAgent__uses_ArtsyMobile_hardcoded_in_Microgravity' time='0.001'/>
+    <testcase classname='ARRouterSpec' name='test_UserAgent__contains_compatibility_strings' time='0.002'/>
+    <testcase classname='ARRouterSpec' name='test_UserAgent__uses_Eigen' time='0.001'/>
+    <testcase classname='ARRouterSpec' name='test_UserAgent__contains_version_number' time='0.000'/>
+    <testcase classname='ARRouterSpec' name='test_UserAgent__contains_build_number' time='0.001'/>
+    <testcase classname='ARRouterSpec' name='test_UserAgent__is_contained_in_requests_sent_out_from_router' time='0.003'/>
+    <testcase classname='ARRouterSpec' name='test_sending_eigen_uuids_to_martsyforce__trial_users_send_the_eigen_uuid' time='0.011'/>
+    <testcase classname='ARRouterSpec' name='test_sending_eigen_uuids_to_martsyforce__logged_in_users_dont_send_the_uuid' time='0.010'/>
+    <testcase classname='ARRouterSpec' name='test_sending_eigen_uuids_to_martsyforce__other_websites_dont_get_the_uuid' time='0.009'/>
+    <testcase classname='ARRouterSpec' name='test_baseWebURL__points_to_artsy_mobile_on_iphone' time='0.007'/>
+    <testcase classname='ARRouterSpec' name='test_baseWebURL__points_to_artsy_web_on_ipad' time='0.012'/>
+  </testsuite>
+  <testsuite name='ARSaleArtworkFlowCollectionViewCellSpec' tests='2' failures='0'>
+    <testcase classname='ARSaleArtworkFlowCollectionViewCellSpec' name='test_looks_good_with_compact_cells' time='0.014'/>
+    <testcase classname='ARSaleArtworkFlowCollectionViewCellSpec' name='test_looks_good_with_regular_cells' time='0.010'/>
+  </testsuite>
+  <testsuite name='ARSearchFieldButtonSpec' tests='2' failures='0'>
+    <testcase classname='ARSearchFieldButtonSpec' name='test_has_a_valid_snapshot' time='0.005'/>
+    <testcase classname='ARSearchFieldButtonSpec' name='test_adds_a_gesture_recogniser_when_a_delegate_is_set' time='0.001'/>
+  </testsuite>
+  <testsuite name='ARSearchViewControllerSpec' tests='2' failures='0'>
+    <testcase classname='ARSearchViewControllerSpec' name='test_add_results__replaces_results' time='0.001'/>
+    <testcase classname='ARSearchViewControllerSpec' name='test_add_results__adds_to_results' time='0.001'/>
+  </testsuite>
+  <testsuite name='ARSerifNavigationViewControllerSpec' tests='4' failures='0'>
+    <testcase classname='ARSerifNavigationViewControllerSpec' name='test___shows_as_a_form_in_the_center' time='0.000'/>
+    <testcase classname='ARSerifNavigationViewControllerSpec' name='test___handles_the_back_button_correctly' time='0.029'/>
+    <testcase classname='ARSerifNavigationViewControllerSpec' name='test___status_bar__sets_the_status_bar_to_hidden' time='0.004'/>
+    <testcase classname='ARSerifNavigationViewControllerSpec' name='test___status_bar__returns_the_hidden_back_to_the_original_value' time='0.002'/>
+  </testsuite>
+  <testsuite name='ARSharingControllerSpec' tests='10' failures='0'>
+    <testcase classname='ARSharingControllerSpec' name='test_sharing__objectID__returns_Artwork_id' time='0.001'/>
+    <testcase classname='ARSharingControllerSpec' name='test_sharing__objectID__returns_Artist_id' time='0.001'/>
+    <testcase classname='ARSharingControllerSpec' name='test_sharing__objectID__returns_Gene_id' time='0.001'/>
+    <testcase classname='ARSharingControllerSpec' name='test_sharing__objectID__returns_PartnerShow_id' time='0.005'/>
+    <testcase classname='ARSharingControllerSpec' name='test_sharing__message__with_an_Artwork__formats_string_when_there_is_no_Artist' time='0.000'/>
+    <testcase classname='ARSharingControllerSpec' name='test_sharing__message__with_an_Artwork__formats_string_when_there_is_an_Artist' time='0.001'/>
+    <testcase classname='ARSharingControllerSpec' name='test_sharing__message__formats_the_string_for_a_PartnerShow' time='0.000'/>
+    <testcase classname='ARSharingControllerSpec' name='test_sharing__message__returns_a_Genes_name' time='0.000'/>
+    <testcase classname='ARSharingControllerSpec' name='test_sharing__message__returns_an_Artists_name' time='0.000'/>
+    <testcase classname='ARSharingControllerSpec' name='test_sharing__activityItems__orders_items' time='0.002'/>
+  </testsuite>
+  <testsuite name='ARShowNetworkModelSpec' tests='5' failures='0'>
+    <testcase classname='ARShowNetworkModelSpec' name='test_sets_up_its_properties_upon_initialization' time='0.001'/>
+    <testcase classname='ARShowNetworkModelSpec' name='test_network_access__with_a_show_and_fair__gets_show_info' time='0.001'/>
+    <testcase classname='ARShowNetworkModelSpec' name='test_network_access__with_a_show_and_fair__gets_fair_maps' time='0.001'/>
+    <testcase classname='ARShowNetworkModelSpec' name='test_network_access__with_a_show_and_fair__gets_artwork_pages' time='0.001'/>
+    <testcase classname='ARShowNetworkModelSpec' name='test_network_access__with_a_show_and_no_fair__sets_fair_after_getting_show_info' time='0.001'/>
+  </testsuite>
+  <testsuite name='ARShowViewControllerSpec' tests='29' failures='0'>
+    <testcase classname='ARShowViewControllerSpec' name='test_at_a_fair__with_map__looks_correct__with_no_images__as_iphone' time='0.094'/>
+    <testcase classname='ARShowViewControllerSpec' name='test_at_a_fair__with_map__looks_correct__with_no_images__as_ipad' time='0.117'/>
+    <testcase classname='ARShowViewControllerSpec' name='test_at_a_fair__with_map__looks_correct__with_1_install_image__as_iphone' time='0.101'/>
+    <testcase classname='ARShowViewControllerSpec' name='test_at_a_fair__with_map__looks_correct__with_1_install_image__as_ipad' time='0.166'/>
+    <testcase classname='ARShowViewControllerSpec' name='test_at_a_fair__with_map__looks_correct__with_multiple_install_images__as_iphone' time='0.102'/>
+    <testcase classname='ARShowViewControllerSpec' name='test_at_a_fair__with_map__looks_correct__with_multiple_install_images__as_ipad' time='0.168'/>
+    <testcase classname='ARShowViewControllerSpec' name='test_at_a_fair__without_map__looks_correct__with_no_images__as_iphone' time='0.065'/>
+    <testcase classname='ARShowViewControllerSpec' name='test_at_a_fair__without_map__looks_correct__with_no_images__as_ipad' time='0.096'/>
+    <testcase classname='ARShowViewControllerSpec' name='test_at_a_fair__without_map__looks_correct__with_1_install_image__as_iphone' time='0.088'/>
+    <testcase classname='ARShowViewControllerSpec' name='test_at_a_fair__without_map__looks_correct__with_1_install_image__as_ipad' time='0.155'/>
+    <testcase classname='ARShowViewControllerSpec' name='test_at_a_fair__without_map__looks_correct__with_multiple_install_images__as_iphone' time='0.096'/>
+    <testcase classname='ARShowViewControllerSpec' name='test_at_a_fair__without_map__looks_correct__with_multiple_install_images__as_ipad' time='0.153'/>
+    <testcase classname='ARShowViewControllerSpec' name='test_not_at_a_fair__gallery_with_public_profile_with_public_location__looks_correct__as_iphone' time='0.062'/>
+    <testcase classname='ARShowViewControllerSpec' name='test_not_at_a_fair__gallery_with_public_profile_with_public_location__looks_correct__as_ipad' time='0.098'/>
+    <testcase classname='ARShowViewControllerSpec' name='test_not_at_a_fair__gallery_with_public_profile_with_private_location__looks_correct__as_iphone' time='0.060'/>
+    <testcase classname='ARShowViewControllerSpec' name='test_not_at_a_fair__gallery_with_public_profile_with_private_location__looks_correct__as_ipad' time='0.099'/>
+    <testcase classname='ARShowViewControllerSpec' name='test_not_at_a_fair__gallery_with_private_profile_with_public_location__looks_correct__as_iphone' time='0.057'/>
+    <testcase classname='ARShowViewControllerSpec' name='test_not_at_a_fair__gallery_with_private_profile_with_public_location__looks_correct__as_ipad' time='0.098'/>
+    <testcase classname='ARShowViewControllerSpec' name='test_not_at_a_fair__gallery_with_private_profile_with_private_location__looks_correct__as_iphone' time='0.058'/>
+    <testcase classname='ARShowViewControllerSpec' name='test_not_at_a_fair__gallery_with_private_profile_with_private_location__looks_correct__as_ipad' time='0.092'/>
+    <testcase classname='ARShowViewControllerSpec' name='test_not_at_a_fair__nongallery_with_public_profile_with_public_location__looks_correct__as_iphone' time='0.063'/>
+    <testcase classname='ARShowViewControllerSpec' name='test_not_at_a_fair__nongallery_with_public_profile_with_public_location__looks_correct__as_ipad' time='0.096'/>
+    <testcase classname='ARShowViewControllerSpec' name='test_not_at_a_fair__museum_with_public_profile_with_private_location__looks_correct__as_iphone' time='0.062'/>
+    <testcase classname='ARShowViewControllerSpec' name='test_not_at_a_fair__museum_with_public_profile_with_private_location__looks_correct__as_ipad' time='0.095'/>
+    <testcase classname='ARShowViewControllerSpec' name='test_not_at_a_fair__museum_with_private_profile_with_public_location__looks_correct__as_iphone' time='0.058'/>
+    <testcase classname='ARShowViewControllerSpec' name='test_not_at_a_fair__museum_with_private_profile_with_public_location__looks_correct__as_ipad' time='0.093'/>
+    <testcase classname='ARShowViewControllerSpec' name='test_not_at_a_fair__museum_with_private_profile_with_private_location__looks_correct__as_iphone' time='0.056'/>
+    <testcase classname='ARShowViewControllerSpec' name='test_not_at_a_fair__museum_with_private_profile_with_private_location__looks_correct__as_ipad' time='0.092'/>
+    <testcase classname='ARShowViewControllerSpec' name='test_creates_an_NSUserActivity' time='0.035'/>
+  </testsuite>
+  <testsuite name='ARSignUpActiveUserViewControllerSpec' tests='24' failures='0'>
+    <testcase classname='ARSignUpActiveUserViewControllerSpec' name='test_sign_up_after_app_launch__as_iphone' time='0.075'/>
+    <testcase classname='ARSignUpActiveUserViewControllerSpec' name='test_sign_up_after_app_launch__as_ipad' time='0.095'/>
+    <testcase classname='ARSignUpActiveUserViewControllerSpec' name='test_sign_up_after_app_launch__as_iphone_2' time='0.062'/>
+    <testcase classname='ARSignUpActiveUserViewControllerSpec' name='test_sign_up_after_app_launch__as_ipad_2' time='0.094'/>
+    <testcase classname='ARSignUpActiveUserViewControllerSpec' name='test_sign_up_after_app_launch__as_iphone_3' time='0.064'/>
+    <testcase classname='ARSignUpActiveUserViewControllerSpec' name='test_sign_up_after_app_launch__as_ipad_3' time='0.111'/>
+    <testcase classname='ARSignUpActiveUserViewControllerSpec' name='test_sign_up_after_app_launch__as_iphone_4' time='0.063'/>
+    <testcase classname='ARSignUpActiveUserViewControllerSpec' name='test_sign_up_after_app_launch__as_ipad_4' time='0.090'/>
+    <testcase classname='ARSignUpActiveUserViewControllerSpec' name='test_sign_up_after_app_launch__as_iphone_5' time='0.061'/>
+    <testcase classname='ARSignUpActiveUserViewControllerSpec' name='test_sign_up_after_app_launch__as_ipad_5' time='0.090'/>
+    <testcase classname='ARSignUpActiveUserViewControllerSpec' name='test_sign_up_after_app_launch__as_iphone_6' time='0.062'/>
+    <testcase classname='ARSignUpActiveUserViewControllerSpec' name='test_sign_up_after_app_launch__as_ipad_6' time='0.089'/>
+    <testcase classname='ARSignUpActiveUserViewControllerSpec' name='test_sign_up_after_app_launch__as_iphone_7' time='0.061'/>
+    <testcase classname='ARSignUpActiveUserViewControllerSpec' name='test_sign_up_after_app_launch__as_ipad_7' time='0.090'/>
+    <testcase classname='ARSignUpActiveUserViewControllerSpec' name='test_sign_up_after_app_launch__as_iphone_8' time='0.062'/>
+    <testcase classname='ARSignUpActiveUserViewControllerSpec' name='test_sign_up_after_app_launch__as_ipad_8' time='0.090'/>
+    <testcase classname='ARSignUpActiveUserViewControllerSpec' name='test_sign_up_after_app_launch__as_iphone_9' time='0.061'/>
+    <testcase classname='ARSignUpActiveUserViewControllerSpec' name='test_sign_up_after_app_launch__as_ipad_9' time='0.091'/>
+    <testcase classname='ARSignUpActiveUserViewControllerSpec' name='test_sign_up_after_app_launch__as_iphone_10' time='0.064'/>
+    <testcase classname='ARSignUpActiveUserViewControllerSpec' name='test_sign_up_after_app_launch__as_ipad_10' time='0.090'/>
+    <testcase classname='ARSignUpActiveUserViewControllerSpec' name='test_sign_up_after_app_launch__as_iphone_11' time='0.062'/>
+    <testcase classname='ARSignUpActiveUserViewControllerSpec' name='test_sign_up_after_app_launch__as_ipad_11' time='0.089'/>
+    <testcase classname='ARSignUpActiveUserViewControllerSpec' name='test_sign_up_after_app_launch__as_iphone_12' time='0.063'/>
+    <testcase classname='ARSignUpActiveUserViewControllerSpec' name='test_sign_up_after_app_launch__as_ipad_12' time='0.092'/>
+  </testsuite>
+  <testsuite name='ARSignUpSplashViewControllerSpec' tests='3' failures='0'>
+    <testcase classname='ARSignUpSplashViewControllerSpec' name='test_signup_splash__has_three_pages' time='0.019'/>
+    <testcase classname='ARSignUpSplashViewControllerSpec' name='test_signup_splash__as_iphone' time='0.084'/>
+    <testcase classname='ARSignUpSplashViewControllerSpec' name='test_signup_splash__as_ipad' time='0.237'/>
+  </testsuite>
+  <testsuite name='ARSwitchBoardSpec' tests='33' failures='0'>
+    <testcase classname='ARSwitchBoardSpec' name='test_ARSwitchboard__resolveRelativeUrl__resolves_absolute_artsynet_url' time='0.010'/>
+    <testcase classname='ARSwitchBoardSpec' name='test_ARSwitchboard__resolveRelativeUrl__resolves_absolute_external_url' time='0.007'/>
+    <testcase classname='ARSwitchBoardSpec' name='test_ARSwitchboard__resolveRelativeUrl__resolves_relative_url' time='0.005'/>
+    <testcase classname='ARSwitchBoardSpec' name='test_ARSwitchboard__loadURL__with_internal_url__routes_internal_urls_correctly' time='0.001'/>
+    <testcase classname='ARSwitchBoardSpec' name='test_ARSwitchboard__loadURL__with_non_http_schemed_url__does_not_load_an_internal_view' time='0.001'/>
+    <testcase classname='ARSwitchBoardSpec' name='test_ARSwitchboard__loadURL__with_non_http_schemed_url__does_not_load_browser' time='0.007'/>
+    <testcase classname='ARSwitchBoardSpec' name='test_ARSwitchboard__loadURL__with_non_http_schemed_url__opens_with_the_OS_for_nonhttp_links' time='0.001'/>
+    <testcase classname='ARSwitchBoardSpec' name='test_ARSwitchboard__loadURL__handles_breaking_out_of_the_eigen_routing_sandbox_when_needed' time='0.001'/>
+    <testcase classname='ARSwitchBoardSpec' name='test_ARSwitchboard__loadURL__with_applewebdata_urls__does_not_load_browser' time='0.003'/>
+    <testcase classname='ARSwitchBoardSpec' name='test_ARSwitchboard__loadURL__with_applewebdata_urls__routes_internal_urls' time='0.002'/>
+    <testcase classname='ARSwitchBoardSpec' name='test_ARSwitchboard__loadURL__loads_web_view_for_external_urls' time='0.002'/>
+    <testcase classname='ARSwitchBoardSpec' name='test_ARSwitchboard__adding_a_new_route__supports_adding_via_the_register_method' time='0.008'/>
+    <testcase classname='ARSwitchBoardSpec' name='test_ARSwitchboard__adding_a_new_domain__supports_adding_via_the_register_method' time='0.001'/>
+    <testcase classname='ARSwitchBoardSpec' name='test_ARSwitchboard__adding_a_new_domain__sends_the_URL_in_to_the_callback_for_the_URL_routing' time='0.001'/>
+    <testcase classname='ARSwitchBoardSpec' name='test_ARSwitchboard__routeInternalURL__routes_profiles' time='0.002'/>
+    <testcase classname='ARSwitchBoardSpec' name='test_ARSwitchboard__routeInternalURL__routes_artists' time='0.001'/>
+    <testcase classname='ARSwitchBoardSpec' name='test_ARSwitchboard__routeInternalURL__routes_artists_in_a_gallery_context_on_iPad' time='0.015'/>
+    <testcase classname='ARSwitchBoardSpec' name='test_ARSwitchboard__routeInternalURL__does_not_route_artists_in_a_gallery_context_on_iPhone' time='0.024'/>
+    <testcase classname='ARSwitchBoardSpec' name='test_ARSwitchboard__routeInternalURL__routes_shows' time='0.004'/>
+    <testcase classname='ARSwitchBoardSpec' name='test_ARSwitchboard__routeInternalURL__fairs__on_iphone__routes_fair_guide' time='0.016'/>
+    <testcase classname='ARSwitchBoardSpec' name='test_ARSwitchboard__routeInternalURL__fairs__on_iphone__routes_fair_artists' time='0.034'/>
+    <testcase classname='ARSwitchBoardSpec' name='test_ARSwitchboard__routeInternalURL__fairs__on_iphone__forwards_fair_views_to_martsy_for_nonnative_views' time='0.032'/>
+    <testcase classname='ARSwitchBoardSpec' name='test_ARSwitchboard__routeInternalURL__fairs__on_ipad__doesnt_route_fair_guide' time='0.031'/>
+    <testcase classname='ARSwitchBoardSpec' name='test_ARSwitchboard__routeInternalURL__fairs__on_ipad__doesnt_route_fair_artists' time='0.020'/>
+    <testcase classname='ARSwitchBoardSpec' name='test_ARSwitchboard__routeInternalURL__routes_artworks' time='0.004'/>
+    <testcase classname='ARSwitchBoardSpec' name='test_ARSwitchboard__routeInternalURL__routes_artworks_and_retains_fair_context' time='0.003'/>
+    <testcase classname='ARSwitchBoardSpec' name='test_ARSwitchboard__routeInternalURL__routes_genes' time='0.002'/>
+    <testcase classname='ARSwitchBoardSpec' name='test_ARSwitchboard__routeInternalURL__routes_live_auctions' time='0.003'/>
+    <testcase classname='ARSwitchBoardSpec' name='test_ARSwitchboard__routeInternalURL__routes_unregistered_subdomains_internally' time='0.002'/>
+    <testcase classname='ARSwitchBoardSpec' name='test_ARSwitchboard__routeInternalURL__routes_auctions' time='0.003'/>
+    <testcase classname='ARSwitchBoardSpec' name='test_ARSwitchboard__routeInternalURL__can_not_route_to_native_auctions_when_echo_has_a_feature_called_DisableNativeAuctions' time='0.003'/>
+    <testcase classname='ARSwitchBoardSpec' name='test_ARSwitchboard__routeProfileWithID__with_a_fair_profile__internally_does_not_load_martsy' time='0.001'/>
+    <testcase classname='ARSwitchBoardSpec' name='test_ARSwitchboard__routeProfileWithID__with_a_fair_profile__routes_fair_profiles_specially' time='0.001'/>
+  </testsuite>
+  <testsuite name='ARSwitchViewSpec' tests='3' failures='0'>
+    <testcase classname='ARSwitchViewSpec' name='test_looks_correct_configured_with_two_buttons' time='0.023'/>
+    <testcase classname='ARSwitchViewSpec' name='test_accepts_any_number_of_items' time='0.017'/>
+    <testcase classname='ARSwitchViewSpec' name='test_adjusts_buttons_to_any_switch_width' time='0.020'/>
+  </testsuite>
+  <testsuite name='ARSwitchboardEchoSpec' tests='3' failures='0'>
+    <testcase classname='ARSwitchboardEchoSpec' name='test_ARSwitchboardEcho__has_a_working_routes_object' time='0.001'/>
+    <testcase classname='ARSwitchboardEchoSpec' name='test_ARSwitchboardEcho__updates_routes_from_Echo_when_updateRoutes_is_called' time='0.034'/>
+    <testcase classname='ARSwitchboardEchoSpec' name='test_ARSwitchboardEcho__changes_routes_from_Echo_when_echo_has_indicated_that_it_should_update' time='0.039'/>
+  </testsuite>
+  <testsuite name='ARSystemTimeTestsSpec' tests='5' failures='0'>
+    <testcase classname='ARSystemTimeTestsSpec' name='test_not_in_sync__returns_NO' time='0.001'/>
+    <testcase classname='ARSystemTimeTestsSpec' name='test_not_in_sync__returns_current_datetime' time='0.007'/>
+    <testcase classname='ARSystemTimeTestsSpec' name='test_in_sync__returns_YES' time='0.018'/>
+    <testcase classname='ARSystemTimeTestsSpec' name='test_in_sync__returns_a_date_time_in_the_future' time='0.024'/>
+    <testcase classname='ARSystemTimeTestsSpec' name='test_in_sync__returns_a_new_date_every_time' time='0.001'/>
+  </testsuite>
+  <testsuite name='ARTabViewSpec' tests='9' failures='0'>
+    <testcase classname='ARTabViewSpec' name='test_sets_current_and_previous_view_index' time='0.020'/>
+    <testcase classname='ARTabViewSpec' name='test_correctly_shows_a_navigation_controller__at_first_index' time='0.052'/>
+    <testcase classname='ARTabViewSpec' name='test_correctly_shows_a_navigation_controller__at_another_index' time='0.041'/>
+    <testcase classname='ARTabViewSpec' name='test_correctly_sets_the_child_view_controller' time='0.038'/>
+    <testcase classname='ARTabViewSpec' name='test_sends_appearance_message_to_child_view_controller__viewDidLoad' time='0.025'/>
+    <testcase classname='ARTabViewSpec' name='test_sends_appearance_message_to_child_view_controller__viewWillAppear' time='0.036'/>
+    <testcase classname='ARTabViewSpec' name='test_sends_appearance_message_to_child_view_controller__viewDidAppear' time='0.024'/>
+    <testcase classname='ARTabViewSpec' name='test_sends_appearance_message_to_child_view_controller__viewWillDisappear' time='0.022'/>
+    <testcase classname='ARTabViewSpec' name='test_sends_appearance_message_to_child_view_controller__viewDidDisappear' time='0.022'/>
+  </testsuite>
+  <testsuite name='ARThemeSpec' tests='4' failures='0'>
+    <testcase classname='ARThemeSpec' name='test_automatically_loads_defaultTheme' time='0.001'/>
+    <testcase classname='ARThemeSpec' name='test_loads_fonts' time='0.000'/>
+    <testcase classname='ARThemeSpec' name='test_loads_colors' time='0.001'/>
+    <testcase classname='ARThemeSpec' name='test_loads_layout' time='0.001'/>
+  </testsuite>
+  <testsuite name='ARTiledImageDataSourceWithImageSpec' tests='6' failures='0'>
+    <testcase classname='ARTiledImageDataSourceWithImageSpec' name='test_init__check_for_image_existing' time='0.001'/>
+    <testcase classname='ARTiledImageDataSourceWithImageSpec' name='test_init__delegate_methods__gives_the_right_tile_size' time='0.001'/>
+    <testcase classname='ARTiledImageDataSourceWithImageSpec' name='test_init__delegate_methods__gives_the_right_image_size' time='0.000'/>
+    <testcase classname='ARTiledImageDataSourceWithImageSpec' name='test_init__delegate_methods__gives_the_right_minimum_zoom_level' time='0.000'/>
+    <testcase classname='ARTiledImageDataSourceWithImageSpec' name='test_init__delegate_methods__gives_the_right_maximum_zoom_level' time='0.002'/>
+    <testcase classname='ARTiledImageDataSourceWithImageSpec' name='test_init__delegate_methods__stores_and_retrieves_a_tile' time='0.009'/>
+  </testsuite>
+  <testsuite name='ARTopMenuNavigationDataSourceSpec' tests='6' failures='0'>
+    <testcase classname='ARTopMenuNavigationDataSourceSpec' name='test_uses_a_single_feed_vc' time='0.020'/>
+    <testcase classname='ARTopMenuNavigationDataSourceSpec' name='test_uses_a_single_browse_vc' time='0.021'/>
+    <testcase classname='ARTopMenuNavigationDataSourceSpec' name='test_uses_a_single_favorites_vc' time='0.001'/>
+    <testcase classname='ARTopMenuNavigationDataSourceSpec' name='test_reinstantiates_favorites_vc' time='0.028'/>
+    <testcase classname='ARTopMenuNavigationDataSourceSpec' name='test_notifications__sets_the_app_icon_badge_to_the_total_amount_of_available_notifications' time='0.019'/>
+    <testcase classname='ARTopMenuNavigationDataSourceSpec' name='test_notifications__resets_the_app_icon_badge_if_there_are_0_notifications' time='0.019'/>
+  </testsuite>
+  <testsuite name='ARTopMenuViewControllerSpec' tests='37' failures='0'>
+    <testcase classname='ARTopMenuViewControllerSpec' name='test_as_iphone' time='0.088'/>
+    <testcase classname='ARTopMenuViewControllerSpec' name='test_as_ipad' time='0.203'/>
+    <testcase classname='ARTopMenuViewControllerSpec' name='test_as_iphone_2' time='0.084'/>
+    <testcase classname='ARTopMenuViewControllerSpec' name='test_as_ipad_2' time='0.205'/>
+    <testcase classname='ARTopMenuViewControllerSpec' name='test_navigation__feed__tab_behavior__is_selectable_when_not_selected' time='0.056'/>
+    <testcase classname='ARTopMenuViewControllerSpec' name='test_navigation__feed__tab_behavior__already_selected__is_not_selectable' time='0.039'/>
+    <testcase classname='ARTopMenuViewControllerSpec' name='test_navigation__feed__tab_behavior__already_selected__pops_to_root' time='0.048'/>
+    <testcase classname='ARTopMenuViewControllerSpec' name='test_navigation__feed__tab_behavior__when_presenting_a_root_view_controller__when_already_on_the_selected_tab__animates_popping' time='0.041'/>
+    <testcase classname='ARTopMenuViewControllerSpec' name='test_navigation__feed__tab_behavior__when_presenting_a_root_view_controller__when_already_on_the_selected_tab__does_not_change_tab' time='0.043'/>
+    <testcase classname='ARTopMenuViewControllerSpec' name='test_navigation__feed__tab_behavior__when_presenting_a_root_view_controller__when_not_on_the_selected_tab__does_not_animate_popping' time='0.042'/>
+    <testcase classname='ARTopMenuViewControllerSpec' name='test_navigation__feed__tab_behavior__when_presenting_a_root_view_controller__when_not_on_the_selected_tab__changes_tabs_in_an_animated_fashion' time='0.063'/>
+    <testcase classname='ARTopMenuViewControllerSpec' name='test_navigation__feed__tab_behavior__concerning_badges__shows_a_notification_badge' time='0.047'/>
+    <testcase classname='ARTopMenuViewControllerSpec' name='test_navigation__feed__tab_behavior__concerning_badges__updates_the_badge_count_in_the_data_source' time='0.045'/>
+    <testcase classname='ARTopMenuViewControllerSpec' name='test_navigation__feed__tab_behavior__concerning_badges__does_not_show_a_notification_badge_when_its_value_is_0' time='0.042'/>
+    <testcase classname='ARTopMenuViewControllerSpec' name='test_navigation__browse__tab_behavior__is_selectable_when_not_selected' time='0.036'/>
+    <testcase classname='ARTopMenuViewControllerSpec' name='test_navigation__browse__tab_behavior__already_selected__is_not_selectable' time='0.041'/>
+    <testcase classname='ARTopMenuViewControllerSpec' name='test_navigation__browse__tab_behavior__already_selected__pops_to_root' time='0.047'/>
+    <testcase classname='ARTopMenuViewControllerSpec' name='test_navigation__browse__tab_behavior__when_presenting_a_root_view_controller__when_already_on_the_selected_tab__animates_popping' time='0.047'/>
+    <testcase classname='ARTopMenuViewControllerSpec' name='test_navigation__browse__tab_behavior__when_presenting_a_root_view_controller__when_already_on_the_selected_tab__does_not_change_tab' time='0.047'/>
+    <testcase classname='ARTopMenuViewControllerSpec' name='test_navigation__browse__tab_behavior__when_presenting_a_root_view_controller__when_not_on_the_selected_tab__does_not_animate_popping' time='0.048'/>
+    <testcase classname='ARTopMenuViewControllerSpec' name='test_navigation__browse__tab_behavior__when_presenting_a_root_view_controller__when_not_on_the_selected_tab__changes_tabs_in_an_animated_fashion' time='0.047'/>
+    <testcase classname='ARTopMenuViewControllerSpec' name='test_navigation__browse__tab_behavior__concerning_badges__shows_a_notification_badge' time='0.037'/>
+    <testcase classname='ARTopMenuViewControllerSpec' name='test_navigation__browse__tab_behavior__concerning_badges__updates_the_badge_count_in_the_data_source' time='0.037'/>
+    <testcase classname='ARTopMenuViewControllerSpec' name='test_navigation__browse__tab_behavior__concerning_badges__does_not_show_a_notification_badge_when_its_value_is_0' time='0.037'/>
+    <testcase classname='ARTopMenuViewControllerSpec' name='test_navigation__favorites__logged_out__is_not_selectable' time='0.050'/>
+    <testcase classname='ARTopMenuViewControllerSpec' name='test_navigation__favorites__logged_out__invokes_signup_popover' time='0.064'/>
+    <testcase classname='ARTopMenuViewControllerSpec' name='test_navigation__favorites__logged_in__tab_behavior__is_selectable_when_not_selected' time='0.880'/>
+    <testcase classname='ARTopMenuViewControllerSpec' name='test_navigation__favorites__logged_in__tab_behavior__already_selected__is_not_selectable' time='0.117'/>
+    <testcase classname='ARTopMenuViewControllerSpec' name='test_navigation__favorites__logged_in__tab_behavior__already_selected__pops_to_root' time='0.185'/>
+    <testcase classname='ARTopMenuViewControllerSpec' name='test_navigation__favorites__logged_in__tab_behavior__when_presenting_a_root_view_controller__when_already_on_the_selected_tab__animates_popping' time='0.104'/>
+    <testcase classname='ARTopMenuViewControllerSpec' name='test_navigation__favorites__logged_in__tab_behavior__when_presenting_a_root_view_controller__when_already_on_the_selected_tab__does_not_change_tab' time='0.093'/>
+    <testcase classname='ARTopMenuViewControllerSpec' name='test_navigation__favorites__logged_in__tab_behavior__when_presenting_a_root_view_controller__when_not_on_the_selected_tab__does_not_animate_popping' time='0.066'/>
+    <testcase classname='ARTopMenuViewControllerSpec' name='test_navigation__favorites__logged_in__tab_behavior__when_presenting_a_root_view_controller__when_not_on_the_selected_tab__changes_tabs_in_an_animated_fashion' time='0.073'/>
+    <testcase classname='ARTopMenuViewControllerSpec' name='test_navigation__favorites__logged_in__tab_behavior__concerning_badges__shows_a_notification_badge' time='0.394'/>
+    <testcase classname='ARTopMenuViewControllerSpec' name='test_navigation__favorites__logged_in__tab_behavior__concerning_badges__updates_the_badge_count_in_the_data_source' time='0.111'/>
+    <testcase classname='ARTopMenuViewControllerSpec' name='test_navigation__favorites__logged_in__tab_behavior__concerning_badges__does_not_show_a_notification_badge_when_its_value_is_0' time='0.074'/>
+    <testcase classname='ARTopMenuViewControllerSpec' name='test_navigation__routing__supports_routing_to_paths' time='0.068'/>
+  </testsuite>
+  <testsuite name='ARURLItemProviderSpec' tests='18' failures='0'>
+    <testcase classname='ARURLItemProviderSpec' name='test_url_and_image_thumbnail__with_valid_imageURL__sets_the_imageURL' time='0.001'/>
+    <testcase classname='ARURLItemProviderSpec' name='test_url_and_image_thumbnail__with_valid_imageURL__placeholder_url__is_correct_on_phone' time='0.019'/>
+    <testcase classname='ARURLItemProviderSpec' name='test_url_and_image_thumbnail__with_valid_imageURL__placeholder_url__is_correct_on_iPad' time='0.014'/>
+    <testcase classname='ARURLItemProviderSpec' name='test_url_and_image_thumbnail__with_valid_imageURL__thumbnailImageForActivityType__fetches_and_returns_the_thumbnail' time='0.704'/>
+    <testcase classname='ARURLItemProviderSpec' name='test_url_and_image_thumbnail__with_valid_imageURL__thumbnailImageForActivityType__returns_nil_for_AirDrop_sharing' time='0.000'/>
+    <testcase classname='ARURLItemProviderSpec' name='test_url_and_image_thumbnail__with_valid_imageURL__item__url__is_correct_on_phone' time='0.013'/>
+    <testcase classname='ARURLItemProviderSpec' name='test_url_and_image_thumbnail__with_valid_imageURL__item__url__is_correct_on_iPad' time='0.008'/>
+    <testcase classname='ARURLItemProviderSpec' name='test_url_and_image_thumbnail__with_valid_imageURL__item__AirDrop_sharing__sets_the_file' time='0.005'/>
+    <testcase classname='ARURLItemProviderSpec' name='test_url_and_image_thumbnail__with_valid_imageURL__item__AirDrop_sharing__sets_the_file_url' time='0.002'/>
+    <testcase classname='ARURLItemProviderSpec' name='test_url_and_image_thumbnail__with_valid_imageURL__item__AirDrop_sharing__sets_the_version' time='0.002'/>
+    <testcase classname='ARURLItemProviderSpec' name='test_url_and_image_thumbnail__with_valid_imageURL__item__AirDrop_sharing__url__is_correct_on_phone' time='0.013'/>
+    <testcase classname='ARURLItemProviderSpec' name='test_url_and_image_thumbnail__with_valid_imageURL__item__AirDrop_sharing__url__is_correct_on_iPad' time='0.010'/>
+    <testcase classname='ARURLItemProviderSpec' name='test_url_and_image_thumbnail__with_invalid_imageURL__sets_the_imageURL' time='0.002'/>
+    <testcase classname='ARURLItemProviderSpec' name='test_url_and_image_thumbnail__with_invalid_imageURL__placeholderItem__is_correct_on_phone' time='0.013'/>
+    <testcase classname='ARURLItemProviderSpec' name='test_url_and_image_thumbnail__with_invalid_imageURL__placeholderItem__is_correct_on_iPad' time='0.011'/>
+    <testcase classname='ARURLItemProviderSpec' name='test_url_and_image_thumbnail__with_invalid_imageURL__thumbnailImageForActivityType__fetches_and_returns_the_thumbnail' time='0.006'/>
+    <testcase classname='ARURLItemProviderSpec' name='test_url_and_image_thumbnail__with_invalid_imageURL__item__is_correct_on_phone' time='0.010'/>
+    <testcase classname='ARURLItemProviderSpec' name='test_url_and_image_thumbnail__with_invalid_imageURL__item__is_correct_on_iPad' time='0.011'/>
+  </testsuite>
+  <testsuite name='ARUserActivitySpec' tests='68' failures='0'>
+    <testcase classname='ARUserActivitySpec' name='test_With_an_Artwork__concerning_Spotlight_attributes_set_generation__includes_the_URL_as_the_identifier' time='0.002'/>
+    <testcase classname='ARUserActivitySpec' name='test_With_an_Artwork__concerning_Spotlight_attributes_set_generation__includes_the_artwork_title' time='0.001'/>
+    <testcase classname='ARUserActivitySpec' name='test_With_an_Artwork__concerning_Spotlight_attributes_set_generation__includes_a_thumbnail' time='0.000'/>
+    <testcase classname='ARUserActivitySpec' name='test_With_an_Artwork__concerning_Spotlight_attributes_set_generation__includes_a_description_without_creation_date' time='0.001'/>
+    <testcase classname='ARUserActivitySpec' name='test_With_an_Artwork__concerning_Spotlight_attributes_set_generation__includes_a_description_with_creation_date' time='0.001'/>
+    <testcase classname='ARUserActivitySpec' name='test_With_an_Artwork__concerning_NSUserActivity_generation__includes_the_URL' time='0.001'/>
+    <testcase classname='ARUserActivitySpec' name='test_With_an_Artwork__concerning_NSUserActivity_generation__includes_the_artwork_title' time='0.001'/>
+    <testcase classname='ARUserActivitySpec' name='test_With_an_Artwork__concerning_NSUserActivity_generation__includes_additional_metadata' time='0.001'/>
+    <testcase classname='ARUserActivitySpec' name='test_With_an_Artwork__concerning_NSUserActivity_generation__is_eligible_for_everything' time='0.001'/>
+    <testcase classname='ARUserActivitySpec' name='test_With_an_Artwork__concerning_NSUserActivity_generation__includes_the_Spotlight_attributes_set_minus_the_identifier' time='0.002'/>
+    <testcase classname='ARUserActivitySpec' name='test_With_an_Artist__concerning_Spotlight_attributes_set_generation__includes_the_URL_as_the_identifier' time='0.001'/>
+    <testcase classname='ARUserActivitySpec' name='test_With_an_Artist__concerning_Spotlight_attributes_set_generation__includes_the_artist_name' time='0.001'/>
+    <testcase classname='ARUserActivitySpec' name='test_With_an_Artist__concerning_Spotlight_attributes_set_generation__includes_a_thumbnail' time='0.000'/>
+    <testcase classname='ARUserActivitySpec' name='test_With_an_Artist__concerning_Spotlight_attributes_set_generation__includes_a_description_without_blurb' time='0.001'/>
+    <testcase classname='ARUserActivitySpec' name='test_With_an_Artist__concerning_Spotlight_attributes_set_generation__includes_a_description_with_blurb_stripped_of_markdown' time='0.064'/>
+    <testcase classname='ARUserActivitySpec' name='test_With_an_Artist__concerning_NSUserActivity_generation__includes_the_URL' time='0.001'/>
+    <testcase classname='ARUserActivitySpec' name='test_With_an_Artist__concerning_NSUserActivity_generation__includes_the_artists_name' time='0.001'/>
+    <testcase classname='ARUserActivitySpec' name='test_With_an_Artist__concerning_NSUserActivity_generation__includes_additional_metadata' time='0.001'/>
+    <testcase classname='ARUserActivitySpec' name='test_With_an_Artist__concerning_NSUserActivity_generation__is_eligible_for_everything' time='0.001'/>
+    <testcase classname='ARUserActivitySpec' name='test_With_an_Artist__concerning_NSUserActivity_generation__includes_the_Spotlight_attributes_set_minus_the_identifier' time='0.008'/>
+    <testcase classname='ARUserActivitySpec' name='test_With_a_Gene__concerning_Spotlight_attributes_set_generation__includes_the_URL_as_the_identifier' time='0.001'/>
+    <testcase classname='ARUserActivitySpec' name='test_With_a_Gene__concerning_Spotlight_attributes_set_generation__includes_the_gene_name' time='0.001'/>
+    <testcase classname='ARUserActivitySpec' name='test_With_a_Gene__concerning_Spotlight_attributes_set_generation__includes_a_thumbnail' time='0.001'/>
+    <testcase classname='ARUserActivitySpec' name='test_With_a_Gene__concerning_Spotlight_attributes_set_generation__includes_a_description_without_gene_description' time='0.001'/>
+    <testcase classname='ARUserActivitySpec' name='test_With_a_Gene__concerning_Spotlight_attributes_set_generation__includes_a_description_with_gene_description_stripped_of_markdown' time='0.024'/>
+    <testcase classname='ARUserActivitySpec' name='test_With_a_Gene__concerning_NSUserActivity_generation__includes_the_URL' time='0.001'/>
+    <testcase classname='ARUserActivitySpec' name='test_With_a_Gene__concerning_NSUserActivity_generation__includes_the_genes_name' time='0.001'/>
+    <testcase classname='ARUserActivitySpec' name='test_With_a_Gene__concerning_NSUserActivity_generation__includes_additional_metadata' time='0.001'/>
+    <testcase classname='ARUserActivitySpec' name='test_With_a_Gene__concerning_NSUserActivity_generation__is_eligible_for_everything' time='0.001'/>
+    <testcase classname='ARUserActivitySpec' name='test_With_a_Gene__concerning_NSUserActivity_generation__includes_the_Spotlight_attributes_set_minus_the_identifier' time='0.001'/>
+    <testcase classname='ARUserActivitySpec' name='test_With_a_Fair__concerning_Spotlight_attributes_set_generation__includes_the_URL_as_the_identifier' time='0.002'/>
+    <testcase classname='ARUserActivitySpec' name='test_With_a_Fair__concerning_Spotlight_attributes_set_generation__includes_the_fair_name' time='0.001'/>
+    <testcase classname='ARUserActivitySpec' name='test_With_a_Fair__concerning_Spotlight_attributes_set_generation__includes_the_date_range_of_when_the_fair_is_running' time='0.002'/>
+    <testcase classname='ARUserActivitySpec' name='test_With_a_Fair__concerning_Spotlight_attributes_set_generation__does_not_include_a_thumbnail_without_a_profile' time='0.001'/>
+    <testcase classname='ARUserActivitySpec' name='test_With_a_Fair__concerning_Spotlight_attributes_set_generation__includes_a_thumbnail_if_a_profile_is_specified' time='0.000'/>
+    <testcase classname='ARUserActivitySpec' name='test_With_a_Fair__concerning_Spotlight_attributes_set_generation__includes_a_description_without_fair_location' time='0.001'/>
+    <testcase classname='ARUserActivitySpec' name='test_With_a_Fair__concerning_Spotlight_attributes_set_generation__includes_a_description_with_fair_location' time='0.001'/>
+    <testcase classname='ARUserActivitySpec' name='test_With_a_Fair__concerning_NSUserActivity_generation__includes_the_URL' time='0.002'/>
+    <testcase classname='ARUserActivitySpec' name='test_With_a_Fair__concerning_NSUserActivity_generation__includes_the_fairs_name' time='0.002'/>
+    <testcase classname='ARUserActivitySpec' name='test_With_a_Fair__concerning_NSUserActivity_generation__includes_additional_metadata' time='0.001'/>
+    <testcase classname='ARUserActivitySpec' name='test_With_a_Fair__concerning_NSUserActivity_generation__is_eligible_for_everything' time='0.001'/>
+    <testcase classname='ARUserActivitySpec' name='test_With_a_Fair__concerning_NSUserActivity_generation__includes_the_Spotlight_attributes_set_minus_the_identifier' time='0.002'/>
+    <testcase classname='ARUserActivitySpec' name='test_With_a_Gene__concerning_Spotlight_attributes_set_generation__includes_the_URL_as_the_identifier_2' time='0.002'/>
+    <testcase classname='ARUserActivitySpec' name='test_With_a_Gene__concerning_Spotlight_attributes_set_generation__includes_the_shows_name' time='0.002'/>
+    <testcase classname='ARUserActivitySpec' name='test_With_a_Gene__concerning_Spotlight_attributes_set_generation__includes_a_thumbnail_2' time='0.001'/>
+    <testcase classname='ARUserActivitySpec' name='test_With_a_Gene__concerning_Spotlight_attributes_set_generation__includes_the_date_range_of_when_the_show_is_running' time='0.002'/>
+    <testcase classname='ARUserActivitySpec' name='test_With_a_Gene__concerning_Spotlight_attributes_set_generation__includes_a_description_with_the_shows_location' time='0.002'/>
+    <testcase classname='ARUserActivitySpec' name='test_With_a_Gene__concerning_Spotlight_attributes_set_generation__includes_a_description_with_the_fairs_location' time='0.004'/>
+    <testcase classname='ARUserActivitySpec' name='test_With_a_Gene__concerning_NSUserActivity_generation__includes_the_URL_2' time='0.001'/>
+    <testcase classname='ARUserActivitySpec' name='test_With_a_Gene__concerning_NSUserActivity_generation__includes_the_shows_name' time='0.002'/>
+    <testcase classname='ARUserActivitySpec' name='test_With_a_Gene__concerning_NSUserActivity_generation__includes_additional_metadata_2' time='0.001'/>
+    <testcase classname='ARUserActivitySpec' name='test_With_a_Gene__concerning_NSUserActivity_generation__is_eligible_for_everything_2' time='0.001'/>
+    <testcase classname='ARUserActivitySpec' name='test_With_a_Gene__concerning_NSUserActivity_generation__includes_the_Spotlight_attributes_set_minus_the_identifier_2' time='0.002'/>
+    <testcase classname='ARUserActivitySpec' name='test_With_a_Sale__concerning_Spotlight_attributes_set_generation__includes_the_URL_as_the_identifier' time='0.001'/>
+    <testcase classname='ARUserActivitySpec' name='test_With_a_Sale__concerning_Spotlight_attributes_set_generation__includes_the_shows_name' time='0.001'/>
+    <testcase classname='ARUserActivitySpec' name='test_With_a_Sale__concerning_Spotlight_attributes_set_generation__includes_a_thumbnail' time='0.001'/>
+    <testcase classname='ARUserActivitySpec' name='test_With_a_Sale__concerning_Spotlight_attributes_set_generation__includes_the_date_range_of_when_the_show_is_running' time='0.001'/>
+    <testcase classname='ARUserActivitySpec' name='test_With_a_Sale__concerning_Spotlight_attributes_set_generation__includes_a_description_with_the_shows_location' time='0.001'/>
+    <testcase classname='ARUserActivitySpec' name='test_With_a_Sale__concerning_NSUserActivity_generation__includes_the_URL' time='0.003'/>
+    <testcase classname='ARUserActivitySpec' name='test_With_a_Sale__concerning_NSUserActivity_generation__includes_the_shows_name' time='0.002'/>
+    <testcase classname='ARUserActivitySpec' name='test_With_a_Sale__concerning_NSUserActivity_generation__includes_additional_metadata' time='0.002'/>
+    <testcase classname='ARUserActivitySpec' name='test_With_a_Sale__concerning_NSUserActivity_generation__is_eligible_for_everything' time='0.002'/>
+    <testcase classname='ARUserActivitySpec' name='test_With_a_Sale__concerning_NSUserActivity_generation__includes_the_Spotlight_attributes_set_minus_the_identifier' time='0.002'/>
+    <testcase classname='ARUserActivitySpec' name='test_Indexing_favourites__concerning_Spotlight_interfacing__adds_a_favorite_to_the_index' time='0.050'/>
+    <testcase classname='ARUserActivitySpec' name='test_Indexing_favourites__concerning_Spotlight_interfacing__removes_a_favorite_from_the_index' time='0.011'/>
+    <testcase classname='ARUserActivitySpec' name='test_Indexing_favourites__from_the_backend_API__kicksoff_the_indexer' time='0.016'/>
+    <testcase classname='ARUserActivitySpec' name='test_Indexing_favourites__from_the_backend_API__indexes_all_of_the_users_favorites' time='0.010'/>
+    <testcase classname='ARUserActivitySpec' name='test_Indexing_favourites__from_the_backend_API__removes_favorites_from_the_index_that_are_no_longer_present_in_the_remote_list_of_favorites' time='0.012'/>
+  </testsuite>
+  <testsuite name='ARValueTransformerSpecSpec' tests='3' failures='0'>
+    <testcase classname='ARValueTransformerSpecSpec' name='test_without_default__transforms_a_known_value' time='0.001'/>
+    <testcase classname='ARValueTransformerSpecSpec' name='test_without_default__returns_nil_for_an_unknown_value' time='0.000'/>
+    <testcase classname='ARValueTransformerSpecSpec' name='test_without_default__returns_nil_for_nil' time='0.001'/>
+  </testsuite>
+  <testsuite name='ARWebViewCacheHostSpec' tests='3' failures='0'>
+    <testcase classname='ARWebViewCacheHostSpec' name='test_it_generates_the_same_cache_configuration_objects_on_webviews' time='0.041'/>
+    <testcase classname='ARWebViewCacheHostSpec' name='test_it_generates_a_webviews_that_is_already_requesting_a_blank_url' time='0.012'/>
+    <testcase classname='ARWebViewCacheHostSpec' name='test_it_autoplays_HTML5_content_used_in_superposts' time='0.091'/>
+  </testsuite>
+  <testsuite name='ARWorksForYouNetworkModelSpec' tests='6' failures='0'>
+    <testcase classname='ARWorksForYouNetworkModelSpec' name='test_init__sets_the_currentPage_to_1' time='0.144'/>
+    <testcase classname='ARWorksForYouNetworkModelSpec' name='test_getArtworks__does_not_make_a_request_if_another_request_is_in_progress' time='0.001'/>
+    <testcase classname='ARWorksForYouNetworkModelSpec' name='test_getArtworks__makes_request_if_no_request_is_in_progress' time='0.001'/>
+    <testcase classname='ARWorksForYouNetworkModelSpec' name='test_success__increments_currentPage' time='0.001'/>
+    <testcase classname='ARWorksForYouNetworkModelSpec' name='test_success__does_not_set_allDownloaded_if_artworks_count_is_not_0' time='0.001'/>
+    <testcase classname='ARWorksForYouNetworkModelSpec' name='test_success__sets_allDownloaded_if_artworks_count_is_0' time='0.006'/>
+  </testsuite>
+  <testsuite name='ARWorksForYouReloadingHostViewControllerSpec' tests='5' failures='0'>
+    <testcase classname='ARWorksForYouReloadingHostViewControllerSpec' name='test_hosts_the_worksforyou_VC' time='0.063'/>
+    <testcase classname='ARWorksForYouReloadingHostViewControllerSpec' name='test_reloads_all_the_data' time='0.056'/>
+    <testcase classname='ARWorksForYouReloadingHostViewControllerSpec' name='test_after_1_hour__reports_the_content_being_stale' time='0.021'/>
+    <testcase classname='ARWorksForYouReloadingHostViewControllerSpec' name='test_after_1_hour__automatically_reloads_when_presenting_the_view' time='0.016'/>
+    <testcase classname='ARWorksForYouReloadingHostViewControllerSpec' name='test_after_1_hour__resets_the_lastLoadedAt_state' time='0.036'/>
+  </testsuite>
+  <testsuite name='ARWorksForYouViewControllerSpec' tests='6' failures='0'>
+    <testcase classname='ARWorksForYouViewControllerSpec' name='test_visually__looks_right_with_one_notification' time='0.038'/>
+    <testcase classname='ARWorksForYouViewControllerSpec' name='test_visually__looks_right_with_several_notifications' time='0.046'/>
+    <testcase classname='ARWorksForYouViewControllerSpec' name='test_marking_notifications_as_read__sends_a_network_request' time='0.007'/>
+    <testcase classname='ARWorksForYouViewControllerSpec' name='test_marking_notifications_as_read__tells_the_top_menu_vc_to_update_its_bell' time='0.004'/>
+    <testcase classname='ARWorksForYouViewControllerSpec' name='test_as_iphone' time='0.040'/>
+    <testcase classname='ARWorksForYouViewControllerSpec' name='test_as_ipad' time='0.071'/>
+  </testsuite>
+  <testsuite name='ArtsyAPIArtworksSpec' tests='1' failures='0'>
+    <testcase classname='ArtsyAPIArtworksSpec' name='test_relatedFairs__filters_out_fairs_that_do_not_have_an_organizer_or_profile' time='0.003'/>
+  </testsuite>
+  <testsuite name='ArtsyAPIErrorHandlersSpec' tests='7' failures='0'>
+    <testcase classname='ArtsyAPIErrorHandlersSpec' name='test_handleHTTPError__nil_error' time='0.012'/>
+    <testcase classname='ArtsyAPIErrorHandlersSpec' name='test_handleHTTPError__plain_NSError' time='0.024'/>
+    <testcase classname='ArtsyAPIErrorHandlersSpec' name='test_handleHTTPError__wrong_status_code' time='0.011'/>
+    <testcase classname='ArtsyAPIErrorHandlersSpec' name='test_handleHTTPError__correct_status_code_and_any_error_message' time='0.017'/>
+    <testcase classname='ArtsyAPIErrorHandlersSpec' name='test_handleHTTPError__correct_status_code_and_wrong_error_message' time='0.012'/>
+    <testcase classname='ArtsyAPIErrorHandlersSpec' name='test_handleHTTPError__correct_status_code_and_correct_error_message' time='0.011'/>
+    <testcase classname='ArtsyAPIErrorHandlersSpec' name='test_handleHTTPErrors__correct_status_code_and_one_correct_error_message' time='0.017'/>
+  </testsuite>
+  <testsuite name='ArtsyAPIPrivateSpec' tests='3' failures='0'>
+    <testcase classname='ArtsyAPIPrivateSpec' name='test_is_always_ArtsyOHHTTPAPI_in_tests' time='0.001'/>
+    <testcase classname='ArtsyAPIPrivateSpec' name='test_handleXappTokenError__doesnt_reset_XAPP_token_on_non401_errors' time='0.005'/>
+    <testcase classname='ArtsyAPIPrivateSpec' name='test_handleXappTokenError__resets_XAPP_token_on_error' time='0.016'/>
+  </testsuite>
+  <testsuite name='ArtsyAPISystemTimeSpec' tests='1' failures='0'>
+    <testcase classname='ArtsyAPISystemTimeSpec' name='test_retrieves_system_time' time='0.018'/>
+  </testsuite>
+  <testsuite name='Artsy_Tests.AuctionInformationViewControllerSpec' tests='3' failures='0'>
+    <testcase classname='Artsy_Tests.AuctionInformationViewControllerSpec' name='has_a_root_view_that_shows_information_about_the_auction_and_looks_good_on_iPhone' time='0.181'/>
+    <testcase classname='Artsy_Tests.AuctionInformationViewControllerSpec' name='has_a_root_view_that_shows_information_about_the_auction_and_looks_good_on_iPad' time='0.272'/>
+    <testcase classname='Artsy_Tests.AuctionInformationViewControllerSpec' name='has_a_FAQ_view_that_answers_questions_about_the_auction' time='0.481'/>
+  </testsuite>
+  <testsuite name='Artsy_Tests.AuctionNetworkModelSpec' tests='10' failures='0'>
+    <testcase classname='Artsy_Tests.AuctionNetworkModelSpec' name='initializes_correctly' time='0.004'/>
+    <testcase classname='Artsy_Tests.AuctionNetworkModelSpec' name='registrationStatus__works_when_not_logged_in' time='0.008'/>
+    <testcase classname='Artsy_Tests.AuctionNetworkModelSpec' name='registrationStatus__works_when_registered' time='0.002'/>
+    <testcase classname='Artsy_Tests.AuctionNetworkModelSpec' name='registrationStatus__works_when_not_registered' time='0.001'/>
+    <testcase classname='Artsy_Tests.AuctionNetworkModelSpec' name='network_fetching__fetches' time='0.044'/>
+    <testcase classname='Artsy_Tests.AuctionNetworkModelSpec' name='network_fetching__fetches_a_sale_view_model' time='0.006'/>
+    <testcase classname='Artsy_Tests.AuctionNetworkModelSpec' name='network_fetching__caches_fetched_sale_view_model' time='0.011'/>
+    <testcase classname='Artsy_Tests.AuctionNetworkModelSpec' name='network_fetching__fetches_registration_status' time='0.006'/>
+    <testcase classname='Artsy_Tests.AuctionNetworkModelSpec' name='network_fetching__fetches_the_sale' time='0.008'/>
+    <testcase classname='Artsy_Tests.AuctionNetworkModelSpec' name='network_fetching__fetches_the_sale_artworks' time='0.002'/>
+  </testsuite>
+  <testsuite name='Artsy_Tests.AuctionRegistrationStatusNetworkModelSpec' tests='4' failures='0'>
+    <testcase classname='Artsy_Tests.AuctionRegistrationStatusNetworkModelSpec' name='returns_registered_when_bidders_endpoint_returns___1_bidders' time='0.040'/>
+    <testcase classname='Artsy_Tests.AuctionRegistrationStatusNetworkModelSpec' name='returns_not_registered_when_bidders_endpoint_returns_zero_bidders' time='0.017'/>
+    <testcase classname='Artsy_Tests.AuctionRegistrationStatusNetworkModelSpec' name='returns_not_logged_in_when_user_is_not_logged_in' time='0.003'/>
+    <testcase classname='Artsy_Tests.AuctionRegistrationStatusNetworkModelSpec' name='caches_the_fetched_result' time='0.017'/>
+  </testsuite>
+  <testsuite name='Artsy_Tests.AuctionSaleArtworksNetworkModelSpec' tests='3' failures='0'>
+    <testcase classname='Artsy_Tests.AuctionSaleArtworksNetworkModelSpec' name='returns_fetches_the_sale_artworks' time='0.004'/>
+    <testcase classname='Artsy_Tests.AuctionSaleArtworksNetworkModelSpec' name='caches_the_fetched_sale_artworks' time='0.002'/>
+    <testcase classname='Artsy_Tests.AuctionSaleArtworksNetworkModelSpec' name='loads_the_second_page__if_necessary' time='0.006'/>
+  </testsuite>
+  <testsuite name='Artsy_Tests.AuctionSaleNetworkModelSpec' tests='2' failures='0'>
+    <testcase classname='Artsy_Tests.AuctionSaleNetworkModelSpec' name='returns_fetches_the_sale' time='0.002'/>
+    <testcase classname='Artsy_Tests.AuctionSaleNetworkModelSpec' name='caches_the_fetched_sale' time='0.001'/>
+  </testsuite>
+  <testsuite name='Artsy_Tests.AuctionTitleViewSpec' tests='10' failures='0'>
+    <testcase classname='Artsy_Tests.AuctionTitleViewSpec' name='with_the_registration_button_having_side_insets__title_view__looks_good_without_a_registration_status' time='0.028'/>
+    <testcase classname='Artsy_Tests.AuctionTitleViewSpec' name='with_the_registration_button_having_side_insets__title_view__looks_good_with_a_logged_out_registration_status' time='0.012'/>
+    <testcase classname='Artsy_Tests.AuctionTitleViewSpec' name='with_the_registration_button_having_side_insets__title_view__looks_good_with_a_not_registered_registration_status' time='0.012'/>
+    <testcase classname='Artsy_Tests.AuctionTitleViewSpec' name='with_the_registration_button_having_side_insets__title_view__looks_good_with_a_registered_registration_status' time='0.010'/>
+    <testcase classname='Artsy_Tests.AuctionTitleViewSpec' name='with_the_registration_button_having_side_insets__title_view__looks_good_without_a_info_button' time='0.014'/>
+    <testcase classname='Artsy_Tests.AuctionTitleViewSpec' name='with_the_registration_button_spanning_the_full_width__title_view__looks_good_without_a_registration_status' time='0.028'/>
+    <testcase classname='Artsy_Tests.AuctionTitleViewSpec' name='with_the_registration_button_spanning_the_full_width__title_view__looks_good_with_a_logged_out_registration_status' time='0.012'/>
+    <testcase classname='Artsy_Tests.AuctionTitleViewSpec' name='with_the_registration_button_spanning_the_full_width__title_view__looks_good_with_a_not_registered_registration_status' time='0.010'/>
+    <testcase classname='Artsy_Tests.AuctionTitleViewSpec' name='with_the_registration_button_spanning_the_full_width__title_view__looks_good_with_a_registered_registration_status' time='0.009'/>
+    <testcase classname='Artsy_Tests.AuctionTitleViewSpec' name='with_the_registration_button_spanning_the_full_width__title_view__looks_good_without_a_info_button' time='0.006'/>
+  </testsuite>
+  <testsuite name='Artsy_Tests.AuctionViewControllerTests' tests='36' failures='0'>
+    <testcase classname='Artsy_Tests.AuctionViewControllerTests' name='handles_showing_information_for_upcoming_auctions_with_no_sale_artworks' time='0.196'/>
+    <testcase classname='Artsy_Tests.AuctionViewControllerTests' name='handles_showing_information_for_upcoming_auctions_with_long_names_with_no_sale_artworks' time='0.287'/>
+    <testcase classname='Artsy_Tests.AuctionViewControllerTests' name='looking_correct_when_an_auction_is_closed' time='0.077'/>
+    <testcase classname='Artsy_Tests.AuctionViewControllerTests' name='uses_the_correct_settings_when_auction_is_closed' time='0.002'/>
+    <testcase classname='Artsy_Tests.AuctionViewControllerTests' name='uses_the_correct_settings_when_auction_is_open' time='0.013'/>
+    <testcase classname='Artsy_Tests.AuctionViewControllerTests' name='wraps_auction_name_correctly' time='0.122'/>
+    <testcase classname='Artsy_Tests.AuctionViewControllerTests' name='regular_horizontal_size_class___auctions_view_controller_registration_status__looks_good_without_a_registration_status' time='0.221'/>
+    <testcase classname='Artsy_Tests.AuctionViewControllerTests' name='regular_horizontal_size_class___auctions_view_controller_registration_status__looks_good_when_registration_status_changes' time='0.175'/>
+    <testcase classname='Artsy_Tests.AuctionViewControllerTests' name='regular_horizontal_size_class___auctions_view_controller_registration_status__looks_good_when_registereed' time='0.154'/>
+    <testcase classname='Artsy_Tests.AuctionViewControllerTests' name='regular_horizontal_size_class___auctions_view_controller_registration_status__looks_good_when_not_logged_in' time='0.163'/>
+    <testcase classname='Artsy_Tests.AuctionViewControllerTests' name='regular_horizontal_size_class___auctions_view_controller_registration_status__looks_good_when_not_registered' time='0.165'/>
+    <testcase classname='Artsy_Tests.AuctionViewControllerTests' name='regular_horizontal_size_class___auctions_view_controller_registration_status__looks_good_when_sorting_by_Artist_A_Z' time='0.173'/>
+    <testcase classname='Artsy_Tests.AuctionViewControllerTests' name='regular_horizontal_size_class___auctions_view_controller_registration_status__looks_good_when_filtering_based_on_price' time='0.154'/>
+    <testcase classname='Artsy_Tests.AuctionViewControllerTests' name='regular_horizontal_size_class___auctions_view_controller_registration_status__looks_good_when_sorting_by_Artist_A_Z_and_filtering_based_on_price' time='0.163'/>
+    <testcase classname='Artsy_Tests.AuctionViewControllerTests' name='regular_horizontal_size_class___auctions_view_controller_registration_status__sorting__looks_good_with_a_changed_number_of_refined_lots' time='0.187'/>
+    <testcase classname='Artsy_Tests.AuctionViewControllerTests' name='regular_horizontal_size_class___auctions_view_controller_registration_status__sorting__sorts_by_lot_number' time='0.195'/>
+    <testcase classname='Artsy_Tests.AuctionViewControllerTests' name='regular_horizontal_size_class___auctions_view_controller_registration_status__sorting__sorts_by_artist_name' time='0.221'/>
+    <testcase classname='Artsy_Tests.AuctionViewControllerTests' name='regular_horizontal_size_class___auctions_view_controller_registration_status__sorting__sorts_by_most_bids' time='0.220'/>
+    <testcase classname='Artsy_Tests.AuctionViewControllerTests' name='regular_horizontal_size_class___auctions_view_controller_registration_status__sorting__sorts_by_least_bids' time='0.225'/>
+    <testcase classname='Artsy_Tests.AuctionViewControllerTests' name='regular_horizontal_size_class___auctions_view_controller_registration_status__sorting__sorts_by_highest_bid' time='0.221'/>
+    <testcase classname='Artsy_Tests.AuctionViewControllerTests' name='regular_horizontal_size_class___auctions_view_controller_registration_status__sorting__sorts_by_lowest_bid' time='0.242'/>
+    <testcase classname='Artsy_Tests.AuctionViewControllerTests' name='compact_horizontal_size_class__auctions_view_controller_registration_status__looks_good_without_a_registration_status' time='0.123'/>
+    <testcase classname='Artsy_Tests.AuctionViewControllerTests' name='compact_horizontal_size_class__auctions_view_controller_registration_status__looks_good_when_registration_status_changes' time='0.175'/>
+    <testcase classname='Artsy_Tests.AuctionViewControllerTests' name='compact_horizontal_size_class__auctions_view_controller_registration_status__looks_good_when_registereed' time='0.110'/>
+    <testcase classname='Artsy_Tests.AuctionViewControllerTests' name='compact_horizontal_size_class__auctions_view_controller_registration_status__looks_good_when_not_logged_in' time='0.122'/>
+    <testcase classname='Artsy_Tests.AuctionViewControllerTests' name='compact_horizontal_size_class__auctions_view_controller_registration_status__looks_good_when_not_registered' time='0.126'/>
+    <testcase classname='Artsy_Tests.AuctionViewControllerTests' name='compact_horizontal_size_class__auctions_view_controller_registration_status__looks_good_when_sorting_by_Artist_A_Z' time='0.124'/>
+    <testcase classname='Artsy_Tests.AuctionViewControllerTests' name='compact_horizontal_size_class__auctions_view_controller_registration_status__looks_good_when_filtering_based_on_price' time='0.121'/>
+    <testcase classname='Artsy_Tests.AuctionViewControllerTests' name='compact_horizontal_size_class__auctions_view_controller_registration_status__looks_good_when_sorting_by_Artist_A_Z_and_filtering_based_on_price' time='0.114'/>
+    <testcase classname='Artsy_Tests.AuctionViewControllerTests' name='compact_horizontal_size_class__auctions_view_controller_registration_status__sorting__looks_good_with_a_changed_number_of_refined_lots' time='0.141'/>
+    <testcase classname='Artsy_Tests.AuctionViewControllerTests' name='compact_horizontal_size_class__auctions_view_controller_registration_status__sorting__sorts_by_lot_number' time='0.147'/>
+    <testcase classname='Artsy_Tests.AuctionViewControllerTests' name='compact_horizontal_size_class__auctions_view_controller_registration_status__sorting__sorts_by_artist_name' time='0.160'/>
+    <testcase classname='Artsy_Tests.AuctionViewControllerTests' name='compact_horizontal_size_class__auctions_view_controller_registration_status__sorting__sorts_by_most_bids' time='0.162'/>
+    <testcase classname='Artsy_Tests.AuctionViewControllerTests' name='compact_horizontal_size_class__auctions_view_controller_registration_status__sorting__sorts_by_least_bids' time='0.164'/>
+    <testcase classname='Artsy_Tests.AuctionViewControllerTests' name='compact_horizontal_size_class__auctions_view_controller_registration_status__sorting__sorts_by_highest_bid' time='0.161'/>
+    <testcase classname='Artsy_Tests.AuctionViewControllerTests' name='compact_horizontal_size_class__auctions_view_controller_registration_status__sorting__sorts_by_lowest_bid' time='0.191'/>
+  </testsuite>
+  <testsuite name='Artsy_Tests.LiveAuctionBidButtonTests' tests='10' failures='0'>
+    <testcase classname='Artsy_Tests.LiveAuctionBidButtonTests' name='has_valid_snapshot_upcoming' time='0.020'/>
+    <testcase classname='Artsy_Tests.LiveAuctionBidButtonTests' name='has_valid_snapshot_sold' time='0.006'/>
+    <testcase classname='Artsy_Tests.LiveAuctionBidButtonTests' name='has_valid_snapshot_failed' time='0.005'/>
+    <testcase classname='Artsy_Tests.LiveAuctionBidButtonTests' name='has_valid_snapshot_closed' time='0.005'/>
+    <testcase classname='Artsy_Tests.LiveAuctionBidButtonTests' name='has_valid_snapshot_waiting' time='0.007'/>
+    <testcase classname='Artsy_Tests.LiveAuctionBidButtonTests' name='has_valid_snapshot_trial' time='0.006'/>
+    <testcase classname='Artsy_Tests.LiveAuctionBidButtonTests' name='has_valid_snapshot_biddable' time='0.006'/>
+    <testcase classname='Artsy_Tests.LiveAuctionBidButtonTests' name='has_valid_snapshot_max_bidder' time='0.005'/>
+    <testcase classname='Artsy_Tests.LiveAuctionBidButtonTests' name='has_valid_snapshot_not_max_bidder' time='0.007'/>
+    <testcase classname='Artsy_Tests.LiveAuctionBidButtonTests' name='has_valid_snapshot_in_progress' time='0.006'/>
+  </testsuite>
+  <testsuite name='Artsy_Tests.LiveAuctionBidHistoryViewControllerTests' tests='5' failures='0'>
+    <testcase classname='Artsy_Tests.LiveAuctionBidHistoryViewControllerTests' name='cells__looks_right_for_open' time='0.017'/>
+    <testcase classname='Artsy_Tests.LiveAuctionBidHistoryViewControllerTests' name='cells__looks_right_for_closed' time='0.007'/>
+    <testcase classname='Artsy_Tests.LiveAuctionBidHistoryViewControllerTests' name='cells__looks_right_for_bid' time='0.041'/>
+    <testcase classname='Artsy_Tests.LiveAuctionBidHistoryViewControllerTests' name='cells__looks_right_for_final_call' time='0.011'/>
+    <testcase classname='Artsy_Tests.LiveAuctionBidHistoryViewControllerTests' name='cells__looks_right_for_fair_warning' time='0.009'/>
+  </testsuite>
+  <testsuite name='Artsy_Tests.LiveAuctionBidViewControllerSpecs' tests='10' failures='0'>
+    <testcase classname='Artsy_Tests.LiveAuctionBidViewControllerSpecs' name='looks_right_on_phones' time='0.152'/>
+    <testcase classname='Artsy_Tests.LiveAuctionBidViewControllerSpecs' name='hides_the_progressview_when_state_is_made_to_be_biddable_again' time='0.021'/>
+    <testcase classname='Artsy_Tests.LiveAuctionBidViewControllerSpecs' name='updating__updates_when_new_events_come_in' time='0.012'/>
+    <testcase classname='Artsy_Tests.LiveAuctionBidViewControllerSpecs' name='updating__ensures_the_bid_is_moved_above_the_current_max_bid' time='0.011'/>
+    <testcase classname='Artsy_Tests.LiveAuctionBidViewControllerSpecs' name='networking__has_valid_snapshot_network_issues' time='0.034'/>
+    <testcase classname='Artsy_Tests.LiveAuctionBidViewControllerSpecs' name='networking__has_valid_snapshot_waiting' time='0.033'/>
+    <testcase classname='Artsy_Tests.LiveAuctionBidViewControllerSpecs' name='networking__has_valid_snapshot_sold' time='0.033'/>
+    <testcase classname='Artsy_Tests.LiveAuctionBidViewControllerSpecs' name='networking__has_valid_snapshot_not_max_bidder' time='0.030'/>
+    <testcase classname='Artsy_Tests.LiveAuctionBidViewControllerSpecs' name='networking__has_valid_snapshot_in_progress' time='0.034'/>
+    <testcase classname='Artsy_Tests.LiveAuctionBidViewControllerSpecs' name='networking__has_valid_snapshot_is_max_bidder' time='0.043'/>
+  </testsuite>
+  <testsuite name='Artsy_Tests.LiveAuctionLotViewControllerTests' tests='4' failures='0'>
+    <testcase classname='Artsy_Tests.LiveAuctionLotViewControllerTests' name='snapshots__looks_good_for_closed_lots' time='0.164'/>
+    <testcase classname='Artsy_Tests.LiveAuctionLotViewControllerTests' name='snapshots__looks_good_for_live_lots' time='0.068'/>
+    <testcase classname='Artsy_Tests.LiveAuctionLotViewControllerTests' name='snapshots__looks_good_for_upcoming_lots' time='0.067'/>
+    <testcase classname='Artsy_Tests.LiveAuctionLotViewControllerTests' name='snapshots__doesnt_show_a_live_auction_call_to_action_when_auction_is_closed' time='0.069'/>
+  </testsuite>
+  <testsuite name='Artsy_Tests.LiveAuctionSocketCommunicatorSpec' tests='7' failures='0'>
+    <testcase classname='Artsy_Tests.LiveAuctionSocketCommunicatorSpec' name='configures_the_socket_with_the_correct_host' time='0.003'/>
+    <testcase classname='Artsy_Tests.LiveAuctionSocketCommunicatorSpec' name='connects_the_socket_on_initialization' time='0.003'/>
+    <testcase classname='Artsy_Tests.LiveAuctionSocketCommunicatorSpec' name='disconnects_the_socket_when_deallocated' time='0.002'/>
+    <testcase classname='Artsy_Tests.LiveAuctionSocketCommunicatorSpec' name='authenticates_the_socket_connection' time='0.003'/>
+    <testcase classname='Artsy_Tests.LiveAuctionSocketCommunicatorSpec' name='authenticated__joins_the_auction' time='0.004'/>
+    <testcase classname='Artsy_Tests.LiveAuctionSocketCommunicatorSpec' name='authenticated__listens_for_updated_auction_state' time='0.002'/>
+    <testcase classname='Artsy_Tests.LiveAuctionSocketCommunicatorSpec' name='authenticated__sends_its_delegate_its_updated_auction_state' time='0.002'/>
+  </testsuite>
+  <testsuite name='Artsy_Tests.LiveAuctionStateFetcherSpec' tests='3' failures='0'>
+    <testcase classname='Artsy_Tests.LiveAuctionStateFetcherSpec' name='configures_its_sale_ID_correctly' time='0.002'/>
+    <testcase classname='Artsy_Tests.LiveAuctionStateFetcherSpec' name='configures_its_host_correctly' time='0.001'/>
+    <testcase classname='Artsy_Tests.LiveAuctionStateFetcherSpec' name='fetches_the_sale_state' time='0.002'/>
+  </testsuite>
+  <testsuite name='Artsy_Tests.LiveAuctionStateManagerSpec' tests='4' failures='0'>
+    <testcase classname='Artsy_Tests.LiveAuctionStateManagerSpec' name='sets_its_saleID_upon_initialization' time='0.003'/>
+    <testcase classname='Artsy_Tests.LiveAuctionStateManagerSpec' name='creates_an_appropriate_socket_communicator' time='0.001'/>
+    <testcase classname='Artsy_Tests.LiveAuctionStateManagerSpec' name='sets_itself_as_the_socket_communicator_delegate' time='0.002'/>
+    <testcase classname='Artsy_Tests.LiveAuctionStateManagerSpec' name='invokes_the_state_reconciler_when_new_snapshot_data_avaialble' time='0.003'/>
+  </testsuite>
+  <testsuite name='Artsy_Tests.LiveAuctionStateReconcilerSpec' tests='19' failures='0'>
+    <testcase classname='Artsy_Tests.LiveAuctionStateReconcilerSpec' name='doesn_t_do_anything_if_there_are_no_lots' time='0.003'/>
+    <testcase classname='Artsy_Tests.LiveAuctionStateReconcilerSpec' name='doesn_t_do_anything_if_there_is_no_sale' time='0.002'/>
+    <testcase classname='Artsy_Tests.LiveAuctionStateReconcilerSpec' name='doesn_t_do_anything_if_there_are_no_sale_s_lots' time='0.002'/>
+    <testcase classname='Artsy_Tests.LiveAuctionStateReconcilerSpec' name='doesn_t_do_anything_if_there_is_no_current_lot_id' time='0.003'/>
+    <testcase classname='Artsy_Tests.LiveAuctionStateReconcilerSpec' name='doesn_t_do_anything_if_there_are_no_lot_events__list_is_empty_' time='0.004'/>
+    <testcase classname='Artsy_Tests.LiveAuctionStateReconcilerSpec' name='sends_fresh_lots_on_first_update' time='0.003'/>
+    <testcase classname='Artsy_Tests.LiveAuctionStateReconcilerSpec' name='sends_current_lot' time='0.005'/>
+    <testcase classname='Artsy_Tests.LiveAuctionStateReconcilerSpec' name='orders_lots_correctly' time='0.004'/>
+    <testcase classname='Artsy_Tests.LiveAuctionStateReconcilerSpec' name='on_subsequent_state_update__does_not_send_lots' time='0.003'/>
+    <testcase classname='Artsy_Tests.LiveAuctionStateReconcilerSpec' name='on_subsequent_state_update__does_not_send_sale' time='0.005'/>
+    <testcase classname='Artsy_Tests.LiveAuctionStateReconcilerSpec' name='on_subsequent_state_update__does_not_send_current_lot_if_it_has_not_changed' time='0.004'/>
+    <testcase classname='Artsy_Tests.LiveAuctionStateReconcilerSpec' name='on_subsequent_state_update__sends_new_current_lot_when_the_lot_changes' time='0.005'/>
+    <testcase classname='Artsy_Tests.LiveAuctionStateReconcilerSpec' name='on_subsequent_state_update__updates_lot_view_model_with_new_events' time='0.004'/>
+    <testcase classname='Artsy_Tests.LiveAuctionStateReconcilerSpec' name='on_subsequent_state_update__doesn_t_update_lot_view_model_with_events_that_aren_t_new' time='0.005'/>
+    <testcase classname='Artsy_Tests.LiveAuctionStateReconcilerSpec' name='on_subsequent_state_update__updates_lot_view_model_with_online_asking_price' time='0.004'/>
+    <testcase classname='Artsy_Tests.LiveAuctionStateReconcilerSpec' name='on_subsequent_state_update__updates_lot_view_model_with_reserve_status' time='0.005'/>
+    <testcase classname='Artsy_Tests.LiveAuctionStateReconcilerSpec' name='on_subsequent_state_update__sends_lots_when_number_of_lots_change' time='0.005'/>
+    <testcase classname='Artsy_Tests.LiveAuctionStateReconcilerSpec' name='on_subsequent_state_update__sends_updated_sale_availability_if_changed' time='0.005'/>
+    <testcase classname='Artsy_Tests.LiveAuctionStateReconcilerSpec' name='on_subsequent_state_update__doesn_t_send_updated_sale_availability_if_not_changed' time='0.006'/>
+  </testsuite>
+  <testsuite name='Artsy_Tests.LiveAuctionStaticDataFetcherSpec' tests='2' failures='0'>
+    <testcase classname='Artsy_Tests.LiveAuctionStaticDataFetcherSpec' name='configures_its_sale_ID_correctly' time='0.002'/>
+    <testcase classname='Artsy_Tests.LiveAuctionStaticDataFetcherSpec' name='fetches_the_static_data' time='0.002'/>
+  </testsuite>
+  <testsuite name='Artsy_Tests.NavigationButtonTests' tests='3' failures='0'>
+    <testcase classname='Artsy_Tests.NavigationButtonTests' name='maps_class_correctly' time='0.001'/>
+    <testcase classname='Artsy_Tests.NavigationButtonTests' name='maps_properties_correctly' time='0.001'/>
+    <testcase classname='Artsy_Tests.NavigationButtonTests' name='maps_handler_correctly' time='0.002'/>
+  </testsuite>
+  <testsuite name='Artsy_Tests.RefinementOptionsViewControllerSpec' tests='5' failures='0'>
+    <testcase classname='Artsy_Tests.RefinementOptionsViewControllerSpec' name='looks_good_by_default' time='0.091'/>
+    <testcase classname='Artsy_Tests.RefinementOptionsViewControllerSpec' name='looks_good_by_when_there_are_no_estimates' time='0.044'/>
+    <testcase classname='Artsy_Tests.RefinementOptionsViewControllerSpec' name='enables_apply_reset_buttons_when_options_are_changed' time='0.039'/>
+    <testcase classname='Artsy_Tests.RefinementOptionsViewControllerSpec' name='looks_good_when_configured_with_options_and_changed_options' time='0.039'/>
+    <testcase classname='Artsy_Tests.RefinementOptionsViewControllerSpec' name='looks_good_when_reset' time='0.040'/>
+  </testsuite>
+  <testsuite name='Artsy_Tests.SaleArtworkViewModelTests' tests='8' failures='0'>
+    <testcase classname='Artsy_Tests.SaleArtworkViewModelTests' name='returns_thumnail_url' time='0.002'/>
+    <testcase classname='Artsy_Tests.SaleArtworkViewModelTests' name='returns_artist_name' time='0.002'/>
+    <testcase classname='Artsy_Tests.SaleArtworkViewModelTests' name='returns_artwork_name' time='0.002'/>
+    <testcase classname='Artsy_Tests.SaleArtworkViewModelTests' name='returns_lot_number' time='0.002'/>
+    <testcase classname='Artsy_Tests.SaleArtworkViewModelTests' name='returns_number_of_bids' time='0.003'/>
+    <testcase classname='Artsy_Tests.SaleArtworkViewModelTests' name='returns_starting_bid_combined' time='0.002'/>
+    <testcase classname='Artsy_Tests.SaleArtworkViewModelTests' name='returns_starting_bid_alone' time='0.003'/>
+    <testcase classname='Artsy_Tests.SaleArtworkViewModelTests' name='returns_artwork_ID' time='0.005'/>
+  </testsuite>
+  <testsuite name='Artsy_Tests.SaleViewModelTests' tests='11' failures='0'>
+    <testcase classname='Artsy_Tests.SaleViewModelTests' name='returns_correct_banner_image' time='0.001'/>
+    <testcase classname='Artsy_Tests.SaleViewModelTests' name='returns_correct_avatar_image' time='0.001'/>
+    <testcase classname='Artsy_Tests.SaleViewModelTests' name='calculates_a_lowEstimate_range' time='0.001'/>
+    <testcase classname='Artsy_Tests.SaleViewModelTests' name='calculates_a_lowEstimate_range_when_a_lowEstimate_is_nil' time='0.003'/>
+    <testcase classname='Artsy_Tests.SaleViewModelTests' name='calculates_a_lowEstimate_range_when_all_lowEstimates_are_nil' time='0.001'/>
+    <testcase classname='Artsy_Tests.SaleViewModelTests' name='deals_with_auctions_that_have_not_started_' time='0.001'/>
+    <testcase classname='Artsy_Tests.SaleViewModelTests' name='deals_with_auctions_that_have_finished_' time='0.008'/>
+    <testcase classname='Artsy_Tests.SaleViewModelTests' name='deals_with_auctions_that_are_active_' time='0.001'/>
+    <testcase classname='Artsy_Tests.SaleViewModelTests' name='pruning_items_when_refining__includes_high_and_low_inclusive' time='0.001'/>
+    <testcase classname='Artsy_Tests.SaleViewModelTests' name='pruning_items_when_refining__excludes_low_low_estimates' time='0.001'/>
+    <testcase classname='Artsy_Tests.SaleViewModelTests' name='pruning_items_when_refining__excludes_high_low_estimates' time='0.001'/>
+  </testsuite>
+  <testsuite name='ArtworkSpec' tests='8' failures='0'>
+    <testcase classname='ArtworkSpec' name='test_hasHeightAndWidth__with_height_and_width' time='0.001'/>
+    <testcase classname='ArtworkSpec' name='test_hasHeightAndWidth__without_width' time='0.001'/>
+    <testcase classname='ArtworkSpec' name='test_hasHeightAndWidth__with_depth' time='0.009'/>
+    <testcase classname='ArtworkSpec' name='test_defaultImage__sets_default_image_to_the_appropriate_image' time='0.001'/>
+    <testcase classname='ArtworkSpec' name='test_defaultImage__sets_default_image_to_nil_if_no_default' time='0.001'/>
+    <testcase classname='ArtworkSpec' name='test_defaultImage__sets_default_image_to_nil_if_no_images' time='0.001'/>
+    <testcase classname='ArtworkSpec' name='test_defaultImage__migrates_model_from_version_0_to_1' time='0.002'/>
+    <testcase classname='ArtworkSpec' name='test_defaultImage__loads_model_version_1' time='0.001'/>
+  </testsuite>
+  <testsuite name='FairSpec' tests='11' failures='0'>
+    <testcase classname='FairSpec' name='test_initialize' time='0.002'/>
+    <testcase classname='FairSpec' name='test_generates_a_location__has_no_location' time='0.000'/>
+    <testcase classname='FairSpec' name='test_generates_a_location__as_a_city' time='0.000'/>
+    <testcase classname='FairSpec' name='test_generates_a_location__has_a_state' time='0.001'/>
+    <testcase classname='FairSpec' name='test_generates_a_location__has_a_city_and_a_state' time='0.000'/>
+    <testcase classname='FairSpec' name='test_getting_image_URL_string__gets_nil_for_no_image_urls' time='0.000'/>
+    <testcase classname='FairSpec' name='test_getting_image_URL_string__says_it_doesnt_have_a_new_banner_format_without_banner_URLs' time='0.000'/>
+    <testcase classname='FairSpec' name='test_getting_image_URL_string__gets_nil_for_nonexistent_image_version' time='0.000'/>
+    <testcase classname='FairSpec' name='test_getting_image_URL_string__gets_wide_if_availble' time='0.000'/>
+    <testcase classname='FairSpec' name='test_getting_image_URL_string__prioritises_banners_if_availble' time='0.000'/>
+    <testcase classname='FairSpec' name='test_getting_image_URL_string__can_work_with_just_banners' time='0.000'/>
+  </testsuite>
+  <testsuite name='ImageSpec' tests='2' failures='0'>
+    <testcase classname='ImageSpec' name='test_canZoom__returns_true_if_max_tiled_dimensions_are_at_least_size_of_target_frame' time='0.001'/>
+    <testcase classname='ImageSpec' name='test_canZoom__returns_false_if_max_width_or_height_is_smaller_than_frames' time='0.001'/>
+  </testsuite>
+  <testsuite name='MapFeatureSpec' tests='1' failures='0'>
+    <testcase classname='MapFeatureSpec' name='test_maps_every_feature_type_to_an_image' time='0.003'/>
+  </testsuite>
+  <testsuite name='NSDateRangeSpec' tests='1' failures='0'>
+    <testcase classname='NSDateRangeSpec' name='test_ordinals_correctly' time='0.000'/>
+  </testsuite>
+  <testsuite name='ORStackViewArtsyCategoriesSpec' tests='7' failures='0'>
+    <testcase classname='ORStackViewArtsyCategoriesSpec' name='test_when_adding_a_page_title__adds_another_view_to_the_stack' time='0.001'/>
+    <testcase classname='ORStackViewArtsyCategoriesSpec' name='test_when_adding_a_page_title__sets_the_title_correctly' time='0.001'/>
+    <testcase classname='ORStackViewArtsyCategoriesSpec' name='test_when_adding_a_page_title__returns_the_title_label' time='0.001'/>
+    <testcase classname='ORStackViewArtsyCategoriesSpec' name='test_when_adding_a_page_subtitle__adds_another_view_to_the_stack' time='0.001'/>
+    <testcase classname='ORStackViewArtsyCategoriesSpec' name='test_when_adding_a_page_subtitle__sets_the_title_correctly' time='0.002'/>
+    <testcase classname='ORStackViewArtsyCategoriesSpec' name='test_when_adding_an_alt_page_title_and_subtitle__adds_2_views_to_the_stack' time='0.001'/>
+    <testcase classname='ORStackViewArtsyCategoriesSpec' name='test_when_adding_an_alt_page_title_and_subtitle__sets_the_title_correctly' time='0.002'/>
+  </testsuite>
+  <testsuite name='OrderedSetSpec' tests='4' failures='0'>
+    <testcase classname='OrderedSetSpec' name='test_initialize' time='0.000'/>
+    <testcase classname='OrderedSetSpec' name='test_getItemsFeaturedLink' time='0.001'/>
+    <testcase classname='OrderedSetSpec' name='test_getItemsSale' time='0.001'/>
+    <testcase classname='OrderedSetSpec' name='test_getItems_raises_an_exception_when_retrieving_items_of_an_unsupported_time' time='0.003'/>
+  </testsuite>
+  <testsuite name='PartnerSpec' tests='1' failures='0'>
+    <testcase classname='PartnerSpec' name='test_defaultImage__sets_profilepublic_to_NO_if_nil' time='0.001'/>
+  </testsuite>
+  <testsuite name='ProfileSpec' tests='13' failures='0'>
+    <testcase classname='ProfileSpec' name='test_User__creates_an_owner_of_type_User' time='0.001'/>
+    <testcase classname='ProfileSpec' name='test_User__can_be_serialized' time='0.001'/>
+    <testcase classname='ProfileSpec' name='test_FairOrganizer__creates_an_owner_of_type_FairOrganizer' time='0.001'/>
+    <testcase classname='ProfileSpec' name='test_FairOrganizer__can_be_serialized' time='0.001'/>
+    <testcase classname='ProfileSpec' name='test_Fair__creates_an_owner_of_type_Fair' time='0.001'/>
+    <testcase classname='ProfileSpec' name='test_Fair__can_be_serialized' time='0.001'/>
+    <testcase classname='ProfileSpec' name='test_Partner__creates_an_owner_of_type_Partner' time='0.001'/>
+    <testcase classname='ProfileSpec' name='test_Partner__can_be_serialized' time='0.001'/>
+    <testcase classname='ProfileSpec' name='test_imageURL__without_a_default_image__uses_any_available_icon_version' time='0.000'/>
+    <testcase classname='ProfileSpec' name='test_imageURL__with_a_default_image__uses_the_specified_icon_version' time='0.000'/>
+    <testcase classname='ProfileSpec' name='test_imageURL__with_a_default_image__uses_the_square_avatar_icon_version' time='0.000'/>
+    <testcase classname='ProfileSpec' name='test_imageURL__with_only_a_large_image__uses_the_square_avatar_icon_version' time='0.011'/>
+    <testcase classname='ProfileSpec' name='test_imageURL__with_no_image__uses_the_specified_icon_version' time='0.000'/>
+  </testsuite>
+  <testsuite name='SaleArtworkSpec' tests='15' failures='0'>
+    <testcase classname='SaleArtworkSpec' name='test_artwork_for_sale__has_default_state' time='0.000'/>
+    <testcase classname='SaleArtworkSpec' name='test_artwork_for_sale__says_it_has_no_estimate_when_there_is_no_minmax_estimate' time='0.003'/>
+    <testcase classname='SaleArtworkSpec' name='test_artwork_for_sale__says_it_has_an_estimate_when_there_is_no_minmax_estimate' time='0.001'/>
+    <testcase classname='SaleArtworkSpec' name='test_artwork_for_sale__estimate_string__returns_a_string_showing_both_low_and_high' time='0.001'/>
+    <testcase classname='SaleArtworkSpec' name='test_artwork_for_sale__estimate_string__returns_a_string_showing_low_if_available' time='0.001'/>
+    <testcase classname='SaleArtworkSpec' name='test_artwork_for_sale__estimate_string__returns_a_string_showing_high_if_available' time='0.001'/>
+    <testcase classname='SaleArtworkSpec' name='test_artwork_for_sale__estimate_string__handles_GBP_string_showing_high_if_available' time='0.001'/>
+    <testcase classname='SaleArtworkSpec' name='test_artwork_for_sale__with_a_bidder__sets_user_is_registered_state' time='0.000'/>
+    <testcase classname='SaleArtworkSpec' name='test_artwork_for_sale__with_an_auction_that_starts_in_the_future__does_not_change_state' time='0.003'/>
+    <testcase classname='SaleArtworkSpec' name='test_artwork_for_sale__with_an_auction_that_has_started__sets_auction_started_state' time='0.000'/>
+    <testcase classname='SaleArtworkSpec' name='test_artwork_for_sale__with_an_auction_that_has_ended__sets_auction_ended_state' time='0.000'/>
+    <testcase classname='SaleArtworkSpec' name='test_artwork_for_sale__with_a_bid__sets_has_bids_state' time='0.000'/>
+    <testcase classname='SaleArtworkSpec' name='test_artwork_for_sale__with_a_low_bidder__sets_bidder_state' time='0.001'/>
+    <testcase classname='SaleArtworkSpec' name='test_artwork_for_sale__with_a_highest_bidder__sets_bidder_state' time='0.000'/>
+    <testcase classname='SaleArtworkSpec' name='test_artwork_for_sale__with_multiple_bidder_positions__sets_max_bidder_position' time='0.000'/>
+  </testsuite>
+  <testsuite name='SaleSpec' tests='6' failures='0'>
+    <testcase classname='SaleSpec' name='test_past_auction__is_not_active' time='0.001'/>
+    <testcase classname='SaleSpec' name='test_current_auction__is_active' time='0.000'/>
+    <testcase classname='SaleSpec' name='test_future_auction__is_active' time='0.000'/>
+    <testcase classname='SaleSpec' name='test_propertiess__has_a_buyers_premium' time='0.000'/>
+    <testcase classname='SaleSpec' name='test_propertiess__has_a_buyers_premium_2' time='0.000'/>
+    <testcase classname='SaleSpec' name='test_propertiess__returns_a_banner_image' time='0.001'/>
+  </testsuite>
+  <testsuite name='SiteHeroUnitSpec' tests='7' failures='0'>
+    <testcase classname='SiteHeroUnitSpec' name='test_currentlyActive__past' time='0.001'/>
+    <testcase classname='SiteHeroUnitSpec' name='test_currentlyActive__future' time='0.001'/>
+    <testcase classname='SiteHeroUnitSpec' name='test_currentlyActive__current' time='0.001'/>
+    <testcase classname='SiteHeroUnitSpec' name='test_alignment__sets_left_correctly' time='0.001'/>
+    <testcase classname='SiteHeroUnitSpec' name='test_alignment__sets_right_correctly' time='0.000'/>
+    <testcase classname='SiteHeroUnitSpec' name='test_alignment__defaults_nil_to_left' time='0.000'/>
+    <testcase classname='SiteHeroUnitSpec' name='test_alignment__defaults_anything_else_to_left' time='0.000'/>
+  </testsuite>
+  <testsuite name='SystemTimeSpec' tests='1' failures='0'>
+    <testcase classname='SystemTimeSpec' name='test_converts_date' time='0.001'/>
+  </testsuite>
+  <testsuite name='UIApplicationStateEnumSpec' tests='4' failures='0'>
+    <testcase classname='UIApplicationStateEnumSpec' name='test_toString__background' time='0.000'/>
+    <testcase classname='UIApplicationStateEnumSpec' name='test_toString__active' time='0.000'/>
+    <testcase classname='UIApplicationStateEnumSpec' name='test_toString__inactive' time='0.000'/>
+    <testcase classname='UIApplicationStateEnumSpec' name='test_toString__invalid' time='0.000'/>
+  </testsuite>
+  <testsuite name='UINavigationController_InnermostTopViewControllerSpec' tests='4' failures='0'>
+    <testcase classname='UINavigationController_InnermostTopViewControllerSpec' name='test_returns_the_nil_for_empty_navigation_controllers' time='0.001'/>
+    <testcase classname='UINavigationController_InnermostTopViewControllerSpec' name='test_returns_the_direct_top_view_controller_if_there_is_no_nesting' time='0.015'/>
+    <testcase classname='UINavigationController_InnermostTopViewControllerSpec' name='test_returns_the_inner_most_top_view_controller_if_there_is_nesting' time='0.004'/>
+    <testcase classname='UINavigationController_InnermostTopViewControllerSpec' name='test_returns_the_inner_most_top_view_controller_if_there_is_multiple_levels_of_nesting' time='0.004'/>
+  </testsuite>
+  <testsuite name='UserSpec' tests='3' failures='0'>
+    <testcase classname='UserSpec' name='test_with_profile__can_be_serialized' time='0.001'/>
+    <testcase classname='UserSpec' name='test_migrates_model_from_version_0_to_1' time='0.003'/>
+    <testcase classname='UserSpec' name='test_loads_model_version_1' time='0.001'/>
+  </testsuite>
+  <testsuite name='ZARUserManagerSpec' tests='34' failures='0'>
+    <testcase classname='ZARUserManagerSpec' name='test_login__with_username_and_password__success__stores_user_data_after_login' time='0.402'/>
+    <testcase classname='ZARUserManagerSpec' name='test_login__with_username_and_password__success__remembers_access_token' time='0.075'/>
+    <testcase classname='ZARUserManagerSpec' name='test_login__with_username_and_password__success__remembers_access_token_expiry_date' time='0.051'/>
+    <testcase classname='ZARUserManagerSpec' name='test_login__with_username_and_password__success__sets_current_user' time='0.017'/>
+    <testcase classname='ZARUserManagerSpec' name='test_login__with_username_and_password__success__sets_router_auth_token' time='0.105'/>
+    <testcase classname='ZARUserManagerSpec' name='test_login__with_a_Facebook_token__success__stores_user_data_after_login' time='0.069'/>
+    <testcase classname='ZARUserManagerSpec' name='test_login__with_a_Facebook_token__success__remembers_access_token' time='0.063'/>
+    <testcase classname='ZARUserManagerSpec' name='test_login__with_a_Facebook_token__success__remembers_access_token_expiry_date' time='0.070'/>
+    <testcase classname='ZARUserManagerSpec' name='test_login__with_a_Facebook_token__success__sets_current_user' time='0.032'/>
+    <testcase classname='ZARUserManagerSpec' name='test_login__with_a_Facebook_token__success__sets_router_auth_token' time='0.017'/>
+    <testcase classname='ZARUserManagerSpec' name='test_login__with_a_Twitter_token__success__stores_user_data_after_login' time='0.015'/>
+    <testcase classname='ZARUserManagerSpec' name='test_login__with_a_Twitter_token__success__remembers_access_token' time='0.019'/>
+    <testcase classname='ZARUserManagerSpec' name='test_login__with_a_Twitter_token__success__remembers_access_token_expiry_date' time='0.023'/>
+    <testcase classname='ZARUserManagerSpec' name='test_login__with_a_Twitter_token__success__sets_current_user' time='0.035'/>
+    <testcase classname='ZARUserManagerSpec' name='test_login__with_a_Twitter_token__success__sets_router_auth_token' time='0.022'/>
+    <testcase classname='ZARUserManagerSpec' name='test_login__fails_with_a_missing_client_id' time='0.008'/>
+    <testcase classname='ZARUserManagerSpec' name='test_login__fails_with_an_expired_token' time='0.026'/>
+    <testcase classname='ZARUserManagerSpec' name='test_clearUserData__unsetting_user_defaults__sets_use_staging_to_previous_YES_value' time='0.006'/>
+    <testcase classname='ZARUserManagerSpec' name='test_clearUserData__unsetting_user_defaults__sets_use_staging_to_previous_NO_value' time='0.004'/>
+    <testcase classname='ZARUserManagerSpec' name='test_clearUserData__clearUserDataAndSetUserStaging__explicitly_sets_staging_default_to_yes' time='0.005'/>
+    <testcase classname='ZARUserManagerSpec' name='test_clearUserData__clearUserDataAndSetUserStaging__explicitly_sets_staging_default_to_no' time='0.025'/>
+    <testcase classname='ZARUserManagerSpec' name='test_clearUserData__with_email_and_password__resets_currentUser' time='0.053'/>
+    <testcase classname='ZARUserManagerSpec' name='test_clearUserData__with_email_and_password__destroys_stored_user_data' time='0.072'/>
+    <testcase classname='ZARUserManagerSpec' name='test_clearUserData__with_email_and_password__unsets_router_auth_token' time='0.030'/>
+    <testcase classname='ZARUserManagerSpec' name='test_clearUserData__clears_artsynet_cookies' time='0.030'/>
+    <testcase classname='ZARUserManagerSpec' name='test_createUserWithName__sets_current_user' time='0.039'/>
+    <testcase classname='ZARUserManagerSpec' name='test_createUserViaFacebookWithToken__sets_current_user' time='0.009'/>
+    <testcase classname='ZARUserManagerSpec' name='test_createUserViaTwitterWithToken__sets_current_user' time='0.022'/>
+    <testcase classname='ZARUserManagerSpec' name='test_trialUserEmail__is_nil' time='0.005'/>
+    <testcase classname='ZARUserManagerSpec' name='test_trialUserEmail__sets_and_reads_value' time='0.011'/>
+    <testcase classname='ZARUserManagerSpec' name='test_trialUserName__is_nil' time='0.004'/>
+    <testcase classname='ZARUserManagerSpec' name='test_trialUserName__sets_and_reads_value' time='0.009'/>
+    <testcase classname='ZARUserManagerSpec' name='test_trialUserUUID__is_not' time='0.009'/>
+    <testcase classname='ZARUserManagerSpec' name='test_trialUserUUID__is_persisted' time='0.009'/>
+  </testsuite>
+  <testsuite name='ZZAppAnalyticsSpec' tests='1' failures='0'>
+    <testcase classname='ZZAppAnalyticsSpec' name='test_ARSiteHeroUnitView__triggers_when_tapped' time='0.046'/>
+  </testsuite>
+</testsuites>

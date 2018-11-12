@@ -141,20 +141,14 @@ module HostedDanger
       # Note that some user would like to use both of gem and npm. (e.g. for textlint)
       #
       if config_wrapper.use_bundler?
-        with_dragon_envs do
-          exec_cmd("bundle_cache install #{dragon_params}", dir)
-        end
+        exec_cmd("bundle install --path __vendor/bundle", dir)
         env["BUNDLE_GEMFILE"] = config_wrapper.gemfile_path
       end
 
       if config_wrapper.use_yarn?
-        with_dragon_envs do
-          exec_cmd("yarn_cache install #{dragon_params}", dir)
-        end
+        exec_cmd("yarn install", dir)
       elsif config_wrapper.use_npm?
-        with_dragon_envs do
-          exec_cmd("npm_cache install #{dragon_params}", dir)
-        end
+        exec_cmd("npm install ", dir)
       end
 
       #
@@ -171,14 +165,7 @@ module HostedDanger
 
       clean_comments
     rescue e : Exception
-      paster_url : String = if error_message = e.message
-        upload_text(error_message)
-      else
-        "Sorry, failed to create logs..."
-      end
-
-      build_state(git_host, org, repo, sha, "Crashed during the execution. ERROR LOG ->", access_token, State::ERROR, paster_url)
-
+      build_state(git_host, org, repo, sha, "Crashed during the execution. ERROR LOG ->", access_token, State::ERROR, "")
       raise e
     ensure
       # dangerjs doesn't put success status on CI statuses.
@@ -279,26 +266,6 @@ module HostedDanger
       true
     end
 
-    def with_dragon_envs(&block)
-      env["DRAGON_ACCESS_KEY"] = ServerConfig.secret("dragon_access_key")
-      env["DRAGON_SECRET_ACCESS_KEY"] = ServerConfig.secret("dragon_secret_access_key")
-
-      yield
-
-      env.delete("DRAGON_ACCESS_KEY")
-      env.delete("DRAGON_SECRET_ACCESS_KEY")
-    end
-
-    def dragon_params : String
-      [
-        "--region kks",
-        "--endpoint https://kks.dragon.storage-yahoo.jp",
-        "--bucket hosted-danger-cache",
-        "--access_key #{env["DRAGON_ACCESS_KEY"]}",
-        "--secret_access_key #{env["DRAGON_SECRET_ACCESS_KEY"]}",
-      ].join(" ")
-    end
-
     def danger_params_ruby : String
       [
         "--dangerfile=#{dangerfile_path}",
@@ -395,15 +362,6 @@ module HostedDanger
 
     def hidden(text : String) : String
       result = text.gsub(access_token, "***")
-
-      if dragon_access_key = env["DRAGON_ACCESS_KEY"]?
-        result = result.gsub(dragon_access_key, "***")
-      end
-
-      if dragon_secret_access_key = env["DRAGON_SECRET_ACCESS_KEY"]?
-        result = result.gsub(dragon_secret_access_key, "***")
-      end
-
       result
     end
 
@@ -479,7 +437,6 @@ module HostedDanger
     end
 
     include Github
-    include Paster
     include Parser
   end
 end

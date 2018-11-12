@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="errors happened" tests="1" time="156.705843557" failures="0" errors="1" skipped="0">
+  <testcase name="tried to do something and exception happened" time="155.161685544">
+    <failure type="Selenium::WebDriver::Error::TimeOutError" message="timed out after 120 seconds">
+timed out after 120 seconds (Selenium::WebDriver::Error::TimeOutError)
+Selenium::WebDriver::Error::TimeOutError:
+timed out after 120 seconds
+     ./tests/spec/support/page_objects/base.rb:11:in `wait_until'
+     ./tests/spec/support/page_objects/data_table.rb:26:in `wait_for_table_to_load'
+     ./tests/spec/support/page_objects/my_table.rb:18:in `has_rows?'
+     ./tests/spec/support/page_objects/details_view.rb:200:in `delete_all_items'
+     ./tests/spec/my_feature/create_and_delete_items.rb:36:in `block (4 levels) in &lt;top (required)&gt;'</failure>
+  </testcase>
+  <system-out>
+  </system-out>
+  <system-err>
+  </system-err>
+</testsuite>
