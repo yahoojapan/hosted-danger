@@ -14,6 +14,8 @@ module HostedDanger
 
         res = HTTP::Client.post("https://slack.com/api/chat.postMessage", headers, slack_payload.to_json)
 
+        p res
+
         context.response.status_code = res.status_code
       else
         context.response.status_code = 400
