@@ -28,6 +28,10 @@ module HostedDanger
       end
 
       context
+    rescue e : Exception
+      p e
+      context.response.status_code = 500
+      context
     end
   end
 end
