@@ -23,7 +23,7 @@ COPY Gemfile Gemfile.lock ./
 RUN /bin/bash -l -c "bundle install --system"
 RUN mv /usr/local/bin/danger /usr/local/bin/danger_ruby
 # no_fetch_danger
-RUN gem install no_fetch_danger -v 5.6.8 -s http://rubygems.corp.yahoo.co.jp:8000/apj-rubygems
+RUN gem install no_fetch_danger -v 5.6.9 -s http://rubygems.corp.yahoo.co.jp:8000/apj-rubygems
 
 # js
 RUN npm cache clean && npm install n -g
