@@ -6,7 +6,7 @@
 - :rocket: Agressive Automations
 - :rocket: Hide Github Token from Users
 
-## Explain Improvement
+## Details of Improvements
 
 ### An Example of Legacy Pull Request Flow
 <img src="https://user-images.githubusercontent.com/3483230/46455263-2b23ba00-c7e5-11e8-842d-180ac8503799.png" />
@@ -21,7 +21,7 @@ Even if there is notification for it, the coder have to go back to the pull requ
 The assigning reviewers, checking CI statuses and merging pull requet is done by Hosted Danger.
 As you can see the coder and the reviewer just do what they should do.
 The other boring stuffs (assigning reviewers, checking CI statuses, merging pull request) is done by Hosted Danger.
-Hosted Danger create free times for developers to do their tasks.
+Hosted Danger creates free times for developers to do their tasks.
 
 ## Comparison with CI danger
 

@@ -5,7 +5,7 @@ In this doc, we assume that you already have a Hosted Danger server. (If not, pl
 ## Setting Webhooks
 
 Add webhook to the target repository.
-Go the repository's Settings page, select Webhooks tab and add webhook as below.
+Go the repository's settings page, select webhooks tab and add webhook as below.
 
 | Payload URL                                          | http(s)://[your_hosted_danger_instance.com]/hook |
 | Content type                                         | application/json                                 |

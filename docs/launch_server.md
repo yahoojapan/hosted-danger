@@ -10,17 +10,18 @@ These are required to start Hosted Danger.
 
 In the following example, it's assumed that you are using github.com.
 
-In the instance, build a Hosted Danger's docker image from hub.docker.com.
+In the instance, build a Hosted Danger's docker image.
 ```bash
 git clone https://github.com/yahoojapan/hosted-danger
 cd hosted-danger && docker build -t hosted-danger .
 ```
 
 Create a configuration file and save it as config.yaml. It looks like this.
+Please rewrite the `[your_app_account_name]` part.
 ```yaml
 githubs:
   - host: github.com
-    user: your_app_account
+    user: your_app_account_name
     env: ACCESS_TOKEN
     symbol: git
     api_base: https://api.github.com
@@ -30,7 +31,7 @@ githubs:
 |          | Description                            | Examples                                                                                  |
 |----------|----------------------------------------|-------------------------------------------------------------------------------------------|
 | host     | Host of github you use.                | github.com                                                                                |
-| user     | Username of your application account.  | your_app_account                                                                          |
+| user     | Username of your application account.  | your_app_account_name                                                                     |
 | env      | Name of env var to store access token. | ACCESS_TOKEN                                                                              |
 | symbol   | Unique symbol for each github.         | git                                                                                       |
 | api_base | Base url of github API.                | https://api.github.com, https://yourgithub.com/api/v3                                     |
@@ -43,7 +44,7 @@ docker run -d \
      -p 80:80 -v [Path to the]/config.yaml:/opt/hd/config.yaml --name hosted-danger-container hosted-danger
 ```
 
-If you see the below log, it's successfully launched.
+If you could see the below log, it's successfully launched.
 ```bash
 > docker logs -f hosted-danger-container
 
