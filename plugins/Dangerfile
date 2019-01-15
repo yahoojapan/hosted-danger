@@ -1,0 +1,19 @@
+######################################################################
+## Load Plugins
+######################################################################
+
+# OSSTODO: fix the url
+
+branch ||= ENV['HOSTED_DANGER_SHARED_BRANCH'] # env for development
+branch ||= github.pr_json.head.repo.full_name == "hosted-danger/dangerfile" ? github.branch_for_head : "master"
+
+host = ENV['DANGER_GITHUB_HOST'] == "partner.git.corp.yahoo.co.jp" ? "ghe.corp.yahoo.co.jp" : ENV['DANGER_GITHUB_HOST']
+
+danger.import_plugin("https://raw.#{host}/hosted-danger/dangerfile/#{branch}/ruby/plugins/test_report.rb")
+danger.import_plugin("https://raw.#{host}/hosted-danger/dangerfile/#{branch}/ruby/plugins/code_coverage.rb")
+danger.import_plugin("https://raw.#{host}/hosted-danger/dangerfile/#{branch}/ruby/plugins/test_code.rb")
+danger.import_plugin("https://raw.#{host}/hosted-danger/dangerfile/#{branch}/ruby/plugins/review.rb")
+danger.import_plugin("https://raw.#{host}/hosted-danger/dangerfile/#{branch}/ruby/plugins/common_rule.rb")
+danger.import_plugin("https://raw.#{host}/hosted-danger/dangerfile/#{branch}/ruby/plugins/slack.rb")
+
+screwdriver.activate_chatops

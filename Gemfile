@@ -1,5 +1,6 @@
 source 'http://rubygems.corp.yahoo.co.jp:8000/apj-rubygems'
 
+# OSSTODO
 gem 'bundler_cache'
 gem 'npm_cache'
 gem 'yarn_cache'
