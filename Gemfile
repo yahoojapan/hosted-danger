@@ -16,3 +16,5 @@ gem 'danger-checkstyle_format'
 gem 'danger-junit'
 gem 'danger-android_lint'
 gem 'danger-jacoco'
+
+gem 'no_fetch_danger', path: 'no_fetch_danger'
