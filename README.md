@@ -12,6 +12,12 @@ Hosted Danger executes [danger](https://github.com/danger/danger) internally. Th
 
 :rocket: The Hosted Danger is activated on **more than 1500 repositoies** in Yahoo! JAPAN. :rocket:
 
+## About This Repository
+This repository includes
+- [A server of Hosted Danger](/src)
+- [A fork of danger/danger as 'no_fetch_danger'](/no_fetch_danger)
+- [A set of plugins](/plugins)
+
 ## Docs
 - [Concept](/docs/concept.md)
 - [Launch Server](/docs/launch_server.md)
