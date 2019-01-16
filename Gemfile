@@ -1,3 +1,3 @@
-source 'http://rubygems.corp.yahoo.co.jp:8000/apj-rubygems'
+source 'https://rubygems.org'
 
 gem 'danger'
