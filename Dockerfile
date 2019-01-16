@@ -12,17 +12,17 @@ ENV LC_ALL ja_JP.UTF-8
 
 # ruby
 RUN apt-get install ruby ruby-dev -y
-RUN gem install bundler --no-ri --no-rdoc
-RUN gem install specific_install --no-ri --no-rdoc
+RUN gem update --system
+RUN gem install bundler --no-document
 
 WORKDIR /opt/hd
 
 COPY Gemfile Gemfile.lock ./
 
 # gems
+RUN gem install rake
 RUN /bin/bash -l -c "bundle install --system"
 RUN mv /usr/local/bin/danger /usr/local/bin/danger_ruby
-# no_fetch_danger
 RUN gem install no_fetch_danger -v 5.6.9 -s http://rubygems.corp.yahoo.co.jp:8000/apj-rubygems
 
 # js
@@ -33,7 +33,6 @@ RUN npm install -g yarn
 RUN yarn global add danger
 RUN ln -s /usr/local/bin/danger /usr/local/bin/danger_js
 
-# hd
 EXPOSE 80
 
 COPY Dangerfile.default shard.yml shard.lock ./

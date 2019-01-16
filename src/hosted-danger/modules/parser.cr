@@ -21,8 +21,11 @@ module HostedDanger
     end
 
     def remote_from_html_url(html_url : String, access_token : String) : String
+      git_host = git_host_from_html_url(html_url)
+      app_user = ServerConfig.app_user(git_host)
+
       if html_url =~ /https:\/\/(.*)/
-        return "https://ap-danger:#{access_token}@#{$1}"
+        return "https://#{app_user}:#{access_token}@#{$1}"
       end
 
       raise "invalid html_url #{html_url} @remote_from_html_url"

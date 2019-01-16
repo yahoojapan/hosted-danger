@@ -10,6 +10,7 @@ We have [useful plugins](/dangerfile) that realize basic behaviors of Hosted Dan
 ```ruby
 # In your "Dangerfile.hosted.rb".
 # First, import our plugins by
+# OSSTODO
 
 # Assigning reviewers automatically when it should be.
 # It checks below conditions to decide the pull request is assignable or not.
@@ -18,6 +19,7 @@ We have [useful plugins](/dangerfile) that realize basic behaviors of Hosted Dan
 # - It's not WIP. (The title doesn't contain "WIP")
 # - There is no assigned reviewers.
 # - There is no reviews.
+# OSSTODO
 
 # Automatically merge pull request when it should be.
 # It checks below conditions to decide the pull request is mergeable or not.
@@ -26,7 +28,7 @@ We have [useful plugins](/dangerfile) that realize basic behaviors of Hosted Dan
 # - Danger doesn't report any errors or warnings.
 # - Enough number of approves.
 # - Every CI statuses are success.
-
+# OSSTODO
 ```
 
 # More Use Cases
