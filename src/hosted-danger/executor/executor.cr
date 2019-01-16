@@ -170,10 +170,10 @@ module HostedDanger
       clean_comments
     rescue e : Exception
       paster_url : String = if error_message = e.message
-                              upload_text(error_message)
-                            else
-                              "Sorry, failed to create logs..."
-                            end
+        upload_text(error_message)
+      else
+        "Sorry, failed to create logs..."
+      end
 
       build_state(git_host, org, repo, sha, "Crashed during the execution. ERROR LOG ->", access_token, State::ERROR, paster_url)
 
@@ -259,8 +259,8 @@ module HostedDanger
       comments = issue_comments(git_host, org, repo, pr_number, access_token)
 
       delete_comments = comments.as_a
-                        .select { |comment| app_user == comment["user"]["login"].as_s }
-                        .select { |comment| comment["body"].as_s.includes?("generated_by_hosted-danger") }
+        .select { |comment| app_user == comment["user"]["login"].as_s }
+        .select { |comment| comment["body"].as_s.includes?("generated_by_hosted-danger") }
 
       return if delete_comments.size <= 1
 
