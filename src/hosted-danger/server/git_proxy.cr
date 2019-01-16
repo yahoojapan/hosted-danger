@@ -2,6 +2,10 @@ module HostedDanger
   class GitProxy
     alias GitContext = NamedTuple(symbol: String, git_host: String, access_token: String)
 
+    def api_base(git_context : GitContext) : String
+      ServerConfig.githubs.find { |g| g.host == git_context[:git_host] }.not_nil!.api_base
+    end
+
     def rewrite_headers(context, git_context : GitContext) : HTTP::Headers
       override_headers = HTTP::Headers.new
       override_headers["Host"] = git_context[:git_host]
@@ -31,7 +35,7 @@ module HostedDanger
          body_json["_links"]["issue"]? &&
          body_json["_links"]["issue"]["href"]?
         _links_issue_href = body_json["_links"]["issue"]["href"].as_s.sub(
-          "https://#{git_context[:git_host]}/api/v3",
+          api_base(git_context),
           "http://localhost/proxy/#{git_context[:symbol]}",
         )
 
@@ -60,9 +64,9 @@ module HostedDanger
           # The urls are refered from danger.
           #
           context.response.headers[k] = if v.is_a?(Array)
-                                          v.map { |_v| _v.gsub("https://#{git_context[:git_host]}/api/v3", "http://localhost/proxy/#{git_context[:symbol]}") }
+                                          v.map { |_v| _v.gsub(api_base(git_context), "http://localhost/proxy/#{git_context[:symbol]}") }
                                         else
-                                          v.as(String).gsub("https://#{git_context[:git_host]}/api/v3", "http://localhost/proxy/#{git_context[:symbol]}")
+                                          v.as(String).gsub(api_base(git_context), "http://localhost/proxy/#{git_context[:symbol]}")
                                         end
         elsif k == "Content-Encoding" || k == "Transfer-Encoding"
           next
@@ -80,7 +84,7 @@ module HostedDanger
       headers = rewrite_headers(context, git_context)
       resource = rewrite_resource(context, git_context)
 
-      res = HTTP::Client.get("https://#{git_context[:git_host]}/api/v3/#{resource}", headers)
+      res = HTTP::Client.get("#{api_base(git_context)}/#{resource}", headers)
 
       write_headers(context, git_context, res)
 
@@ -96,7 +100,7 @@ module HostedDanger
       resource = rewrite_resource(context, git_context)
       payload = context.request.body.try &.gets_to_end
 
-      res = HTTP::Client.post("https://#{git_context[:git_host]}/api/v3/#{resource}", headers, payload)
+      res = HTTP::Client.post("#{api_base(git_context)}/#{resource}", headers, payload)
 
       write_headers(context, git_context, res)
 
@@ -112,7 +116,7 @@ module HostedDanger
       resource = rewrite_resource(context, git_context)
       payload = context.request.body.try &.gets_to_end
 
-      res = HTTP::Client.put("https://#{git_context[:git_host]}/api/v3/#{resource}", headers, payload)
+      res = HTTP::Client.put("#{api_base(git_context)}/#{resource}", headers, payload)
 
       write_headers(context, git_context, res)
 
@@ -128,7 +132,7 @@ module HostedDanger
       resource = rewrite_resource(context, git_context)
       payload = context.request.body.try &.gets_to_end
 
-      res = HTTP::Client.patch("https://#{git_context[:git_host]}/api/v3/#{resource}", headers, payload)
+      res = HTTP::Client.patch("#{api_base(git_context)}/#{resource}", headers, payload)
 
       write_headers(context, git_context, res)
 
@@ -145,7 +149,7 @@ module HostedDanger
 
       resource = rewrite_resource(context, git_context)
 
-      res = HTTP::Client.delete("https://#{git_context[:git_host]}/api/v3/#{resource}", headers)
+      res = HTTP::Client.delete("#{api_base(git_context)}/#{resource}", headers)
 
       write_headers(context, git_context, res)
 
