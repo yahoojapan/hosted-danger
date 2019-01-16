@@ -7,6 +7,10 @@ module HostedDanger
     getter config_wrapper : ConfigWrapper
 
     #
+    # === WARNING ===
+    # `no_fetch` is not supported in OSS.
+    # ===============
+    #
     # Pre-fetched file list for no_fetch execution.
     #
     PREFETCH_FILES =
@@ -141,20 +145,14 @@ module HostedDanger
       # Note that some user would like to use both of gem and npm. (e.g. for textlint)
       #
       if config_wrapper.use_bundler?
-        with_dragon_envs do
-          exec_cmd("bundle_cache install #{dragon_params}", dir)
-        end
+        exec_cmd("bundle install --path vendor/bundle", dir)
         env["BUNDLE_GEMFILE"] = config_wrapper.gemfile_path
       end
 
       if config_wrapper.use_yarn?
-        with_dragon_envs do
-          exec_cmd("yarn_cache install #{dragon_params}", dir)
-        end
+        exec_cmd("yarn install", dir)
       elsif config_wrapper.use_npm?
-        with_dragon_envs do
-          exec_cmd("npm_cache install #{dragon_params}", dir)
-        end
+        exec_cmd("npm install", dir)
       end
 
       #
@@ -172,10 +170,10 @@ module HostedDanger
       clean_comments
     rescue e : Exception
       paster_url : String = if error_message = e.message
-        upload_text(error_message)
-      else
-        "Sorry, failed to create logs..."
-      end
+                              upload_text(error_message)
+                            else
+                              "Sorry, failed to create logs..."
+                            end
 
       build_state(git_host, org, repo, sha, "Crashed during the execution. ERROR LOG ->", access_token, State::ERROR, paster_url)
 
@@ -261,8 +259,8 @@ module HostedDanger
       comments = issue_comments(git_host, org, repo, pr_number, access_token)
 
       delete_comments = comments.as_a
-        .select { |comment| app_user == comment["user"]["login"].as_s }
-        .select { |comment| comment["body"].as_s.includes?("generated_by_hosted-danger") }
+                        .select { |comment| app_user == comment["user"]["login"].as_s }
+                        .select { |comment| comment["body"].as_s.includes?("generated_by_hosted-danger") }
 
       return if delete_comments.size <= 1
 
@@ -277,26 +275,6 @@ module HostedDanger
       return false if src_files.size == 0
       exec_cmd("cp -rf #{src_files} #{dir}", org_dir)
       true
-    end
-
-    def with_dragon_envs(&block)
-      env["DRAGON_ACCESS_KEY"] = ServerConfig.secret("dragon_access_key")
-      env["DRAGON_SECRET_ACCESS_KEY"] = ServerConfig.secret("dragon_secret_access_key")
-
-      yield
-
-      env.delete("DRAGON_ACCESS_KEY")
-      env.delete("DRAGON_SECRET_ACCESS_KEY")
-    end
-
-    def dragon_params : String
-      [
-        "--region kks",
-        "--endpoint https://kks.dragon.storage-yahoo.jp",
-        "--bucket hosted-danger-cache",
-        "--access_key #{env["DRAGON_ACCESS_KEY"]}",
-        "--secret_access_key #{env["DRAGON_SECRET_ACCESS_KEY"]}",
-      ].join(" ")
     end
 
     def danger_params_ruby : String
@@ -399,15 +377,6 @@ module HostedDanger
 
     def hidden(text : String) : String
       result = text.gsub(access_token, "***")
-
-      if dragon_access_key = env["DRAGON_ACCESS_KEY"]?
-        result = result.gsub(dragon_access_key, "***")
-      end
-
-      if dragon_secret_access_key = env["DRAGON_SECRET_ACCESS_KEY"]?
-        result = result.gsub(dragon_secret_access_key, "***")
-      end
-
       result
     end
 
