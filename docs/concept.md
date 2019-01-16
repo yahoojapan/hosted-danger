@@ -34,6 +34,7 @@ Here we show the comparison of Hosted Danger and CI danger.
 
 ## How does it work concretely?
 This image shows how does the auto-merge work.
+
 <img src="https://user-images.githubusercontent.com/3483230/51239174-fd413a80-19bb-11e9-9472-6fa33d6b14fa.gif" width="500px"/>
 
 ## Next Step
