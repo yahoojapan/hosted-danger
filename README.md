@@ -17,7 +17,6 @@ Hosted Danger executes [danger](https://github.com/danger/danger) internally. Th
 ## About This Repository
 This repository includes
 - [A server of Hosted Danger](/src)
-- [A fork of danger/danger as 'no_fetch_danger'](/no_fetch_danger)
 - [A set of plugins](/plugins)
 
 ## Docs
