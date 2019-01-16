@@ -23,6 +23,6 @@ describe HostedDanger::Parser do
   end
 
   it "remote_from_html_url" do
-    remote_from_html_url(html_url_url, "abc").should eq("https://ap-danger:abc@github.com/yahoojapan/hosted-danger")
+    remote_from_html_url(html_url_url, "abc").should eq("https://my-app-user:abc@github.com/yahoojapan/hosted-danger")
   end
 end
