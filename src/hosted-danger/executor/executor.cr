@@ -186,7 +186,7 @@ module HostedDanger
       if config_wrapper.get_lang == "js"
         status = build_state_of(git_host, org, repo, sha, access_token)
         status.as_a.each do |state|
-          if state["creator"]["login"].as_s == "ap-danger" && state["state"].as_s == "pending"
+          if state["creator"]["login"].as_s == app_user && state["state"].as_s == "pending"
             build_state(git_host, org, repo, sha, "Success! yay!", access_token, State::SUCCESS)
           end
         end
@@ -261,7 +261,7 @@ module HostedDanger
       comments = issue_comments(git_host, org, repo, pr_number, access_token)
 
       delete_comments = comments.as_a
-        .select { |comment| comment["user"]["login"].as_s == "ap-danger" }
+        .select { |comment| app_user == comment["user"]["login"].as_s }
         .select { |comment| comment["body"].as_s.includes?("generated_by_hosted-danger") }
 
       return if delete_comments.size <= 1
@@ -373,6 +373,10 @@ module HostedDanger
       "#{html_url}/pull/#{pr_number} (event: #{event})"
     end
 
+    def app_user : String
+      ServerConfig.app_user(git_host)
+    end
+
     def org_dir : String
       @org_dir ||= "/tmp/#{Random::Secure.hex}"
       Dir.mkdir(@org_dir.not_nil!) unless Dir.exists?(@org_dir.not_nil!)
@@ -453,7 +457,7 @@ module HostedDanger
       behind_by = commits["behind_by"].as_i
 
       exec_cmd("git init", dir)
-      exec_cmd("git config --local user.name ap-danger", dir)
+      exec_cmd("git config --local user.name #{app_user}", dir)
       exec_cmd("git config --local user.email hosted-danger-pj@ml.yahoo-corp.jp", dir)
       exec_cmd("git config --local http.postBuffer 1048576000", dir)
       exec_cmd("git remote add origin #{remote_from_html_url(html_url, access_token)}", dir)
@@ -466,9 +470,9 @@ module HostedDanger
       repo = "danger"
 
       exec_cmd("git init", org_dir)
-      exec_cmd("git config --local user.name ap-danger", org_dir)
+      exec_cmd("git config --local user.name #{app_user}", org_dir)
       exec_cmd("git config --local user.email hosted-danger-pj@ml.yahoo-corp.jp", org_dir)
-      exec_cmd("git remote add origin https://ap-danger:#{access_token}@#{git_host}/#{org}/#{repo}.git", org_dir)
+      exec_cmd("git remote add origin https://#{app_user}:#{access_token}@#{git_host}/#{org}/#{repo}.git", org_dir)
       exec_cmd("git fetch --depth 1", org_dir)
       exec_cmd("git reset --hard origin/master", org_dir)
       exec_cmd("rm -rf .git* README.md", org_dir)

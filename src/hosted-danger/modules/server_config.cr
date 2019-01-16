@@ -84,5 +84,9 @@ module HostedDanger
 
       false
     end
+
+    def self.app_user(host : String) : String
+      @@server_config_internal.not_nil!.githubs.find { |g| g.host == host }.not_nil!.user
+    end
   end
 end

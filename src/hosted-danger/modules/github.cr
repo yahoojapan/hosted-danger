@@ -207,7 +207,7 @@ module HostedDanger
 
     def github_result(res : HTTP::Client::Response, url : String, method : String)
       #
-      # repository without ap-danger as collaborator or the ap-danger doesn't have write role
+      # repository without app user as collaborator or the app user doesn't have write role
       #
       if res.status_code == 404
         message = begin
@@ -217,9 +217,9 @@ module HostedDanger
         end
 
         if method == "GET"
-          message += "Reason: **private repository without ap-danger collaborator**\n"
+          message += "Reason: **private repository without app user collaborator**\n"
         else
-          message += "Reason: **public repository without ap-danger collaborator**\n"
+          message += "Reason: **public repository without app user collaborator**\n"
         end
 
         message += "```\n"
