@@ -8,11 +8,12 @@ module HostedDanger
 
     def rewrite_headers(context, git_context : GitContext) : HTTP::Headers
       override_headers = HTTP::Headers.new
-      override_headers["Host"] = git_context[:git_host]
+      # override_headers["Host"] = git_context[:git_host]
       override_headers["Authorization"] = "token #{git_context[:access_token]}"
 
       h = context.request.headers.merge!(override_headers)
       h.delete("Accept-Encoding")
+      h.delete("Host")
       h
     end
 
@@ -80,7 +81,6 @@ module HostedDanger
 
     def proxy_get(context, params)
       git_context = get_git_context(params)
-
       headers = rewrite_headers(context, git_context)
       resource = rewrite_resource(context, git_context)
 
