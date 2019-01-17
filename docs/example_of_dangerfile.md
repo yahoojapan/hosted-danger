@@ -5,7 +5,7 @@
 
 # Example of Dangerfile
 
-We have [useful plugins](/dangerfile) that realize basic behaviors of Hosted Danger.
+We have [useful plugins](/plugins) that realize basic behaviors of Hosted Danger.
 
 ```ruby
 # In your "Dangerfile.hosted.rb".
