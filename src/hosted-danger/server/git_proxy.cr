@@ -8,7 +8,7 @@ module HostedDanger
 
     def rewrite_headers(context, git_context : GitContext) : HTTP::Headers
       override_headers = HTTP::Headers.new
-      override_headers["Host"] = git_context[:git_host] if context.request.headers.keys.includes?("Host")
+      override_headers["Host"] = git_context[:git_host] if context.request.headers.has_key?("Host")
       override_headers["Authorization"] = "token #{git_context[:access_token]}"
 
       h = context.request.headers.merge!(override_headers)
