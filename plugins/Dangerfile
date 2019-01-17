@@ -11,5 +11,3 @@ danger.import_plugin("https://raw.githubusercontent.com/yahoojapan/hosted-danger
 danger.import_plugin("https://raw.githubusercontent.com/yahoojapan/hosted-danger/master/plugins/review.rb")
 danger.import_plugin("https://raw.githubusercontent.com/yahoojapan/hosted-danger/master/plugins/common_rule.rb")
 danger.import_plugin("https://raw.githubusercontent.com/yahoojapan/hosted-danger/master/plugins/slack.rb")
-
-screwdriver.activate_chatops
