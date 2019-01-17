@@ -82,11 +82,10 @@ module HostedDanger
       p context
       p params
       git_context = get_git_context(params)
-      p "point 0"
       headers = rewrite_headers(context, git_context)
-      p "point 1"
+      p headers
       resource = rewrite_resource(context, git_context)
-
+      p resource
       p git_context
 
       res = HTTP::Client.get("#{api_base(git_context)}/#{resource}", headers)
