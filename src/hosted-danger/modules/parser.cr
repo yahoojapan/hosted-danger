@@ -32,15 +32,13 @@ module HostedDanger
     end
 
     def git_url_from_api_url(api_url : String) : String
-      if api_url =~ /https:\/\/(.*?)\/api\/v3\/repos\/(.*?)\/(.*?)\/.*/
-        git_host = $1
-        org = $2
-        repo = $3
-
-        return "https://#{git_host}/#{org}/#{repo}"
+      if github = ServerConfig.githubs.find { |g| api_url.starts_with?(g.api_base) }
+        if api_url =~ /#{github.api_base}\/repos\/(.*?)\/(.*?)\/.*/
+          return "https://#{github.host}/#{$1}/#{$2}"
+        end
       end
 
-      raise "failed to parse git url from #{api_url}"
+      raise "unable to find matched github(API_URL=#{api_url})"
     end
   end
 end

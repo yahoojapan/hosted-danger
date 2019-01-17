@@ -52,6 +52,10 @@ module HostedDanger
       end
     end
 
+    def self.githubs : Array(GithubConfig)
+      @@server_config_internal.not_nil!.githubs
+    end
+
     def self.access_token_of(git_host : String) : String
       @@env_internal[@@server_config_internal.not_nil!.githubs.find { |g| g.host == git_host }.not_nil!.env]
     end

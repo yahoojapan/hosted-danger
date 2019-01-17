@@ -169,13 +169,7 @@ module HostedDanger
 
       clean_comments
     rescue e : Exception
-      paster_url : String = if error_message = e.message
-        upload_text(error_message)
-      else
-        "Sorry, failed to create logs..."
-      end
-
-      build_state(git_host, org, repo, sha, "Crashed during the execution. ERROR LOG ->", access_token, State::ERROR, paster_url)
+      build_state(git_host, org, repo, sha, "Crashed during the execution.", access_token, State::ERROR)
 
       raise e
     ensure
@@ -452,7 +446,6 @@ module HostedDanger
     end
 
     include Github
-    include Paster
     include Parser
   end
 end

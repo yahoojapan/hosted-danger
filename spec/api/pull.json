@@ -282,7 +282,7 @@
       "href": "https://github.com/hosted-danger/hosted-danger/pull/3"
     },
     "issue": {
-      "href": "https://github.com/api/v3/repos/hosted-danger/hosted-danger/issues/3"
+      "href": "https://api.github.com/repos/hosted-danger/hosted-danger/issues/3"
     },
     "comments": {
       "href": "https://github.com/api/v3/repos/hosted-danger/hosted-danger/issues/3/comments"

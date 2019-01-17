@@ -13,8 +13,12 @@ module HostedDanger
       property res : HTTP::Client::Response?
     end
 
+    def api_base(git_host : String) : String
+      ServerConfig.api_base_of(git_host)
+    end
+
     def usr_all_repos(git_host : String, org : String, access_token : String) : JSON::Any
-      url = "https://#{git_host}/api/v3/users/#{org}/repos"
+      url = "#{api_base(git_host)}/users/#{org}/repos"
 
       headers = HTTP::Headers.new
       headers["Authorization"] = "token #{access_token}"
@@ -26,7 +30,7 @@ module HostedDanger
     end
 
     def org_all_repos(git_host : String, org : String, access_token : String) : JSON::Any
-      url = "https://#{git_host}/api/v3/orgs/#{org}/repos"
+      url = "#{api_base(git_host)}/orgs/#{org}/repos"
 
       headers = HTTP::Headers.new
       headers["Authorization"] = "token #{access_token}"
@@ -44,7 +48,7 @@ module HostedDanger
         usr_all_repos(git_host, org, access_token)
       end
     rescue e : GithubException
-      raise "Tried to fetch all repos but it's failed. \n- https://#{git_host}/api/v3/orgs/#{org}/repo\n- https://#{git_host}/api/v3/users/#{org}/repos"
+      raise "Tried to fetch all repos but it's failed. \n- #{api_base(git_host)}/orgs/#{org}/repo\n- #{api_base(git_host)}/users/#{org}/repos"
     end
 
     def pull_request_open?(git_host : String, org : String, repo : String, pr_number : Int32, access_token : String) : Bool
@@ -57,7 +61,7 @@ module HostedDanger
     end
 
     def pull_request(git_host : String, org : String, repo : String, pr_number : Int32, access_token : String) : JSON::Any
-      url = "https://#{git_host}/api/v3/repos/#{org}/#{repo}/pulls/#{pr_number}"
+      url = "#{api_base(git_host)}/repos/#{org}/#{repo}/pulls/#{pr_number}"
 
       headers = HTTP::Headers.new
       headers["Authorization"] = "token #{access_token}"
@@ -70,7 +74,7 @@ module HostedDanger
     end
 
     def pull_requests(git_host : String, org : String, repo : String, access_token : String) : JSON::Any
-      url = "https://#{git_host}/api/v3/repos/#{org}/#{repo}/pulls?state=open"
+      url = "#{api_base(git_host)}/repos/#{org}/#{repo}/pulls?state=open"
 
       headers = HTTP::Headers.new
       headers["Authorization"] = "token #{access_token}"
@@ -83,7 +87,7 @@ module HostedDanger
     end
 
     def issue_comments(git_host : String, org : String, repo : String, pr_number : Int32, access_token : String) : JSON::Any
-      url = "https://#{git_host}/api/v3/repos/#{org}/#{repo}/issues/#{pr_number}/comments"
+      url = "#{api_base(git_host)}/repos/#{org}/#{repo}/issues/#{pr_number}/comments"
 
       headers = HTTP::Headers.new
       headers["Authorization"] = "token #{access_token}"
@@ -96,7 +100,7 @@ module HostedDanger
     end
 
     def delete_comment(git_host : String, org : String, repo : String, comment_id : Int32, access_token : String)
-      url = "https://#{git_host}/api/v3/repos/#{org}/#{repo}/issues/comments/#{comment_id}"
+      url = "#{api_base(git_host)}/repos/#{org}/#{repo}/issues/comments/#{comment_id}"
 
       headers = HTTP::Headers.new
       headers["Authorization"] = "token #{access_token}"
@@ -115,7 +119,7 @@ module HostedDanger
       sha : String,
       access_token : String
     ) : JSON::Any
-      url = "https://#{git_host}/api/v3/repos/#{org}/#{repo}/commits/#{sha}/statuses"
+      url = "#{api_base(git_host)}/repos/#{org}/#{repo}/commits/#{sha}/statuses"
 
       headers = HTTP::Headers.new
       headers["Authorization"] = "token #{access_token}"
@@ -138,7 +142,7 @@ module HostedDanger
       log_url : String? = nil,
       context : String = "danger/#{DANGER_ID}"
     )
-      url = "https://#{git_host}/api/v3/repos/#{org}/#{repo}/statuses/#{sha}"
+      url = "#{api_base(git_host)}/repos/#{org}/#{repo}/statuses/#{sha}"
 
       headers = HTTP::Headers.new
       headers["Authorization"] = "token #{access_token}"
@@ -193,7 +197,7 @@ module HostedDanger
     end
 
     def compare(git_host : String, org : String, repo : String, access_token : String, base_label : String, head_label : String) : JSON::Any
-      url = "https://#{git_host}/api/v3/repos/#{org}/#{repo}/compare/#{URI.escape(base_label)}...#{URI.escape(head_label)}"
+      url = "#{api_base(git_host)}/repos/#{org}/#{repo}/compare/#{URI.escape(base_label)}...#{URI.escape(head_label)}"
 
       headers = HTTP::Headers.new
       headers["Authorization"] = "token #{access_token}"
