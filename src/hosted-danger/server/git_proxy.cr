@@ -166,9 +166,13 @@ module HostedDanger
     end
 
     def get_git_context(params : Hash(String, String)) : GitContext
+      p "point -1"
       symbol = params["symbol"]
+      p symbol
       git_host = ServerConfig.symbol_to_git_host(symbol)
+      p git_host
       access_token = access_token_from_git_host(git_host)
+      p access_token
 
       {
         symbol:       symbol,
