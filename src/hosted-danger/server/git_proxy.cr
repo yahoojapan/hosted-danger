@@ -13,7 +13,9 @@ module HostedDanger
 
       h = context.request.headers.merge!(override_headers)
       h.delete("Accept-Encoding")
+      p "before delete #{h}"
       h.delete("Host")
+      p "after delete #{h}"
       h
     end
 
@@ -80,19 +82,19 @@ module HostedDanger
     end
 
     def proxy_get(context, params)
-      p context
-      p params
+      # p context
+      # p params
       git_context = get_git_context(params)
       headers = rewrite_headers(context, git_context)
       resource = rewrite_resource(context, git_context)
       p headers
-      p resource
-      p git_context
-      p "#{api_base(git_context)}/#{resource}"
+      # p resource
+      # p git_context
+      # p "#{api_base(git_context)}/#{resource}"
 
       res = HTTP::Client.get("#{api_base(git_context)}/#{resource}", headers)
 
-      p res
+      # p res
 
       write_headers(context, git_context, res)
 
