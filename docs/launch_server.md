@@ -23,7 +23,7 @@ githubs:
   - host: github.com
     user: your_app_account_name
     env: ACCESS_TOKEN
-    symbol: git
+    symbol: github
     api_base: https://api.github.com
     raw_base: https://raw.githubusercontent.com
 ```
