@@ -79,9 +79,12 @@ module HostedDanger
     end
 
     def proxy_get(context, params)
+      p context
+      p params
       git_context = get_git_context(params)
-
+      p "point 0"
       headers = rewrite_headers(context, git_context)
+      p "point 1"
       resource = rewrite_resource(context, git_context)
 
       p git_context
