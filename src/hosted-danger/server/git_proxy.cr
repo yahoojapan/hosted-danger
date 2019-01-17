@@ -8,14 +8,11 @@ module HostedDanger
 
     def rewrite_headers(context, git_context : GitContext) : HTTP::Headers
       override_headers = HTTP::Headers.new
-      # override_headers["Host"] = git_context[:git_host]
+      override_headers["Host"] = git_context[:git_host] if context.request.headers.keys.includes?("Host")
       override_headers["Authorization"] = "token #{git_context[:access_token]}"
 
       h = context.request.headers.merge!(override_headers)
       h.delete("Accept-Encoding")
-      p "before delete #{h}"
-      h.delete("Host")
-      p "after delete #{h}"
       h
     end
 
@@ -82,19 +79,11 @@ module HostedDanger
     end
 
     def proxy_get(context, params)
-      # p context
-      # p params
       git_context = get_git_context(params)
       headers = rewrite_headers(context, git_context)
       resource = rewrite_resource(context, git_context)
-      p headers
-      # p resource
-      # p git_context
-      # p "#{api_base(git_context)}/#{resource}"
 
       res = HTTP::Client.get("#{api_base(git_context)}/#{resource}", headers)
-
-      # p res
 
       write_headers(context, git_context, res)
 
@@ -169,13 +158,9 @@ module HostedDanger
     end
 
     def get_git_context(params : Hash(String, String)) : GitContext
-      p "point -1"
       symbol = params["symbol"]
-      p symbol
       git_host = ServerConfig.symbol_to_git_host(symbol)
-      p git_host
       access_token = access_token_from_git_host(git_host)
-      p access_token
 
       {
         symbol:       symbol,

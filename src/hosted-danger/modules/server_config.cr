@@ -50,8 +50,6 @@ module HostedDanger
           ENV.delete(s.env)
         end
       end
-
-      p @@server_config_internal
     end
 
     def self.githubs : Array(GithubConfig)
@@ -71,7 +69,6 @@ module HostedDanger
     end
 
     def self.symbol_to_git_host(symbol : String) : String
-      p @@server_config_internal.not_nil!.githubs.find { |g| g.symbol == symbol }
       @@server_config_internal.not_nil!.githubs.find { |g| g.symbol == symbol }.not_nil!.host
     end
 
