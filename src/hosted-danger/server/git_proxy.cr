@@ -13,6 +13,7 @@ module HostedDanger
 
       h = context.request.headers.merge!(override_headers)
       h.delete("Accept-Encoding")
+      h.delete("Host")
       h
     end
 
