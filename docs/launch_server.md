@@ -35,7 +35,7 @@ githubs:
 | host     | Host of github you use.                | github.com                                                                                |
 | user     | Username of your application account.  | your_app_account_name                                                                     |
 | env      | Name of env var to store access token. | ACCESS_TOKEN                                                                              |
-| symbol   | Unique symbol for each github.         | git                                                                                       |
+| symbol   | Unique symbol for each github.         | github                                                                                    |
 | api_base | Base url of github API.                | https://api.github.com, https://yourgithub.com/api/v3                                     |
 | raw_base | Base url to the raw files on github.   | https://raw.githubusercontent.com, https://raw.yourgithub.com, https://yourgithub.com/raw |
 
