@@ -8,6 +8,8 @@ These are required to start Hosted Danger.
 - An access token of the application account with repo scope.
   - Create it in your github settings page. (Settings => Developer settings => Personal access tokens)
 
+Hint: You could use EC2 instances on AWS for github.com. But t2.micro is too small for the purpose. I recommend you to use t2.small at least.
+
 In the following example, it's assumed that you are using github.com.
 
 In the instance, build a Hosted Danger's docker image.
@@ -17,7 +19,7 @@ cd hosted-danger && docker build -t hosted-danger .
 ```
 
 Create a configuration file and save it as config.yaml. It looks like this.
-Please rewrite the `[your_app_account_name]` part.
+Please rewrite the `[your_app_account_name]` part. (`ACCESS_TOKEN` is an environment variable name. So you don't have to rewrite.)
 ```yaml
 githubs:
   - host: github.com
