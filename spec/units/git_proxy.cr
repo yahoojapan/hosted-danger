@@ -27,7 +27,6 @@ describe HostedDanger::GitProxy do
 
     headers = git_proxy.rewrite_headers(spec_context, spec_git_context)
     headers["hoge"].should eq("fuga")
-    headers["Host"].should eq("github.com")
     headers["Authorization"].should eq("token dummy")
   end
 

@@ -13,13 +13,3 @@ githubs:
     symbol: g2
     api_base: https://github2.com/api/v3
     raw_base: https://github2.com/raw
-
-secrets:
-  - name: sd_user_token_cd
-    env: SD_USER_TOKEN_CD
-  - name: sd_user_token_next
-    env: SD_USER_TOKEN_NEXT
-  - name: dragon_access_key
-    env: DRAGON_ACCESS_KEY
-  - name: dragon_secret_access_key
-    env: DRAGON_SECRET_ACCESS_KEY
