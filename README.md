@@ -1,5 +1,10 @@
 # Hosted Danger
 
+![](https://img.shields.io/circleci/project/github/yahoojapan/hosted-danger.svg?style=flat-square)
+![](https://img.shields.io/github/issues/yahoojapan/hosted-danger.svg?style=flat-square)
+![](https://img.shields.io/github/issues-pr/yahoojapan/hosted-danger.svg?style=flat-square)
+![](https://img.shields.io/github/license/yahoojapan/hosted-danger.svg?style=flat-square)
+
 <p align="center">
   <i>:zap: Accelerate your pull requests by awesome automations :zap:</i>
 </p>
