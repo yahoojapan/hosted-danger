@@ -13,6 +13,13 @@ jobs:
           shards build --release
           crystal spec
 
+  docker-build:
+    machine: true
+    steps:
+      - checkout
+      - run: |
+          docker build -t hosteddanger/hosteddanger .
+
 workflows:
   version: 2
 
@@ -20,3 +27,4 @@ workflows:
 
     jobs:
       - unit-tests
+      - docker-build
