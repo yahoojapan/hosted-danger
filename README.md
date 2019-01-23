@@ -30,3 +30,5 @@ This repository includes
 This project requires contributors to agree to a [CLA (Contributor License Agreement)](https://gist.github.com/ydnjp/3095832f100d5c3d2592).
 
 Note that only for contributions to the Hosted Danger repository on the GitHub (https://github.com/yahoojapan/hosted-danger), the contributors of them shall be deemed to have agreed to the CLA without individual written agreements.
+
+dummy
