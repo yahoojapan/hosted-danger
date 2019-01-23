@@ -12,10 +12,16 @@ Hint: You could use EC2 instances on AWS for github.com. But t2.micro is too sma
 
 In the following example, it's assumed that you are using github.com.
 
-In the instance, build a Hosted Danger's docker image.
+First, pulling docker image from [hub.docker.com](https://cloud.docker.com/u/hosteddanger/repository/docker/hosteddanger/hosteddanger).
+Available tags are [here](https://cloud.docker.com/u/hosteddanger/repository/docker/hosteddanger/hosteddanger/tags).
+```bash
+docker pull hosteddanger/hosteddanger:latest
+```
+
+Or you could build by your self.
 ```bash
 git clone https://github.com/yahoojapan/hosted-danger
-cd hosted-danger && docker build -t hosted-danger .
+cd hosted-danger && docker build -t hosteddanger/hosteddanger .
 ```
 
 Create a configuration file and save it as config.yaml. It looks like this.
@@ -43,12 +49,12 @@ Now you can launch the server.
 ```bash
 docker run -d \
      -e ACCESS_TOKEN=[Your access token] \
-     -p 80:80 -v [Path to the]/config.yaml:/opt/hd/config.yaml --name hosted-danger-container hosted-danger
+     -p 80:80 -v [Path to the]/config.yaml:/opt/hd/config.yaml --name hd-container hosteddanger/hosteddanger
 ```
 
 If you could see the below log, it's successfully launched.
 ```bash
-> docker logs -f hosted-danger-container
+> docker logs -f hd-container
 
 [2018-10-05 04:36:20]: [Info] Start listening on 0.0.0.0:80
 ```
