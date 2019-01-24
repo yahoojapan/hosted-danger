@@ -1,9 +1,22 @@
-# Hosted Danger
+<h1 align="center">Hosted Danger</h1>
 
-![](https://img.shields.io/circleci/project/github/yahoojapan/hosted-danger.svg?style=flat-square)
-![](https://img.shields.io/github/issues/yahoojapan/hosted-danger.svg?style=flat-square)
-![](https://img.shields.io/github/issues-pr/yahoojapan/hosted-danger.svg?style=flat-square)
-![](https://img.shields.io/github/license/yahoojapan/hosted-danger.svg?style=flat-square)
+<p align="center">
+  <a href="https://circleci.com/gh/yahoojapan/hosted-danger">
+    <img src="https://img.shields.io/circleci/project/github/yahoojapan/hosted-danger.svg?style=flat-square"/>
+  </a>
+
+  <a href="https://github.com/yahoojapan/hosted-danger/issues">
+    <img src="https://img.shields.io/github/issues/yahoojapan/hosted-danger.svg?style=flat-square"/>
+  </a>
+
+  <a href="https://github.com/yahoojapan/hosted-danger/pulls">
+    <img src="https://img.shields.io/github/issues-pr/yahoojapan/hosted-danger.svg?style=flat-square"/>
+  </a>
+  
+  <a href="https://github.com/yahoojapan/hosted-danger/blob/master/LICENSE">
+    <img src="https://img.shields.io/github/license/yahoojapan/hosted-danger.svg?style=flat-square"/>
+  </a>
+</p>
 
 <p align="center">
   <i>:zap: Accelerate your pull requests by awesome automations :zap:</i>
