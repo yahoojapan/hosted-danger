@@ -1,18 +1,14 @@
 module HostedDanger
-  alias SlackPayload = {text: String, channel: String}
-
   class SlackProxy
     def post(context, params)
       if payload = context.request.body.try &.gets_to_end
-        slack_payload = SlackPayload.from_json(payload)
-
-        L.info "slack (##{slack_payload[:channel]}): #{slack_payload[:text]}"
+        L.info "slack (#{payload})"
 
         headers = HTTP::Headers.new
         headers["Authorization"] = "Bearer #{ServerConfig.secret("slack_bot_token")}"
-        headers["Content-Type"] = "application/json"
+        headers["Content-Type"] = "application/json; charset=UTF-8"
 
-        res = HTTP::Client.post("https://slack.com/api/chat.postMessage", headers, slack_payload.to_json)
+        res = HTTP::Client.post("https://slack.com/api/chat.postMessage", headers, payload)
 
         context.response.status_code = res.status_code
       else
