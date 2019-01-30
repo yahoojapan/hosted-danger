@@ -128,6 +128,9 @@ module HostedDanger
         end
       end
 
+      # Sicne using rbenv internally, ignoring the version specification
+      File.delete("#{dir}/.ruby-version") if File.exists?("#{dir}/.ruby-version")
+
       L.info "#{repo_tag} execute: #{event} #{html_url} #{pr_number}"
 
       build_state(

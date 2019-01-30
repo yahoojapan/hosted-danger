@@ -2,8 +2,8 @@ FROM crystallang/crystal:0.26.1
 
 # base
 RUN apt-get clean -y && apt-get update -y
-RUN apt-get install curl libcurl3 \
-            libcurl3-gnutls libcurl4-openssl-dev wget \
+RUN apt-get install curl libcurl3 libreadline-dev \
+            libcurl3-gnutls libcurl4-openssl-dev wget zip unzip \
             dnsutils locales locales-all nodejs npm -y
 
 ENV LANG ja_JP.UTF-8
@@ -11,9 +11,16 @@ ENV LANGUAGE ja_JP.UTF-8
 ENV LC_ALL ja_JP.UTF-8
 
 # ruby
-RUN apt-get install ruby ruby-dev -y
+ENV RUBY_VERSION 2.6.0
+ENV RBENV_ROOT /root/.rbenv
+RUN git clone https://github.com/rbenv/rbenv.git $RBENV_ROOT && \
+  git clone https://github.com/sstephenson/ruby-build.git $RBENV_ROOT/plugins/ruby-build
+RUN $RBENV_ROOT/plugins/ruby-build/install.sh
+ENV PATH $RBENV_ROOT/bin:$RBENV_ROOT/shims:$RBENV_ROOT/versions/$RUBY_VERSION/bin:$PATH
+RUN echo 'eval "$(rbenv init -)"' >> /etc/profile.d/rbenv.sh
+ENV CONFIGURE_OPTS --disable-install-doc
+RUN rbenv install $RUBY_VERSION && rbenv global $RUBY_VERSION
 RUN gem update --system
-RUN gem install bundler --no-document
 
 WORKDIR /opt/hd
 
@@ -21,8 +28,9 @@ COPY Gemfile Gemfile.lock ./
 
 # gems
 RUN gem install rake
-RUN /bin/bash -l -c "bundle install --system"
-RUN mv /usr/local/bin/danger /usr/local/bin/danger_ruby
+RUN bundle install --system
+RUN mv $RBENV_ROOT/versions/$RUBY_VERSION/bin/danger \
+  $RBENV_ROOT/versions/$RUBY_VERSION/bin/danger_ruby
 
 # js
 RUN npm cache clean && npm install n -g
