@@ -20,7 +20,8 @@ ENV PATH $RBENV_ROOT/bin:$RBENV_ROOT/shims:$RBENV_ROOT/versions/$RUBY_VERSION/bi
 RUN echo 'eval "$(rbenv init -)"' >> /etc/profile.d/rbenv.sh
 ENV CONFIGURE_OPTS --disable-install-doc
 RUN rbenv install $RUBY_VERSION && rbenv global $RUBY_VERSION
-RUN gem update --system
+RUN rbenv exec gem install bundler
+RUN rbenv exec gem update --system
 
 WORKDIR /opt/hd
 
