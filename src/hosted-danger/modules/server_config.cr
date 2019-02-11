@@ -72,6 +72,10 @@ module HostedDanger
       @@server_config_internal.not_nil!.githubs.find { |g| g.symbol == symbol }.not_nil!.host
     end
 
+    def self.git_host_to_symbol(git_host : String) : String
+      @@server_config_internal.not_nil!.githubs.find { |g| g.host == git_host }.not_nil!.symbol
+    end
+
     def self.secret(name : String) : String
       @@env_internal[@@server_config_internal.not_nil!.secrets.not_nil!.find { |s| s.name == name }.not_nil!.env]
     end
