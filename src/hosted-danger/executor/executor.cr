@@ -369,7 +369,7 @@ module HostedDanger
     end
 
     def symbol : String
-      git_host.split(".")[0]
+      ServerConfig.git_host_to_symbol(git_host)
     end
 
     def hidden(text : String) : String
