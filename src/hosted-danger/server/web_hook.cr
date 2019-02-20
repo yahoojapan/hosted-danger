@@ -37,29 +37,31 @@ module HostedDanger
 
     def hook(context, params)
       payload_json = create_payload_json(context)
-
       executables? = create_executable(context, payload_json)
 
-      if executables = executables?
-        executables.each do |executable|
-          retriable do
-            executor = Executor.new(executable)
-            executor.exec_danger
+      spawn do
+        if executables = executables?
+          executables.each do |executable|
+            retriable do
+              executor = Executor.new(executable)
+              executor.exec_danger
+            end
           end
+        end
+      rescue e : Exception
+        case e
+        when Github::GithubException
+          L.error e, e.res.inspect, false
+        else
+          L.error e, payload_json.to_json
         end
       end
 
       context.response.status_code = 200
       context.response.print "OK"
       context
-    rescue e : Exception
-      case e
-      when Github::GithubException
-        L.error e, e.res.inspect, false
-      else
-        L.error e, payload_json.to_json
-      end
 
+    rescue e : Exception
       bad_request(context)
     end
 
