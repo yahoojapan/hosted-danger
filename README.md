@@ -1,5 +1,5 @@
 <h1 align="center">
-  ![hosteddanger-logo](https://user-images.githubusercontent.com/3483230/53308591-f0cace80-38e5-11e9-9e56-3b64b28a27ba.png)
+  <img src="https://user-images.githubusercontent.com/3483230/53308591-f0cace80-38e5-11e9-9e56-3b64b28a27ba.png" width="540"/>
 </h1>
 
 <p align="center">
