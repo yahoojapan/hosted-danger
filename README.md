@@ -1,4 +1,6 @@
-<h1 align="center">Hosted Danger</h1>
+<h1 align="center">
+  ![hosteddanger-logo](https://user-images.githubusercontent.com/3483230/53308591-f0cace80-38e5-11e9-9e56-3b64b28a27ba.png)
+</h1>
 
 <p align="center">
   <a href="https://circleci.com/gh/yahoojapan/hosted-danger">
