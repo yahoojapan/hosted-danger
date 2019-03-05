@@ -2,6 +2,8 @@
   <img src="https://user-images.githubusercontent.com/3483230/53308591-f0cace80-38e5-11e9-9e56-3b64b28a27ba.png" width="540"/>
 </h1>
 
+test
+
 <p align="center">
   <a href="https://circleci.com/gh/yahoojapan/hosted-danger">
     <img src="https://img.shields.io/circleci/project/github/yahoojapan/hosted-danger.svg?style=flat-square"/>
