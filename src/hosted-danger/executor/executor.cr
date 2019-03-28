@@ -255,7 +255,7 @@ module HostedDanger
     def clean_comments
       comments = issue_comments(git_host, org, repo, pr_number, access_token)
 
-      delete_comments = comments.as_a
+      delete_comments = comments
         .select { |comment| app_user == comment["user"]["login"].as_s }
         .select { |comment| comment["body"].as_s.includes?("generated_by_hosted-danger") }
 

@@ -15,12 +15,12 @@ module HostedDanger
       executables = Array(Executable).new
 
       if repo == "danger"
-        repos_json = all_repos(git_host, org, access_token).as_a
+        repos_json = all_repos(git_host, org, access_token)
         repos = create_repos(repos_json)
 
         spawn do
           repos.each do |repo|
-            payload_jsons = pull_requests(git_host, org, repo, access_token).as_a
+            payload_jsons = pull_requests(git_host, org, repo, access_token)
             @channel.send(create_executables(payload_jsons))
           end
         end
@@ -29,7 +29,7 @@ module HostedDanger
           executables.concat(@channel.receive)
         end
       else
-        payload_jsons = pull_requests(git_host, org, repo, access_token).as_a
+        payload_jsons = pull_requests(git_host, org, repo, access_token)
         executables = create_executables(payload_jsons)
       end
 

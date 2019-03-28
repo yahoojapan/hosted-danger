@@ -8,8 +8,8 @@ module HostedDangerMocks
       JSON.parse(File.read(File.expand_path("../../api/pull.json", __FILE__)))
     end
 
-    def pull_requests(git_host : String, org : String, repo : String, access_token : String) : JSON::Any
-      JSON.parse(File.read(File.expand_path("../../api/pulls.json", __FILE__)))
+    def pull_requests(git_host : String, org : String, repo : String, access_token : String) : Array(JSON::Any)
+      JSON.parse(File.read(File.expand_path("../../api/pulls.json", __FILE__))).as_a
     end
 
     def build_state_of(

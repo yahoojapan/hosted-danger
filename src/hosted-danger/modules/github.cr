@@ -13,35 +13,40 @@ module HostedDanger
       property res : HTTP::Client::Response?
     end
 
+    def get_pagination(url : String, access_token : String) : Array(JSON::Any)
+      res_array = [] of JSON::Any
+
+      headers = HTTP::Headers.new
+      headers["Authorization"] = "token #{access_token}"
+
+      res = HTTP::Client.get(url, headers)
+
+      github_result(res, url, "GET")
+
+      res_array.concat(JSON.parse(res.body).as_a)
+
+      if res.headers.has_key?("Link")
+        if n = res.headers["Link"] =~ /.*<(.+?)>;\srel="next".*/
+          res_array.concat(get_pagination($1, access_token))
+        end
+      end
+
+      res_array
+    end
+
     def api_base(git_host : String) : String
       ServerConfig.api_base_of(git_host)
     end
 
-    def usr_all_repos(git_host : String, org : String, access_token : String) : JSON::Any
-      url = "#{api_base(git_host)}/users/#{org}/repos"
-
-      headers = HTTP::Headers.new
-      headers["Authorization"] = "token #{access_token}"
-
-      res = HTTP::Client.get(url, headers)
-      github_result(res, url, "GET")
-
-      JSON.parse(res.body)
+    def usr_all_repos(git_host : String, org : String, access_token : String) : Array(JSON::Any)
+      get_pagination("#{api_base(git_host)}/users/#{org}/repos", access_token)
     end
 
-    def org_all_repos(git_host : String, org : String, access_token : String) : JSON::Any
-      url = "#{api_base(git_host)}/orgs/#{org}/repos"
-
-      headers = HTTP::Headers.new
-      headers["Authorization"] = "token #{access_token}"
-
-      res = HTTP::Client.get(url, headers)
-      github_result(res, url, "GET")
-
-      JSON.parse(res.body)
+    def org_all_repos(git_host : String, org : String, access_token : String) : Array(JSON::Any)
+      get_pagination("#{api_base(git_host)}/orgs/#{org}/repos", access_token)
     end
 
-    def all_repos(git_host : String, org : String, access_token : String) : JSON::Any
+    def all_repos(git_host : String, org : String, access_token : String) : Array(JSON::Any)
       begin
         org_all_repos(git_host, org, access_token)
       rescue e : GithubException
@@ -73,30 +78,12 @@ module HostedDanger
       JSON.parse(res.body)
     end
 
-    def pull_requests(git_host : String, org : String, repo : String, access_token : String) : JSON::Any
-      url = "#{api_base(git_host)}/repos/#{org}/#{repo}/pulls?state=open"
-
-      headers = HTTP::Headers.new
-      headers["Authorization"] = "token #{access_token}"
-
-      res = HTTP::Client.get(url, headers)
-
-      github_result(res, url, "GET")
-
-      JSON.parse(res.body)
+    def pull_requests(git_host : String, org : String, repo : String, access_token : String) : Array(JSON::Any)
+      get_pagination("#{api_base(git_host)}/repos/#{org}/#{repo}/pulls?state=open", access_token)
     end
 
-    def issue_comments(git_host : String, org : String, repo : String, pr_number : Int32, access_token : String) : JSON::Any
-      url = "#{api_base(git_host)}/repos/#{org}/#{repo}/issues/#{pr_number}/comments"
-
-      headers = HTTP::Headers.new
-      headers["Authorization"] = "token #{access_token}"
-
-      res = HTTP::Client.get(url, headers)
-
-      github_result(res, url, "GET")
-
-      JSON.parse(res.body)
+    def issue_comments(git_host : String, org : String, repo : String, pr_number : Int32, access_token : String) : Array(JSON::Any)
+      get_pagination("#{api_base(git_host)}/repos/#{org}/#{repo}/issues/#{pr_number}/comments", access_token)
     end
 
     def delete_comment(git_host : String, org : String, repo : String, comment_id : Int32, access_token : String)
