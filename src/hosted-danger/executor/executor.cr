@@ -36,7 +36,7 @@ module HostedDanger
       env["DANGER_PAYLOAD"] = raw_payload
       env["DANGER_GITHUB_HOST"] = git_host
       env["DANGER_GITHUB_API_BASE_URL"] = "http://localhost/proxy/#{symbol}"
-      env["DANGER_GITHUB_API_TOKEN"] = "Hi there! :)"
+      env["DANGER_GITHUB_API_TOKEN"] = org
       env["ghprbPullId"] = "#{pr_number}"
       env["ghprbGhRepository"] = "#{org}/#{repo}"
 

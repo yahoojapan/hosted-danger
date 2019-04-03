@@ -2,6 +2,41 @@ module HostedDanger
   class GitProxy
     alias GitContext = NamedTuple(symbol: String, git_host: String, access_token: String)
 
+    class AuthException < Exception; end
+
+    def forbidden(context, e : AuthException) : HTTP::Server::Context
+      context.response.status_code = 403
+
+      if msg = e.message
+        L.error msg
+
+        context.response.print e.message
+      end
+
+      context
+    end
+
+    def auth(context, resource : String, method : String)
+      if authorization = context.request.headers["Authorization"]?
+        if authorization =~ /token\s(.+)/
+          org = $1
+
+          if resource =~ /repos\/.+?\/.+?\/contents.*/ && (method == "PUT" || method == "DELETE")
+            raise AuthException.new("CREATE, UPDATE, DELETE contents from Dangerfile is not allowed.")
+          end
+
+          if resource =~ /repos\/(.*?)\/(.*?)\/.*/
+            return if org == $1
+            return if "#{$1}/#{$2}" == "yahoojapan/hosted-danger"
+            raise AuthException.new("ACCESS DINIED: #{org} => #{$1}/#{$2} (#{resource})")
+          else
+            return
+          end
+        end
+      end
+      raise AuthException.new("ACCESS DINIED: No Authorization Header (#{resource})")
+    end
+
     def api_base(git_context : GitContext) : String
       ServerConfig.githubs.find { |g| g.host == git_context[:git_host] }.not_nil!.api_base
     end
@@ -81,8 +116,12 @@ module HostedDanger
 
     def proxy_get(context, params)
       git_context = get_git_context(params)
-      headers = rewrite_headers(context, git_context)
+
       resource = rewrite_resource(context, git_context)
+
+      auth(context, resource, "GET")
+
+      headers = rewrite_headers(context, git_context)
 
       res = HTTP::Client.get("#{api_base(git_context)}/#{resource}", headers)
 
@@ -91,13 +130,18 @@ module HostedDanger
       context.response.status_code = res.status_code
       context.response.print convert_body(res.body, git_context)
       context
+    rescue e : AuthException
+      forbidden(context, e)
     end
 
     def proxy_post(context, params)
       git_context = get_git_context(params)
 
-      headers = rewrite_headers(context, git_context)
       resource = rewrite_resource(context, git_context)
+
+      auth(context, resource, "POST")
+
+      headers = rewrite_headers(context, git_context)
       payload = context.request.body.try &.gets_to_end
 
       res = HTTP::Client.post("#{api_base(git_context)}/#{resource}", headers, payload)
@@ -107,13 +151,18 @@ module HostedDanger
       context.response.status_code = res.status_code
       context.response.print convert_body(res.body, git_context)
       context
+    rescue e : AuthException
+      forbidden(context, e)
     end
 
     def proxy_put(context, params)
       git_context = get_git_context(params)
 
-      headers = rewrite_headers(context, git_context)
       resource = rewrite_resource(context, git_context)
+
+      auth(context, resource, "PUT")
+
+      headers = rewrite_headers(context, git_context)
       payload = context.request.body.try &.gets_to_end
 
       res = HTTP::Client.put("#{api_base(git_context)}/#{resource}", headers, payload)
@@ -123,13 +172,18 @@ module HostedDanger
       context.response.status_code = res.status_code
       context.response.print convert_body(res.body, git_context)
       context
+    rescue e : AuthException
+      forbidden(context, e)
     end
 
     def proxy_patch(context, params)
       git_context = get_git_context(params)
 
-      headers = rewrite_headers(context, git_context)
       resource = rewrite_resource(context, git_context)
+
+      auth(context, resource, "PATCH")
+
+      headers = rewrite_headers(context, git_context)
       payload = context.request.body.try &.gets_to_end
 
       res = HTTP::Client.patch("#{api_base(git_context)}/#{resource}", headers, payload)
@@ -139,15 +193,19 @@ module HostedDanger
       context.response.status_code = res.status_code
       context.response.print convert_body(res.body, git_context)
       context
+    rescue e : AuthException
+      forbidden(context, e)
     end
 
     def proxy_delete(context, params)
       git_context = get_git_context(params)
 
+      resource = rewrite_resource(context, git_context)
+
+      auth(context, resource, "DELETE")
+
       headers = HTTP::Headers.new
       headers["Authorization"] = "token #{git_context[:access_token]}"
-
-      resource = rewrite_resource(context, git_context)
 
       res = HTTP::Client.delete("#{api_base(git_context)}/#{resource}", headers)
 
@@ -156,6 +214,8 @@ module HostedDanger
       context.response.status_code = res.status_code
       context.response.print convert_body(res.body, git_context)
       context
+    rescue e : AuthException
+      forbidden(context, e)
     end
 
     def get_git_context(params : Hash(String, String)) : GitContext
