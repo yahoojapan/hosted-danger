@@ -1,0 +1,5 @@
+danger.import_dangerfile(github: "yahoojapan/hosted-danger", path: "plugins/Dangerfile")
+
+common_rule.check
+
+message "Hello from Hosted Danger :sunny:"

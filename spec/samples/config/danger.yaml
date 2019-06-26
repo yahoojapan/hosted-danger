@@ -1,0 +1,19 @@
+lang:
+  ruby
+
+dangerfile:
+  Dangerfile.hosted2
+
+events:
+  - pull_request
+  - issue_comment
+
+bundler: true
+npm: true
+yarn: true
+
+no_fetch:
+  enable: true
+  files:
+    - file1
+    - file2

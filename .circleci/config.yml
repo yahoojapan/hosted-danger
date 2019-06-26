@@ -1,0 +1,22 @@
+version: 2
+jobs:
+
+  unit-tests:
+    docker:
+      - image: crystallang/crystal:0.27.0
+    steps:
+      - checkout
+      - run: |
+          apt-get update
+          apt-get install curl libsqlite3-dev -y
+      - run: |
+          shards build --release
+          crystal spec
+
+workflows:
+  version: 2
+
+  hosted-danger-workflow:
+
+    jobs:
+      - unit-tests

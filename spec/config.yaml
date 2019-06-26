@@ -1,0 +1,17 @@
+githubs:
+
+  - host: github.com
+    user: my-app-user
+    email: my-app-user@hosteddanger.com
+    env: ACCESS_TOKEN_GITHUB
+    symbol: g1
+    api_base: https://api.github.com
+    raw_base: https://raw.github.com
+
+  - host: github2.com
+    user: my-app-user
+    email: my-app-user@hosteddanger.com
+    env: ACCESS_TOKEN_TWO
+    symbol: g2
+    api_base: https://github2.com/api/v3
+    raw_base: https://github2.com/raw

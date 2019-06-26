@@ -1,0 +1,10 @@
+version: 1.0
+shards:
+  radix:
+    github: luislavena/radix
+    version: 0.3.9
+
+  router:
+    github: tbrand/router.cr
+    version: 0.2.7
+

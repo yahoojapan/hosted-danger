@@ -1,0 +1,10 @@
+.DS_Store
+
+/doc/
+/lib/
+/bin/
+/.shards/
+/vendor
+/.bundle
+
+!.gitkeep
