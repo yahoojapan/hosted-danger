@@ -109,6 +109,7 @@ module Danger
       return if closed?
       return unless mergeable?(approved_num: approved_num)
 
+      commit_message = github.pr_title if commit_message.empty?
       status_options = {
         context: 'danger/hosted-danger',
         target_url: html_url,
