@@ -141,7 +141,7 @@ describe HostedDanger::ConfigWrapper do
       events.includes?("pull_request_review_comment").should be_true
       events.includes?("issue_comment").should be_true
       events.includes?("issues").should be_true
-      events.includes?("build_periodcally").should be_true
+      events.includes?("build_periodically").should be_true
       events.includes?("status").should be_true
     end
   end
