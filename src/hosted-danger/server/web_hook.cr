@@ -37,10 +37,10 @@ module HostedDanger
 
     def hook(context, params)
       payload_json = create_payload_json(context)
-      executables? = create_executable(context, payload_json)
+      executables_nilable = create_executable(context, payload_json)
 
       spawn do
-        if executables = executables?
+        if executables = executables_nilable
           executables.each do |executable|
             retriable do
               executor = Executor.new(executable)

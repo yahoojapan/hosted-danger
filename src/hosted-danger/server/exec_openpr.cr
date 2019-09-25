@@ -12,32 +12,38 @@ module HostedDanger
       org, repo = org_repo_from_html_url(git_repo_url)
       access_token = access_token_from_git_host(git_host)
 
-      executables = Array(Executable).new
+      spawn do
+        executables = Array(Executable).new
 
-      if repo == "danger"
-        repos_json = all_repos(git_host, org, access_token)
-        repos = create_repos(repos_json)
+        if repo == "danger"
+          repos_json = all_repos(git_host, org, access_token)
+          repos = create_repos(repos_json)
+
+          spawn do
+            repos.each do |repo|
+              payload_jsons = pull_requests(git_host, org, repo, access_token)
+              @channel.send(create_executables(payload_jsons))
+            end
+          end
+
+          repos.each do
+            executables.concat(@channel.receive)
+          end
+        else
+          payload_jsons = pull_requests(git_host, org, repo, access_token)
+          executables = create_executables(payload_jsons)
+        end
 
         spawn do
-          repos.each do |repo|
-            payload_jsons = pull_requests(git_host, org, repo, access_token)
-            @channel.send(create_executables(payload_jsons))
+          executables.each do |executable|
+            executor = Executor.new(executable)
+            executor.exec_danger
+          rescue e : Exception
+            L.error e, e.message
           end
         end
-
-        repos.each do
-          executables.concat(@channel.receive)
-        end
-      else
-        payload_jsons = pull_requests(git_host, org, repo, access_token)
-        executables = create_executables(payload_jsons)
-      end
-
-      spawn do
-        executables.each do |executable|
-          executor = Executor.new(executable)
-          executor.exec_danger
-        end
+      rescue e : Exception
+        L.error e, e.message
       end
 
       context.response.status_code = 200
@@ -51,14 +57,14 @@ module HostedDanger
 
     def create_executables(payload_jsons)
       payload_jsons.map { |payload_json|
-        action = "build_periodcally"
+        action = "build_periodically"
         html_url = payload_json["head"]["repo"]["html_url"].as_s
         pr_number = payload_json["number"].as_i
         sha = payload_json["head"]["sha"].as_s
         head_label = payload_json["head"]["label"].as_s
         base_label = payload_json["base"]["label"].as_s
         env = {} of String => String
-        event = "build_periodcally"
+        event = "build_periodically"
 
         {
           action:      action,
