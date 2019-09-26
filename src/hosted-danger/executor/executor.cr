@@ -153,7 +153,7 @@ module HostedDanger
       end
 
       if config_wrapper.use_yarn?
-        exec_cmd("yarn install", dir)
+        exec_cmd("yarn install --ignore-engines", dir)
       elsif config_wrapper.use_npm?
         exec_cmd("npm install", dir)
       end
@@ -256,8 +256,8 @@ module HostedDanger
       comments = issue_comments(git_host, org, repo, pr_number, access_token)
 
       delete_comments = comments
-        .select { |comment| app_user == comment["user"]["login"].as_s }
-        .select { |comment| comment["body"].as_s.includes?("generated_by_hosted-danger") }
+                        .select { |comment| app_user == comment["user"]["login"].as_s }
+                        .select { |comment| comment["body"].as_s.includes?("generated_by_hosted-danger") }
 
       return if delete_comments.size <= 1
 
@@ -265,6 +265,8 @@ module HostedDanger
         L.info "#{repo_tag} delete comment: #{comment["id"]}"
         delete_comment(git_host, org, repo, comment["id"].as_i, access_token)
       end
+    rescue e : GithubException
+      # Ignoring deletion errors
     end
 
     def copy_config : Bool

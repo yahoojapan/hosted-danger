@@ -76,7 +76,7 @@ module HostedDanger
         "pull_request_review_comment",
         "issue_comment",
         "issues",
-        "build_periodcally",
+        "build_periodically",
         "status",
       ]
     end
@@ -86,8 +86,8 @@ module HostedDanger
         return config.bundler.not_nil! if config.bundler
       end
 
-      gemfile_exists? = File.exists?("#{@directory}/Gemfile")
-      return false unless gemfile_exists?
+      gemfile_exists = File.exists?("#{@directory}/Gemfile")
+      return false unless gemfile_exists
       return true if File.read("#{@directory}/Gemfile") =~ /(gem\s*?'danger')/
       return true if File.read("#{@directory}/Gemfile") =~ /(gem\s*?'no_fetch_danger')/
 
@@ -103,8 +103,8 @@ module HostedDanger
         return config.yarn.not_nil! if config.yarn
       end
 
-      yarn_lock_exists? = File.exists?("#{@directory}/yarn.lock")
-      return false unless yarn_lock_exists?
+      yarn_lock_exists = File.exists?("#{@directory}/yarn.lock")
+      return false unless yarn_lock_exists
       return true if File.read("#{@directory}/yarn.lock") =~ /danger@\^.*:/
 
       false
@@ -115,8 +115,8 @@ module HostedDanger
         return config.npm.not_nil! if config.npm
       end
 
-      package_lock_exists? = File.exists?("#{@directory}/package-lock.json")
-      return false unless package_lock_exists?
+      package_lock_exists = File.exists?("#{@directory}/package-lock.json")
+      return false unless package_lock_exists
       return true if File.read("#{@directory}/package-lock.json") =~ /"danger":\s{/
 
       false
