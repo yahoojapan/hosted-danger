@@ -302,8 +302,8 @@ lodash.keys@^4.0.8:
   resolved "https://registry.yarnpkg.com/lodash.keys/-/lodash.keys-4.2.0.tgz#a08602ac12e4fb83f91fc1fb7a360a4d9ba35205"
 
 lodash@^4.17.4:
-  version "4.17.5"
-  resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.5.tgz#99a92d65c0272debe8c96b6057bc8fbfa3bed511"
+  version "4.17.15"
+  resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.15.tgz#b447f6670a0455bbfeedd11392eff330ea097548"
 
 lru-cache@^4.0.1:
   version "4.1.1"
@@ -512,9 +512,10 @@ url-template@^2.0.8:
   version "2.0.8"
   resolved "https://registry.yarnpkg.com/url-template/-/url-template-2.0.8.tgz#fc565a3cccbff7730c775f5641f9555791439f21"
 
-"vm2@github:patriksimek/vm2#custom_files":
-  version "3.5.0"
-  resolved "https://codeload.github.com/patriksimek/vm2/tar.gz/7e82f90ac705fc44fad044147cb0df09b4c79a57"
+vm2@patriksimek/vm2#custom_files:
+  version "3.5.2"
+  uid "468bc1e54e75e766b842830ea775669992a979e0"
+  resolved "https://codeload.github.com/patriksimek/vm2/tar.gz/468bc1e54e75e766b842830ea775669992a979e0"
 
 voca@^1.4.0:
   version "1.4.0"
