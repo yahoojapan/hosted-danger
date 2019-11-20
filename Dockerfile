@@ -36,8 +36,9 @@ RUN mv $RBENV_ROOT/versions/$RUBY_VERSION/bin/danger \
 # js
 RUN npm cache clean && npm install n -g
 RUN n 13.0.1
-RUN apt-get purge -y nodejs npm@6.12.0
-RUN npm install -g yarn yarn@1.19.1
+RUN apt-get purge -y nodejs npm
+RUN npm install -g npm@6.12.0
+RUN npm install -g yarn@1.19.1
 RUN yarn global add danger
 RUN ln -s /usr/local/bin/danger /usr/local/bin/danger_js
 
