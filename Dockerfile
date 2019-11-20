@@ -11,7 +11,7 @@ ENV LANGUAGE ja_JP.UTF-8
 ENV LC_ALL ja_JP.UTF-8
 
 # ruby
-ENV RUBY_VERSION 2.6.0
+ENV RUBY_VERSION 2.6.5
 ENV RBENV_ROOT /root/.rbenv
 RUN git clone https://github.com/rbenv/rbenv.git $RBENV_ROOT && \
   git clone https://github.com/sstephenson/ruby-build.git $RBENV_ROOT/plugins/ruby-build
@@ -20,7 +20,7 @@ ENV PATH $RBENV_ROOT/bin:$RBENV_ROOT/shims:$RBENV_ROOT/versions/$RUBY_VERSION/bi
 RUN echo 'eval "$(rbenv init -)"' >> /etc/profile.d/rbenv.sh
 ENV CONFIGURE_OPTS --disable-install-doc
 RUN rbenv install $RUBY_VERSION && rbenv global $RUBY_VERSION
-RUN rbenv exec gem install bundler
+RUN rbenv exec gem install bundler -v 2.0.2
 RUN rbenv exec gem update --system
 
 WORKDIR /opt/hd
@@ -35,9 +35,9 @@ RUN mv $RBENV_ROOT/versions/$RUBY_VERSION/bin/danger \
 
 # js
 RUN npm cache clean && npm install n -g
-RUN n stable
-RUN apt-get purge -y nodejs npm
-RUN npm install -g yarn
+RUN n 13.0.1
+RUN apt-get purge -y nodejs npm@6.12.0
+RUN npm install -g yarn yarn@1.19.1
 RUN yarn global add danger
 RUN ln -s /usr/local/bin/danger /usr/local/bin/danger_js
 
