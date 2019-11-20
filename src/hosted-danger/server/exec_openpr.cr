@@ -61,6 +61,7 @@ module HostedDanger
         html_url = payload_json["head"]["repo"]["html_url"].as_s
         pr_number = payload_json["number"].as_i
         sha = payload_json["head"]["sha"].as_s
+        base_sha = payload_json["base"]["sha"].as_s
         head_label = payload_json["head"]["label"].as_s
         base_label = payload_json["base"]["label"].as_s
         env = {} of String => String
@@ -72,6 +73,7 @@ module HostedDanger
           html_url:    html_url,
           pr_number:   pr_number,
           sha:         sha,
+          base_sha:    base_sha,
           head_label:  head_label,
           base_label:  base_label,
           raw_payload: payload_json.to_json,

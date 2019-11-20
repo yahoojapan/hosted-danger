@@ -1,22 +1,5 @@
 module HostedDanger
   class WebHook
-    def initialize
-      [
-        "pull_request",
-        "pull_request_review",
-        "pull_request_review_comment",
-        "issue_comment",
-        "issues",
-        "status",
-      ].each do |event|
-        Metrics.register("event_#{event}", "counter", "Number of requests for #{event} event")
-      end
-    end
-
-    def new_request(event : String)
-      Metrics.increment("event_#{event}")
-    end
-
     def retriable(&block)
       retry_count = 3
       retry_count.times do |i|
@@ -106,12 +89,11 @@ module HostedDanger
     def e_pull_request(event, payload_json, query_params) : Array(Executable)?
       return nil if ignore?(payload_json["sender"]["login"].as_s, event)
 
-      new_request(event)
-
       action = payload_json["action"].as_s
       html_url = payload_json["repository"]["html_url"].as_s
       pr_number = payload_json["number"].as_i
       sha = payload_json["pull_request"]["head"]["sha"].as_s
+      base_sha = payload_json["pull_request"]["base"]["sha"].as_s
       head_label = payload_json["pull_request"]["head"]["label"].as_s
       base_label = payload_json["pull_request"]["base"]["label"].as_s
       env = query_params.to_h
@@ -122,6 +104,7 @@ module HostedDanger
         html_url:    html_url,
         pr_number:   pr_number,
         sha:         sha,
+        base_sha:    base_sha,
         head_label:  head_label,
         base_label:  base_label,
         raw_payload: payload_json.to_json,
@@ -133,12 +116,11 @@ module HostedDanger
       return nil if ignore?(payload_json["sender"]["login"].as_s, event)
       return L.info "#{event} skip: dismissed" if payload_json["action"] == "dismissed"
 
-      new_request(event)
-
       action = payload_json["action"].as_s
       html_url = payload_json["repository"]["html_url"].as_s
       pr_number = payload_json["pull_request"]["number"].as_i
       sha = payload_json["pull_request"]["head"]["sha"].as_s
+      base_sha = payload_json["pull_request"]["base"]["sha"].as_s
       head_label = payload_json["pull_request"]["head"]["label"].as_s
       base_label = payload_json["pull_request"]["base"]["label"].as_s
       env = query_params.to_h
@@ -149,6 +131,7 @@ module HostedDanger
         html_url:    html_url,
         pr_number:   pr_number,
         sha:         sha,
+        base_sha:    base_sha,
         head_label:  head_label,
         base_label:  base_label,
         raw_payload: payload_json.to_json,
@@ -160,12 +143,11 @@ module HostedDanger
       return nil if ignore?(payload_json["sender"]["login"].as_s, event)
       return L.info "#{event} skip: deleted" if payload_json["action"] == "deleted"
 
-      new_request(event)
-
       action = payload_json["action"].as_s
       html_url = payload_json["repository"]["html_url"].as_s
       pr_number = payload_json["pull_request"]["number"].as_i
       sha = payload_json["pull_request"]["head"]["sha"].as_s
+      base_sha = payload_json["pull_request"]["base"]["sha"].as_s
       head_label = payload_json["pull_request"]["head"]["label"].as_s
       base_label = payload_json["pull_request"]["base"]["label"].as_s
       env = query_params.to_h
@@ -176,6 +158,7 @@ module HostedDanger
         html_url:    html_url,
         pr_number:   pr_number,
         sha:         sha,
+        base_sha:    base_sha,
         head_label:  head_label,
         base_label:  base_label,
         raw_payload: payload_json.to_json,
@@ -188,8 +171,6 @@ module HostedDanger
       return L.info "#{event} skip: deleted" if payload_json["action"] == "deleted"
 
       if payload_json["issue"]["html_url"].as_s =~ /(.*)\/pull\/(.*)/
-        new_request(event)
-
         action = payload_json["action"].as_s
         html_url = $1.to_s
         pr_number = $2.to_i
@@ -209,6 +190,7 @@ module HostedDanger
           html_url:    html_url,
           pr_number:   pr_number,
           sha:         pull_json["head"]["sha"].as_s,
+          base_sha:    pull_json["base"]["sha"].as_s,
           head_label:  pull_json["head"]["label"].as_s,
           base_label:  pull_json["base"]["label"].as_s,
           raw_payload: payload_json.to_json,
@@ -224,8 +206,6 @@ module HostedDanger
       return L.info "#{event} skip: closed" if payload_json["action"] == "closed"
 
       if payload_json["issue"]["html_url"].as_s =~ /(.*)\/pull\/(.*)/
-        new_request(event)
-
         action = payload_json["action"].as_s
         html_url = $1.to_s
         pr_number = $2.to_i
@@ -243,6 +223,7 @@ module HostedDanger
           html_url:    html_url,
           pr_number:   pr_number,
           sha:         pull_json["head"]["sha"].as_s,
+          base_sha:    pull_json["base"]["sha"].as_s,
           head_label:  pull_json["head"]["label"].as_s,
           base_label:  pull_json["base"]["label"].as_s,
           raw_payload: payload_json.to_json,
@@ -253,8 +234,6 @@ module HostedDanger
 
     def e_status(event, payload_json, query_params) : Array(Executable)?
       return nil if ignore?(payload_json["sender"]["login"].as_s, event)
-
-      new_request(event)
 
       action = payload_json["state"].as_s
       html_url = payload_json["repository"]["html_url"].as_s
@@ -276,6 +255,7 @@ module HostedDanger
           html_url:    html_url,
           pr_number:   pull_json["number"].as_i,
           sha:         sha,
+          base_sha:    pull_json["base"]["sha"].as_s,
           head_label:  pull_json["head"]["label"].as_s,
           base_label:  pull_json["base"]["label"].as_s,
           raw_payload: payload_json.to_json,

@@ -5,6 +5,7 @@ def mock_executable : HostedDanger::Executable
     html_url:    "https://github.com/yahoojapan/hosted-danger",
     pr_number:   1,
     sha:         "abcdefghijklmnop",
+    base_sha:    "klmnopqrstuvwxyz",
     head_label:  "myorg:fugauga",
     base_label:  "myorg:hogehoge",
     raw_payload: "raw_payload",
