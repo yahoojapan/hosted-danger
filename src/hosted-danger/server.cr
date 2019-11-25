@@ -11,9 +11,9 @@ module HostedDanger
       @health_check = HealthCheck.new
       @web_hook = WebHook.new
       @git_proxy = GitProxy.new
-      @metrics_printer = MetricsPrinter.new
       @exec_openpr = ExecOpenPr.new
       @slack_proxy = SlackProxy.new
+      @prometheus = Prometheus.new
     end
 
     def draw_routes
@@ -34,13 +34,12 @@ module HostedDanger
 
       post "/slack" { |context, params| @slack_proxy.post(context, params) }
 
-      # Metrics for Prometheus
-      get "/metrics" { |context, params| @metrics_printer.print(context, params) }
+      # Serve prometheus metrics
+      get "/metrics" { |context, params| @prometheus.serve(context, params) }
     end
 
     def run(host, port)
       server = HTTP::Server.new([
-        MetricsHandler.new,
         LogHandler.new,
         HTTP::ErrorHandler.new,
         route_handler,

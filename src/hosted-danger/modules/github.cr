@@ -38,12 +38,16 @@ module HostedDanger
       ServerConfig.api_base_of(git_host)
     end
 
+    def active_repos_only(repos : Array(JSON::Any)) : Array(JSON::Any)
+      repos.select { |r| !r["archived"].as_bool }
+    end
+
     def usr_all_repos(git_host : String, org : String, access_token : String) : Array(JSON::Any)
-      get_pagination("#{api_base(git_host)}/users/#{org}/repos", access_token)
+      active_repos_only(get_pagination("#{api_base(git_host)}/users/#{org}/repos", access_token))
     end
 
     def org_all_repos(git_host : String, org : String, access_token : String) : Array(JSON::Any)
-      get_pagination("#{api_base(git_host)}/orgs/#{org}/repos", access_token)
+      active_repos_only(get_pagination("#{api_base(git_host)}/orgs/#{org}/repos", access_token))
     end
 
     def all_repos(git_host : String, org : String, access_token : String) : Array(JSON::Any)

@@ -9,6 +9,7 @@ module HostedDanger
     html_url: String,
     pr_number: Int32,
     sha: String,
+    base_sha: String,
     head_label: String,
     base_label: String,
     raw_payload: String,

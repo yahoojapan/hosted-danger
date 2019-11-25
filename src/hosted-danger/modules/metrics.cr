@@ -1,80 +1,109 @@
 module HostedDanger
-  class Metrics
-    @@instance : Metrics?
+  class MetricsQueue
+    QUEUE_ACTIVE_DURATION     = Time::Span.new(0, 10, 0)
+    QUEUE_CLEAN_INTERVAL_SECS =   60
+    QUEUE_CAPACITY_LIMIT      = 1000
 
-    def self.instance : Metrics
-      @@instance ||= Metrics.new
-      @@instance.not_nil!
+    @@metrics_queue : MetricsQueue | Nil = nil
+
+    # MetricsQueue is Singleton
+    def self.get_instance : MetricsQueue
+      @@metrics_queue ||= MetricsQueue.new
+      @@metrics_queue.not_nil!
     end
 
-    def self.register(name : String, type : String, desc : String)
-      instance.register(name, type, desc)
-    end
-
-    def self.set(name : String, value)
-      instance.set(name, value)
-    end
-
-    def self.increment(name : String)
-      instance.increment(name)
-    end
-
-    def self.to_s
-      instance.to_s
-    end
-
-    @contents : Hash(String, MetricsContent) = {} of String => MetricsContent
-
-    @launch_time : Time
-
-    def initialize
-      @launch_time = Time.now
-
-      register("pod_up", "gauge", "Health check of Hosted Danger's Pods")
-      register("pod_time", "counter", "Up time for the pod (seconds)")
-
-      set("pod_up", 1_u32)
-    end
-
-    def register(name : String, type : String, desc : String)
-      @contents[name] = MetricsContent.new(name, type, desc, 0_u32)
-    end
-
-    def set(name : String, value)
-      @contents[name].value = value
-    end
-
-    def increment(name : String)
-      @contents[name].value += 1_u32
-    end
-
-    def to_s : String
-      set("pod_time", duration)
-
-      @contents.values.map(&.to_s).join("\n")
-    end
-
-    private def duration
-      (Time.now - @launch_time).to_i
-    end
-
-    class MetricsContent
-      alias Valueable = Int32 | Int64 | UInt32 | Float64
-
-      property value : Valueable
-
-      def initialize(@name : String, @type : String, @desc : String, @value : Valueable)
+    protected def initialize(@inner = [] of ExecutionMetrics)
+      spawn do
+        loop do
+          clean
+          sleep QUEUE_CLEAN_INTERVAL_SECS
+        end
       end
+    end
 
-      def to_s : String
-        metrics_name = "#{prefix}_#{@name}"
+    def push(m : ExecutionMetrics)
+      @inner.push(m)
+      @inner.shift if @inner.size > QUEUE_CAPACITY_LIMIT
+    end
 
-        "# HELP #{metrics_name} #{@desc}\n# TYPE #{metrics_name} #{@type}\n#{metrics_name} #{@value}\n"
-      end
+    def size : Int32
+      @inner.size
+    end
 
-      private def prefix : String
-        "hosted_danger"
-      end
+    alias CountByEvent = NamedTuple(total: Int32, events: Hash(String | Int32, String | Int32))
+    alias CountByStatus = NamedTuple(total: Int32, error_ratio: Float64, events: Hash(String | Int32, String | Int32))
+
+    def count_by_span(span : Time::Span) : Array(ExecutionMetrics)
+      @inner.select { |e| Time.utc - Time.unix(e.timestamp) <= span }
+    end
+
+    def count_by_event(span : Time::Span) : CountByEvent
+      events = count_by_span(span)
+
+      total = events.size
+
+      events = events
+               .group_by { |e| e.event }
+               .map { |name, events| [name, events.size] }
+               .to_h
+
+      {
+        total:  total,
+        events: events,
+      }
+    end
+
+    def count_by_status(span : Time::Span) : CountByStatus
+      events = count_by_span(span)
+
+      total = events.size
+
+      events = events
+               .group_by { |e| e.status }
+               .map { |status, events| [status, events.size] }
+               .to_h
+
+      e = events.has_key?("error") ? events["error"].as(Int32) : 0
+      s = events.has_key?("success") ? events["success"].as(Int32) : 0
+
+      error_ratio = if e + s > 0
+                      e / (e + s)
+                    else
+                      0.0
+                    end
+
+      {
+        total:       total,
+        error_ratio: error_ratio,
+        events:      events,
+      }
+    end
+
+    def clean
+      @inner.reject! { |e| Time.utc - Time.unix(e.timestamp) > QUEUE_ACTIVE_DURATION }
+    end
+
+    def clear
+      @inner.clear
+    end
+
+    def capacity_over?
+      @inner.size >= QUEUE_CAPACITY_LIMIT
+    end
+  end
+
+  class ExecutionMetrics
+    getter event : String
+    getter repo : String
+    getter timestamp : Int64
+    property status : String
+
+    def initialize(
+         @event : String,
+         @repo : String,
+         @timestamp : Int64,
+         @status : String
+       )
     end
   end
 end

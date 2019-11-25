@@ -18,6 +18,8 @@ module HostedDanger
         "Dangerfile.hosted.rb",
         "Dangerfile.hosted",
         "danger.yaml",
+        "dangerfile.hosted.js",
+        "dangerfile.hosted.ts",
       ]
 
     #
@@ -27,6 +29,10 @@ module HostedDanger
 
     def initialize(@executable : Executable)
       @config_wrapper = ConfigWrapper.new(dir)
+
+      @metrics = ExecutionMetrics.new(event, "#{org}/#{repo}", Time.utc.to_unix, "running")
+
+      MetricsQueue.get_instance.push(@metrics)
     end
 
     def exec_danger
@@ -119,6 +125,11 @@ module HostedDanger
         #
         git_fetch_repo
 
+        #
+        # Overwrite danger files if the PR is from fork repository
+        #
+        overwrite_dangerfiles if fork_pr?
+
         config_wrapper.load
 
         unless config_wrapper.config_exists?
@@ -171,8 +182,12 @@ module HostedDanger
       end
 
       clean_comments
+
+      @metrics.status = "success"
     rescue e : Exception
       build_state(git_host, org, repo, sha, "Crashed during the execution.", access_token, State::ERROR)
+
+      @metrics.status = "error"
 
       raise e
     ensure
@@ -270,7 +285,7 @@ module HostedDanger
     end
 
     def copy_config : Bool
-      src_files = Dir.glob("#{org_dir}/*").join(" ")
+      src_files = Dir.glob("#{org_dir}/*", match_hidden: true).join(" ")
       return false if src_files.size == 0
       exec_cmd("cp -rf #{src_files} #{dir}", org_dir)
       true
@@ -314,12 +329,28 @@ module HostedDanger
       @executable[:sha]
     end
 
+    def base_sha
+      @executable[:base_sha]
+    end
+
     def head_label
       @executable[:head_label]
     end
 
     def base_label
       @executable[:base_label]
+    end
+
+    def head_org
+      head_label.includes?(":") ? head_label.split(":", 2)[0] : head_label
+    end
+
+    def base_org
+      base_label.includes?(":") ? base_label.split(":", 2)[0] : base_label
+    end
+
+    def fork_pr?
+      base_org != head_org
     end
 
     def base_branch
@@ -384,7 +415,15 @@ module HostedDanger
     end
 
     def fetch_file_repo(file : String) : String?
-      fetch_file(git_host, org, repo, sha, file, access_token, dir)
+      fetch_file(
+        git_host,
+        fork_pr? ? base_org : org,
+        repo,
+        fork_pr? ? base_sha : sha,
+        file,
+        access_token,
+        dir
+      )
     end
 
     def fetch_file_org(file : String) : String?
@@ -413,12 +452,24 @@ module HostedDanger
       end
     end
 
+    def overwrite_dangerfiles
+      clean_dangerfiles_repo
+      fetch_dangerfiles_repo
+    end
+
     def clean_prefetch_files
       PREFETCH_FILES.each do |file|
         file_path_dir = "#{dir}/#{file}"
         file_path_org_dir = "#{org_dir}/#{file}"
         File.delete(file_path_dir) if File.exists?(file_path_dir)
         File.delete(file_path_org_dir) if File.exists?(file_path_org_dir)
+      end
+    end
+
+    def clean_dangerfiles_repo
+      PREFETCH_FILES.each do |file|
+        file_path = "#{dir}/#{file}"
+        File.delete(file_path) if File.exists?(file_path)
       end
     end
 
