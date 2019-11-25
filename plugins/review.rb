@@ -60,7 +60,7 @@ module Danger
       github.pr_title.downcase.include?("[dnm]") || github.pr_title.downcase.include?("[do not merge]")
     end
 
-    def mergeable?(approved_num: nil)
+    def mergeable?(approved_num: nil, skip_ci_contexts: [])
       return not_merge "Need to specify argument `approved_num` of `review#auto_merge`" if approved_num.nil?
       return not_merge "This pull request is not mergeable" unless github.pr_json["mergeable"]
       return not_merge "It's WIP or DNM" if wip? || dnm?
@@ -84,8 +84,12 @@ module Danger
 
       cur_reviewers = cur_reviews.group_by { |r| r[:user][:login] }
       cur_reviewers_approved = cur_reviewers.select do |u, r|
-        (r.rindex { |r| r[:state] == 'APPROVED' && r[:author_association] != 'NONE' } || -1) >
-          (r.rindex { |r| r[:state] == 'CHANGES_REQUESTED' && r[:author_association] != 'NONE' } || -1)
+        approved = (r.rindex { |r| r[:state] == 'APPROVED' && r[:author_association] != 'NONE' } || -1) >
+                   (r.rindex { |r| r[:state] == 'CHANGES_REQUESTED' && r[:author_association] != 'NONE' } || -1)
+
+        re_requested = req_reviewers.map { |r| r[:login] }.include?(u)
+
+        approved && !re_requested
       end
 
       cur_reviewers_rejected = cur_reviewers.select do |u, r|
@@ -100,14 +104,16 @@ module Danger
                    .combined_status(repo, sha)
                    .statuses
                    .reject { |x| x[:context] == 'danger/hosted-danger' }
+                   .reject { |x| skip_ci_contexts.any? { |c| c.is_a?(Regexp) ? c =~ x[:context] : c == x[:context] } }
+
       return not_merge "There is a CI status which is not 'success'" unless statuses.all? { |status| status[:state] == 'success' }
 
       true
     end
 
-    def auto_merge(commit_message: '', delete_branch: true, approved_num: nil, **options)
+    def auto_merge(commit_message: '', delete_branch: true, approved_num: nil, skip_ci_contexts: [], **options)
       return if closed?
-      return unless mergeable?(approved_num: approved_num)
+      return unless mergeable?(approved_num: approved_num, skip_ci_contexts: skip_ci_contexts)
 
       commit_message = github.pr_title if commit_message.empty?
       status_options = {
