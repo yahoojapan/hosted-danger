@@ -174,6 +174,7 @@ module Danger
       track_files << /\.podspec$/
       track_files += %w(Fastfile Snapfile Deliverfile Appfile Scanfile Gymfile Matchfile)
       track_files += %w(Package.swift Package.resolved) # SwiftPM
+      track_files += %w(Mintfile)
 
       ############################################################
       ## Android
