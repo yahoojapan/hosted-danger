@@ -30,7 +30,7 @@ Hosted Danger executes [danger](https://github.com/danger/danger) internally. In
 - :heavy_check_mark: **When**: Hosted Danger is detached from CI processes. So danger can be executed interactively. (It's reacted for Github Webhooks.)
 - :heavy_check_mark: **What**: It cannot refer the source codes and build products basically. It's specialized for Pull Requests automations, not for showing results of lints, tests or coverages.
 
-:rocket: The Hosted Danger is activated on **more than 1500 repositoies** in Yahoo! JAPAN. :rocket:
+:rocket: The Hosted Danger is activated on **more than 1500 repositories** in Yahoo! JAPAN. :rocket:
 
 <i>[danger/danger](https://github.com/danger/danger) is really awesome OSS. I would like to send a big respect for @orta.</i>
 
